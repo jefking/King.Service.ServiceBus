@@ -15,7 +15,7 @@
 
         public Task<bool> Process(ExampleModel data)
         {
-            Trace.TraceInformation("{0} {1}", data.Identifier, data.Name);
+            Trace.TraceInformation("{0} {1}", data.Identifier, data.Action);
 
             return Task.FromResult(true);
         }

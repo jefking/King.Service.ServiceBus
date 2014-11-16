@@ -10,7 +10,7 @@
             get;
             set;
         }
-        public string Name
+        public string Action
         {
             get;
             set;

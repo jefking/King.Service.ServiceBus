@@ -5,17 +5,19 @@
     using System;
     using System.Diagnostics;
 
-    public class QueueForPoll : RecurringTask
+    public class QueueForAction : RecurringTask
     {
         #region Members
         /// <summary>
         /// Queue Client
         /// </summary>
         private readonly QueueClient client;
+
+        private readonly string action = null;
         #endregion
 
         #region Constructors
-        public QueueForPoll(QueueClient client)
+        public QueueForAction(QueueClient client, string action)
         {
             if (null == client)
             {
@@ -23,6 +25,7 @@
             }
 
             this.client = client;
+            this.action = action;
         }
         #endregion
 
@@ -31,10 +34,10 @@
             var model = new ExampleModel()
             {
                 Identifier = Guid.NewGuid(),
-                Name = "Message Poll",
+                Action = action,
             };
 
-            Trace.TraceInformation("Sending to Poll: '{0}/{1}'", model.Name, model.Identifier);
+            Trace.TraceInformation("Sending to Poll: '{0}/{1}'", model.Action, model.Identifier);
 
             client.Send(new BrokeredMessage(model));
         }
