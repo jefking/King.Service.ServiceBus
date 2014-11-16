@@ -3,7 +3,6 @@
     using King.Azure.Data;
     using King.Service.Data;
     using King.Service.Timing;
-    using Microsoft.ServiceBus.Messaging;
 
     /// <summary>
     /// Service Bus Dequeue
@@ -15,12 +14,12 @@
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="client">Queue Client</param>
+        /// <param name="queue">Queue</param>
         /// <param name="processor">Processor</param>
         /// <param name="minimumPeriodInSeconds">Minimum Period In Seconds</param>
         /// <param name="maximumPeriodInSeconds">Maximum Period In Seconds</param>
-        public BusDequeue(QueueClient client, IProcessor<T> processor, int minimumPeriodInSeconds = BaseTimes.MinimumStorageTiming, int maximumPeriodInSeconds = BaseTimes.MaximumStorageTiming)
-            : base(new ServiceBusQueuePoller<T>(client), processor, minimumPeriodInSeconds, maximumPeriodInSeconds)
+        public BusDequeue(IBusQueue queue, IProcessor<T> processor, int minimumPeriodInSeconds = BaseTimes.MinimumStorageTiming, int maximumPeriodInSeconds = BaseTimes.MaximumStorageTiming)
+            : base(new ServiceBusQueuePoller<T>(queue), processor, minimumPeriodInSeconds, maximumPeriodInSeconds)
         {
         }
         #endregion

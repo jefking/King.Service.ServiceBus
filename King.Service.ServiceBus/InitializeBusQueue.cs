@@ -3,6 +3,7 @@
     using Microsoft.ServiceBus;
     using System;
     using System.Diagnostics;
+using System.Threading.Tasks;
 
     /// <summary>
     /// Initialize Bus Queue
@@ -11,14 +12,9 @@
     {
         #region Members
         /// <summary>
-        /// Name
+        /// Queue
         /// </summary>
-        protected readonly string name = null;
-
-        /// <summary>
-        /// Namespace Manager
-        /// </summary>
-        protected readonly NamespaceManager manager = null;
+        protected readonly IBusQueue queue = null;
         #endregion
 
         #region Constructors
@@ -28,35 +24,24 @@
         /// <param name="name"></param>
         /// <param name="manager"></param>
         public InitializeBusQueue(string name, NamespaceManager manager)
+            :this(new BusQueue(name, manager))
         {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentException("name");
-            }
-            if (null == manager)
-            {
-                throw new ArgumentNullException("manager");
-            }
+        }
 
-            this.name = name;
-            this.manager = manager;
+        public InitializeBusQueue(IBusQueue queue)
+        {
+            this.queue = queue;
         }
         #endregion
 
         #region Methods
         /// <summary>
-        /// Run
+        /// Run Async
         /// </summary>
-        public override void Run()
+        /// <returns></returns>
+        public override async Task RunAsync()
         {
-            if (manager.QueueExists(name))
-            {
-                Trace.TraceInformation("Queue Already Exists", name);
-            }
-            else
-            {
-                var desc = manager.CreateQueueAsync(name);
-            }
+            await this.queue.CreateIfNotExists();
         }
         #endregion
     }

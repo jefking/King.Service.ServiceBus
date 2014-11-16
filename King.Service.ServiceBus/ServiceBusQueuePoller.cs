@@ -1,7 +1,6 @@
 ﻿namespace King.Service.ServiceBus
 {
     using King.Azure.Data;
-    using Microsoft.ServiceBus.Messaging;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -15,24 +14,24 @@
     {
         #region Members
         /// <summary>
-        /// Queue Client
+        /// Queue
         /// </summary>
-        protected readonly QueueClient client;
+        protected readonly IBusQueue queue = null;
         #endregion
 
         #region Constructors
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="client"></param>
-        public ServiceBusQueuePoller(QueueClient client)
+        /// <param name="queue"></param>
+        public ServiceBusQueuePoller(IBusQueue queue)
         {
-            if (null == client)
+            if (null == queue)
             {
-                throw new ArgumentNullException("client");
+                throw new ArgumentNullException("queue");
             }
 
-            this.client = client;
+            this.queue = queue;
         }
         #endregion
 
@@ -43,7 +42,7 @@
         /// <returns>Queued Item</returns>
         public async Task<IQueued<T>> Poll()
         {
-            var msg = await this.client.ReceiveAsync();
+            var msg = await this.queue.Get();
             return null == msg ? null : new Queued<T>(msg);
         }
 
@@ -54,7 +53,7 @@
         /// <returns>Queued Messages</returns>
         public async Task<IEnumerable<IQueued<T>>> PollMany(int messageCount = 5)
         {
-            var msgs = await this.client.ReceiveBatchAsync(messageCount);
+            var msgs = await this.queue.GetMany(messageCount);
             return null == msgs || !msgs.Any() ? null : msgs.Select(m => new Queued<T>(m));
         }
         #endregion

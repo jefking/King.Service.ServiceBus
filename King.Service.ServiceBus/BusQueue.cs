@@ -5,22 +5,36 @@
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// Bus Queue
+    /// </summary>
     public class BusQueue : IBusQueue
     {
         #region Members
+        /// <summary>
+        /// Queue Client
+        /// </summary>
         protected readonly QueueClient client = null;
 
+        /// <summary>
+        /// Name
+        /// </summary>
         protected readonly string name = null;
 
         /// <summary>
         /// Namespace Manager
         /// </summary>
         protected readonly NamespaceManager manager = null;
+        #endregion
+
+        #region Constructors
+        public BusQueue(string name, NamespaceManager manager)
+        {
+            this.name = name;
+            this.manager = manager;
+        }
         #endregion
 
         #region Methods
@@ -115,7 +129,12 @@
             }
             else
             {
-                await this.Save(new BrokeredMessage(JsonConvert.SerializeObject(obj)));
+                var msg = new BrokeredMessage(JsonConvert.SerializeObject(obj))
+                {
+                    ContentType = obj.GetType().ToString(),
+                };
+
+                await this.Save(msg);
             }
         }
         #endregion
