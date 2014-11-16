@@ -2,7 +2,6 @@
 {
     using Microsoft.ServiceBus.Messaging;
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     /// Service Bus Queue Events
@@ -82,8 +81,8 @@
         /// <summary>
         /// Event handler for each time an error occurs.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Arguments</param>
         public void OnExceptionReceived(object sender, ExceptionReceivedEventArgs e)
         {
             if (e != null && e.Exception != null)

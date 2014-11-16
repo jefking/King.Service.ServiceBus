@@ -40,7 +40,6 @@
   <ItemGroup>
     <Compile Include="BusDequeue.cs" />
     <Compile Include="BusDequeueBatch.cs" />
-    <Compile Include="BusQueue.cs" />
     <Compile Include="BusEvents.cs" />
     <Compile Include="InitializeQueue.cs" />
     <Compile Include="Interfaces.cs" />

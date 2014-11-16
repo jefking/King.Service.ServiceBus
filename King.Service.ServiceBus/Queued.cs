@@ -12,6 +12,9 @@
     public class Queued<T> : IQueued<T>
     {
         #region Members
+        /// <summary>
+        /// 
+        /// </summary>
         protected readonly BrokeredMessage message = null;
         #endregion
 
@@ -32,20 +35,28 @@
         #endregion
 
         #region Methods
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task Abandon()
         {
             await this.message.AbandonAsync();
         }
 
-        public async Task<T> Data()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Task<T> Data()
         {
-            //dont love wrapping...?
-            return await Task.Factory.StartNew(() =>
-            {
-                return this.message.GetBody<T>();
-            });
+            return Task.FromResult(this.message.GetBody<T>());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task Complete()
         {
             await this.message.CompleteAsync();
