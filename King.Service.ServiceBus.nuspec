@@ -16,6 +16,7 @@
         <copyright>Jef King</copyright>
         <tags>King.Service Azure Queue Service Bus scale auto-scale dynamic-scale dynamic Queuing Background Worker Work Data Processing Table Environment Initialize Task Tasks Dequeue Dequeuing King.Azure run task service services tasks scheduling</tags>
         <dependencies>
+          <dependancy id="WindowsAzure.ServiceBus" />
           <dependency id="King.Service" />
         </dependencies>
         <frameworkAssemblies>
