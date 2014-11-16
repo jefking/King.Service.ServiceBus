@@ -1,6 +1,7 @@
 namespace King.Service.WorkerRole
 {
     using King.Service.ServiceBus;
+    using Microsoft.WindowsAzure;
     using Microsoft.WindowsAzure.ServiceRuntime;
 
     public class WorkerRole : RoleEntryPoint
@@ -20,6 +21,7 @@ namespace King.Service.WorkerRole
             {
                 PollingName = "polling",
                 EventsName = "events",
+                Connection = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString"),
             };
 
             return this.manager.OnStart(config);
