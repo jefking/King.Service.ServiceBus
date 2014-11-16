@@ -3,21 +3,21 @@
     using King.Azure.Data;
     using System;
 
+    #region IBusQueue
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IBusQueue
     {
 
     }
-    
-    public interface IBusDequeueBatch<T>
-    {
+    #endregion
 
-    }
-
-    public interface IBusDequeue<T>
-    {
-
-    }
-
+    #region IBusEventHandler
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IBusEventHandler<T> : IProcessor<T>
     {
         #region Methods
@@ -29,4 +29,5 @@
         void OnError(string action, Exception ex);
         #endregion
     }
+    #endregion
 }

@@ -9,7 +9,7 @@
     /// Service Bus Dequeue
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BusDequeue<T> : Dequeue<T>, IBusDequeue<T>
+    public class BusDequeue<T> : Dequeue<T>
     {
         #region Constructors
         /// <summary>

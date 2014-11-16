@@ -2,9 +2,10 @@
 {
     using Microsoft.ServiceBus;
     using System;
+    using System.Diagnostics;
 
     /// <summary>
-    /// 
+    /// Initialize Bus Queue
     /// </summary>
     public class InitializeBusQueue : InitializeTask
     {
@@ -22,7 +23,7 @@
 
         #region Constructors
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="name"></param>
         /// <param name="manager"></param>
@@ -44,12 +45,13 @@
 
         #region Methods
         /// <summary>
-        /// 
+        /// Run
         /// </summary>
         public override void Run()
         {
             if (manager.QueueExists(name))
             {
+                Trace.TraceInformation("Queue Already Exists", name);
             }
             else
             {
