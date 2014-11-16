@@ -2,6 +2,7 @@
 {
     using Microsoft.ServiceBus.Messaging;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Service Bus Queue Events
@@ -12,7 +13,7 @@
         /// <summary>
         /// Queue Client
         /// </summary>
-        protected readonly QueueClient client = null;
+        protected readonly IBusQueue queue = null;
 
         /// <summary>
         /// Bus Event Handler
@@ -27,23 +28,23 @@
 
         #region Constructors
         /// <summary>
-        /// 
+        /// Service Bus Queue Events
         /// </summary>
-        /// <param name="client"></param>
-        /// <param name="eventHandler"></param>
-        /// <param name="concurrentCalls"></param>
-        public BusEvents(QueueClient client, IBusEventHandler<T> eventHandler, byte concurrentCalls = 10)
+        /// <param name="queue">Queue</param>
+        /// <param name="eventHandler">Event Handler</param>
+        /// <param name="concurrentCalls">Concurrent Calls (Default 10)</param>
+        public BusEvents(IBusQueue queue, IBusEventHandler<T> eventHandler, byte concurrentCalls = 10)
         {
-            if (null == client)
+            if (null == queue)
             {
-                throw new ArgumentNullException("client");
+                throw new ArgumentNullException("queue");
             }
             if (null == eventHandler)
             {
                 throw new ArgumentNullException("eventHandler");
             }
 
-            this.client = client;
+            this.queue = queue;
             this.eventHandler = eventHandler;
             this.concurrentCalls = concurrentCalls;
         }
@@ -55,8 +56,7 @@
         /// </summary>
         public override void Run()
         {
-            // Build the messaging options.
-            var eventDrivenMessagingOptions = new OnMessageOptions()
+            var eventDrivenMessagingOptions = new OnMessageOptions
             {
                 AutoComplete = true,
                 MaxConcurrentCalls = concurrentCalls,
@@ -64,18 +64,19 @@
 
             eventDrivenMessagingOptions.ExceptionReceived += OnExceptionReceived;
 
-            // Subscribe for messages.
-            this.client.OnMessage(OnMessageArrived, eventDrivenMessagingOptions);
+            this.queue.RegisterForEvents(OnMessageArrived, eventDrivenMessagingOptions);
         }
 
         /// <summary>
         /// This event will be called each time a message arrives.
         /// </summary>
         /// <param name="message">Brokered Message</param>
-        public void OnMessageArrived(BrokeredMessage message)
+        public Task OnMessageArrived(BrokeredMessage message)
         {
             var data = message.GetBody<T>();
             this.eventHandler.Process(data);
+
+            return new TaskFactory().StartNew(() => { });
         }
 
         /// <summary>

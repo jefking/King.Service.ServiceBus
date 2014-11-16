@@ -30,10 +30,20 @@
         #endregion
 
         #region Constructors
-        public BusQueue(string name, NamespaceManager manager)
+        public BusQueue(string name, string connectionString)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("name");
+            }
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new ArgumentException("connectionString");
+            }
+
             this.name = name;
-            this.manager = manager;
+            this.manager = NamespaceManager.CreateFromConnectionString(connectionString);
+            this.client = QueueClient.CreateFromConnectionString(connectionString, name);
         }
         #endregion
 
@@ -136,6 +146,11 @@
 
                 await this.Save(msg);
             }
+        }
+
+        public virtual void RegisterForEvents(Func<BrokeredMessage, Task> callback, OnMessageOptions options)
+        {
+            this.client.OnMessageAsync(callback, options);
         }
         #endregion
     }

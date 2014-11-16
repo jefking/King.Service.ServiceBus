@@ -57,6 +57,8 @@
         /// <param name="obj">object</param>
         /// <returns>Task</returns>
         Task Save(object obj);
+
+        void RegisterForEvents(Func<BrokeredMessage, Task> callback, OnMessageOptions options);
         #endregion
     }
     #endregion

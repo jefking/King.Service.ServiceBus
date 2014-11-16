@@ -1,9 +1,7 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using Microsoft.ServiceBus;
     using System;
-    using System.Diagnostics;
-using System.Threading.Tasks;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Initialize Bus Queue
@@ -22,18 +20,23 @@ using System.Threading.Tasks;
         /// Constructor
         /// </summary>
         /// <param name="name"></param>
-        /// <param name="manager"></param>
-        public InitializeBusQueue(string name, NamespaceManager manager)
-            :this(new BusQueue(name, manager))
+        /// <param name="connectionString">Connection String</param>
+        public InitializeBusQueue(string name, string connectionString)
+            : this(new BusQueue(name, connectionString))
         {
         }
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        /// <param name="queue"></param>
+        /// <param name="queue">Service Bus Queue</param>
         public InitializeBusQueue(IBusQueue queue)
         {
+            if (null == queue)
+            {
+                throw new ArgumentNullException("queue");
+            }
+
             this.queue = queue;
         }
         #endregion
