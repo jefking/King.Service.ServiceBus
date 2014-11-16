@@ -13,7 +13,7 @@
     {
         #region Members
         /// <summary>
-        /// 
+        /// Brokered Message
         /// </summary>
         protected readonly BrokeredMessage message = null;
         #endregion
@@ -36,27 +36,27 @@
 
         #region Methods
         /// <summary>
-        /// 
+        /// Abandon Message
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task</returns>
         public async Task Abandon()
         {
             await this.message.AbandonAsync();
         }
 
         /// <summary>
-        /// 
+        /// Data
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Data</returns>
         public Task<T> Data()
         {
             return Task.FromResult(this.message.GetBody<T>());
         }
 
         /// <summary>
-        /// 
+        /// Complete
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task</returns>
         public async Task Complete()
         {
             await this.message.CompleteAsync();

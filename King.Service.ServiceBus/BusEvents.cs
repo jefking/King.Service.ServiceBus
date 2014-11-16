@@ -15,7 +15,7 @@
         protected readonly QueueClient client = null;
 
         /// <summary>
-        /// 
+        /// Bus Event Handler
         /// </summary>
         protected readonly IBusEventHandler<T> eventHandler = null;
 
@@ -51,7 +51,7 @@
 
         #region Methods
         /// <summary>
-        /// 
+        /// Run
         /// </summary>
         public override void Run()
         {
@@ -71,7 +71,7 @@
         /// <summary>
         /// This event will be called each time a message arrives.
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">Brokered Message</param>
         public void OnMessageArrived(BrokeredMessage message)
         {
             var data = message.GetBody<T>();
