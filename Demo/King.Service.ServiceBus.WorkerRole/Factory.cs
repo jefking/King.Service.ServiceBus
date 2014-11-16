@@ -26,13 +26,13 @@
             var eventClient = QueueClient.Create(config.EventsName);
 
             //InitializationL Polling
-            yield return new InitializeQueue(config.PollingName, manager);
+            yield return new InitializeBusQueue(config.PollingName, manager);
 
             //Initialization: Events
-            yield return new InitializeQueue(config.EventsName, manager);
+            yield return new InitializeBusQueue(config.EventsName, manager);
 
             //Load polling dequeue object to run
-            var dequeue = new BusDequeue<ExampleModel>(pollingClient, new ExampleProcessor());
+            var dequeue = new BusDequeue<ExampleModel>(new BusQueue(config.PollingName, manager), new ExampleProcessor());
 
             //Polling Dequeue Runner
             yield return new AdaptiveRunner(dequeue);

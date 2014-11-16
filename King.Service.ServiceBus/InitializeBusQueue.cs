@@ -28,6 +28,10 @@ using System.Threading.Tasks;
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="queue"></param>
         public InitializeBusQueue(IBusQueue queue)
         {
             this.queue = queue;
