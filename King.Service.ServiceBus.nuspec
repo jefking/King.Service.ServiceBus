@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>King.Service.ServiceBus</id>
+        <version>0.0.0</version>
+        <title>King.Service.ServiceBus</title>
+        <authors>Jef King</authors>
+        <owners>Jef King</owners>
+        <licenseUrl>https://github.com/jefking/King.Service.ServiceBus/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/jefking/King.Service.ServiceBus</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/jefking/King.Service.ServiceBus/master/icon.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Task scheduling for Azure and Windows Servers.</description>
+        <summary>Task scheduling for Azure and Windows Servers.</summary>
+        <releaseNotes></releaseNotes>
+        <copyright>Jef King</copyright>
+        <tags>King.Service Azure Queue Service Bus scale auto-scale dynamic-scale dynamic Queuing Background Worker Work Data Processing Table Environment Initialize Task Tasks Dequeue Dequeuing King.Azure run task service services tasks scheduling</tags>
+        <dependencies>
+          <dependency id="King.Service" />
+        </dependencies>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="System" targetFramework="net451" />
+            <frameworkAssembly assemblyName="System.Data" targetFramework="net451" />
+        </frameworkAssemblies>
+    </metadata>
+    <files>
+        <file src="King.Service.ServiceBus\bin\Release\King.Service.ServiceBus.dll" target="lib\net451\King.Service.ServiceBus.dll" />
+    </files>
+</package>
