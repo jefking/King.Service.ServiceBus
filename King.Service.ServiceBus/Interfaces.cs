@@ -2,6 +2,11 @@
 {
     using King.Azure.Data;
     using System;
+
+    public interface IBusQueue
+    {
+
+    }
     
     public interface IBusDequeueBatch<T>
     {

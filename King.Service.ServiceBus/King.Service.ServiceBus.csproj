@@ -41,6 +41,7 @@
     <Compile Include="BusDequeue.cs" />
     <Compile Include="BusDequeueBatch.cs" />
     <Compile Include="BusEvents.cs" />
+    <Compile Include="BusQueue.cs" />
     <Compile Include="InitializeBusQueue.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
