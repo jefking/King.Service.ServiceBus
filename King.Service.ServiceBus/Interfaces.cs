@@ -5,11 +5,10 @@
 
     #region IBusQueue
     /// <summary>
-    /// 
+    /// Bus Queue Interface
     /// </summary>
     public interface IBusQueue
     {
-
     }
     #endregion
 
