@@ -1,10 +1,7 @@
 ﻿namespace King.Service.ServiceBus
 {
+    using King.Azure.Data;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public interface IBusQueue
     {
@@ -19,5 +16,10 @@
     public interface IBusDequeue<T>
     {
 
+    }
+
+    public interface IBusEventHandler<T> : IProcessor<T>
+    {
+        void OnError(string action, Exception ex);
     }
 }

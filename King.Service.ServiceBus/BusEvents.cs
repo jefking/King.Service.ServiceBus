@@ -1,38 +1,66 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using King.Service.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
     using System;
     using System.Diagnostics;
 
-    public class Events : InitializeTask
+    /// <summary>
+    /// Service Bus Queue Events
+    /// </summary>
+    public class BusEvents<T> : InitializeTask
     {
         #region Members
         /// <summary>
         /// Queue Client
         /// </summary>
-        private readonly QueueClient client;
+        protected readonly QueueClient client = null;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected readonly IBusEventHandler<T> eventHandler = null;
+
+        /// <summary>
+        /// Maximum Concurrent Calls
+        /// </summary>
+        protected readonly byte concurrentCalls = 10;
         #endregion
 
         #region Constructors
-        public Events(QueueClient client)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="eventHandler"></param>
+        /// <param name="concurrentCalls"></param>
+        public BusEvents(QueueClient client, IBusEventHandler<T> eventHandler, byte concurrentCalls = 10)
         {
             if (null == client)
             {
                 throw new ArgumentNullException("client");
             }
+            if (null == eventHandler)
+            {
+                throw new ArgumentNullException("eventHandler");
+            }
 
             this.client = client;
+            this.eventHandler = eventHandler;
+            this.concurrentCalls = concurrentCalls;
         }
         #endregion
 
+        #region Methods
+        /// <summary>
+        /// 
+        /// </summary>
         public override void Run()
         {
             // Build the messaging options.
             var eventDrivenMessagingOptions = new OnMessageOptions()
             {
                 AutoComplete = true,
-                MaxConcurrentCalls = 5,
+                MaxConcurrentCalls = concurrentCalls,
             };
 
             eventDrivenMessagingOptions.ExceptionReceived += OnExceptionReceived;
@@ -47,8 +75,8 @@
         /// <param name="message"></param>
         public void OnMessageArrived(BrokeredMessage message)
         {
-            //var data = message.GetBody<ExampleModel>();
-            //Trace.TraceInformation("Recieved Event: '{0}/{1}'", data.Name, data.Identifier);
+            var data = message.GetBody<T>();
+            this.eventHandler.Process(data);
         }
 
         /// <summary>
@@ -60,8 +88,9 @@
         {
             if (e != null && e.Exception != null)
             {
-                Trace.TraceError(e.Exception.ToString());
+                this.eventHandler.OnError(e.Action, e.Exception);
             }
         }
+        #endregion
     }
 }
