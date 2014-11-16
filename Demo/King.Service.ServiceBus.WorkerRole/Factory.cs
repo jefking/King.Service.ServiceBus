@@ -6,6 +6,8 @@
     using King.Service.WorkerRole.Queue;
     using Microsoft.ServiceBus.Messaging;
     using System.Collections.Generic;
+    using King.Service.ServiceBus;
+    using Microsoft.ServiceBus;
 
     /// <summary>
     /// Facotry
@@ -19,27 +21,26 @@
         /// <returns></returns>
         public IEnumerable<IRunnable> Tasks(Configuration config)
         {
-            //Initialization
-            yield return new InitializeQueues();
+            var manager = NamespaceManager.CreateFromConnectionString(config.Connection);
 
             //Connection
             var pollingClient = QueueClient.Create(config.PollingName);
             var eventClient = QueueClient.Create(config.EventsName);
 
-            //Dequeuing; generic for re-use across your code base (just change the model)
-            var poller = new ServiceBusQueuePoller<ExampleModel>(pollingClient);
+            //InitializationL Polling
+            yield return new InitializeQueue(config.PollingName, manager);
 
-            //Specific processor for ExampleModel.
-            var processor = new ExampleProcessor();
+            //Initialization: Events
+            yield return new InitializeQueue(config.EventsName, manager);
 
             //Load polling dequeue object to run
-            var dequeue = new Dequeue<ExampleModel>(poller, processor);
+            var dequeue = new BusDequeue<ExampleModel>(pollingClient, new ExampleProcessor());
 
-            //Task Manifest for King.Service
-            yield return new BackoffRunner(dequeue);
+            //Polling Dequeue Runner
+            yield return new AdaptiveRunner(dequeue);
 
             //Task for watching for queue events
-            yield return new Events(eventClient);
+            yield return new BusEvents<ExampleModel>(eventClient, new EventHandler());
 
             //Tasks for queuing work
             yield return new QueueForPoll(pollingClient);

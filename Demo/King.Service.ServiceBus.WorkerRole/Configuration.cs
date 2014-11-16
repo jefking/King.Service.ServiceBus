@@ -12,5 +12,10 @@
             get;
             set;
         }
+        public string Connection
+        {
+            get;
+            set;
+        }
     }
 }
