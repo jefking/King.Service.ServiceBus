@@ -71,12 +71,10 @@
         /// This event will be called each time a message arrives.
         /// </summary>
         /// <param name="message">Brokered Message</param>
-        public Task OnMessageArrived(BrokeredMessage message)
+        public async Task OnMessageArrived(BrokeredMessage message)
         {
             var data = message.GetBody<T>();
-            this.eventHandler.Process(data);
-
-            return new TaskFactory().StartNew(() => { });
+            await this.eventHandler.Process(data);
         }
 
         /// <summary>
