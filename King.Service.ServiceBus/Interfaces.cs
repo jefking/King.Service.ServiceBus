@@ -9,6 +9,7 @@
     /// </summary>
     public interface IBusQueue
     {
+
     }
     #endregion
 
