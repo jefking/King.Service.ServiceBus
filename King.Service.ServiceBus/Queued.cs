@@ -1,4 +1,4 @@
-﻿namespace King.Service.ServiceBus.Queue
+﻿namespace King.Service.ServiceBus
 {
     using King.Azure.Data;
     using Microsoft.ServiceBus.Messaging;
@@ -11,8 +11,15 @@
     /// <typeparam name="T">Type, Serialized in Message Body</typeparam>
     public class Queued<T> : IQueued<T>
     {
-        private readonly BrokeredMessage msg = null;
+        #region Members
+        protected readonly BrokeredMessage message = null;
+        #endregion
 
+        #region Constructors
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="msg">Message</param>
         public Queued(BrokeredMessage msg)
         {
             if (null == msg)
@@ -20,30 +27,29 @@
                 throw new ArgumentNullException("msg");
             }
 
-            this.msg = msg;
+            this.message = msg;
         }
+        #endregion
 
+        #region Methods
         public async Task Abandon()
         {
-            await msg.AbandonAsync();
+            await this.message.AbandonAsync();
         }
 
         public async Task<T> Data()
         {
+            //dont love wrapping...?
             return await Task.Factory.StartNew(() =>
-                {
-                    return msg.GetBody<T>();
-                });
+            {
+                return this.message.GetBody<T>();
+            });
         }
 
         public async Task Complete()
         {
-            await this.msg.CompleteAsync();
+            await this.message.CompleteAsync();
         }
-
-        public async Task Delete()
-        {
-            await this.msg.CompleteAsync();
-        }
+        #endregion
     }
 }

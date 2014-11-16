@@ -1,6 +1,6 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using King.Service.ServiceBus.Queue;
+    using King.Service.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
     using System;
     using System.Diagnostics;

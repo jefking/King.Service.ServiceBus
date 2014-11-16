@@ -1,4 +1,4 @@
-﻿namespace King.Service.ServiceBus.Queue
+﻿namespace King.Service.ServiceBus
 {
     using King.Azure.Data;
     using Microsoft.ServiceBus.Messaging;
@@ -21,6 +21,10 @@
         #endregion
 
         #region Constructors
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="client"></param>
         public ServiceBusQueuePoller(QueueClient client)
         {
             if (null == client)
