@@ -45,8 +45,7 @@
     <Compile Include="Queue\EventHandler.cs" />
     <Compile Include="Queue\ExampleProcessor.cs" />
     <Compile Include="Queue\Queued.cs" />
-    <Compile Include="Queue\QueueForPoll.cs" />
-    <Compile Include="Queue\QueueForEvents.cs" />
+    <Compile Include="Queue\QueueForAction.cs" />
     <Compile Include="WorkerRole.cs" />
   </ItemGroup>
   <ItemGroup>
