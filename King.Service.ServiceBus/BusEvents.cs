@@ -71,7 +71,7 @@
         /// This event will be called each time a message arrives.
         /// </summary>
         /// <param name="message">Brokered Message</param>
-        public async Task OnMessageArrived(BrokeredMessage message)
+        public virtual async Task OnMessageArrived(BrokeredMessage message)
         {
             var data = message.GetBody<T>();
             await this.eventHandler.Process(data);
@@ -82,7 +82,7 @@
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="e">Arguments</param>
-        public void OnExceptionReceived(object sender, ExceptionReceivedEventArgs e)
+        public virtual void OnExceptionReceived(object sender, ExceptionReceivedEventArgs e)
         {
             if (e != null && e.Exception != null)
             {

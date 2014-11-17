@@ -40,7 +40,7 @@
         /// Poll for Queued Message
         /// </summary>
         /// <returns>Queued Item</returns>
-        public async Task<IQueued<T>> Poll()
+        public virtual async Task<IQueued<T>> Poll()
         {
             var msg = await this.queue.Get();
             return null == msg ? null : new Queued<T>(msg);
@@ -51,7 +51,7 @@
         /// </summary>
         /// <param name="messageCount">Message Count</param>
         /// <returns>Queued Messages</returns>
-        public async Task<IEnumerable<IQueued<T>>> PollMany(int messageCount = 5)
+        public virtual async Task<IEnumerable<IQueued<T>>> PollMany(int messageCount = 5)
         {
             var msgs = await this.queue.GetMany(messageCount);
             return null == msgs || !msgs.Any() ? null : msgs.Select(m => new Queued<T>(m));

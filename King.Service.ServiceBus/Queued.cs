@@ -39,7 +39,7 @@
         /// Abandon Message
         /// </summary>
         /// <returns>Task</returns>
-        public async Task Abandon()
+        public virtual async Task Abandon()
         {
             await this.message.AbandonAsync();
         }
@@ -48,7 +48,7 @@
         /// Data
         /// </summary>
         /// <returns>Data</returns>
-        public Task<T> Data()
+        public virtual Task<T> Data()
         {
             return Task.FromResult(this.message.GetBody<T>());
         }
@@ -57,7 +57,7 @@
         /// Complete
         /// </summary>
         /// <returns>Task</returns>
-        public async Task Complete()
+        public virtual async Task Complete()
         {
             await this.message.CompleteAsync();
         }
