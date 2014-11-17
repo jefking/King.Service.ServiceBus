@@ -12,7 +12,6 @@
     /// </summary>
     public interface IBusQueue
     {
-
         #region Methods
         /// <summary>
         /// Create If Not Exists
@@ -58,6 +57,11 @@
         /// <returns>Task</returns>
         Task Save(object obj);
 
+        /// <summary>
+        /// Register for Events
+        /// </summary>
+        /// <param name="callback">Callback</param>
+        /// <param name="options">Options</param>
         void RegisterForEvents(Func<BrokeredMessage, Task> callback, OnMessageOptions options);
         #endregion
     }
@@ -65,7 +69,7 @@
 
     #region IBusEventHandler
     /// <summary>
-    /// 
+    /// Service Bus Queue Event Handler Interface
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IBusEventHandler<T> : IProcessor<T>

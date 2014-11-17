@@ -46,7 +46,14 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="BusDequeueBatchTests.cs" />
+    <Compile Include="BusDequeueTests.cs" />
+    <Compile Include="BusEventsTests.cs" />
+    <Compile Include="BusQueueTests.cs" />
+    <Compile Include="InitializeBusQueueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueuedTests.cs" />
+    <Compile Include="ServiceBusQueuePollerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="King.Azure">

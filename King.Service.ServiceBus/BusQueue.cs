@@ -30,6 +30,11 @@
         #endregion
 
         #region Constructors
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="name">Queue Name</param>
+        /// <param name="connectionString">Connection String</param>
         public BusQueue(string name, string connectionString)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -148,6 +153,11 @@
             }
         }
 
+        /// <summary>
+        /// On Error
+        /// </summary>
+        /// <param name="action">Action</param>
+        /// <param name="ex">Exception</param>
         public virtual void RegisterForEvents(Func<BrokeredMessage, Task> callback, OnMessageOptions options)
         {
             this.client.OnMessageAsync(callback, options);
