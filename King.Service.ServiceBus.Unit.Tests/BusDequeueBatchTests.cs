@@ -1,12 +1,9 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using King.Service.ServiceBus;
+    using NSubstitute;
     using NUnit.Framework;
+    using System;
 
     [TestFixture]
     public class BusDequeueBatchTests
