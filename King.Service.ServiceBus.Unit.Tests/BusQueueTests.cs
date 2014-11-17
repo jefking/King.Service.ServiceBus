@@ -11,6 +11,7 @@
     public class BusQueueTests
     {
         const string connection = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
+
         [Test]
         public void Constructor()
         {
