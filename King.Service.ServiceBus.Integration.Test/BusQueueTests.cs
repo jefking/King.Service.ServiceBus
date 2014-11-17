@@ -5,6 +5,7 @@
     using System;
     using System.Collections.Generic;
     using System.Configuration;
+    using System.Linq;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -116,6 +117,39 @@
                 var result = msg.GetBody<Guid>();
                 Assert.IsTrue(sent.Contains(result));
             }
+        }
+
+        [Test]
+        public async Task GetManyNegative()
+        {
+            var random = new Random();
+            var count = random.Next(5, 11);
+            var sent = new List<Guid>();
+            for (var i = 0; i < count; i++)
+            {
+                var expected = Guid.NewGuid();
+                await this.queue.Send(expected);
+                sent.Add(expected);
+            }
+
+            var got = await this.queue.GetMany(-count);
+            Assert.AreEqual(5, got.Count());
+            foreach (var msg in got)
+            {
+                var result = msg.GetBody<Guid>();
+                Assert.IsTrue(sent.Contains(result));
+            }
+        }
+
+        [Test]
+        public async Task RegisterForEvents()
+        {
+            this.queue.RegisterForEvents(OnMessageArrived, new OnMessageOptions());
+        }
+
+        private async Task OnMessageArrived(BrokeredMessage message)
+        {
+            await new TaskFactory().StartNew(() => { });
         }
     }
 }

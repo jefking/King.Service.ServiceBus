@@ -2,8 +2,6 @@
 {
     using King.Service.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
-    using Newtonsoft.Json;
-    using NSubstitute;
     using NUnit.Framework;
     using System;
     using System.Threading.Tasks;
