@@ -24,14 +24,7 @@
             var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
             new BusQueue(null, fake);
         }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void ConstructorNameNull()
-        {
-            new BusQueue(null, "asd");
-        }
-
+        
         [Test]
         [ExpectedException(typeof(ArgumentException))]
         public void ConstructorConnectionStringNull()
@@ -55,6 +48,29 @@
             var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
             var queue = new BusQueue(Guid.NewGuid().ToString(), fake);
             await queue.Save((BrokeredMessage)null);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void RegisterForEventsCallbackNull()
+        {
+            var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
+            var queue = new BusQueue(Guid.NewGuid().ToString(), fake);
+            queue.RegisterForEvents(null, new OnMessageOptions());
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void RegisterForEventsOptionsNull()
+        {
+            var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
+            var queue = new BusQueue(Guid.NewGuid().ToString(), fake);
+            queue.RegisterForEvents(this.OnMessageArrived, null);
+        }
+
+        private async Task OnMessageArrived(BrokeredMessage message)
+        {
+            await new TaskFactory().StartNew(() => { });
         }
     }
 }

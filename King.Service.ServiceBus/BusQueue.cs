@@ -157,6 +157,15 @@
         /// <param name="ex">Exception</param>
         public virtual void RegisterForEvents(Func<BrokeredMessage, Task> callback, OnMessageOptions options)
         {
+            if (null == callback)
+            {
+                throw new ArgumentNullException("callback");
+            }
+            if (null == options)
+            {
+                throw new ArgumentNullException("options");
+            }
+
             this.client.OnMessageAsync(callback, options);
         }
         #endregion
