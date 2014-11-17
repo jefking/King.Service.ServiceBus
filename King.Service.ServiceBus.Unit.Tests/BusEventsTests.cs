@@ -2,9 +2,11 @@
 {
     using King.Service.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
+    using Newtonsoft.Json;
     using NSubstitute;
     using NUnit.Framework;
     using System;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class BusEventsTests
@@ -31,6 +33,38 @@
         {
             var queue = Substitute.For<IBusQueue>();
             new BusEvents<object>(queue, null);
+        }
+
+        [Test]
+        public void Run()
+        {
+            var args = new ExceptionReceivedEventArgs(new Exception(), Guid.NewGuid().ToString());
+            var queue = Substitute.For<IBusQueue>();
+            queue.RegisterForEvents(Arg.Any<Func<BrokeredMessage, Task>>(), Arg.Any<OnMessageOptions>());
+            var handler = Substitute.For<IBusEventHandler<object>>();
+
+            var events = new BusEvents<object>(queue, handler);
+            events.Run();
+
+            queue.Received().RegisterForEvents(Arg.Any<Func<BrokeredMessage, Task>>(), Arg.Any<OnMessageOptions>());
+        }
+
+        [Test]
+        public async Task OnMessageArrived()
+        {
+            var data = Guid.NewGuid().ToString();
+            var msg = new BrokeredMessage(data)
+            {   
+                ContentType = data.GetType().ToString(),
+            };
+            var queue = Substitute.For<IBusQueue>();
+            var handler = Substitute.For<IBusEventHandler<string>>();
+            handler.Process(data);
+
+            var events = new BusEvents<string>(queue, handler);
+            await events.OnMessageArrived(msg);
+
+            handler.Received().Process(data);
         }
 
         [Test]

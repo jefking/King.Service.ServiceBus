@@ -2,9 +2,11 @@
 {
     using King.Service.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
+    using Newtonsoft.Json;
     using NSubstitute;
     using NUnit.Framework;
     using System;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class QueuedTests
@@ -22,6 +24,21 @@
         public void ConstructorMessageNull()
         {
             new Queued<object>(null);
+        }
+
+        [Test]
+        public async Task OnMessageArrived()
+        {
+            var data = Guid.NewGuid().ToString();
+            var msg = new BrokeredMessage(data)
+            {
+                ContentType = data.GetType().ToString(),
+            };
+
+            var queue = new Queued<string>(msg);
+            var result = await queue.Data();
+
+            Assert.AreEqual(result, data);
         }
     }
 }
