@@ -10,19 +10,18 @@
     [TestFixture]
     public class BusQueueTests
     {
+        const string connection = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
         [Test]
         public void Constructor()
         {
-            var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
-            new BusQueue(Guid.NewGuid().ToString(), fake);
+            new BusQueue(Guid.NewGuid().ToString(), connection);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentException))]
         public void ConstructorNameNull()
         {
-            var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
-            new BusQueue(null, fake);
+            new BusQueue(null, connection);
         }
         
         [Test]
@@ -36,8 +35,7 @@
         [ExpectedException(typeof(ArgumentNullException))]
         public async Task SaveObjectNull()
         {
-            var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
-            var queue = new BusQueue(Guid.NewGuid().ToString(), fake);
+            var queue = new BusQueue(Guid.NewGuid().ToString(), connection);
             await queue.Save((object)null);
         }
 
@@ -45,8 +43,7 @@
         [ExpectedException(typeof(ArgumentNullException))]
         public async Task SaveBrokeredMessageNull()
         {
-            var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
-            var queue = new BusQueue(Guid.NewGuid().ToString(), fake);
+            var queue = new BusQueue(Guid.NewGuid().ToString(), connection);
             await queue.Save((BrokeredMessage)null);
         }
 
@@ -54,8 +51,7 @@
         [ExpectedException(typeof(ArgumentNullException))]
         public void RegisterForEventsCallbackNull()
         {
-            var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
-            var queue = new BusQueue(Guid.NewGuid().ToString(), fake);
+            var queue = new BusQueue(Guid.NewGuid().ToString(), connection);
             queue.RegisterForEvents(null, new OnMessageOptions());
         }
 
@@ -63,8 +59,7 @@
         [ExpectedException(typeof(ArgumentNullException))]
         public void RegisterForEventsOptionsNull()
         {
-            var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
-            var queue = new BusQueue(Guid.NewGuid().ToString(), fake);
+            var queue = new BusQueue(Guid.NewGuid().ToString(), connection);
             queue.RegisterForEvents(this.OnMessageArrived, null);
         }
 
