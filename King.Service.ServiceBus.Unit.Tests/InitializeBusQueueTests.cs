@@ -12,6 +12,13 @@
         [Test]
         public void Constructor()
         {
+            var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
+            new InitializeBusQueue(Guid.NewGuid().ToString(), fake);
+        }
+
+        [Test]
+        public void ConstructorMockable()
+        {
             var queue = Substitute.For<IBusQueue>();
             new InitializeBusQueue(queue);
         }

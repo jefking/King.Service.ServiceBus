@@ -21,9 +21,9 @@
 
         #region Constructors
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        /// <param name="queue"></param>
+        /// <param name="queue">Queue</param>
         public ServiceBusQueuePoller(IBusQueue queue)
         {
             if (null == queue)

@@ -103,10 +103,7 @@
         /// <returns>Messages</returns>
         public virtual async Task<IEnumerable<BrokeredMessage>> GetMany(int messageCount = 5)
         {
-            if (0 > messageCount)
-            {
-                throw new ArgumentException("Message count must be greater than 0.");
-            }
+            messageCount = 1 > messageCount ? 5 : messageCount;
 
             return await this.client.ReceiveBatchAsync(messageCount);
         }
