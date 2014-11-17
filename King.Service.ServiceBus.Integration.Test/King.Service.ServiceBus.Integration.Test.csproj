@@ -65,6 +65,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="BusQueueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

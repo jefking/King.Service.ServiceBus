@@ -4,7 +4,6 @@
     using King.Service.WorkerRole;
     using King.Service.WorkerRole.Queue;
     using Microsoft.ServiceBus;
-    using Microsoft.ServiceBus.Messaging;
     using System.Collections.Generic;
 
     /// <summary>

@@ -79,15 +79,6 @@
         }
 
         /// <summary>
-        /// Get Cloud Queue Message
-        /// </summary>
-        /// <returns>Message</returns>
-        public virtual async Task<BrokeredMessage> Get()
-        {
-            return await this.client.ReceiveAsync();
-        }
-
-        /// <summary>
         /// Approixmate Message Count
         /// </summary>
         /// <returns>Message Count</returns>
@@ -95,6 +86,15 @@
         {
             var queue = await this.manager.GetQueueAsync(this.name);
             return queue.MessageCount;
+        }
+
+        /// <summary>
+        /// Get Cloud Queue Message
+        /// </summary>
+        /// <returns>Message</returns>
+        public virtual async Task<BrokeredMessage> Get()
+        {
+            return await this.client.ReceiveAsync();
         }
 
         /// <summary>
@@ -141,7 +141,7 @@
             }
             else
             {
-                var msg = new BrokeredMessage(JsonConvert.SerializeObject(obj))
+                var msg = new BrokeredMessage(obj)
                 {
                     ContentType = obj.GetType().ToString(),
                 };

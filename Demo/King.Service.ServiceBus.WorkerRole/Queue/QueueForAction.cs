@@ -14,6 +14,9 @@
         /// </summary>
         private readonly IBusQueue client;
 
+        /// <summary>
+        /// Action
+        /// </summary>
         private readonly string action = null;
         #endregion
 
@@ -33,7 +36,7 @@
                 Action = action,
             };
 
-            Trace.TraceInformation("Sending to Poll: '{0}/{1}'", model.Action, model.Identifier);
+            Trace.TraceInformation("Sending to {0}: '{1}'", model.Action, model.Identifier);
 
             client.Save(new BrokeredMessage(model));
         }
