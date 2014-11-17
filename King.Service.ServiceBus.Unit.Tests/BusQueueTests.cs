@@ -37,7 +37,7 @@
         public async Task SaveObjectNull()
         {
             var queue = new BusQueue(Guid.NewGuid().ToString(), connection);
-            await queue.Save((object)null);
+            await queue.Send((object)null);
         }
 
         [Test]
@@ -45,7 +45,7 @@
         public async Task SaveBrokeredMessageNull()
         {
             var queue = new BusQueue(Guid.NewGuid().ToString(), connection);
-            await queue.Save((BrokeredMessage)null);
+            await queue.Send((BrokeredMessage)null);
         }
 
         [Test]

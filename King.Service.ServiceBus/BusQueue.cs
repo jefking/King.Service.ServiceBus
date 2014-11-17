@@ -113,7 +113,7 @@
         /// </summary>
         /// <param name="message">Message</param>
         /// <returns>Task</returns>
-        public virtual async Task Save(BrokeredMessage message)
+        public virtual async Task Send(BrokeredMessage message)
         {
             if (null == message)
             {
@@ -128,7 +128,7 @@
         /// </summary>
         /// <param name="obj">object</param>
         /// <returns>Task</returns>
-        public virtual async Task Save(object obj)
+        public virtual async Task Send(object obj)
         {
             if (null == obj)
             {
@@ -137,7 +137,7 @@
 
             if (obj is BrokeredMessage)
             {
-                await this.Save(obj as BrokeredMessage);
+                await this.Send(obj as BrokeredMessage);
             }
             else
             {
@@ -146,7 +146,7 @@
                     ContentType = obj.GetType().ToString(),
                 };
 
-                await this.Save(msg);
+                await this.Send(msg);
             }
         }
 

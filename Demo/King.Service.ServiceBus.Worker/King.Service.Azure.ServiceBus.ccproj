@@ -40,7 +40,7 @@
     <Folder Include="King.Service.Azure.ServiceBus.WorkerContent" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\King.Service.WorkerRole\King.Service.Azure.ServiceBus.Worker.csproj">
+    <ProjectReference Include="..\King.Service.ServiceBus.WorkerRole\King.Service.Azure.ServiceBus.Worker.csproj">
       <Name>King.Service.Azure.ServiceBus.Worker</Name>
       <Project>{a0bd1435-033c-4995-ae80-8f0646949fd9}</Project>
       <Private>True</Private>

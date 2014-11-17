@@ -22,17 +22,17 @@
             var manager = NamespaceManager.CreateFromConnectionString(config.Connection);
 
             //Connection
-            var pollingClient = QueueClient.Create(config.PollingName);
-            var eventClient = QueueClient.Create(config.EventsName);
+            var pollingClient = new BusQueue(config.PollingName, config.Connection);
+            var eventClient = new BusQueue(config.EventsName, config.Connection);
 
             //InitializationL Polling
-            yield return new InitializeBusQueue(config.PollingName, manager);
+            yield return new InitializeBusQueue(pollingClient);
 
             //Initialization: Events
-            yield return new InitializeBusQueue(config.EventsName, manager);
+            yield return new InitializeBusQueue(eventClient);
 
             //Load polling dequeue object to run
-            var dequeue = new BusDequeue<ExampleModel>(new BusQueue(config.PollingName, manager), new ExampleProcessor());
+            var dequeue = new BusDequeue<ExampleModel>(pollingClient, new ExampleProcessor());
 
             //Polling Dequeue Runner
             yield return new AdaptiveRunner(dequeue);
