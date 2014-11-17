@@ -1,4 +1,4 @@
-﻿unamespace King.Service.ServiceBus.Unit.Tests
+﻿namespace King.Service.ServiceBus.Unit.Tests
 {
     using System;
     using System.Collections.Generic;
