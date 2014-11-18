@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("King.Service.ServiceBus")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("King.Service.ServiceBus")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("King.Service.ServiceBus")]
@@ -11,5 +11,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: Guid("dfbd1f01-e684-44cd-b931-8ae84d77f423")]
-[assembly: AssemblyVersion("1.0.0.87")]
-[assembly: AssemblyFileVersion("1.0.0.8")]
+[assembly: AssemblyVersion("1.0.1.0")]
+[assembly: AssemblyFileVersion("1.0.1.0")]

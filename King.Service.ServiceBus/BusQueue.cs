@@ -2,7 +2,6 @@
 {
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
