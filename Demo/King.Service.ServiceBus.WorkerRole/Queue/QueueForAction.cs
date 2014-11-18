@@ -36,9 +36,9 @@
                 Action = action,
             };
 
-            Trace.TraceInformation("Sending to {0}: '{1}'", model.Action, model.Identifier);
+            Trace.TraceInformation("Sending to queue for {0}: '{1}'", model.Action, model.Identifier);
 
-            client.Save(new BrokeredMessage(model));
+            client.Send(model);
         }
     }
 }

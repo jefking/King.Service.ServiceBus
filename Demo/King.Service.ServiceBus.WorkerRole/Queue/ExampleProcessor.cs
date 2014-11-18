@@ -9,9 +9,9 @@
     /// </summary>
     public class ExampleProcessor : IProcessor<ExampleModel>
     {
-        public Task<bool> Process(ExampleModel data)
+        public Task<bool> Process(ExampleModel model)
         {
-            Trace.TraceInformation("Action: {0} Id: {1}", data.Action, data.Identifier);
+            Trace.TraceInformation("Recieved from queue via {0}: '{1}'", model.Action, model.Identifier);
 
             return Task.FromResult<bool>(true);
         }
