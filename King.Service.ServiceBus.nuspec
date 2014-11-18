@@ -12,7 +12,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Task scheduling for Azure and Windows Servers: Service Bus.</description>
         <summary>Task scheduling for Azure and Windows Servers: Service Bus.</summary>
-        <releaseNotes>BETA</releaseNotes>
+        <releaseNotes>Initial release, queues and events.</releaseNotes>
         <copyright>Jef King</copyright>
         <tags>King.Service.ServiceBus Azure Queue Service Bus service-bus scale auto-scale dynamic-scale dynamic Queuing Background Worker Work Data Processing Table Environment Initialize Task Tasks Dequeue Dequeuing run task service services tasks scheduling King.Service King.Azure</tags>
         <dependencies>

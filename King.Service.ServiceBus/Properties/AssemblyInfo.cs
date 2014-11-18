@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("King.Service.ServiceBus")]
-[assembly: AssemblyDescription("King.Service.ServiceBus")]
+[assembly: AssemblyDescription("Task scheduling for Azure and Windows Servers: Service Bus.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("King.Service.ServiceBus")]
