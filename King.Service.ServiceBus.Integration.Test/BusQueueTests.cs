@@ -6,6 +6,7 @@
     using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -142,13 +143,25 @@
         }
 
         [Test]
-        public async Task RegisterForEvents()
+        public async Task RecieveEvent()
         {
             this.queue.RegisterForEvents(OnMessageArrived, new OnMessageOptions());
+            this.queue.Send(Guid.NewGuid());
+            var ii = 10;
+            while (this.eventCount == 0 && ii > 0)
+            {
+                Thread.Sleep(500);
+                ii--;
+            }
+
+            Assert.AreEqual(1, this.eventCount);
         }
+
+        int eventCount = 0;
 
         private async Task OnMessageArrived(BrokeredMessage message)
         {
+            eventCount++;
             await new TaskFactory().StartNew(() => { });
         }
     }

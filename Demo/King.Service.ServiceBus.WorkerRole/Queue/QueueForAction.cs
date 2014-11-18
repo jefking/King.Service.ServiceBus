@@ -9,14 +9,8 @@
     public class QueueForAction : RecurringTask
     {
         #region Members
-        /// <summary>
-        /// Queue Client
-        /// </summary>
         private readonly IBusQueue client;
 
-        /// <summary>
-        /// Action
-        /// </summary>
         private readonly string action = null;
         #endregion
 
