@@ -1,7 +1,10 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests
 {
     using King.Service.ServiceBus;
+    using King.Service.ServiceBus.Wrappers;
+    using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
+    using NSubstitute;
     using NUnit.Framework;
     using System;
 
@@ -21,6 +24,31 @@
         public void ConstructorNameNull()
         {
             new BusQueue(null, connection);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ConstructorMockableNameNull()
+        {
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var client = Substitute.For<IBusQueueClient>();
+            new BusQueue(null, m, client);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ConstructorManagerNull()
+        {
+            var client = Substitute.For<IBusQueueClient>();
+            new BusQueue(Guid.NewGuid().ToString(), null, client);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ConstructorClientNull()
+        {
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            new BusQueue(Guid.NewGuid().ToString(), m, null);
         }
 
         [Test]
