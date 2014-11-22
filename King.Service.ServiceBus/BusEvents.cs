@@ -94,7 +94,7 @@
         /// </summary>
         /// <param name="brokeredMessage">Brokered Message</param>
         /// <returns>Type</returns>
-        public T GetBody(BrokeredMessage brokeredMessage)
+        public virtual T GetBody(BrokeredMessage brokeredMessage)
         {
             if (null == brokeredMessage)
             {

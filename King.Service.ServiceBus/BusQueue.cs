@@ -96,7 +96,7 @@
         /// Handle Transient Error
         /// </summary>
         /// <param name="ex">Messaging Exception</param>
-        public void HandleTransientError(MessagingException ex)
+        public virtual void HandleTransientError(MessagingException ex)
         {
             if (null != ex)
             {

@@ -92,7 +92,7 @@
         /// <param name="message">Message</param>
         /// <param name="enqueueAt">Schedule for Enqueue</param>
         /// <returns>Task</returns>
-        public async Task Send(object message, DateTime enqueueAt)
+        public virtual async Task Send(object message, DateTime enqueueAt)
         {
             if (null == message)
             {
