@@ -58,6 +58,19 @@
         }
         #endregion
 
+        #region Properties
+        /// <summary>
+        /// Queue Name
+        /// </summary>
+        public virtual string Name
+        {
+            get
+            {
+                return this.name;
+            }
+        }
+        #endregion
+
         #region Methods
         /// <summary>
         /// Create If Not Exists

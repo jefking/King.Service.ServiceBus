@@ -101,6 +101,7 @@
     <Compile Include="BusQueueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueuedTests.cs" />
+    <Compile Include="Wrappers\BusQueueClientTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\King.Service.ServiceBus\King.Service.ServiceBus.csproj">

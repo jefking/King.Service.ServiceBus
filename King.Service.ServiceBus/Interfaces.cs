@@ -12,6 +12,16 @@
     /// </summary>
     public interface IBusQueue
     {
+        #region Properties
+        /// <summary>
+        /// Queue Name
+        /// </summary>
+        string Name
+        {
+            get;
+        }
+        #endregion
+
         #region Methods
         /// <summary>
         /// Create If Not Exists
