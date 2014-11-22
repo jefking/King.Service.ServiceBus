@@ -1,5 +1,7 @@
 ﻿namespace King.Service.ServiceBus
 {
+    using King.Service.ServiceBus.Wrappers;
+    using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
     using System;
     using System.Collections.Generic;
@@ -26,6 +28,17 @@
         /// <param name="connectionString">Connection String</param>
         public BusQueueReciever(string name, string connectionString)
             :base(name, connectionString)
+        {
+        }
+
+        /// <summary>
+        /// Mockable Constructor
+        /// </summary>
+        /// <param name="name">Queue Name</param>
+        /// <param name="manager">Manager</param>
+        /// <param name="client"Client></param>
+        public BusQueueReciever(string name, NamespaceManager manager, IBusQueueClient client)
+            : base(name, manager, client)
         {
         }
         #endregion

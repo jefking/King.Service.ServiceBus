@@ -45,6 +45,12 @@
         {
         }
 
+        /// <summary>
+        /// Mockable Constructor
+        /// </summary>
+        /// <param name="name">Queue Name</param>
+        /// <param name="manager">Manager</param>
+        /// <param name="client"Client></param>
         public BusQueue(string name, NamespaceManager manager, IBusQueueClient client)
         {
             if (string.IsNullOrWhiteSpace(name))

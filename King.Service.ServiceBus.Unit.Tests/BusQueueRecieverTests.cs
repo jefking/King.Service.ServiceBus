@@ -1,6 +1,8 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests
 {
     using King.Service.ServiceBus;
+    using King.Service.ServiceBus.Wrappers;
+    using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
     using NSubstitute;
     using NUnit.Framework;
@@ -49,6 +51,66 @@
         private async Task OnMessageArrived(BrokeredMessage message)
         {
             await new TaskFactory().StartNew(() => { });
+        }
+
+        [Test]
+        [ExpectedException(typeof(Exception))]
+        public async Task GetThrows()
+        {
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var client = Substitute.For<IBusQueueClient>();
+            client.When(c => c.Receive(Arg.Any<TimeSpan>())).Do(x => { throw new Exception(); });
+
+            var q = new BusQueueReciever(Guid.NewGuid().ToString(), m, client);
+            await q.Get();
+        }
+
+        [Test]
+        [ExpectedException(typeof(MessagingException))]
+        public async Task GetThrowsMessagingException()
+        {
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var first = true;
+            var client = Substitute.For<IBusQueueClient>();
+            client.When(c => c.Receive(Arg.Any<TimeSpan>())).Do(x =>
+            {
+                var tmp = first;
+                first = false;
+                throw new MessagingException(Guid.NewGuid().ToString(), tmp, new Exception());
+            });
+
+            var q = new BusQueueReciever(Guid.NewGuid().ToString(), m, client);
+            await q.Get();
+        }
+
+        [Test]
+        [ExpectedException(typeof(Exception))]
+        public async Task GetManyThrows()
+        {
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var client = Substitute.For<IBusQueueClient>();
+            client.When(c => c.ReceiveBatch(5, Arg.Any<TimeSpan>())).Do(x => { throw new Exception(); });
+
+            var q = new BusQueueReciever(Guid.NewGuid().ToString(), m, client);
+            await q.GetMany();
+        }
+
+        [Test]
+        [ExpectedException(typeof(MessagingException))]
+        public async Task GetManyThrowsMessagingException()
+        {
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var first = true;
+            var client = Substitute.For<IBusQueueClient>();
+            client.When(c => c.ReceiveBatch(5, Arg.Any<TimeSpan>())).Do(x =>
+            {
+                var tmp = first;
+                first = false;
+                throw new MessagingException(Guid.NewGuid().ToString(), tmp, new Exception());
+            });
+
+            var q = new BusQueueReciever(Guid.NewGuid().ToString(), m, client);
+            await q.GetMany();
         }
     }
 }
