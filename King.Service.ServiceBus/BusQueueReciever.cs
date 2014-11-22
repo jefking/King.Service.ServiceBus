@@ -11,6 +11,13 @@
     /// </summary>
     public class BusQueueReciever : BusQueue, IBusQueueReciever
     {
+        #region Members
+        /// <summary>
+        /// Server Wait Time
+        /// </summary>
+        protected static readonly TimeSpan serverWaitTime = TimeSpan.FromSeconds(15);
+        #endregion
+
         #region Constructors
         /// <summary>
         /// Constructor
@@ -34,7 +41,7 @@
             {
                 try
                 {
-                    return await base.client.ReceiveAsync(TimeSpan.FromSeconds(15));
+                    return await base.client.ReceiveAsync(serverWaitTime);
                 }
                 catch (MessagingException ex)
                 {
@@ -64,7 +71,7 @@
             {
                 try
                 {
-                    return await this.client.ReceiveBatchAsync(messageCount, TimeSpan.FromSeconds(15));
+                    return await this.client.ReceiveBatchAsync(messageCount, serverWaitTime);
                 }
                 catch (MessagingException ex)
                 {
