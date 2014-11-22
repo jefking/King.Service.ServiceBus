@@ -17,16 +17,16 @@
         /// <returns></returns>
         public IEnumerable<IRunnable> Tasks(Configuration config)
         {
-            //Connection
+            //Connections
             var pollReceiver = new BusQueueReciever(config.PollingName, config.Connection);
             var pollSender = new BusQueueSender(config.PollingName, config.Connection);
             var eventReciever = new BusQueueReciever(config.EventsName, config.Connection);
             var eventSender = new BusQueueSender(config.EventsName, config.Connection);
 
-            //InitializationL Polling
+            //Initialize Polling
             yield return new InitializeBusQueue(pollReceiver);
 
-            //Initialization: Events
+            //Initialize Events
             yield return new InitializeBusQueue(eventSender);
 
             //Load polling dequeue object to run
