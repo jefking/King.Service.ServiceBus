@@ -2,7 +2,11 @@
 {
     using Microsoft.ServiceBus.Messaging;
     using System;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Runtime.Serialization;
     using System.Threading.Tasks;
+    using System.Xml;
 
     /// <summary>
     /// Service Bus Queue Events
@@ -73,8 +77,41 @@
         /// <param name="message">Brokered Message</param>
         public virtual async Task OnMessageArrived(BrokeredMessage message)
         {
-            var data = message.GetBody<T>();
-            await this.eventHandler.Process(data);
+            var data = this.GetBody(message);
+            var success = await this.eventHandler.Process(data);
+            if (success)
+            {
+                Trace.TraceInformation("Message processed successfully");
+            }
+            else
+            {
+                throw new InvalidOperationException("Message not processed");
+            }
+        }
+
+        /// <summary>
+        /// Get Body
+        /// </summary>
+        /// <param name="brokeredMessage">Brokered Message</param>
+        /// <returns>Type</returns>
+        public T GetBody(BrokeredMessage brokeredMessage)
+        {
+            if (null == brokeredMessage)
+            {
+                throw new ArgumentNullException("brokeredMessage");
+            }
+            if (string.IsNullOrWhiteSpace(brokeredMessage.ContentType))
+            {
+                throw new ArgumentException("Content Type");
+            }
+
+            var ct = brokeredMessage.ContentType;
+            var bodyType = Type.GetType(ct, true);
+
+            var stream = brokeredMessage.GetBody<Stream>();
+            var serializer = new DataContractSerializer(bodyType);
+            var reader = XmlDictionaryReader.CreateBinaryReader(stream, XmlDictionaryReaderQuotas.Max);
+            return (T)serializer.ReadObject(reader);
         }
 
         /// <summary>
@@ -86,6 +123,7 @@
         {
             if (e != null && e.Exception != null)
             {
+                Trace.TraceError("'{0}' {1}", e.Action, e.Exception.ToString());
                 this.eventHandler.OnError(e.Action, e.Exception);
             }
         }

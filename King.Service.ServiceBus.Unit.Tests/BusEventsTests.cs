@@ -2,7 +2,6 @@
 {
     using King.Service.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
-    using Newtonsoft.Json;
     using NSubstitute;
     using NUnit.Framework;
     using System;
@@ -59,7 +58,7 @@
             };
             var queue = Substitute.For<IBusQueueReciever>();
             var handler = Substitute.For<IBusEventHandler<string>>();
-            handler.Process(data);
+            handler.Process(data).Returns(Task.FromResult(true));
 
             var events = new BusEvents<string>(queue, handler);
             await events.OnMessageArrived(msg);

@@ -3,6 +3,7 @@
     using Microsoft.ServiceBus.Messaging;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -29,7 +30,26 @@
         /// <returns>Message</returns>
         public virtual async Task<BrokeredMessage> Get()
         {
-            return await this.client.ReceiveAsync();
+            while (true)
+            {
+                try
+                {
+                    return await base.client.ReceiveAsync(TimeSpan.FromSeconds(15));
+                }
+                catch (MessagingException ex)
+                {
+                    if (ex.IsTransient)
+                    {
+                        base.HandleTransientError(ex);
+                    }
+                    else
+                    {
+                        Trace.TraceError(ex.ToString());
+
+                        throw;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -40,7 +60,26 @@
         {
             messageCount = 1 > messageCount ? 5 : messageCount;
 
-            return await this.client.ReceiveBatchAsync(messageCount);
+            while (true)
+            {
+                try
+                {
+                    return await this.client.ReceiveBatchAsync(messageCount, TimeSpan.FromSeconds(15));
+                }
+                catch (MessagingException ex)
+                {
+                    if (ex.IsTransient)
+                    {
+                        base.HandleTransientError(ex);
+                    }
+                    else
+                    {
+                        Trace.TraceError(ex.ToString());
+
+                        throw;
+                    }
+                }
+            }
         }
 
         /// <summary>
