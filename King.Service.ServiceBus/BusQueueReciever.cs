@@ -41,7 +41,7 @@
             {
                 try
                 {
-                    return await base.client.ReceiveAsync(serverWaitTime);
+                    return await base.client.Receive(serverWaitTime);
                 }
                 catch (MessagingException ex)
                 {
@@ -71,7 +71,7 @@
             {
                 try
                 {
-                    return await this.client.ReceiveBatchAsync(messageCount, serverWaitTime);
+                    return await this.client.ReceiveBatch(messageCount, serverWaitTime);
                 }
                 catch (MessagingException ex)
                 {
@@ -105,7 +105,7 @@
                 throw new ArgumentNullException("options");
             }
 
-            this.client.OnMessageAsync(callback, options);
+            this.client.OnMessage(callback, options);
         }
         #endregion
     }

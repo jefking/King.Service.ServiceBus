@@ -1,10 +1,12 @@
 ﻿namespace King.Service.ServiceBus
 {
+    using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
     using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
+    using QC = Microsoft.ServiceBus.Messaging.QueueClient;
 
     /// <summary>
     /// Bus Queue
@@ -15,7 +17,7 @@
         /// <summary>
         /// Queue Client
         /// </summary>
-        protected readonly QueueClient client = null;
+        protected readonly BusQueueClient client = null;
 
         /// <summary>
         /// Name
@@ -52,7 +54,7 @@
 
             this.name = name;
             this.manager = NamespaceManager.CreateFromConnectionString(connectionString);
-            this.client = QueueClient.CreateFromConnectionString(connectionString, name);
+            this.client = new BusQueueClient(QueueClient.CreateFromConnectionString(connectionString, name));
         }
         #endregion
 

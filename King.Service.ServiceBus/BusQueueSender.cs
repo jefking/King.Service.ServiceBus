@@ -39,7 +39,7 @@
             {
                 try
                 {
-                    await this.client.SendAsync(message);
+                    await this.client.Send(message);
 
                     break;
                 }
