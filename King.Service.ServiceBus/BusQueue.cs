@@ -3,7 +3,7 @@
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
     using System;
-    using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -26,6 +26,11 @@
         /// Namespace Manager
         /// </summary>
         protected readonly NamespaceManager manager = null;
+
+        /// <summary>
+        /// Transient Error Event
+        /// </summary>
+        public event EventHandler<MessagingException> TransientErrorOccured;
         #endregion
 
         #region Constructors
@@ -88,84 +93,21 @@
         }
 
         /// <summary>
-        /// Get Cloud Queue Message
+        /// Handle Transient Error
         /// </summary>
-        /// <returns>Message</returns>
-        public virtual async Task<BrokeredMessage> Get()
+        /// <param name="ex">Messaging Exception</param>
+        protected void HandleTransientError(MessagingException ex)
         {
-            return await this.client.ReceiveAsync();
-        }
-
-        /// <summary>
-        /// Get Many Cloud Queue Message
-        /// </summary>
-        /// <returns>Messages</returns>
-        public virtual async Task<IEnumerable<BrokeredMessage>> GetMany(int messageCount = 5)
-        {
-            messageCount = 1 > messageCount ? 5 : messageCount;
-
-            return await this.client.ReceiveBatchAsync(messageCount);
-        }
-
-        /// <summary>
-        /// Save Message to Queue
-        /// </summary>
-        /// <param name="message">Message</param>
-        /// <returns>Task</returns>
-        public virtual async Task Send(BrokeredMessage message)
-        {
-            if (null == message)
+            var handle = this.TransientErrorOccured;
+            if (null != handle)
             {
-                throw new ArgumentNullException("message");
+                handle(this, ex);
             }
 
-            await this.client.SendAsync(message);
-        }
-
-        /// <summary>
-        /// Save Object to queue, as json
-        /// </summary>
-        /// <param name="obj">object</param>
-        /// <returns>Task</returns>
-        public virtual async Task Send(object obj)
-        {
-            if (null == obj)
+            if (null != ex)
             {
-                throw new ArgumentNullException("obj");
+                Trace.TraceWarning("Transient Error: '{0}'", ex.ToString());
             }
-
-            if (obj is BrokeredMessage)
-            {
-                await this.Send(obj as BrokeredMessage);
-            }
-            else
-            {
-                var msg = new BrokeredMessage(obj)
-                {
-                    ContentType = obj.GetType().ToString(),
-                };
-
-                await this.Send(msg);
-            }
-        }
-
-        /// <summary>
-        /// On Error
-        /// </summary>
-        /// <param name="action">Action</param>
-        /// <param name="ex">Exception</param>
-        public virtual void RegisterForEvents(Func<BrokeredMessage, Task> callback, OnMessageOptions options)
-        {
-            if (null == callback)
-            {
-                throw new ArgumentNullException("callback");
-            }
-            if (null == options)
-            {
-                throw new ArgumentNullException("options");
-            }
-
-            this.client.OnMessageAsync(callback, options);
         }
         #endregion
     }

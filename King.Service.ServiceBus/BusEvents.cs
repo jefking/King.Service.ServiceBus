@@ -13,7 +13,7 @@
         /// <summary>
         /// Queue Client
         /// </summary>
-        protected readonly IBusQueue queue = null;
+        protected readonly IBusQueueReciever queue = null;
 
         /// <summary>
         /// Bus Event Handler
@@ -33,7 +33,7 @@
         /// <param name="queue">Queue</param>
         /// <param name="eventHandler">Event Handler</param>
         /// <param name="concurrentCalls">Concurrent Calls (Default 10)</param>
-        public BusEvents(IBusQueue queue, IBusEventHandler<T> eventHandler, byte concurrentCalls = 10)
+        public BusEvents(IBusQueueReciever queue, IBusEventHandler<T> eventHandler, byte concurrentCalls = 10)
         {
             if (null == queue)
             {

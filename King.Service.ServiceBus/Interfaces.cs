@@ -26,16 +26,26 @@
         Task Delete();
 
         /// <summary>
-        /// Get Cloud Queue Message
-        /// </summary>
-        /// <returns>Message</returns>
-        Task<BrokeredMessage> Get();
-
-        /// <summary>
         /// Approixmate Message Count
         /// </summary>
         /// <returns>Message Count</returns>
         Task<long> ApproixmateMessageCount();
+        #endregion
+    }
+    #endregion
+
+    #region IBusQueueReciever
+    /// <summary>
+    /// Bus Queue Reciever Interface
+    /// </summary>
+    public interface IBusQueueReciever : IBusQueue
+    {
+        #region Methods
+        /// <summary>
+        /// Get Cloud Queue Message
+        /// </summary>
+        /// <returns>Message</returns>
+        Task<BrokeredMessage> Get();
 
         /// <summary>
         /// Get Many Cloud Queue Message
@@ -43,6 +53,23 @@
         /// <returns>Messages</returns>
         Task<IEnumerable<BrokeredMessage>> GetMany(int messageCount = 5);
 
+        /// <summary>
+        /// Register for Events
+        /// </summary>
+        /// <param name="callback">Callback</param>
+        /// <param name="options">Options</param>
+        void RegisterForEvents(Func<BrokeredMessage, Task> callback, OnMessageOptions options);
+        #endregion
+    }
+    #endregion
+
+    #region IBusQueueSender
+    /// <summary>
+    /// Bus Queue Sender Interface
+    /// </summary>
+    public interface IBusQueueSender : IBusQueue
+    {
+        #region Methods
         /// <summary>
         /// Save Message to Queue
         /// </summary>
@@ -56,13 +83,6 @@
         /// <param name="obj">object</param>
         /// <returns>Task</returns>
         Task Send(object obj);
-
-        /// <summary>
-        /// Register for Events
-        /// </summary>
-        /// <param name="callback">Callback</param>
-        /// <param name="options">Options</param>
-        void RegisterForEvents(Func<BrokeredMessage, Task> callback, OnMessageOptions options);
         #endregion
     }
     #endregion

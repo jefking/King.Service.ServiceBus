@@ -16,7 +16,7 @@
         /// <summary>
         /// Queue
         /// </summary>
-        protected readonly IBusQueue queue = null;
+        protected readonly IBusQueueReciever queue = null;
         #endregion
 
         #region Constructors
@@ -24,7 +24,7 @@
         /// Constructor
         /// </summary>
         /// <param name="queue">Queue</param>
-        public ServiceBusQueuePoller(IBusQueue queue)
+        public ServiceBusQueuePoller(IBusQueueReciever queue)
         {
             if (null == queue)
             {
