@@ -9,13 +9,13 @@
     public class QueueForAction : RecurringTask
     {
         #region Members
-        private readonly IBusQueue client;
+        private readonly IBusQueueSender client;
 
         private readonly string action = null;
         #endregion
 
         #region Constructors
-        public QueueForAction(IBusQueue client, string action)
+        public QueueForAction(IBusQueueSender client, string action)
         {
             this.client = client;
             this.action = action;

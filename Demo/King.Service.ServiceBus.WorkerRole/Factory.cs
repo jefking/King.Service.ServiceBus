@@ -21,27 +21,29 @@
             var manager = NamespaceManager.CreateFromConnectionString(config.Connection);
 
             //Connection
-            var pollingClient = new BusQueue(config.PollingName, config.Connection);
-            var eventClient = new BusQueue(config.EventsName, config.Connection);
+            var pollReceiver = new BusQueueReciever(config.PollingName, config.Connection);
+            var pollSender = new BusQueueSender(config.PollingName, config.Connection);
+            var eventReciever = new BusQueueReciever(config.EventsName, config.Connection);
+            var eventSender = new BusQueueSender(config.EventsName, config.Connection);
 
             //InitializationL Polling
-            yield return new InitializeBusQueue(pollingClient);
+            yield return new InitializeBusQueue(pollReceiver);
 
             //Initialization: Events
-            yield return new InitializeBusQueue(eventClient);
+            yield return new InitializeBusQueue(eventSender);
 
             //Load polling dequeue object to run
-            var dequeue = new BusDequeue<ExampleModel>(pollingClient, new ExampleProcessor());
+            var dequeue = new BusDequeue<ExampleModel>(pollReceiver, new ExampleProcessor());
 
             //Polling Dequeue Runner
             yield return new AdaptiveRunner(dequeue);
 
             //Task for watching for queue events
-            yield return new BusEvents<ExampleModel>(eventClient, new EventHandler());
+            yield return new BusEvents<ExampleModel>(eventReciever, new EventHandler());
 
             //Tasks for queuing work
-            yield return new QueueForAction(pollingClient, "Poll");
-            yield return new QueueForAction(eventClient, "Event");
+            yield return new QueueForAction(pollSender, "Poll");
+            yield return new QueueForAction(eventSender, "Event");
         }
     }
 }
