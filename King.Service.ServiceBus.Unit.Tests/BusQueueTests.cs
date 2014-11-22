@@ -24,13 +24,6 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void ConstructorConnectionStringNull()
-        {
-            new BusQueue(Guid.NewGuid().ToString(), null);
-        }
-
-        [Test]
         public void HandleTransientError()
         {
             this.exception = null;

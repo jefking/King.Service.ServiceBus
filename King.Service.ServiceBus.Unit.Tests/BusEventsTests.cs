@@ -53,12 +53,31 @@
         {
             var data = Guid.NewGuid().ToString();
             var msg = new BrokeredMessage(data)
-            {   
+            {
                 ContentType = data.GetType().ToString(),
             };
             var queue = Substitute.For<IBusQueueReciever>();
             var handler = Substitute.For<IBusEventHandler<string>>();
             handler.Process(data).Returns(Task.FromResult(true));
+
+            var events = new BusEvents<string>(queue, handler);
+            await events.OnMessageArrived(msg);
+
+            handler.Received().Process(data);
+        }
+
+        [Test]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public async Task OnMessageArrivedNotProcessed()
+        {
+            var data = Guid.NewGuid().ToString();
+            var msg = new BrokeredMessage(data)
+            {
+                ContentType = data.GetType().ToString(),
+            };
+            var queue = Substitute.For<IBusQueueReciever>();
+            var handler = Substitute.For<IBusEventHandler<string>>();
+            handler.Process(data).Returns(Task.FromResult(false));
 
             var events = new BusEvents<string>(queue, handler);
             await events.OnMessageArrived(msg);
@@ -107,6 +126,30 @@
             events.OnExceptionReceived(new object(), args);
 
             handler.Received(0).OnError(Arg.Any<string>(), Arg.Any<Exception>());
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void GetBodyMessageNull()
+        {
+            var queue = Substitute.For<IBusQueueReciever>();
+            var handler = Substitute.For<IBusEventHandler<object>>();
+            
+            var be = new BusEvents<object>(queue, handler);
+            be.GetBody(null);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void GetBodyContentTypeNull()
+        {
+            var queue = Substitute.For<IBusQueueReciever>();
+            var handler = Substitute.For<IBusEventHandler<Guid>>();
+
+            var msg = new BrokeredMessage(Guid.NewGuid());
+
+            var be = new BusEvents<Guid>(queue, handler);
+            be.GetBody(msg);
         }
     }
 }
