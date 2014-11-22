@@ -10,30 +10,33 @@
     {
         private string connection = ConfigurationSettings.AppSettings["Microsoft.ServiceBus.ConnectionString"];
 
-        IBusQueue queue;
+        IBusQueueSender sender;
+        IBusQueueReciever reciever;
 
         [SetUp]
         public void Setup()
         {
             var random = new Random();
             var name = string.Format("a{0}b", random.Next());
-            queue = new BusQueue(name, connection);
-            queue.CreateIfNotExists().Wait();
+            sender = new BusQueueSender(name, connection);
+            sender.CreateIfNotExists().Wait();
+
+            reciever = new BusQueueReciever(name, connection);
         }
 
         [TearDown]
         public void TearDown()
         {
-            queue.Delete().Wait();
+            sender.Delete().Wait();
         }
 
         [Test]
         public async Task Abandon()
         {
             var expected = Guid.NewGuid();
-            await this.queue.Send(expected);
+            await this.sender.Send(expected);
 
-            var msg = await this.queue.Get();
+            var msg = await this.reciever.Get();
 
             var queued = new Queued<object>(msg);
             await queued.Abandon();
@@ -43,9 +46,9 @@
         public async Task Complete()
         {
             var expected = Guid.NewGuid();
-            await this.queue.Send(expected);
+            await this.sender.Send(expected);
 
-            var msg = await this.queue.Get();
+            var msg = await this.reciever.Get();
 
             var queued = new Queued<object>(msg);
             await queued.Complete();

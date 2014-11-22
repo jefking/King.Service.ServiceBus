@@ -13,7 +13,7 @@
         public void Constructor()
         {
             var processor = Substitute.For<IProcessor<object>>();
-            var queue = Substitute.For<IBusQueue>();
+            var queue = Substitute.For<IBusQueueReciever>();
             new BusDequeueBatch<object>(queue, processor);
         }
 
@@ -21,7 +21,7 @@
         public void IsDequeueBatch()
         {
             var processor = Substitute.For<IProcessor<object>>();
-            var queue = Substitute.For<IBusQueue>();
+            var queue = Substitute.For<IBusQueueReciever>();
             Assert.IsNotNull(new BusDequeueBatch<object>(queue, processor) as DequeueBatch<object>);
         }
     }

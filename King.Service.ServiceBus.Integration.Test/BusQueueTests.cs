@@ -14,21 +14,24 @@
     {
         private string connection = ConfigurationSettings.AppSettings["Microsoft.ServiceBus.ConnectionString"];
 
-        IBusQueue queue;
+        IBusQueueSender sender;
+        IBusQueueReciever reciever;
 
         [SetUp]
         public void Setup()
         {
             var random = new Random();
             var name = string.Format("a{0}b", random.Next());
-            queue = new BusQueue(name, connection);
-            queue.CreateIfNotExists().Wait();
+            sender = new BusQueueSender(name, connection);
+            sender.CreateIfNotExists().Wait();
+
+            reciever = new BusQueueReciever(name, connection);
         }
 
         [TearDown]
         public void TearDown()
         {
-            queue.Delete().Wait();
+            sender.Delete().Wait();
         }
 
         [Test]
@@ -47,23 +50,23 @@
         [Test]
         public async Task Delete()
         {
-            await queue.Delete();
-            var result = await queue.CreateIfNotExists();
+            await sender.Delete();
+            var result = await sender.CreateIfNotExists();
             Assert.IsTrue(result);
 
-            await queue.Delete();
-            result = await queue.CreateIfNotExists();
+            await sender.Delete();
+            result = await sender.CreateIfNotExists();
             Assert.IsTrue(result);
 
-            await queue.Delete();
+            await sender.Delete();
         }
 
         [Test]
         public async Task ApproixmateMessageCount()
         {
             var msg = new BrokeredMessage();
-            await this.queue.Send(msg);
-            var count = await this.queue.ApproixmateMessageCount();
+            await this.sender.Send(msg);
+            var count = await this.sender.ApproixmateMessageCount();
             Assert.AreEqual(1, count);
         }
 
@@ -71,30 +74,30 @@
         public async Task SendBrokeredMessage()
         {
             var msg = new BrokeredMessage();
-            await this.queue.Send(msg);
+            await this.sender.Send(msg);
         }
 
         [Test]
         public async Task SendBrokeredMessageAsObject()
         {
             var msg = new BrokeredMessage();
-            await this.queue.Send((object)msg);
+            await this.sender.Send((object)msg);
         }
 
         [Test]
         public async Task Send()
         {
             var msg = new BrokeredMessage();
-            await this.queue.Send(Guid.NewGuid());
+            await this.sender.Send(Guid.NewGuid());
         }
 
         [Test]
         public async Task Get()
         {
             var expected = Guid.NewGuid();
-            await this.queue.Send(expected);
+            await this.sender.Send(expected);
 
-            var msg = await this.queue.Get();
+            var msg = await this.reciever.Get();
             var result = msg.GetBody<Guid>();
             Assert.AreEqual(expected, result);
         }
@@ -108,11 +111,11 @@
             for (var i = 0; i < count; i++)
             {
                 var expected = Guid.NewGuid();
-                await this.queue.Send(expected);
+                await this.sender.Send(expected);
                 sent.Add(expected);
             }
 
-            var got = await this.queue.GetMany(count);
+            var got = await this.reciever.GetMany(count);
             foreach (var msg in got)
             {
                 var result = msg.GetBody<Guid>();
@@ -129,11 +132,11 @@
             for (var i = 0; i < count; i++)
             {
                 var expected = Guid.NewGuid();
-                await this.queue.Send(expected);
+                await this.sender.Send(expected);
                 sent.Add(expected);
             }
 
-            var got = await this.queue.GetMany(-count);
+            var got = await this.reciever.GetMany(-count);
             Assert.AreEqual(5, got.Count());
             foreach (var msg in got)
             {
@@ -145,8 +148,8 @@
         [Test]
         public async Task RecieveEvent()
         {
-            this.queue.RegisterForEvents(OnMessageArrived, new OnMessageOptions());
-            this.queue.Send(Guid.NewGuid());
+            this.reciever.RegisterForEvents(OnMessageArrived, new OnMessageOptions());
+            this.sender.Send(Guid.NewGuid());
             var ii = 10;
             while (this.eventCount == 0 && ii > 0)
             {
