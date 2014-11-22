@@ -17,7 +17,7 @@
         /// <summary>
         /// Queue Client
         /// </summary>
-        protected readonly BusQueueClient client = null;
+        protected readonly IBusQueueClient client = null;
 
         /// <summary>
         /// Name
@@ -42,19 +42,28 @@
         /// <param name="name">Queue Name</param>
         /// <param name="connectionString">Connection String</param>
         public BusQueue(string name, string connectionString)
+            : this(name, NamespaceManager.CreateFromConnectionString(connectionString), new BusQueueClient(QueueClient.CreateFromConnectionString(connectionString, name)))
+        {
+        }
+
+        public BusQueue(string name, NamespaceManager manager, IBusQueueClient client)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentException("name");
             }
-            if (string.IsNullOrWhiteSpace(connectionString))
+            if (null == client)
             {
-                throw new ArgumentException("connectionString");
+                throw new ArgumentNullException("client");
+            }
+            if (null == manager)
+            {
+                throw new ArgumentNullException("manager");
             }
 
             this.name = name;
-            this.manager = NamespaceManager.CreateFromConnectionString(connectionString);
-            this.client = new BusQueueClient(QueueClient.CreateFromConnectionString(connectionString, name));
+            this.manager = manager;
+            this.client = client;
         }
         #endregion
 
