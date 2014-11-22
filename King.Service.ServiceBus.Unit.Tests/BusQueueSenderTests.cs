@@ -2,7 +2,6 @@
 {
     using King.Service.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
-    using NSubstitute;
     using NUnit.Framework;
     using System;
     using System.Threading.Tasks;
@@ -44,6 +43,14 @@
         {
             var queue = new BusQueueSender(Guid.NewGuid().ToString(), connection);
             await queue.Send((BrokeredMessage)null);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public async Task SendAt()
+        {
+            var queue = new BusQueueSender(Guid.NewGuid().ToString(), connection);
+            await queue.Send(null, DateTime.UtcNow);
         }
     }
 }

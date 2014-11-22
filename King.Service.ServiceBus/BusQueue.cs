@@ -96,16 +96,16 @@
         /// Handle Transient Error
         /// </summary>
         /// <param name="ex">Messaging Exception</param>
-        protected void HandleTransientError(MessagingException ex)
+        public void HandleTransientError(MessagingException ex)
         {
-            var handle = this.TransientErrorOccured;
-            if (null != handle)
-            {
-                handle(this, ex);
-            }
-
             if (null != ex)
             {
+                var handle = this.TransientErrorOccured;
+                if (null != handle)
+                {
+                    handle(this, ex);
+                }
+
                 Trace.TraceWarning("Transient Error: '{0}'", ex.ToString());
             }
         }

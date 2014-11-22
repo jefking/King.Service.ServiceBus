@@ -103,6 +103,18 @@
         }
 
         [Test]
+        public async Task GetAt()
+        {
+            var expected = Guid.NewGuid();
+            await this.sender.Send(expected, DateTime.UtcNow.AddMinutes(-1));
+
+            var msg = await this.reciever.Get();
+            var result = msg.GetBody<Guid>();
+            
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
         public async Task GetMany()
         {
             var random = new Random();

@@ -83,6 +83,14 @@
         /// <param name="obj">object</param>
         /// <returns>Task</returns>
         Task Send(object obj);
+
+        /// <summary>
+        /// Send Message with Retry
+        /// </summary>
+        /// <param name="message">Message</param>
+        /// <param name="enqueueAt">Schedule for Enqueue</param>
+        /// <returns>Task</returns>
+        Task Send(object message, DateTime enqueueAt);
         #endregion
     }
     #endregion
