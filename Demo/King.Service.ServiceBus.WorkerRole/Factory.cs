@@ -3,7 +3,6 @@
     using King.Service.ServiceBus.Queue;
     using King.Service.WorkerRole;
     using King.Service.WorkerRole.Queue;
-    using Microsoft.ServiceBus;
     using System.Collections.Generic;
 
     /// <summary>
@@ -18,8 +17,6 @@
         /// <returns></returns>
         public IEnumerable<IRunnable> Tasks(Configuration config)
         {
-            var manager = NamespaceManager.CreateFromConnectionString(config.Connection);
-
             //Connection
             var pollReceiver = new BusQueueReciever(config.PollingName, config.Connection);
             var pollSender = new BusQueueSender(config.PollingName, config.Connection);
