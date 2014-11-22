@@ -14,7 +14,7 @@
         [Test]
         public void ConstructorMockable()
         {
-            var queue = Substitute.For<IBusQueue>();
+            var queue = Substitute.For<IBusQueueReciever>();
             var handler = Substitute.For<IBusEventHandler<object>>();
             new BusEvents<object>(queue, handler);
         }
@@ -31,7 +31,7 @@
         [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorConnectionStringNull()
         {
-            var queue = Substitute.For<IBusQueue>();
+            var queue = Substitute.For<IBusQueueReciever>();
             new BusEvents<object>(queue, null);
         }
 
@@ -39,7 +39,7 @@
         public void Run()
         {
             var args = new ExceptionReceivedEventArgs(new Exception(), Guid.NewGuid().ToString());
-            var queue = Substitute.For<IBusQueue>();
+            var queue = Substitute.For<IBusQueueReciever>();
             queue.RegisterForEvents(Arg.Any<Func<BrokeredMessage, Task>>(), Arg.Any<OnMessageOptions>());
             var handler = Substitute.For<IBusEventHandler<object>>();
 
@@ -57,7 +57,7 @@
             {   
                 ContentType = data.GetType().ToString(),
             };
-            var queue = Substitute.For<IBusQueue>();
+            var queue = Substitute.For<IBusQueueReciever>();
             var handler = Substitute.For<IBusEventHandler<string>>();
             handler.Process(data);
 
@@ -71,7 +71,7 @@
         public void OnExceptionReceived()
         {
             var args = new ExceptionReceivedEventArgs(new Exception(), Guid.NewGuid().ToString());
-            var queue = Substitute.For<IBusQueue>();
+            var queue = Substitute.For<IBusQueueReciever>();
             var handler = Substitute.For<IBusEventHandler<object>>();
             handler.OnError(args.Action, args.Exception);
 
@@ -85,7 +85,7 @@
         public void OnExceptionReceivedSenderNull()
         {
             var args = new ExceptionReceivedEventArgs(new Exception(), Guid.NewGuid().ToString());
-            var queue = Substitute.For<IBusQueue>();
+            var queue = Substitute.For<IBusQueueReciever>();
             var handler = Substitute.For<IBusEventHandler<object>>();
             handler.OnError(args.Action, args.Exception);
 
@@ -100,7 +100,7 @@
         public void OnExceptionReceivedExceptionNull()
         {
             var args = new ExceptionReceivedEventArgs(null, Guid.NewGuid().ToString());
-            var queue = Substitute.For<IBusQueue>();
+            var queue = Substitute.For<IBusQueueReciever>();
             var handler = Substitute.For<IBusEventHandler<object>>();
             handler.OnError(Arg.Any<string>(), Arg.Any<Exception>());
 

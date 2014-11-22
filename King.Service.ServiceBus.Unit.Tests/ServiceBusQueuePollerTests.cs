@@ -5,8 +5,8 @@
     using NSubstitute;
     using NUnit.Framework;
     using System;
-    using System.Linq;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -15,9 +15,8 @@
         [Test]
         public void Constructor()
         {
-            var queue = Substitute.For<IBusQueue>();
+            var queue = Substitute.For<IBusQueueReciever>();
             new ServiceBusQueuePoller<object>(queue);
-
         }
 
         [Test]
@@ -27,12 +26,11 @@
             new ServiceBusQueuePoller<object>(null);
         }
 
-
         [Test]
         public async Task Poll()
         {
             var msg = new BrokeredMessage("data");
-            var queue = Substitute.For<IBusQueue>();
+            var queue = Substitute.For<IBusQueueReciever>();
             queue.Get().Returns(Task.FromResult(msg));
 
             var poller = new ServiceBusQueuePoller<object>(queue);
@@ -46,7 +44,7 @@
         [Test]
         public async Task PollGetNull()
         {
-            var queue = Substitute.For<IBusQueue>();
+            var queue = Substitute.For<IBusQueueReciever>();
             queue.Get().Returns(Task.FromResult<BrokeredMessage>(null));
 
             var poller = new ServiceBusQueuePoller<object>(queue);
@@ -62,7 +60,7 @@
         public async Task PollGetThrows()
         {
             var msg = new BrokeredMessage("data");
-            var queue = Substitute.For<IBusQueue>();
+            var queue = Substitute.For<IBusQueueReciever>();
             queue.Get().Returns(x => { throw new ApplicationException(); });
 
             var poller = new ServiceBusQueuePoller<object>(queue);
@@ -78,7 +76,7 @@
             msgs.Add(msg);
             msgs.Add(msg);
 
-            var queue = Substitute.For<IBusQueue>();
+            var queue = Substitute.For<IBusQueueReciever>();
             queue.GetMany(3).Returns(Task.FromResult<IEnumerable<BrokeredMessage>>(msgs));
 
             var poller = new ServiceBusQueuePoller<object>(queue);
@@ -93,7 +91,7 @@
         [Test]
         public async Task PollGetManyNull()
         {
-            var queue = Substitute.For<IBusQueue>();
+            var queue = Substitute.For<IBusQueueReciever>();
             queue.GetMany(3).Returns(Task.FromResult<IEnumerable<BrokeredMessage>>(null));
 
             var poller = new ServiceBusQueuePoller<object>(queue);
@@ -109,7 +107,7 @@
         public async Task PollGetManyThrows()
         {
             var msg = new BrokeredMessage("data");
-            var queue = Substitute.For<IBusQueue>();
+            var queue = Substitute.For<IBusQueueReciever>();
             queue.GetMany().Returns(x => { throw new ApplicationException(); });
 
             var poller = new ServiceBusQueuePoller<object>(queue);

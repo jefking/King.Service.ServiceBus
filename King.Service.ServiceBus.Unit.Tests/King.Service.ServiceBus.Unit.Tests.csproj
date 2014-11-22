@@ -49,6 +49,8 @@
     <Compile Include="BusDequeueBatchTests.cs" />
     <Compile Include="BusDequeueTests.cs" />
     <Compile Include="BusEventsTests.cs" />
+    <Compile Include="BusQueueRecieverTests.cs" />
+    <Compile Include="BusQueueSenderTests.cs" />
     <Compile Include="BusQueueTests.cs" />
     <Compile Include="InitializeBusQueueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -58,9 +60,6 @@
   <ItemGroup>
     <Reference Include="King.Azure">
       <HintPath>..\King.Service.ServiceBus\packages\King.Azure.1.1.14\lib\net451\King.Azure.dll</HintPath>
-    </Reference>
-    <Reference Include="King.Service">
-      <HintPath>..\King.Service.ServiceBus\packages\King.Service.1.8.5\lib\net451\King.Service.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
