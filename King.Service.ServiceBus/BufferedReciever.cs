@@ -8,9 +8,9 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    /// 
+    /// Buffered Reciever
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Type</typeparam>
     public class BufferedReciever<T> : BusEvents<T>
     {
         #region Members
