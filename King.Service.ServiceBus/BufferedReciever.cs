@@ -61,7 +61,10 @@
         {
             var buffered = message.GetBody<IBufferedMessage>();
 
-            this.sleep.Until(buffered.ReleaseAt);
+            if (DateTime.UtcNow < buffered.ReleaseAt)
+            {
+                this.sleep.Until(buffered.ReleaseAt);
+            }
 
             var success = await this.eventHandler.Process((T)buffered.Data);
             if (success)
