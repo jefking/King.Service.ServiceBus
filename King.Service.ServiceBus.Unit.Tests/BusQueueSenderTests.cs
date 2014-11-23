@@ -62,7 +62,7 @@
         public async Task SendForBufferAt()
         {
             var queue = new BusQueueSender(Guid.NewGuid().ToString(), connection);
-            await queue.Send(new BufferedMessage());
+            await queue.Send((BufferedMessage)null);
         }
 
         [Test]
@@ -87,7 +87,7 @@
             client.Send(Arg.Any<BrokeredMessage>());
 
             var q = new BusQueueSender(Guid.NewGuid().ToString(), m, client);
-            await q.Send(new BufferedMessage());
+            await q.Send(new BufferedMessage() { ReleaseAt = DateTime.UtcNow });
 
             client.Received().Send(Arg.Any<BrokeredMessage>());
         }

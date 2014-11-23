@@ -7,6 +7,10 @@
     using System.Diagnostics;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class BufferedReciever<T> : BusEvents<T>
     {
         #region Members
@@ -48,6 +52,11 @@
         #endregion
 
         #region Methods
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
         public override async Task OnMessageArrived(BrokeredMessage message)
         {
             var buffered = message.GetBody<IBufferedMessage>();
