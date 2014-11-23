@@ -1,6 +1,7 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests
 {
     using King.Service.ServiceBus;
+    using King.Service.ServiceBus.Unit.Tests.Models;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
@@ -61,7 +62,7 @@
         public async Task SendForBufferAt()
         {
             var queue = new BusQueueSender(Guid.NewGuid().ToString(), connection);
-            await queue.SendForBuffer(null, DateTime.UtcNow);
+            await queue.Send(new BufferedMessage());
         }
 
         [Test]
@@ -86,7 +87,7 @@
             client.Send(Arg.Any<BrokeredMessage>());
 
             var q = new BusQueueSender(Guid.NewGuid().ToString(), m, client);
-            await q.SendForBuffer(Guid.NewGuid(), DateTime.UtcNow);
+            await q.Send(new BufferedMessage());
 
             client.Received().Send(Arg.Any<BrokeredMessage>());
         }
