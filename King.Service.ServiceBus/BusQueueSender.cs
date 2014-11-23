@@ -135,13 +135,7 @@
                 throw new ArgumentNullException("message");
             }
 
-            var msg = new BrokeredMessage(message)
-            {
-                ScheduledEnqueueTimeUtc = message.ReleaseAt.Subtract(TimeSpan.FromMilliseconds(100)),
-                ContentType = message.GetType().ToString(),
-            };
-
-            await this.Send(msg);
+            await this.Send(message, message.ReleaseAt.AddMilliseconds(-100));
         }
         #endregion
     }
