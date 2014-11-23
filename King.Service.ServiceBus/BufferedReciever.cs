@@ -26,8 +26,8 @@
         /// </summary>
         /// <param name="queue">Queue</param>
         /// <param name="eventHandler">Event Handler</param>
-        /// <param name="concurrentCalls">Concurrent Calls (Default 10)</param>
-        public BufferedReciever(IBusQueueReciever queue, IBusEventHandler<T> eventHandler, byte concurrentCalls = 10)
+        /// <param name="concurrentCalls">Concurrent Calls</param>
+        public BufferedReciever(IBusQueueReciever queue, IBusEventHandler<T> eventHandler, byte concurrentCalls = BusEvents<T>.DefaultConcurrentCalls)
             : this(queue, eventHandler, new Sleep(), concurrentCalls)
         {
         }
@@ -38,8 +38,8 @@
         /// <param name="queue">Queue</param>
         /// <param name="eventHandler">Event Handler</param>
         /// <param name="sleep"></param>
-        /// <param name="concurrentCalls">Concurrent Calls (Default 10)</param>
-        public BufferedReciever(IBusQueueReciever queue, IBusEventHandler<T> eventHandler, ISleep sleep, byte concurrentCalls = 10)
+        /// <param name="concurrentCalls">Concurrent Calls</param>
+        public BufferedReciever(IBusQueueReciever queue, IBusEventHandler<T> eventHandler, ISleep sleep, byte concurrentCalls = BusEvents<T>.DefaultConcurrentCalls)
             : base(queue, eventHandler, concurrentCalls)
         {
             if (null == sleep)

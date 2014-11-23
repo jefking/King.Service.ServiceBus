@@ -24,7 +24,12 @@
         /// <summary>
         /// Maximum Concurrent Calls
         /// </summary>
-        protected readonly byte concurrentCalls = 10;
+        protected readonly byte concurrentCalls = DefaultConcurrentCalls;
+
+        /// <summary>
+        /// Default Concurrent Calls
+        /// </summary>
+        public const byte DefaultConcurrentCalls = 25;
         #endregion
 
         #region Constructors
@@ -33,8 +38,8 @@
         /// </summary>
         /// <param name="queue">Queue</param>
         /// <param name="eventHandler">Event Handler</param>
-        /// <param name="concurrentCalls">Concurrent Calls (Default 10)</param>
-        public BusEvents(IBusQueueReciever queue, IBusEventHandler<T> eventHandler, byte concurrentCalls = 10)
+        /// <param name="concurrentCalls">Concurrent Calls</param>
+        public BusEvents(IBusQueueReciever queue, IBusEventHandler<T> eventHandler, byte concurrentCalls = DefaultConcurrentCalls)
         {
             if (null == queue)
             {
