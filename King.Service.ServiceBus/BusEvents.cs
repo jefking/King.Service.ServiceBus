@@ -77,7 +77,7 @@
         /// <param name="message">Brokered Message</param>
         public virtual async Task OnMessageArrived(BrokeredMessage message)
         {
-            var data = this.GetBody(message);
+            var data = message.GetBody<T>();
             var success = await this.eventHandler.Process(data);
             if (success)
             {
@@ -87,31 +87,6 @@
             {
                 throw new InvalidOperationException("Message not processed");
             }
-        }
-
-        /// <summary>
-        /// Get Body
-        /// </summary>
-        /// <param name="brokeredMessage">Brokered Message</param>
-        /// <returns>Type</returns>
-        public virtual T GetBody(BrokeredMessage brokeredMessage)
-        {
-            if (null == brokeredMessage)
-            {
-                throw new ArgumentNullException("brokeredMessage");
-            }
-            if (string.IsNullOrWhiteSpace(brokeredMessage.ContentType))
-            {
-                throw new ArgumentException("Content Type");
-            }
-
-            var ct = brokeredMessage.ContentType;
-            var bodyType = Type.GetType(ct, true);
-
-            var stream = brokeredMessage.GetBody<Stream>();
-            var serializer = new DataContractSerializer(bodyType);
-            var reader = XmlDictionaryReader.CreateBinaryReader(stream, XmlDictionaryReaderQuotas.Max);
-            return (T)serializer.ReadObject(reader);
         }
 
         /// <summary>

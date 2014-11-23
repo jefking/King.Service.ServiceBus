@@ -127,29 +127,5 @@
 
             handler.Received(0).OnError(Arg.Any<string>(), Arg.Any<Exception>());
         }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void GetBodyMessageNull()
-        {
-            var queue = Substitute.For<IBusQueueReciever>();
-            var handler = Substitute.For<IBusEventHandler<object>>();
-            
-            var be = new BusEvents<object>(queue, handler);
-            be.GetBody(null);
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void GetBodyContentTypeNull()
-        {
-            var queue = Substitute.For<IBusQueueReciever>();
-            var handler = Substitute.For<IBusEventHandler<Guid>>();
-
-            var msg = new BrokeredMessage(Guid.NewGuid());
-
-            var be = new BusEvents<Guid>(queue, handler);
-            be.GetBody(msg);
-        }
     }
 }
