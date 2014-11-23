@@ -2,9 +2,9 @@
 {
     using System;
 
-    public class BufferedMessage<T> : IBufferedMessage<T>
+    public class BufferedMessage : IBufferedMessage
     {
-        public virtual T Data
+        public virtual object Data
         {
             get;
             set;

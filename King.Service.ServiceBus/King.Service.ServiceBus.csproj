@@ -38,6 +38,7 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BufferedReciever.cs" />
     <Compile Include="BusDequeue.cs" />
     <Compile Include="BusDequeueBatch.cs" />
     <Compile Include="BusEvents.cs" />

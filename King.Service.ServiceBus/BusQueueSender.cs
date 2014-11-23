@@ -1,5 +1,6 @@
 ﻿namespace King.Service.ServiceBus
 {
+    using King.Service.ServiceBus.Unit.Tests.Models;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
@@ -127,7 +128,7 @@
         /// <param name="message">Message</param>
         /// <param name="enqueueAt">Schedule for Enqueue</param>
         /// <returns>Task</returns>
-        public virtual async Task SendForBuffer(object message, DateTime enqueueAt)
+        public virtual async Task Send(IBufferedMessage message)
         {
             if (null == message)
             {
@@ -136,7 +137,7 @@
 
             var msg = new BrokeredMessage(message)
             {
-                ScheduledEnqueueTimeUtc = enqueueAt.Subtract(TimeSpan.FromMilliseconds(100)),
+                ScheduledEnqueueTimeUtc = message.ReleaseAt.Subtract(TimeSpan.FromMilliseconds(100)),
                 ContentType = message.GetType().ToString(),
             };
 

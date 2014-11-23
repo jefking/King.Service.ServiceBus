@@ -1,6 +1,7 @@
 ﻿namespace King.Service.ServiceBus
 {
     using King.Azure.Data;
+    using King.Service.ServiceBus.Unit.Tests.Models;
     using Microsoft.ServiceBus.Messaging;
     using System;
     using System.Collections.Generic;
@@ -101,6 +102,14 @@
         /// <param name="enqueueAt">Schedule for Enqueue</param>
         /// <returns>Task</returns>
         Task Send(object message, DateTime enqueueAt);
+
+        /// <summary>
+        /// Send Message for Buffer
+        /// </summary>
+        /// <param name="message">Message</param>
+        /// <param name="enqueueAt">Schedule for Enqueue</param>
+        /// <returns>Task</returns>
+        Task Send(IBufferedMessage message);
         #endregion
     }
     #endregion

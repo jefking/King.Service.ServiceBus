@@ -2,9 +2,9 @@
 {
     using System;
 
-    public interface IBufferedMessage<T>
+    public interface IBufferedMessage
     {
-        T Data
+        object Data
         {
             get;
         }

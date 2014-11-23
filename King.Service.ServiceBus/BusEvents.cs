@@ -47,7 +47,7 @@
 
             this.queue = queue;
             this.eventHandler = eventHandler;
-            this.concurrentCalls = concurrentCalls;
+            this.concurrentCalls = concurrentCalls < 1 ? (byte)10 : concurrentCalls;
         }
         #endregion
 
