@@ -66,6 +66,8 @@
                 this.sleep.Until(buffered.ReleaseAt);
             }
 
+            Trace.TraceInformation("Message Released at: {0}; should be: {1}.", DateTime.UtcNow, buffered.ReleaseAt);
+
             var success = await this.eventHandler.Process((T)buffered.Data);
             if (success)
             {
