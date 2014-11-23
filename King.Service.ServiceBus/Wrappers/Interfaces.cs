@@ -23,7 +23,7 @@
         /// </summary>
         /// <param name="serverWaitTime">Server Wait Time</param>
         /// <returns>Brokered Message</returns>
-        Task<BrokeredMessage> Receive(TimeSpan serverWaitTime);
+        Task<BrokeredMessage> Recieve(TimeSpan serverWaitTime);
 
         /// <summary>
         /// Recieve Batch
@@ -31,7 +31,7 @@
         /// <param name="messageCount">Message Count</param>
         /// <param name="serverWaitTime">Server Wait Time</param>
         /// <returns>Brokered Messages</returns>
-        Task<IEnumerable<BrokeredMessage>> ReceiveBatch(int messageCount, TimeSpan serverWaitTime);
+        Task<IEnumerable<BrokeredMessage>> RecieveBatch(int messageCount, TimeSpan serverWaitTime);
 
         /// <summary>
         /// On Message

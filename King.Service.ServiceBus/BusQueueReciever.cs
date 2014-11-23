@@ -54,7 +54,7 @@
             {
                 try
                 {
-                    return await base.client.Receive(serverWaitTime);
+                    return await base.client.Recieve(serverWaitTime);
                 }
                 catch (MessagingException ex)
                 {
@@ -84,7 +84,7 @@
             {
                 try
                 {
-                    return await this.client.ReceiveBatch(messageCount, serverWaitTime);
+                    return await this.client.RecieveBatch(messageCount, serverWaitTime);
                 }
                 catch (MessagingException ex)
                 {

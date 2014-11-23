@@ -59,7 +59,7 @@
         {
             var m = NamespaceManager.CreateFromConnectionString(connection);
             var client = Substitute.For<IBusQueueClient>();
-            client.When(c => c.Receive(Arg.Any<TimeSpan>())).Do(x => { throw new Exception(); });
+            client.When(c => c.Recieve(Arg.Any<TimeSpan>())).Do(x => { throw new Exception(); });
 
             var q = new BusQueueReciever(Guid.NewGuid().ToString(), m, client);
             await q.Get();
@@ -72,7 +72,7 @@
             var m = NamespaceManager.CreateFromConnectionString(connection);
             var first = true;
             var client = Substitute.For<IBusQueueClient>();
-            client.When(c => c.Receive(Arg.Any<TimeSpan>())).Do(x =>
+            client.When(c => c.Recieve(Arg.Any<TimeSpan>())).Do(x =>
             {
                 var tmp = first;
                 first = false;
@@ -89,7 +89,7 @@
         {
             var m = NamespaceManager.CreateFromConnectionString(connection);
             var client = Substitute.For<IBusQueueClient>();
-            client.When(c => c.ReceiveBatch(5, Arg.Any<TimeSpan>())).Do(x => { throw new Exception(); });
+            client.When(c => c.RecieveBatch(5, Arg.Any<TimeSpan>())).Do(x => { throw new Exception(); });
 
             var q = new BusQueueReciever(Guid.NewGuid().ToString(), m, client);
             await q.GetMany();
@@ -102,7 +102,7 @@
             var m = NamespaceManager.CreateFromConnectionString(connection);
             var first = true;
             var client = Substitute.For<IBusQueueClient>();
-            client.When(c => c.ReceiveBatch(5, Arg.Any<TimeSpan>())).Do(x =>
+            client.When(c => c.RecieveBatch(5, Arg.Any<TimeSpan>())).Do(x =>
             {
                 var tmp = first;
                 first = false;

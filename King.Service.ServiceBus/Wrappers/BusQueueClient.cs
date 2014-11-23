@@ -49,7 +49,7 @@
         /// </summary>
         /// <param name="serverWaitTime">Server Wait Time</param>
         /// <returns>Brokered Message</returns>
-        public virtual async Task<BrokeredMessage> Receive(TimeSpan serverWaitTime)
+        public virtual async Task<BrokeredMessage> Recieve(TimeSpan serverWaitTime)
         {
             return await this.client.ReceiveAsync(serverWaitTime);
         }
@@ -60,7 +60,7 @@
         /// <param name="messageCount">Message Count</param>
         /// <param name="serverWaitTime">Server Wait Time</param>
         /// <returns>Brokered Messages</returns>
-        public virtual async Task<IEnumerable<BrokeredMessage>> ReceiveBatch(int messageCount, TimeSpan serverWaitTime)
+        public virtual async Task<IEnumerable<BrokeredMessage>> RecieveBatch(int messageCount, TimeSpan serverWaitTime)
         {
             return await this.client.ReceiveBatchAsync(messageCount, serverWaitTime);
         }

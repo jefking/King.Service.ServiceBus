@@ -45,7 +45,7 @@
             var msg = new BrokeredMessage(expected);
             var bq = new BusQueueClient(QueueClient.CreateFromConnectionString(connection, queue.Name));
             await bq.Send(msg);
-            var resultMsg = await bq.Receive(TimeSpan.FromSeconds(10));
+            var resultMsg = await bq.Recieve(TimeSpan.FromSeconds(10));
             var result = resultMsg.GetBody<Guid>();
             Assert.AreEqual(expected, result);
         }
@@ -65,7 +65,7 @@
                 sent.Add(expected);
             }
 
-            var got = await bq.ReceiveBatch(count, TimeSpan.FromSeconds(10));
+            var got = await bq.RecieveBatch(count, TimeSpan.FromSeconds(10));
             foreach (var msg in got)
             {
                 var result = msg.GetBody<Guid>();

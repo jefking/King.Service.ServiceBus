@@ -57,6 +57,41 @@
         }
 
         [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public async Task SendForBufferAt()
+        {
+            var queue = new BusQueueSender(Guid.NewGuid().ToString(), connection);
+            await queue.SendForBuffer(null, DateTime.UtcNow);
+        }
+
+        [Test]
+        public async Task Send()
+        {
+            var msg = new BrokeredMessage();
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var client = Substitute.For<IBusQueueClient>();
+            client.Send(msg);
+
+            var q = new BusQueueSender(Guid.NewGuid().ToString(), m, client);
+            await q.Send(msg);
+
+            client.Received().Send(msg);
+        }
+
+        [Test]
+        public async Task SendForBuffer()
+        {
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var client = Substitute.For<IBusQueueClient>();
+            client.Send(Arg.Any<BrokeredMessage>());
+
+            var q = new BusQueueSender(Guid.NewGuid().ToString(), m, client);
+            await q.SendForBuffer(Guid.NewGuid(), DateTime.UtcNow);
+
+            client.Received().Send(Arg.Any<BrokeredMessage>());
+        }
+
+        [Test]
         [ExpectedException(typeof(Exception))]
         public async Task SendThrows()
         {

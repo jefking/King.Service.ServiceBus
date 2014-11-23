@@ -100,7 +100,7 @@
         }
 
         /// <summary>
-        /// Send Message with Retry
+        /// Send Message
         /// </summary>
         /// <param name="message">Message</param>
         /// <param name="enqueueAt">Schedule for Enqueue</param>
@@ -115,6 +115,28 @@
             var msg = new BrokeredMessage(message)
             {
                 ScheduledEnqueueTimeUtc = enqueueAt,
+                ContentType = message.GetType().ToString(),
+            };
+
+            await this.Send(msg);
+        }
+
+        /// <summary>
+        /// Send Message for Buffer
+        /// </summary>
+        /// <param name="message">Message</param>
+        /// <param name="enqueueAt">Schedule for Enqueue</param>
+        /// <returns>Task</returns>
+        public virtual async Task SendForBuffer(object message, DateTime enqueueAt)
+        {
+            if (null == message)
+            {
+                throw new ArgumentNullException("message");
+            }
+
+            var msg = new BrokeredMessage(message)
+            {
+                ScheduledEnqueueTimeUtc = enqueueAt.Subtract(TimeSpan.FromMilliseconds(100)),
                 ContentType = message.GetType().ToString(),
             };
 
