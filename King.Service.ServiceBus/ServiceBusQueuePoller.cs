@@ -1,6 +1,7 @@
 ﻿namespace King.Service.ServiceBus
 {
     using King.Azure.Data;
+    using King.Service.ServiceBus.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;

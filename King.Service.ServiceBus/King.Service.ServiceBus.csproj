@@ -50,7 +50,7 @@
     <Compile Include="Models\BufferedMessage.cs" />
     <Compile Include="Models\Interfaces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Queued.cs" />
+    <Compile Include="Models\Queued.cs" />
     <Compile Include="ServiceBusQueuePoller.cs" />
     <Compile Include="Timing\Interfaces.cs" />
     <Compile Include="Timing\Sleep.cs" />
