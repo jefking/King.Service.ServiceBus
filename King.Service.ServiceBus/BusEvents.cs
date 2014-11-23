@@ -72,6 +72,7 @@
         /// This event will be called each time a message arrives.
         /// </summary>
         /// <param name="message">Brokered Message</param>
+        /// <returns>Task</returns>
         public virtual async Task OnMessageArrived(BrokeredMessage message)
         {
             var data = message.GetBody<T>();

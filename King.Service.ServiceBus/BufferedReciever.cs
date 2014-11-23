@@ -53,10 +53,10 @@
 
         #region Methods
         /// <summary>
-        /// 
+        /// This event will be called each time a message arrives.
         /// </summary>
-        /// <param name="message"></param>
-        /// <returns></returns>
+        /// <param name="message">Brokered Message</param>
+        /// <returns>Task</returns>
         public override async Task OnMessageArrived(BrokeredMessage message)
         {
             var buffered = message.GetBody<IBufferedMessage>();
