@@ -1,5 +1,6 @@
 ﻿namespace King.Service.ServiceBus
 {
+    using King.Service.ServiceBus.Models;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
