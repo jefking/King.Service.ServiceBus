@@ -61,5 +61,27 @@
             handler.Received().Process(d.Data);
             sleep.Received().Until(d.ReleaseAt);
         }
+
+        [Test]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public async Task OnMessageArrivedNoSuccess()
+        {
+            var d = new BufferedMessage
+            {
+                ReleaseAt = DateTime.UtcNow,
+                Data = Guid.NewGuid(),
+            };
+            var msg = new BrokeredMessage(d);
+
+            var queue = Substitute.For<IBusQueueReciever>();
+            var handler = Substitute.For<IBusEventHandler<object>>();
+            handler.Process(d.Data).Returns(Task.FromResult(false));
+            var sleep = Substitute.For<ISleep>();
+            sleep.Until(d.ReleaseAt);
+
+            var br = new BufferedReciever<object>(queue, handler, sleep);
+            await br.OnMessageArrived(msg);
+
+        }
     }
 }
