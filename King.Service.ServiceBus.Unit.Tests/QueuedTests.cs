@@ -1,6 +1,7 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests
 {
     using King.Service.ServiceBus;
+    using King.Service.ServiceBus.Models;
     using Microsoft.ServiceBus.Messaging;
     using NUnit.Framework;
     using System;

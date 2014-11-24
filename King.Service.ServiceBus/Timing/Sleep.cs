@@ -15,8 +15,11 @@
         /// <param name="time">Time</param>
         public void Until(DateTime time)
         {
-            var duration = time.Subtract(DateTime.UtcNow);
-            Thread.Sleep(duration);
+            if (time > DateTime.UtcNow)
+            {
+                var duration = time.Subtract(DateTime.UtcNow);
+                Thread.Sleep(duration);
+            }
         }
         #endregion
     }

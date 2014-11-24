@@ -1,5 +1,6 @@
 ﻿namespace King.Service.ServiceBus.Integration.Test
 {
+    using King.Service.ServiceBus.Models;
     using NUnit.Framework;
     using System;
     using System.Configuration;
