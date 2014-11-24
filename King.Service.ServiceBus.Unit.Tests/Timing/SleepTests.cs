@@ -1,5 +1,6 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests.Timing
 {
+    using King.Service.ServiceBus.Timing;
     using NUnit.Framework;
     using System;
     using System.Collections.Generic;

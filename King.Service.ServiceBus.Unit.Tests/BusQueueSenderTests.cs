@@ -1,7 +1,7 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests
 {
     using King.Service.ServiceBus;
-    using King.Service.ServiceBus.Unit.Tests.Models;
+    using King.Service.ServiceBus.Models;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;

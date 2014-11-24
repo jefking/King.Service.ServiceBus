@@ -1,7 +1,7 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests
 {
-    using King.Service.ServiceBus.Unit.Tests.Models;
-    using King.Service.ServiceBus.Unit.Tests.Timing;
+    using King.Service.ServiceBus.Models;
+    using King.Service.ServiceBus.Timing;
     using Microsoft.ServiceBus.Messaging;
     using NSubstitute;
     using NUnit.Framework;
@@ -45,7 +45,7 @@
             var d = new BufferedMessage
             {
                 ReleaseAt = DateTime.UtcNow,
-                Data = Guid.NewGuid(),
+                Data = Guid.NewGuid().ToString(),
             };
             var msg = new BrokeredMessage(d);
 
@@ -69,7 +69,7 @@
             var d = new BufferedMessage
             {
                 ReleaseAt = DateTime.UtcNow,
-                Data = Guid.NewGuid(),
+                Data = Guid.NewGuid().ToString(),
             };
             var msg = new BrokeredMessage(d);
 
