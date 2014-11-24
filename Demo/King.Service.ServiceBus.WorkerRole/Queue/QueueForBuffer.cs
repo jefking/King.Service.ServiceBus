@@ -1,8 +1,8 @@
 ﻿namespace King.Service.WorkerRole.Queue
 {
     using King.Service.ServiceBus;
+    using King.Service.ServiceBus.Models;
     using King.Service.ServiceBus.Queue;
-    using King.Service.ServiceBus.Unit.Tests.Models;
     using System;
     using System.Diagnostics;
 
@@ -21,19 +21,17 @@
 
         public override void Run()
         {
-            var model = new ExampleModel()
+            var b = new BufferedMessage<ExampleModel>()
             {
-                Identifier = Guid.NewGuid(),
-                Action = "Buffered",
-            };
-
-            var b = new BufferedMessage()
-            {
-                Data = model,
+                Data = new ExampleModel()
+                {
+                    Identifier = Guid.NewGuid(),
+                    Action = "Buffered",
+                },
                 ReleaseAt = DateTime.UtcNow.AddSeconds(30),
             };
 
-            Trace.TraceInformation("Sending to queue for {0}: '{1}'", model.Action, model.Identifier);
+            Trace.TraceInformation("Sending to queue for {0}: '{1}'", b.Data.Action, b.Data.Identifier);
 
             client.Send(b).Wait();
         }

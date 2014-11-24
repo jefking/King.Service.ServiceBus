@@ -59,13 +59,13 @@
         /// <returns>Task</returns>
         public override async Task OnMessageArrived(BrokeredMessage message)
         {
-            var buffered = message.GetBody<BufferedMessage>();
+            var buffered = message.GetBody<BufferedMessage<T>>();
 
             this.sleep.Until(buffered.ReleaseAt);
 
             Trace.TraceInformation("Message Released at: {0}; should be: {1}.", DateTime.UtcNow, buffered.ReleaseAt);
 
-            var success = await this.eventHandler.Process((T)buffered.Data);
+            var success = await this.eventHandler.Process(buffered.Data);
             if (success)
             {
                 Trace.TraceInformation("Message processed successfully");

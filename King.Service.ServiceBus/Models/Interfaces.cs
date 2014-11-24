@@ -6,13 +6,13 @@
     /// <summary>
     /// Buffered Message Interface
     /// </summary>
-    public interface IBufferedMessage
+    public interface IBufferedMessage<T>
     {
         #region Properties
         /// <summary>
         /// Data
         /// </summary>
-        object Data
+        T Data
         {
             get;
         }

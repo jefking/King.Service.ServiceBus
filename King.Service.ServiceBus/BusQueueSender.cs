@@ -128,7 +128,7 @@
         /// <param name="message">Message</param>
         /// <param name="enqueueAt">Schedule for Enqueue</param>
         /// <returns>Task</returns>
-        public virtual async Task Send(IBufferedMessage message)
+        public virtual async Task Send<T>(IBufferedMessage<T> message)
         {
             if (null == message)
             {

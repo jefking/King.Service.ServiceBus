@@ -6,13 +6,13 @@
     /// <summary>
     /// Buffered Message
     /// </summary>
-    public class BufferedMessage : IBufferedMessage
+    public class BufferedMessage<T> : IBufferedMessage<T>
     {
         #region Properties
         /// <summary>
         /// Data
         /// </summary>
-        public virtual object Data
+        public virtual T Data
         {
             get;
             set;
