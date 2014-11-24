@@ -19,6 +19,15 @@
         }
 
         [Test]
+        public void ConstructorConcurrentOne()
+        {
+            var queue = Substitute.For<IBusQueueReciever>();
+            var handler = Substitute.For<IBusEventHandler<object>>();
+            var be = new BusEvents<object>(queue, handler, 1);
+            Assert.AreEqual(BusEvents<object>.DefaultConcurrentCalls, be.ConcurrentCalls);
+        }
+
+        [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorNameNull()
         {

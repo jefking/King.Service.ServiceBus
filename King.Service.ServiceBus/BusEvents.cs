@@ -52,7 +52,20 @@
 
             this.queue = queue;
             this.eventHandler = eventHandler;
-            this.concurrentCalls = concurrentCalls < 1 ? (byte)10 : concurrentCalls;
+            this.concurrentCalls = concurrentCalls <= 5 ? DefaultConcurrentCalls : concurrentCalls;
+        }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Maximum Concurrent Calls
+        /// </summary>
+        public byte ConcurrentCalls
+        {
+            get
+            {
+                return this.concurrentCalls;
+            }
         }
         #endregion
 
