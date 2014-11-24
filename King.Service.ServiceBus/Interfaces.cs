@@ -109,7 +109,7 @@
         /// <param name="message">Message</param>
         /// <param name="enqueueAt">Schedule for Enqueue</param>
         /// <returns>Task</returns>
-        Task Send<T>(IBufferedMessage<T> message);
+        Task SendBuffered(object data, DateTime releaseAt);
         #endregion
     }
     #endregion

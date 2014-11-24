@@ -3,6 +3,7 @@
     using King.Service.ServiceBus.Models;
     using King.Service.ServiceBus.Timing;
     using Microsoft.ServiceBus.Messaging;
+    using Newtonsoft.Json;
     using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
@@ -59,13 +60,14 @@
         /// <returns>Task</returns>
         public override async Task OnMessageArrived(BrokeredMessage message)
         {
-            var buffered = message.GetBody<BufferedMessage<T>>();
+            var buffered = message.GetBody<BufferedMessage>();
 
             this.sleep.Until(buffered.ReleaseAt);
 
             Trace.TraceInformation("Message Released at: {0}; should be: {1}.", DateTime.UtcNow, buffered.ReleaseAt);
 
-            var success = await this.eventHandler.Process(buffered.Data);
+            var obj = JsonConvert.DeserializeObject<T>(buffered.Data);
+            var success = await this.eventHandler.Process(obj);
             if (success)
             {
                 Trace.TraceInformation("Message processed successfully");

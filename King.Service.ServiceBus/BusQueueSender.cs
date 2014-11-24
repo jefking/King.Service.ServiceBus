@@ -4,6 +4,7 @@
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
+    using Newtonsoft.Json;
     using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
@@ -128,14 +129,20 @@
         /// <param name="message">Message</param>
         /// <param name="enqueueAt">Schedule for Enqueue</param>
         /// <returns>Task</returns>
-        public virtual async Task Send<T>(IBufferedMessage<T> message)
+        public virtual async Task SendBuffered(object data, DateTime releaseAt)
         {
-            if (null == message)
+            if (null == data)
             {
-                throw new ArgumentNullException("message");
+                throw new ArgumentNullException("data");
             }
 
-            await this.Send(message, message.ReleaseAt.AddMilliseconds(-100));
+            var message = new BufferedMessage
+            {
+                Data = JsonConvert.SerializeObject(data),
+                ReleaseAt = releaseAt.AddMilliseconds(-100),
+            };
+
+            await this.Send(message, message.ReleaseAt);
         }
         #endregion
     }
