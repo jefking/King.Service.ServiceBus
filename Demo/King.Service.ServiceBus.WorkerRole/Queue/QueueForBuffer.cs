@@ -21,19 +21,15 @@
 
         public override void Run()
         {
-            var b = new BufferedMessage<ExampleModel>()
+            var model = new ExampleModel
             {
-                Data = new ExampleModel()
-                {
-                    Identifier = Guid.NewGuid(),
-                    Action = "Buffered",
-                },
-                ReleaseAt = DateTime.UtcNow.AddSeconds(30),
+                Identifier = Guid.NewGuid(),
+                Action = "Buffered",
             };
 
-            Trace.TraceInformation("Sending to queue for {0}: '{1}'", b.Data.Action, b.Data.Identifier);
+            Trace.TraceInformation("Sending to queue for {0}: '{1}'", model.Action, model.Identifier);
 
-            client.Send(b).Wait();
+            client.SendBuffered(model, DateTime.UtcNow.AddSeconds(30)).Wait();
         }
     }
 }
