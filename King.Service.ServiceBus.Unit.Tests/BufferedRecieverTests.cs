@@ -3,6 +3,7 @@
     using King.Service.ServiceBus.Models;
     using King.Service.ServiceBus.Timing;
     using Microsoft.ServiceBus.Messaging;
+    using Newtonsoft.Json;
     using NSubstitute;
     using NUnit.Framework;
     using System;
@@ -42,23 +43,24 @@
         [Test]
         public async Task OnMessageArrived()
         {
+            var g = Guid.NewGuid();
             var d = new BufferedMessage
             {
                 ReleaseAt = DateTime.UtcNow,
-                Data = Guid.NewGuid().ToString(),
+                Data = JsonConvert.SerializeObject(g),
             };
             var msg = new BrokeredMessage(d);
 
             var queue = Substitute.For<IBusQueueReciever>();
-            var handler = Substitute.For<IBusEventHandler<object>>();
-            handler.Process(d.Data).Returns(Task.FromResult(true));
+            var handler = Substitute.For<IBusEventHandler<Guid>>();
+            handler.Process(g).Returns(Task.FromResult(true));
             var sleep = Substitute.For<ISleep>();
             sleep.Until(d.ReleaseAt);
 
-            var br = new BufferedReciever<object>(queue, handler, sleep);
+            var br = new BufferedReciever<Guid>(queue, handler, sleep);
             await br.OnMessageArrived(msg);
 
-            handler.Received().Process(d.Data);
+            handler.Received().Process(g);
             sleep.Received().Until(d.ReleaseAt);
         }
 
@@ -66,20 +68,21 @@
         [ExpectedException(typeof(InvalidOperationException))]
         public async Task OnMessageArrivedNoSuccess()
         {
+            var g = Guid.NewGuid();
             var d = new BufferedMessage
             {
                 ReleaseAt = DateTime.UtcNow,
-                Data = Guid.NewGuid().ToString(),
+                Data = JsonConvert.SerializeObject(Guid.NewGuid()),
             };
             var msg = new BrokeredMessage(d);
 
             var queue = Substitute.For<IBusQueueReciever>();
-            var handler = Substitute.For<IBusEventHandler<object>>();
-            handler.Process(d.Data).Returns(Task.FromResult(false));
+            var handler = Substitute.For<IBusEventHandler<Guid>>();
+            handler.Process(g).Returns(Task.FromResult(false));
             var sleep = Substitute.For<ISleep>();
             sleep.Until(d.ReleaseAt);
 
-            var br = new BufferedReciever<object>(queue, handler, sleep);
+            var br = new BufferedReciever<Guid>(queue, handler, sleep);
             await br.OnMessageArrived(msg);
 
         }
