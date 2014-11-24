@@ -46,6 +46,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="BufferedRecieverTests.cs" />
     <Compile Include="BusDequeueBatchTests.cs" />
     <Compile Include="BusDequeueTests.cs" />
     <Compile Include="BusEventsTests.cs" />

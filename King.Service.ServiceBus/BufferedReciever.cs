@@ -59,12 +59,9 @@
         /// <returns>Task</returns>
         public override async Task OnMessageArrived(BrokeredMessage message)
         {
-            var buffered = message.GetBody<IBufferedMessage>();
+            var buffered = message.GetBody<BufferedMessage>();
 
-            if (DateTime.UtcNow < buffered.ReleaseAt)
-            {
-                this.sleep.Until(buffered.ReleaseAt);
-            }
+            this.sleep.Until(buffered.ReleaseAt);
 
             Trace.TraceInformation("Message Released at: {0}; should be: {1}.", DateTime.UtcNow, buffered.ReleaseAt);
 

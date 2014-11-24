@@ -1,6 +1,7 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests.Models
 {
     using System;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Buffered Message
