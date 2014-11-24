@@ -2,22 +2,20 @@
 {
     using King.Service.ServiceBus;
     using King.Service.ServiceBus.Queue;
+    using King.Service.ServiceBus.Unit.Tests.Models;
     using System;
     using System.Diagnostics;
 
-    public class QueueForAction : RecurringTask
+    public class QueueForBuffer : RecurringTask
     {
         #region Members
         private readonly IBusQueueSender client;
-
-        private readonly string action = null;
         #endregion
 
         #region Constructors
-        public QueueForAction(IBusQueueSender client, string action)
+        public QueueForBuffer(IBusQueueSender client)
         {
             this.client = client;
-            this.action = action;
         }
         #endregion
 
@@ -26,12 +24,18 @@
             var model = new ExampleModel()
             {
                 Identifier = Guid.NewGuid(),
-                Action = action,
+                Action = "Buffered",
+            };
+
+            var b = new BufferedMessage()
+            {
+                Data = model,
+                ReleaseAt = DateTime.UtcNow.AddSeconds(30),
             };
 
             Trace.TraceInformation("Sending to queue for {0}: '{1}'", model.Action, model.Identifier);
 
-            client.Send(model).Wait();
+            client.Send(b).Wait();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace King.Service.ServiceBus.Unit.Tests.Timing
+﻿namespace King.Service.ServiceBus.Timing
 {
     using System;
 

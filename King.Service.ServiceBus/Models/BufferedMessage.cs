@@ -1,4 +1,4 @@
-﻿namespace King.Service.ServiceBus.Unit.Tests.Models
+﻿namespace King.Service.ServiceBus.Models
 {
     using System;
     using System.Runtime.Serialization;

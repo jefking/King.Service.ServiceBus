@@ -12,6 +12,11 @@
             get;
             set;
         }
+        public string BufferedEventsName
+        {
+            get;
+            set;
+        }
         public string Connection
         {
             get;

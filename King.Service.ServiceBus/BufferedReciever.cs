@@ -1,7 +1,7 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using King.Service.ServiceBus.Unit.Tests.Models;
-    using King.Service.ServiceBus.Unit.Tests.Timing;
+    using King.Service.ServiceBus.Models;
+    using King.Service.ServiceBus.Timing;
     using Microsoft.ServiceBus.Messaging;
     using System;
     using System.Diagnostics;
