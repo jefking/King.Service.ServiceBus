@@ -6,7 +6,7 @@
     using System.Collections.Generic;
 
     /// <summary>
-    /// Facotry
+    /// Factory
     /// </summary>
     public class Factory : ITaskFactory<Configuration>
     {
