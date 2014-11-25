@@ -142,7 +142,7 @@
                 ReleaseAt = releaseAt,
             };
 
-            await this.Send(message, releaseAt.AddSeconds(-4));
+            await this.Send(message, releaseAt.AddSeconds(-1));
         }
         #endregion
     }
