@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>King.Service.ServiceBus</id>
-        <version>1.0.3</version>
+        <version>1.0.4</version>
         <title>King.Service.ServiceBus</title>
         <authors>Jef King</authors>
         <owners>Jef King</owners>
@@ -12,7 +12,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Task scheduling for Azure and Windows Servers: Service Bus.</description>
         <summary>Task scheduling for Azure and Windows Servers: Service Bus.</summary>
-        <releaseNotes>Buffered Queue Sending/Recieving</releaseNotes>
+        <releaseNotes>Buffered Queue Sending/Recieving release resolution miliseconds after scheduled time.</releaseNotes>
         <copyright>Jef King</copyright>
         <tags>King.Service.ServiceBus Azure Queue Service Bus service-bus scale auto-scale dynamic-scale dynamic Queuing Background Worker Work Data Processing Table Environment Initialize Task Tasks Dequeue Dequeuing run task service services tasks scheduling King.Service King.Azure</tags>
         <dependencies>
