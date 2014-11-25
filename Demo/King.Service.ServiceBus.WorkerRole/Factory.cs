@@ -19,22 +19,16 @@
         {
             //Connections
             var pollReceiver = new BusQueueReciever(config.PollingName, config.Connection);
-            var pollSender = new BusQueueSender(config.PollingName, config.Connection);
             var eventReciever = new BusQueueReciever(config.EventsName, config.Connection);
-            var eventSender = new BusQueueSender(config.EventsName, config.Connection);
             var bufferReciever = new BusQueueReciever(config.BufferedEventsName, config.Connection);
-            var bufferSender = new BusQueueSender(config.BufferedEventsName, config.Connection);
 
-            //Initialize Polling
+            //Initialize Queues
             yield return new InitializeBusQueue(pollReceiver);
-            yield return new InitializeBusQueue(eventSender);
+            yield return new InitializeBusQueue(eventReciever);
             yield return new InitializeBusQueue(bufferReciever);
 
-            //Load polling dequeue object to run
-            var dequeue = new BusDequeue<ExampleModel>(pollReceiver, new ExampleProcessor());
-
             //Polling Dequeue Runner
-            yield return new AdaptiveRunner(dequeue);
+            yield return new AdaptiveRunner(new BusDequeue<ExampleModel>(pollReceiver, new ExampleProcessor()));
 
             //Task for watching for queue events
             yield return new BusEvents<ExampleModel>(eventReciever, new EventHandler());
@@ -42,10 +36,10 @@
             //Task for recieving queue events to specific times
             yield return new BufferedReciever<ExampleModel>(bufferReciever, new EventHandler());
 
-            //Tasks for queuing work
-            yield return new QueueForAction(pollSender, "Poll");
-            yield return new QueueForAction(eventSender, "Event");
-            yield return new QueueForBuffer(bufferSender);
+            //Simulate messages being added to queues
+            yield return new QueueForAction(new BusQueueSender(config.PollingName, config.Connection), "Poll");
+            yield return new QueueForAction(new BusQueueSender(config.EventsName, config.Connection), "Event");
+            yield return new QueueForBuffer(new BusQueueSender(config.BufferedEventsName, config.Connection));
         }
     }
 }
