@@ -62,11 +62,11 @@
         {
             var buffered = message.GetBody<BufferedMessage>();
 
-            Trace.TraceInformation("Message Got @: {0}; should be: {1}.", DateTime.UtcNow, buffered.ReleaseAt);
+            Trace.TraceInformation("Message timing: {0} before scheduled release.", buffered.ReleaseAt.Subtract(DateTime.UtcNow));
 
             this.sleep.Until(buffered.ReleaseAt);
 
-            Trace.TraceInformation("Message Released @: {0}; should be: {1}.", DateTime.UtcNow, buffered.ReleaseAt);
+            Trace.TraceInformation("Message timing: {0} afer scheduled release.", DateTime.UtcNow.Subtract(buffered.ReleaseAt));
 
             var obj = JsonConvert.DeserializeObject<T>(buffered.Data);
             var success = await this.eventHandler.Process(obj);

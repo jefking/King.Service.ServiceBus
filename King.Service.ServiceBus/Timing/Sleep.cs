@@ -1,6 +1,7 @@
 ﻿namespace King.Service.ServiceBus.Timing
 {
     using System;
+    using System.Diagnostics;
     using System.Threading;
 
     /// <summary>
@@ -18,7 +19,8 @@
             if (time > DateTime.UtcNow)
             {
                 var duration = time.Subtract(DateTime.UtcNow);
-                Thread.Sleep(duration);
+                Trace.TraceInformation("Sleeping for: {0}.", duration);
+                new System.Threading.ManualResetEvent(false).WaitOne(duration);
             }
         }
         #endregion

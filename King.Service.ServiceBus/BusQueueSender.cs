@@ -139,10 +139,10 @@
             var message = new BufferedMessage
             {
                 Data = JsonConvert.SerializeObject(data),
-                ReleaseAt = releaseAt.AddMilliseconds(-100),
+                ReleaseAt = releaseAt,
             };
 
-            await this.Send(message, message.ReleaseAt);
+            await this.Send(message, releaseAt.AddSeconds(-4));
         }
         #endregion
     }
