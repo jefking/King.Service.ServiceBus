@@ -17,9 +17,8 @@
         {
             if (time > DateTime.UtcNow)
             {
-                var duration = time.Subtract(DateTime.UtcNow);
-                Trace.TraceInformation("Sleeping for: {0}.", duration);
-                new System.Threading.ManualResetEvent(false).WaitOne(time.Subtract(DateTime.UtcNow));
+                new System.Threading.ManualResetEvent(false).WaitOne(time.Subtract(DateTime.UtcNow.AddTicks(-1)));
+                while (time > DateTime.UtcNow) { }
             }
         }
         #endregion

@@ -14,6 +14,13 @@
     /// </summary>
     public class BusQueueSender : BusQueue, IBusQueueSender
     {
+        #region Members
+        /// <summary>
+        /// Buffered Offset (Seconds)
+        /// </summary>
+        public const sbyte BufferedOffset = -4;
+        #endregion
+
         #region Constructors
         /// <summary>
         /// Constructor
@@ -142,7 +149,7 @@
                 ReleaseAt = releaseAt,
             };
 
-            await this.Send(message, releaseAt.AddSeconds(-1));
+            await this.Send(message, releaseAt.AddSeconds(BufferedOffset));
         }
         #endregion
     }

@@ -34,6 +34,12 @@
         }
 
         [Test]
+        public void BufferedOffset()
+        {
+            Assert.AreEqual(-4, BusQueueSender.BufferedOffset);
+        }
+
+        [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public async Task SaveObjectNull()
         {

@@ -1,7 +1,6 @@
 ﻿namespace King.Service.WorkerRole.Queue
 {
     using King.Service.ServiceBus;
-    using King.Service.ServiceBus.Models;
     using King.Service.ServiceBus.Queue;
     using System;
     using System.Diagnostics;
@@ -14,6 +13,7 @@
 
         #region Constructors
         public QueueForBuffer(IBusQueueSender client)
+            :base(10, 10)
         {
             this.client = client;
         }
