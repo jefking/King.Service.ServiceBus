@@ -1,7 +1,7 @@
 ﻿namespace King.Service.ServiceBus.Timing
 {
     using System;
-    using System.Diagnostics;
+    using System.Threading;
 
     /// <summary>
     /// Sleep
@@ -17,8 +17,10 @@
         {
             if (time > DateTime.UtcNow)
             {
-                new System.Threading.ManualResetEvent(false).WaitOne(time.Subtract(DateTime.UtcNow.AddTicks(-1)));
-                while (time > DateTime.UtcNow) { }
+                var reset = new ManualResetEvent(false);
+                reset.WaitOne(time.Subtract(DateTime.UtcNow.AddTicks(-1)));
+                
+                while (time >= DateTime.UtcNow) { } //Ensure release is made after specified timing
             }
         }
         #endregion

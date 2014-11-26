@@ -60,7 +60,7 @@
         /// <summary>
         /// Maximum Concurrent Calls
         /// </summary>
-        public byte ConcurrentCalls
+        public virtual byte ConcurrentCalls
         {
             get
             {
