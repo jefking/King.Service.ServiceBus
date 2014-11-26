@@ -7,9 +7,6 @@
     using NSubstitute;
     using NUnit.Framework;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -38,6 +35,12 @@
             var queue = Substitute.For<IBusQueueReciever>();
             var handler = Substitute.For<IBusEventHandler<object>>();
             Assert.IsNotNull(new BufferedReciever<object>(queue, handler) as BusEvents<object>);
+        }
+
+        [Test]
+        public void DefaultConcurrentCalls()
+        {
+            Assert.AreEqual(50, BufferedReciever<object>.DefaultConcurrentCalls);
         }
 
         [Test]

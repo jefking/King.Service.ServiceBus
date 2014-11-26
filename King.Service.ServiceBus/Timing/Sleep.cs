@@ -2,7 +2,6 @@
 {
     using System;
     using System.Diagnostics;
-    using System.Threading;
 
     /// <summary>
     /// Sleep
@@ -20,7 +19,7 @@
             {
                 var duration = time.Subtract(DateTime.UtcNow);
                 Trace.TraceInformation("Sleeping for: {0}.", duration);
-                new System.Threading.ManualResetEvent(false).WaitOne(duration);
+                new System.Threading.ManualResetEvent(false).WaitOne(time.Subtract(DateTime.UtcNow));
             }
         }
         #endregion

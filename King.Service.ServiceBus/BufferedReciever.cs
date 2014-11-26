@@ -19,6 +19,11 @@
         /// Sleep
         /// </summary>
         protected readonly ISleep sleep = null;
+
+        /// <summary>
+        /// Default Concurrent Calls
+        /// </summary>
+        public new const byte DefaultConcurrentCalls = 50;
         #endregion
 
         #region Constructors
@@ -28,7 +33,7 @@
         /// <param name="queue">Queue</param>
         /// <param name="eventHandler">Event Handler</param>
         /// <param name="concurrentCalls">Concurrent Calls</param>
-        public BufferedReciever(IBusQueueReciever queue, IBusEventHandler<T> eventHandler, byte concurrentCalls = BusEvents<T>.DefaultConcurrentCalls)
+        public BufferedReciever(IBusQueueReciever queue, IBusEventHandler<T> eventHandler, byte concurrentCalls = BufferedReciever<T>.DefaultConcurrentCalls)
             : this(queue, eventHandler, new Sleep(), concurrentCalls)
         {
         }
@@ -40,7 +45,7 @@
         /// <param name="eventHandler">Event Handler</param>
         /// <param name="sleep"></param>
         /// <param name="concurrentCalls">Concurrent Calls</param>
-        public BufferedReciever(IBusQueueReciever queue, IBusEventHandler<T> eventHandler, ISleep sleep, byte concurrentCalls = BusEvents<T>.DefaultConcurrentCalls)
+        public BufferedReciever(IBusQueueReciever queue, IBusEventHandler<T> eventHandler, ISleep sleep, byte concurrentCalls = BufferedReciever<T>.DefaultConcurrentCalls)
             : base(queue, eventHandler, concurrentCalls)
         {
             if (null == sleep)
