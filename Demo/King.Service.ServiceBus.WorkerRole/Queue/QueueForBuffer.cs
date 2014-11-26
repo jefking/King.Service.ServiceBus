@@ -13,7 +13,6 @@
 
         #region Constructors
         public QueueForBuffer(IBusQueueSender client)
-            :base(10, 10)
         {
             this.client = client;
         }
