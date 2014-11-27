@@ -54,6 +54,7 @@
     <Compile Include="BusQueueSenderTests.cs" />
     <Compile Include="BusQueueTests.cs" />
     <Compile Include="InitializeBusQueueTests.cs" />
+    <Compile Include="InitializeTopicTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\QueuedTests.cs" />
     <Compile Include="ServiceBusQueuePollerTests.cs" />
