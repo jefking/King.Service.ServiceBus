@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    #region IBusQueueClient
     /// <summary>
     /// Bus Queue Client Wrapper
     /// </summary>
@@ -41,4 +42,5 @@
         void OnMessage(Func<BrokeredMessage, Task> callback, OnMessageOptions options);
         #endregion
     }
+    #endregion
 }
