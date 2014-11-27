@@ -14,7 +14,7 @@
         <summary>Task scheduling for Azure and Windows Servers: Service Bus.</summary>
         <releaseNotes>Initialize Topics.</releaseNotes>
         <copyright>Jef King</copyright>
-        <tags>King.Service.ServiceBus Azure Queue Service Bus service-bus scale auto-scale dynamic-scale dynamic Queuing Background Worker Work Data Processing Table Environment Initialize Task Tasks Dequeue Dequeuing run task service services tasks scheduling King.Service King.Azure</tags>
+        <tags>King.Service.ServiceBus Azure Queue Service Bus service-bus scale Topic Topics PubSub Publisher Subscriber Event Time Sensitive time-sensitive auto-scale dynamic-scale dynamic Queuing Background Worker Work Data Processing Table Environment Initialize Task Tasks volume Dequeue Dequeuing run task service services tasks scheduling King.Service King.Azure</tags>
         <dependencies>
           <dependency id="WindowsAzure.ServiceBus" />
           <dependency id="King.Service" />
