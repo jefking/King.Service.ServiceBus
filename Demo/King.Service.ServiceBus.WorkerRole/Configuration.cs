@@ -17,6 +17,11 @@
             get;
             set;
         }
+        public string TopicName
+        {
+            get;
+            set;
+        }
         public string Connection
         {
             get;

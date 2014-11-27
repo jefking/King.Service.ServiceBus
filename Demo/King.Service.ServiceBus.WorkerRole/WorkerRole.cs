@@ -22,6 +22,7 @@ namespace King.Service.WorkerRole
                 PollingName = "polling",
                 EventsName = "events",
                 BufferedEventsName = "buffered",
+                TopicName = "topic",
                 Connection = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString"),
             };
 

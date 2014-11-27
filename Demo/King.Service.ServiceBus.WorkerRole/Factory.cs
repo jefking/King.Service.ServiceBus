@@ -22,10 +22,11 @@
             var eventReciever = new BusQueueReciever(config.EventsName, config.Connection);
             var bufferReciever = new BusQueueReciever(config.BufferedEventsName, config.Connection);
 
-            //Initialize Queues
+            //Initialize Service Bus
             yield return new InitializeBusQueue(pollReceiver);
             yield return new InitializeBusQueue(eventReciever);
             yield return new InitializeBusQueue(bufferReciever);
+            yield return new InitializeTopic(config.TopicName, config.Connection);
 
             //Polling Dequeue Runner
             yield return new AdaptiveRunner(new BusDequeue<ExampleModel>(pollReceiver, new ExampleProcessor()));
