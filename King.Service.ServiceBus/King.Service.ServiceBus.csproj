@@ -46,6 +46,7 @@
     <Compile Include="BusQueueReciever.cs" />
     <Compile Include="BusQueueSender.cs" />
     <Compile Include="InitializeBusQueue.cs" />
+    <Compile Include="InitializeHub.cs" />
     <Compile Include="InitializeTopic.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="Models\BufferedMessage.cs" />

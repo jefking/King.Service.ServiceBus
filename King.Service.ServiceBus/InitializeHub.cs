@@ -2,12 +2,15 @@
 {
     using Microsoft.ServiceBus;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Initialize Topic
+    /// Initialize Hub
     /// </summary>
-    public class InitializeTopic : InitializeTask
+    public class InitializeHub : InitializeTask
     {
         #region Members
         /// <summary>
@@ -27,7 +30,7 @@
         /// </summary>
         /// <param name="name"></param>
         /// <param name="connectionString">Connection String</param>
-        public InitializeTopic(string name, string connectionString)
+        public InitializeHub(string name, string connectionString)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -47,14 +50,10 @@
         /// <summary>
         /// Run Async
         /// </summary>
-        /// <returns>Task</returns>
+        /// <returns></returns>
         public override async Task RunAsync()
         {
-            var exists = await this.manager.TopicExistsAsync(name);
-            if (!exists)
-            {
-                await this.manager.CreateTopicAsync(name);
-            }
+            await this.manager.CreateEventHubIfNotExistsAsync(name);
         }
         #endregion
     }
