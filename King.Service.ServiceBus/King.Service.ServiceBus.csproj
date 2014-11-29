@@ -57,6 +57,7 @@
     <Compile Include="ServiceBusQueuePoller.cs" />
     <Compile Include="Timing\Interfaces.cs" />
     <Compile Include="Timing\Sleep.cs" />
+    <Compile Include="TopicSender.cs" />
     <Compile Include="Wrappers\Interfaces.cs" />
     <Compile Include="Wrappers\BusQueueClient.cs" />
   </ItemGroup>

@@ -119,7 +119,7 @@
         /// <param name="enqueueAt">Schedule for Enqueue</param>
         /// <returns>Task</returns>
         Task Send(object message, DateTime enqueueAt);
-        
+
         /// <summary>
         /// Send Message for Buffer
         /// </summary>
@@ -147,6 +147,15 @@
         /// <param name="ex">Exception</param>
         void OnError(string action, Exception ex);
         #endregion
+    }
+    #endregion
+
+    #region ITopicSender
+    /// <summary>
+    /// Topic Sender
+    /// </summary>
+    public interface ITopicSender
+    {
     }
     #endregion
 }
