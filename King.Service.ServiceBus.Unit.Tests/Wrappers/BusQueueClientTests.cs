@@ -27,7 +27,7 @@
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public async Task Constructor()
+        public async Task SendBrokeredMessageNull()
         {
             var name = Guid.NewGuid().ToString();
             var q = new BusQueueClient(QueueClient.CreateFromConnectionString(connection, name));
