@@ -5,22 +5,12 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    #region IBusQueueClient
+    #region IBusClient
     /// <summary>
-    /// Bus Queue Client Wrapper
+    /// Bus Client
     /// </summary>
-    public interface IBusQueueClient
+    public interface IBusClient<T>
     {
-        #region Properties
-        /// <summary>
-        /// Queue Client
-        /// </summary>
-        QueueClient Client
-        {
-            get;
-        }
-        #endregion
-
         #region Methods
         /// <summary>
         /// Send
@@ -28,7 +18,36 @@
         /// <param name="message">Message</param>
         /// <returns>Task</returns>
         Task Send(BrokeredMessage message);
+        #endregion
 
+        #region Properties
+        /// <summary>
+        /// Queue Client
+        /// </summary>
+        T Client
+        {
+            get;
+        }
+        #endregion
+    }
+    #endregion
+
+    #region IBusTopicClient
+    /// <summary>
+    /// Bus Topic Client Interface
+    /// </summary>
+    public interface IBusTopicClient : IBusClient<TopicClient>
+    {
+    }
+    #endregion
+
+    #region IBusQueueClient
+    /// <summary>
+    /// Bus Queue Client Wrapper
+    /// </summary>
+    public interface IBusQueueClient : IBusClient<QueueClient>
+    {
+        #region Methods
         /// <summary>
         /// Recieve
         /// </summary>

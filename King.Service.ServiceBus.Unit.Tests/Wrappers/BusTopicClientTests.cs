@@ -7,7 +7,7 @@
     using System.Threading.Tasks;
 
     [TestFixture]
-    public class BusQueueClientTests
+    public class BusTopicClientTests
     {
         const string connection = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
 
@@ -15,14 +15,14 @@
         public void Constructor()
         {
             var name = Guid.NewGuid().ToString();
-            new BusQueueClient(QueueClient.CreateFromConnectionString(connection, name));
+            new BusTopicClient(TopicClient.CreateFromConnectionString(connection, name));
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorQueueClientNull()
         {
-            new BusQueueClient(null);
+            new BusTopicClient(null);
         }
 
         [Test]
@@ -30,7 +30,7 @@
         public async Task Constructor()
         {
             var name = Guid.NewGuid().ToString();
-            var q = new BusQueueClient(QueueClient.CreateFromConnectionString(connection, name));
+            var q = new BusTopicClient(TopicClient.CreateFromConnectionString(connection, name));
             await q.Send((BrokeredMessage)null);
         }
     }
