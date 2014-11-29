@@ -36,7 +36,7 @@
         [Test]
         public void BufferedOffset()
         {
-            Assert.AreEqual(-4, BusQueueSender.BufferedOffset);
+            Assert.AreEqual(-6, BusQueueSender.BufferedOffset);
         }
 
         [Test]
