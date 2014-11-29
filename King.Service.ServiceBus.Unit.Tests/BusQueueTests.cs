@@ -28,6 +28,13 @@
 
         [Test]
         [ExpectedException(typeof(ArgumentException))]
+        public void ConstructorConnectionNull()
+        {
+            new BusQueue(Guid.NewGuid().ToString(), null);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
         public void ConstructorMockableNameNull()
         {
             var m = NamespaceManager.CreateFromConnectionString(connection);
