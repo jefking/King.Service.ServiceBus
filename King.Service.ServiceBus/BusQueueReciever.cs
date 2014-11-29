@@ -17,7 +17,7 @@
         /// <summary>
         /// Server Wait Time
         /// </summary>
-        protected static readonly TimeSpan serverWaitTime = TimeSpan.FromSeconds(15);
+        protected static readonly TimeSpan serverWaitTime = TimeSpan.FromSeconds(20);
         #endregion
 
         #region Constructors

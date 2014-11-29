@@ -33,6 +33,19 @@
         }
         #endregion
 
+        #region Properties
+        /// <summary>
+        /// Queue Client
+        /// </summary>
+        public QueueClient Client
+        {
+            get
+            {
+                return this.client;
+            }
+        }
+        #endregion
+
         #region Methods
         /// <summary>
         /// Send

@@ -11,6 +11,16 @@
     /// </summary>
     public interface IBusQueueClient
     {
+        #region Properties
+        /// <summary>
+        /// Queue Client
+        /// </summary>
+        QueueClient Client
+        {
+            get;
+        }
+        #endregion
+
         #region Methods
         /// <summary>
         /// Send
