@@ -2,9 +2,11 @@
 {
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus;
+    using Microsoft.ServiceBus.Messaging;
     using NSubstitute;
     using NUnit.Framework;
     using System;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class TopicSenderTests
@@ -53,6 +55,36 @@
         {
             var m = NamespaceManager.CreateFromConnectionString(connection);
             new TopicSender(Guid.NewGuid().ToString(), m, null);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public async Task SaveObjectNull()
+        {
+            var queue = new TopicSender(Guid.NewGuid().ToString(), connection);
+            await queue.Send((object)null);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public async Task SaveBrokeredMessageNull()
+        {
+            var queue = new TopicSender(Guid.NewGuid().ToString(), connection);
+            await queue.Send((BrokeredMessage)null);
+        }
+
+        [Test]
+        public async Task Send()
+        {
+            var msg = new BrokeredMessage();
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var client = Substitute.For<IBusTopicClient>();
+            client.Send(msg);
+
+            var q = new TopicSender(Guid.NewGuid().ToString(), m, client);
+            await q.Send(msg);
+
+            client.Received().Send(msg);
         }
     }
 }

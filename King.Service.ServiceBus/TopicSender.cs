@@ -4,6 +4,7 @@
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Topic Sender
@@ -62,6 +63,50 @@
             this.name = name;
             this.manager = manager;
             this.client = client;
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Save Message to Queue
+        /// </summary>
+        /// <param name="message">Message</param>
+        /// <returns>Task</returns>
+        public async Task Send(BrokeredMessage message)
+        {
+            if (null == message)
+            {
+                throw new ArgumentNullException("message");
+            }
+
+            await this.client.Send(message);
+        }
+
+        /// <summary>
+        /// Save Object to queue, as json
+        /// </summary>
+        /// <param name="obj">object</param>
+        /// <returns>Task</returns>
+        public async Task Send(object obj)
+        {
+            if (null == obj)
+            {
+                throw new ArgumentNullException("obj");
+            }
+
+            if (obj is BrokeredMessage)
+            {
+                await this.Send(obj as BrokeredMessage);
+            }
+            else
+            {
+                var msg = new BrokeredMessage(obj)
+                {
+                    ContentType = obj.GetType().ToString(),
+                };
+
+                await this.Send(msg);
+            }
         }
         #endregion
     }

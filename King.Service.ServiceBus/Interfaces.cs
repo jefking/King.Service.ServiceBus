@@ -156,6 +156,21 @@
     /// </summary>
     public interface ITopicSender
     {
+        #region Methods
+        /// <summary>
+        /// Save Message to Queue
+        /// </summary>
+        /// <param name="message">Message</param>
+        /// <returns>Task</returns>
+        Task Send(BrokeredMessage message);
+
+        /// <summary>
+        /// Save Object to queue, as json
+        /// </summary>
+        /// <param name="obj">object</param>
+        /// <returns>Task</returns>
+        Task Send(object obj);
+        #endregion
     }
     #endregion
 }
