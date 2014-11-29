@@ -1,6 +1,8 @@
 ﻿namespace King.Service.ServiceBus
 {
     using King.Azure.Data;
+    using King.Service.ServiceBus.Wrappers;
+    using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
     using System;
     using System.Collections.Generic;
@@ -17,6 +19,22 @@
         /// Queue Name
         /// </summary>
         string Name
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Queue Client
+        /// </summary>
+        IBusQueueClient Client
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Namespace Manager
+        /// </summary>
+        NamespaceManager Manager
         {
             get;
         }

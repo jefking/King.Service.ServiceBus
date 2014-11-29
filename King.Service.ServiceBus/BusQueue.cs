@@ -83,6 +83,28 @@
                 return this.name;
             }
         }
+
+        /// <summary>
+        /// Queue Client
+        /// </summary>
+        public virtual IBusQueueClient Client
+        {
+            get
+            {
+                return this.client;
+            }
+        }
+
+        /// <summary>
+        /// Namespace Manager
+        /// </summary>
+        public virtual NamespaceManager Manager
+        {
+            get
+            {
+                return this.manager;
+            }
+        }
         #endregion
 
         #region Methods

@@ -52,6 +52,30 @@
         }
 
         [Test]
+        public void Name()
+        {
+            var expected = Guid.NewGuid().ToString();
+            var bq = new BusQueue(expected, connection);
+            Assert.AreEqual(expected, bq.Name);
+        }
+
+        [Test]
+        public void Client()
+        {
+            var expected = Substitute.For<IBusQueueClient>();
+            var bq = new BusQueue(Guid.NewGuid().ToString(), NamespaceManager.CreateFromConnectionString(connection), expected);
+            Assert.AreEqual(expected, bq.Client);
+        }
+
+        [Test]
+        public void Manager()
+        {
+            var expected = NamespaceManager.CreateFromConnectionString(connection);
+            var bq = new BusQueue(Guid.NewGuid().ToString(), expected, Substitute.For<IBusQueueClient>());
+            Assert.AreEqual(expected, bq.Manager);
+        }
+
+        [Test]
         public void HandleTransientError()
         {
             this.exception = null;
