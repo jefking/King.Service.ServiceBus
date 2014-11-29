@@ -102,6 +102,7 @@
         }
 
         Exception exception = null;
+
         private void Error(object obj, TransientErrorArgs args)
         {
             this.exception = args.Exception;
