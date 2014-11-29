@@ -101,14 +101,15 @@
         /// <param name="enqueueAt">Schedule for Enqueue</param>
         /// <returns>Task</returns>
         Task Send(object message, DateTime enqueueAt);
-
+        
         /// <summary>
         /// Send Message for Buffer
         /// </summary>
         /// <param name="message">Message</param>
         /// <param name="enqueueAt">Schedule for Enqueue</param>
+        /// <param name="offset">Offset</param>
         /// <returns>Task</returns>
-        Task SendBuffered(object data, DateTime releaseAt);
+        Task SendBuffered(object data, DateTime releaseAt, sbyte offset = BusQueueSender.BufferedOffset);
         #endregion
     }
     #endregion

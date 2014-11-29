@@ -18,7 +18,7 @@
         /// <summary>
         /// Buffered Offset (Seconds)
         /// </summary>
-        public const sbyte BufferedOffset = -4;
+        public const sbyte BufferedOffset = -6;
         #endregion
 
         #region Constructors
@@ -135,8 +135,9 @@
         /// </summary>
         /// <param name="message">Message</param>
         /// <param name="enqueueAt">Schedule for Enqueue</param>
+        /// <param name="offset">Offset</param>
         /// <returns>Task</returns>
-        public virtual async Task SendBuffered(object data, DateTime releaseAt)
+        public virtual async Task SendBuffered(object data, DateTime releaseAt, sbyte offset = BufferedOffset)
         {
             if (null == data)
             {
@@ -149,7 +150,7 @@
                 ReleaseAt = releaseAt,
             };
 
-            await this.Send(message, releaseAt.AddSeconds(BufferedOffset));
+            await this.Send(message, releaseAt.AddSeconds(offset));
         }
         #endregion
     }
