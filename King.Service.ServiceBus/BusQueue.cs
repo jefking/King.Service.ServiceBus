@@ -31,7 +31,7 @@
         /// <summary>
         /// Transient Error Event
         /// </summary>
-        public event EventHandler<MessagingException> TransientErrorOccured;
+        public event TransientErrorEventHandler TransientErrorOccured;
         #endregion
 
         #region Constructors
@@ -154,7 +154,11 @@
                 var handle = this.TransientErrorOccured;
                 if (null != handle)
                 {
-                    handle(this, ex);
+                    var arg = new TransientErrorArgs
+                    {
+                        Exception = ex,
+                    };
+                    handle(this, arg);
                 }
 
                 Trace.TraceWarning("Transient Error: '{0}'", ex.ToString());

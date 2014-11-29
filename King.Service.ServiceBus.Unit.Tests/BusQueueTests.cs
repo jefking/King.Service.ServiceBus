@@ -102,9 +102,9 @@
         }
 
         Exception exception = null;
-        private void Error(object obj, MessagingException ex)
+        private void Error(object obj, TransientErrorArgs args)
         {
-            this.exception = ex;
+            this.exception = args.Exception;
         }
     }
 }
