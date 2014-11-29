@@ -1,6 +1,5 @@
 ﻿namespace King.Service.ServiceBus
 {
-
     /// <summary>
     /// Topic Sender
     /// </summary>

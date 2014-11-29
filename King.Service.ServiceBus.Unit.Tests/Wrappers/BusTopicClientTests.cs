@@ -24,14 +24,5 @@
         {
             new BusTopicClient(null);
         }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public async Task SendBrokeredMessageNull()
-        {
-            var name = Guid.NewGuid().ToString();
-            var q = new BusTopicClient(TopicClient.CreateFromConnectionString(connection, name));
-            await q.Send((BrokeredMessage)null);
-        }
     }
 }

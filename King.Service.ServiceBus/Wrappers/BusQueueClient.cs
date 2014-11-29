@@ -54,11 +54,6 @@
         /// <returns>Task</returns>
         public virtual async Task Send(BrokeredMessage message)
         {
-            if (null == message)
-            {
-                throw new ArgumentNullException("message");
-            }
-
             await this.client.SendAsync(message);
         }
 
