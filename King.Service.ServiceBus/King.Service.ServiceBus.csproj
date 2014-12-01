@@ -59,6 +59,7 @@
     <Compile Include="Timing\Interfaces.cs" />
     <Compile Include="Timing\Sleep.cs" />
     <Compile Include="TopicSender.cs" />
+    <Compile Include="TransientErrorHandler.cs" />
     <Compile Include="Wrappers\BusTopicClient.cs" />
     <Compile Include="Wrappers\Interfaces.cs" />
     <Compile Include="Wrappers\BusQueueClient.cs" />

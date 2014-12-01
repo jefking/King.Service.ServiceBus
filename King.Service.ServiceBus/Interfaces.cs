@@ -173,4 +173,19 @@
         #endregion
     }
     #endregion
+
+    #region ITransientErrorHandler
+    /// <summary>
+    /// Transient Error Handler Interface
+    /// </summary>
+    public interface ITransientErrorHandler
+    {
+        #region Events
+        /// <summary>
+        /// Transient Error Event
+        /// </summary>
+        event TransientErrorEventHandler TransientErrorOccured;
+        #endregion
+    }
+    #endregion
 }
