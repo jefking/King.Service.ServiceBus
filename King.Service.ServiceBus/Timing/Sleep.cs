@@ -18,7 +18,7 @@
             if (time > DateTime.UtcNow)
             {
                 var reset = new ManualResetEvent(false);
-                reset.WaitOne(time.Subtract(DateTime.UtcNow.AddTicks(-1)));
+                reset.WaitOne(time.Subtract(DateTime.UtcNow));
                 
                 while (time >= DateTime.UtcNow) { } //Ensure release is made after specified timing
             }
