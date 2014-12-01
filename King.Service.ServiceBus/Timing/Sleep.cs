@@ -17,10 +17,9 @@
         {
             if (time > DateTime.UtcNow)
             {
-                var reset = new ManualResetEvent(false);
-                reset.WaitOne(time.Subtract(DateTime.UtcNow));
+                Thread.Sleep(time.Subtract(DateTime.UtcNow).Add(TimeSpan.FromMilliseconds(-10)));
                 
-                while (time >= DateTime.UtcNow) { } //Ensure release is made after specified timing
+                while (time > DateTime.UtcNow) { } //Ensure release is made after specified timing
             }
         }
         #endregion
