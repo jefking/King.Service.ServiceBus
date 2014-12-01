@@ -12,7 +12,7 @@
     /// <summary>
     /// Bus Queue Interface
     /// </summary>
-    public interface IBusQueue
+    public interface IBusQueue : ITransientErrorHandler
     {
         #region Properties
         /// <summary>
@@ -154,7 +154,7 @@
     /// <summary>
     /// Topic Sender
     /// </summary>
-    public interface ITopicSender
+    public interface ITopicSender : ITransientErrorHandler
     {
         #region Methods
         /// <summary>

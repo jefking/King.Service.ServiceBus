@@ -4,13 +4,12 @@
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
     using System;
-    using System.Diagnostics;
     using System.Threading.Tasks;
 
     /// <summary>
     /// Bus Queue
     /// </summary>
-    public class BusQueue : IBusQueue
+    public class BusQueue : TransientErrorHandler, IBusQueue
     {
         #region Members
         /// <summary>
@@ -27,11 +26,6 @@
         /// Namespace Manager
         /// </summary>
         protected readonly NamespaceManager manager = null;
-
-        /// <summary>
-        /// Transient Error Event
-        /// </summary>
-        public event TransientErrorEventHandler TransientErrorOccured;
         #endregion
 
         #region Constructors
@@ -141,28 +135,6 @@
         {
             var queue = await this.manager.GetQueueAsync(this.name);
             return queue.MessageCount;
-        }
-
-        /// <summary>
-        /// Handle Transient Error
-        /// </summary>
-        /// <param name="ex">Messaging Exception</param>
-        public virtual void HandleTransientError(MessagingException ex)
-        {
-            if (null != ex)
-            {
-                var handle = this.TransientErrorOccured;
-                if (null != handle)
-                {
-                    var arg = new TransientErrorArgs
-                    {
-                        Exception = ex,
-                    };
-                    handle(this, arg);
-                }
-
-                Trace.TraceWarning("Transient Error: '{0}'", ex.ToString());
-            }
         }
         #endregion
     }
