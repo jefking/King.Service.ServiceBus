@@ -86,5 +86,38 @@
 
             client.Received().Send(msg);
         }
+
+        [Test]
+        public void HandleTransientError()
+        {
+            this.exception = null;
+            var ex = new MessagingException("hahaha");
+
+            var bq = new TopicSender(Guid.NewGuid().ToString(), connection);
+            bq.TransientErrorOccured += this.Error;
+            bq.HandleTransientError(ex);
+
+            Assert.AreEqual(ex, this.exception);
+        }
+
+        [Test]
+        public void HandleTransientErrorNull()
+        {
+            this.exception = null;
+            var ex = new MessagingException("hahaha");
+
+            var bq = new TopicSender(Guid.NewGuid().ToString(), connection);
+            bq.TransientErrorOccured += this.Error;
+            bq.HandleTransientError(null);
+
+            Assert.IsNull(this.exception);
+        }
+
+        Exception exception = null;
+
+        private void Error(object obj, TransientErrorArgs args)
+        {
+            this.exception = args.Exception;
+        }
     }
 }

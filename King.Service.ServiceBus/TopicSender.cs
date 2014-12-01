@@ -4,6 +4,7 @@
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
     using System;
+    using System.Diagnostics;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -79,7 +80,28 @@
                 throw new ArgumentNullException("message");
             }
 
-            await this.client.Send(message);
+            while (true)
+            {
+                try
+                {
+                    await this.client.Send(message);
+
+                    break;
+                }
+                catch (MessagingException ex)
+                {
+                    if (ex.IsTransient)
+                    {
+                        this.HandleTransientError(ex);
+                    }
+                    else
+                    {
+                        Trace.TraceError("Error: '{0}'", ex.ToString());
+
+                        throw;
+                    }
+                }
+            }
         }
 
         /// <summary>
