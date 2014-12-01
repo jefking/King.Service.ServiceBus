@@ -62,6 +62,7 @@
     <Compile Include="Timing\SleepTests.cs" />
     <Compile Include="TopicSenderTests.cs" />
     <Compile Include="TransientErrorArgsTests.cs" />
+    <Compile Include="TransientErrorHandlerTests.cs" />
     <Compile Include="Wrappers\BusQueueClientTests.cs" />
     <Compile Include="Wrappers\BusTopicClientTests.cs" />
   </ItemGroup>
