@@ -9,7 +9,7 @@
     /// <summary>
     /// Topic Sender
     /// </summary>
-    public class TopicSender : ITopicSender
+    public class TopicSender : TransientErrorHandler, ITopicSender
     {
         #region Members
         /// <summary>
