@@ -65,7 +65,16 @@
         /// <returns>Task</returns>
         public override async Task OnMessageArrived(BrokeredMessage message)
         {
-            var buffered = message.GetBody<BufferedMessage>();
+            await Task.Factory.StartNew(this.MessageArrived, message.GetBody<BufferedMessage>());
+        }
+
+        /// <summary>
+        /// Message Arrived, Background Thread
+        /// </summary>
+        /// <param name="body">Message Body</param>
+        public override void MessageArrived(object body)
+        {
+            var buffered = (BufferedMessage)body;
             var obj = JsonConvert.DeserializeObject<T>(buffered.Data);
 
             Trace.TraceInformation("Message timing: {0} before scheduled release.", buffered.ReleaseAt.Subtract(DateTime.UtcNow));
@@ -74,7 +83,7 @@
 
             Trace.TraceInformation("Message timing: {0} afer scheduled release.", DateTime.UtcNow.Subtract(buffered.ReleaseAt));
 
-            var success = await this.eventHandler.Process(obj);
+            var success = this.eventHandler.Process(obj).Result;
             if (success)
             {
                 Trace.TraceInformation("Message processed successfully.");

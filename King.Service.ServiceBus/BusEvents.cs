@@ -93,8 +93,16 @@
         /// <returns>Task</returns>
         public virtual async Task OnMessageArrived(BrokeredMessage message)
         {
-            var data = message.GetBody<T>();
-            var success = await this.eventHandler.Process(data);
+            await Task.Factory.StartNew(this.MessageArrived, message.GetBody<T>());
+        }
+
+        /// <summary>
+        /// Message Arrived, Background Thread
+        /// </summary>
+        /// <param name="body">Message Body</param>
+        public virtual void MessageArrived(object body)
+        {
+            var success = this.eventHandler.Process((T)body).Result;
             if (success)
             {
                 Trace.TraceInformation("Message processed successfully");
