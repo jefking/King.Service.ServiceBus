@@ -1,5 +1,6 @@
 ﻿namespace King.Service.ServiceBus
 {
+    using King.Service.Timing;
     using Microsoft.ServiceBus.Messaging;
     using System;
     using System.Diagnostics;
@@ -8,7 +9,7 @@
     /// <summary>
     /// Service Bus Queue Events
     /// </summary>
-    public class BusEvents<T> : InitializeTask
+    public class BusEvents<T> : RecurringTask
     {
         #region Members
         /// <summary>
@@ -40,6 +41,7 @@
         /// <param name="eventHandler">Event Handler</param>
         /// <param name="concurrentCalls">Concurrent Calls</param>
         public BusEvents(IBusQueueReciever queue, IBusEventHandler<T> eventHandler, byte concurrentCalls = DefaultConcurrentCalls)
+            :base(BaseTimes.MinimumTiming, BaseTimes.NoRepeat)
         {
             if (null == queue)
             {

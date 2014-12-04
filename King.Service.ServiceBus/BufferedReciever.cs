@@ -12,7 +12,7 @@
     /// Buffered Reciever
     /// </summary>
     /// <typeparam name="T">Type</typeparam>
-    public class BufferedReciever<T> : BusEvents<T>
+    public class BufferedReciever<T> : BusEvents<T>, IScalable
     {
         #region Members
         /// <summary>
@@ -24,6 +24,11 @@
         /// Default Concurrent Calls
         /// </summary>
         public new const byte DefaultConcurrentCalls = 50;
+
+        /// <summary>
+        /// Scale
+        /// </summary>
+        private volatile bool scale = false;
         #endregion
 
         #region Constructors
@@ -57,6 +62,19 @@
         }
         #endregion
 
+        #region Properties
+        /// <summary>
+        /// Scale Receiver
+        /// </summary>
+        public virtual bool Scale
+        {
+            get
+            {
+                return this.scale;
+            }
+        }
+        #endregion
+
         #region Methods
         /// <summary>
         /// This event will be called each time a message arrives.
@@ -65,7 +83,9 @@
         /// <returns>Task</returns>
         public override async Task OnMessageArrived(BrokeredMessage message)
         {
+            this.scale = true;
             await Task.Factory.StartNew(this.MessageArrived, message.GetBody<BufferedMessage>());
+            this.scale = false;
         }
 
         /// <summary>
@@ -92,6 +112,15 @@
             {
                 throw new InvalidOperationException("Message not processed successfully.");
             }
+        }
+
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        /// <param name="disposing">Disposing</param>
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
         }
         #endregion
     }
