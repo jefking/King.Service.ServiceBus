@@ -23,5 +23,13 @@
         {
             new BusQueueClient(null);
         }
+
+        [Test]
+        public void ConstructorQueueClientNull()
+        {
+            var client = QueueClient.CreateFromConnectionString(connection, "test");
+            var btc = new BusQueueClient(client);
+            Assert.AreEqual(client, btc.Client);
+        }
     }
 }

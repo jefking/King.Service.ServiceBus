@@ -24,5 +24,13 @@
         {
             new BusTopicClient(null);
         }
+
+        [Test]
+        public void ConstructorQueueClientNull()
+        {
+            var client = TopicClient.CreateFromConnectionString(connection, "test");
+            var btc = new BusTopicClient(client);
+            Assert.AreEqual(client, btc.Client);
+        }
     }
 }
