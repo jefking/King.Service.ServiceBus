@@ -88,6 +88,34 @@
         }
 
         [Test]
+        public async Task SendData()
+        {
+            var msg = new object();
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var client = Substitute.For<IBusTopicClient>();
+            client.Send(Arg.Any<BrokeredMessage>());
+
+            var q = new TopicSender(Guid.NewGuid().ToString(), m, client);
+            await q.Send(msg);
+
+            client.Received().Send(Arg.Any<BrokeredMessage>());
+        }
+
+        [Test]
+        public async Task SendBrokeredMessageAsObject()
+        {
+            var msg = new BrokeredMessage();
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var client = Substitute.For<IBusTopicClient>();
+            client.Send(msg);
+
+            var q = new TopicSender(Guid.NewGuid().ToString(), m, client);
+            await q.Send((object)msg);
+
+            client.Received().Send(msg);
+        }
+
+        [Test]
         public void HandleTransientError()
         {
             this.exception = null;
@@ -118,6 +146,38 @@
         private void Error(object obj, TransientErrorArgs args)
         {
             this.exception = args.Exception;
+        }
+
+        [Test]
+        [ExpectedException(typeof(Exception))]
+        public async Task SendThrows()
+        {
+            var msg = new BrokeredMessage();
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var client = Substitute.For<IBusTopicClient>();
+            client.When(c => c.Send(msg)).Do(x => { throw new Exception(); });
+
+            var q = new TopicSender(Guid.NewGuid().ToString(), m, client);
+            await q.Send(msg);
+        }
+
+        [Test]
+        [ExpectedException(typeof(MessagingException))]
+        public async Task SendThrowsMessagingException()
+        {
+            var msg = new BrokeredMessage();
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var first = true;
+            var client = Substitute.For<IBusTopicClient>();
+            client.When(c => c.Send(msg)).Do(x =>
+            {
+                var tmp = first;
+                first = false;
+                throw new MessagingException(Guid.NewGuid().ToString(), tmp, new Exception());
+            });
+
+            var q = new TopicSender(Guid.NewGuid().ToString(), m, client);
+            await q.Send(msg);
         }
     }
 }

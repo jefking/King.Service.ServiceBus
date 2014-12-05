@@ -99,6 +99,30 @@
         }
 
         [Test]
+        public async Task SendBuffered()
+        {
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var client = Substitute.For<IBusQueueClient>();
+            client.Send(Arg.Any<BrokeredMessage>());
+
+            var q = new BusQueueSender(Guid.NewGuid().ToString(), m, client);
+            await q.SendBuffered(new object(), DateTime.UtcNow);
+
+            client.Received().Send(Arg.Any<BrokeredMessage>());
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public async Task SendBufferedDataNull()
+        {
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var client = Substitute.For<IBusQueueClient>();
+
+            var q = new BusQueueSender(Guid.NewGuid().ToString(), m, client);
+            await q.SendBuffered(null, DateTime.UtcNow);
+        }
+
+        [Test]
         [ExpectedException(typeof(Exception))]
         public async Task SendThrows()
         {
