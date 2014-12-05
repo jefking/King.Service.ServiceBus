@@ -26,7 +26,7 @@
         }
 
         [Test]
-        public void ConstructorQueueClientNull()
+        public void Client()
         {
             var client = TopicClient.CreateFromConnectionString(connection, "test");
             var btc = new BusTopicClient(client);

@@ -25,7 +25,7 @@
         }
 
         [Test]
-        public void ConstructorQueueClientNull()
+        public void Client()
         {
             var client = QueueClient.CreateFromConnectionString(connection, "test");
             var btc = new BusQueueClient(client);
