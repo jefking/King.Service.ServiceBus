@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>King.Service.ServiceBus</id>
-        <version>1.0.18</version>
+        <version>1.0.19</version>
         <title>King.Service.ServiceBus</title>
         <authors>Jef King</authors>
         <owners>Jef King</owners>
