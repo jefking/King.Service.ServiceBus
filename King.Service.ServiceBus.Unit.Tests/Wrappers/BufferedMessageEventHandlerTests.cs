@@ -70,12 +70,36 @@
                 Data = JsonConvert.SerializeObject(data),
             };
 
-            var handler = Substitute.For<IBusEventHandler<object>>();
-            handler.Process(data);
+            var handler = Substitute.For<IBusEventHandler<Guid>>();
+            handler.Process(data).Returns(Task.FromResult(true));
             var sleep = Substitute.For<ISleep>();
             sleep.Until(msg.ReleaseAt);
 
-            var h = new BufferedMessageEventHandler<object>(handler, sleep);
+            var h = new BufferedMessageEventHandler<Guid>(handler, sleep);
+            var s = await h.Process(msg);
+
+            Assert.IsTrue(s);
+
+            sleep.Received().Until(msg.ReleaseAt);
+            handler.Received().Process(data);
+        }
+
+        [Test]
+        public async Task ProcessDataNull()
+        {
+            var data = Guid.Empty;
+            var msg = new BufferedMessage()
+            {
+                ReleaseAt = DateTime.UtcNow,
+                Data = null,
+            };
+
+            var handler = Substitute.For<IBusEventHandler<Guid>>();
+            handler.Process(data).Returns(Task.FromResult(true));
+            var sleep = Substitute.For<ISleep>();
+            sleep.Until(msg.ReleaseAt);
+
+            var h = new BufferedMessageEventHandler<Guid>(handler, sleep);
             var s = await h.Process(msg);
 
             Assert.IsTrue(s);

@@ -65,7 +65,7 @@
         /// <returns>Successful</returns>
         public async Task<bool> Process(BufferedMessage buffered)
         {
-            var obj = JsonConvert.DeserializeObject<T>(buffered.Data);
+            var obj = string.IsNullOrWhiteSpace(buffered.Data) ? default(T) : JsonConvert.DeserializeObject<T>(buffered.Data);
 
             Trace.TraceInformation("Message timing: {0} before scheduled release.", buffered.ReleaseAt.Subtract(DateTime.UtcNow));
 
