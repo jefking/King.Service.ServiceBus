@@ -25,6 +25,12 @@
         protected readonly IBusEventHandler<T> eventHandler = null;
         #endregion
 
+        #region Members
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="eventHandler">Event Handler</param>
+        /// <param name="sleep">Sleep</param>
         public BufferedMessageEventHandler(IBusEventHandler<T> eventHandler, ISleep sleep)
         {
             if (null == eventHandler)
@@ -39,12 +45,24 @@
             this.eventHandler = eventHandler;
             this.sleep = sleep;
         }
+        #endregion
 
+        #region Methods
+        /// <summary>
+        /// On Error
+        /// </summary>
+        /// <param name="action">Action</param>
+        /// <param name="ex">Exception</param>
         public void OnError(string action, Exception ex)
         {
             this.eventHandler.OnError(action, ex);
         }
-
+        
+        /// <summary>
+        /// Process Buffered Message
+        /// </summary>
+        /// <param name="buffered">Buffered</param>
+        /// <returns>Successful</returns>
         public async Task<bool> Process(BufferedMessage buffered)
         {
             var obj = JsonConvert.DeserializeObject<T>(buffered.Data);
@@ -57,5 +75,6 @@
 
             return await this.eventHandler.Process(obj);
         }
+        #endregion
     }
 }
