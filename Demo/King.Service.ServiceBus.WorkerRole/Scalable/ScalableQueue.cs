@@ -15,7 +15,7 @@
 
         public override IEnumerable<IScalable> ScaleUnit(Configuration config)
         {
-            yield return new AdaptiveRunner(new BusDequeue<ExampleModel>(new BusQueueReciever(config.ScalingQueueName, config.Connection), new ExampleProcessor()));
+            yield return new BackoffRunner(new BusDequeue<ExampleModel>(new BusQueueReciever(config.ScalingQueueName, config.Connection), new ExampleProcessor()));
         }
     }
 }
