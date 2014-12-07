@@ -15,6 +15,7 @@
 
         #region Constructors
         public QueueForAction(IBusQueueSender client, string action)
+            :base(2, 30)
         {
             this.client = client;
             this.action = action;
