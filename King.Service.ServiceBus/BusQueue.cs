@@ -131,7 +131,7 @@
         /// Approixmate Message Count
         /// </summary>
         /// <returns>Message Count</returns>
-        public virtual async Task<long> ApproixmateMessageCount()
+        public virtual async Task<long?> ApproixmateMessageCount()
         {
             var queue = await this.manager.GetQueueAsync(this.name);
             return queue.MessageCount;

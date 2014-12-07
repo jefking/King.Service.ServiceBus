@@ -12,7 +12,7 @@
     /// <summary>
     /// Bus Queue Interface
     /// </summary>
-    public interface IBusQueue : ITransientErrorHandler
+    public interface IBusQueue : ITransientErrorHandler, IQueueCount
     {
         #region Properties
         /// <summary>
@@ -52,12 +52,6 @@
         /// </summary>
         /// <returns></returns>
         Task Delete();
-
-        /// <summary>
-        /// Approixmate Message Count
-        /// </summary>
-        /// <returns>Message Count</returns>
-        Task<long> ApproixmateMessageCount();
         #endregion
     }
     #endregion
