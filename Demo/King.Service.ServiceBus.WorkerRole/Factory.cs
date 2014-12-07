@@ -43,6 +43,7 @@
             //Simulate messages being added to queues
             yield return new QueueForAction(new BusQueueSender(config.PollingName, config.Connection), "Poll");
             yield return new QueueForAction(new BusQueueSender(config.EventsName, config.Connection), "Event");
+            yield return new QueueForAction(new BusQueueSender(config.ScalingQueueName, config.Connection), "Scaling");
             yield return new QueueForBuffer(new BusQueueSender(config.BufferedEventsName, config.Connection));
 
             //Auto Scaling Dequeue Task
