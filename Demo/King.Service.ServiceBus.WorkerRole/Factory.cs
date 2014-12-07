@@ -3,6 +3,7 @@
     using King.Service.ServiceBus.Queue;
     using King.Service.WorkerRole;
     using King.Service.WorkerRole.Queue;
+    using King.Service.WorkerRole.Scalable;
     using System.Collections.Generic;
 
     /// <summary>
@@ -19,11 +20,13 @@
         {
             //Connections
             var pollReceiver = new BusQueueReciever(config.PollingName, config.Connection);
+            var scalingQueue = new BusQueueReciever(config.ScalingQueueName, config.Connection);
             var eventReciever = new BusQueueReciever(config.EventsName, config.Connection);
             var bufferReciever = new BusQueueReciever(config.BufferedEventsName, config.Connection);
 
             //Initialize Service Bus
             yield return new InitializeBusQueue(pollReceiver);
+            yield return new InitializeBusQueue(scalingQueue);
             yield return new InitializeBusQueue(eventReciever);
             yield return new InitializeBusQueue(bufferReciever);
             yield return new InitializeTopic(config.TopicName, config.Connection);
@@ -41,6 +44,9 @@
             yield return new QueueForAction(new BusQueueSender(config.PollingName, config.Connection), "Poll");
             yield return new QueueForAction(new BusQueueSender(config.EventsName, config.Connection), "Event");
             yield return new QueueForBuffer(new BusQueueSender(config.BufferedEventsName, config.Connection));
+
+            //Auto Scaling Dequeue Task
+            yield return new ScalableQueue(scalingQueue, config);
         }
     }
 }

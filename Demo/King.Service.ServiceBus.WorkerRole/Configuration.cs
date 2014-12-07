@@ -7,6 +7,11 @@
             get;
             set;
         }
+        public string ScalingQueueName
+        {
+            get;
+            set;
+        }
         public string EventsName
         {
             get;

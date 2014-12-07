@@ -23,6 +23,7 @@ namespace King.Service.WorkerRole
                 EventsName = "events",
                 BufferedEventsName = "buffered",
                 TopicName = "topic",
+                ScalingQueueName = "scaling",
                 Connection = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString"),
             };
 
