@@ -139,14 +139,9 @@
         /// <returns>Task</returns>
         public virtual async Task SendBuffered(object data, DateTime releaseAt, sbyte offset = BufferedOffset)
         {
-            if (null == data)
-            {
-                throw new ArgumentNullException("data");
-            }
-
             var message = new BufferedMessage
             {
-                Data = JsonConvert.SerializeObject(data),
+                Data = null == data ? null : JsonConvert.SerializeObject(data),
                 ReleaseAt = releaseAt,
             };
 

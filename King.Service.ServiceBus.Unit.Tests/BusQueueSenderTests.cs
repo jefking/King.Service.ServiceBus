@@ -112,7 +112,6 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public async Task SendBufferedDataNull()
         {
             var m = NamespaceManager.CreateFromConnectionString(connection);
