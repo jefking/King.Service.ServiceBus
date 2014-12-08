@@ -34,10 +34,11 @@
         [Test]
         public async Task Abandon()
         {
+            var wait = TimeSpan.FromSeconds(10);
             var expected = Guid.NewGuid();
             await this.sender.Send(expected);
 
-            var msg = await this.reciever.Get();
+            var msg = await this.reciever.Get(wait);
 
             var queued = new Queued<object>(msg);
             await queued.Abandon();
@@ -46,10 +47,11 @@
         [Test]
         public async Task Complete()
         {
+            var wait = TimeSpan.FromSeconds(10);
             var expected = Guid.NewGuid();
             await this.sender.Send(expected);
 
-            var msg = await this.reciever.Get();
+            var msg = await this.reciever.Get(wait);
 
             var queued = new Queued<object>(msg);
             await queued.Complete();

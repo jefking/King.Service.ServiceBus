@@ -15,61 +15,67 @@
         [Test]
         public void Constructor()
         {
+            var wait = TimeSpan.FromSeconds(10);
             var queue = Substitute.For<IBusQueueReciever>();
-            new ServiceBusQueuePoller<object>(queue);
+            new ServiceBusQueuePoller<object>(queue, wait);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorQueueNull()
         {
-            new ServiceBusQueuePoller<object>(null);
+            var wait = TimeSpan.FromSeconds(10);
+            new ServiceBusQueuePoller<object>(null, wait);
         }
 
         [Test]
         public async Task Poll()
         {
+            var wait = TimeSpan.FromSeconds(10);
             var msg = new BrokeredMessage("data");
             var queue = Substitute.For<IBusQueueReciever>();
-            queue.Get().Returns(Task.FromResult(msg));
+            queue.Get(wait).Returns(Task.FromResult(msg));
 
-            var poller = new ServiceBusQueuePoller<object>(queue);
+            var poller = new ServiceBusQueuePoller<object>(queue, wait);
             var returned = await poller.Poll();
 
             Assert.IsNotNull(returned);
 
-            queue.Received().Get();
+            queue.Received().Get(wait);
         }
 
         [Test]
         public async Task PollGetNull()
         {
+            var wait = TimeSpan.FromSeconds(10);
             var queue = Substitute.For<IBusQueueReciever>();
-            queue.Get().Returns(Task.FromResult<BrokeredMessage>(null));
+            queue.Get(wait).Returns(Task.FromResult<BrokeredMessage>(null));
 
-            var poller = new ServiceBusQueuePoller<object>(queue);
+            var poller = new ServiceBusQueuePoller<object>(queue, wait);
             var returned = await poller.Poll();
 
             Assert.IsNull(returned);
 
-            queue.Received().Get();
+            queue.Received().Get(wait);
         }
 
         [Test]
         [ExpectedException(typeof(ApplicationException))]
         public async Task PollGetThrows()
         {
+            var wait = TimeSpan.FromSeconds(10);
             var msg = new BrokeredMessage("data");
             var queue = Substitute.For<IBusQueueReciever>();
-            queue.Get().Returns(x => { throw new ApplicationException(); });
+            queue.Get(wait).Returns(x => { throw new ApplicationException(); });
 
-            var poller = new ServiceBusQueuePoller<object>(queue);
+            var poller = new ServiceBusQueuePoller<object>(queue, wait);
             await poller.Poll();
         }
 
         [Test]
         public async Task PollMany()
         {
+            var wait = TimeSpan.FromSeconds(10);
             var msg = new BrokeredMessage("data");
             var msgs = new List<BrokeredMessage>(3);
             msgs.Add(msg);
@@ -77,40 +83,42 @@
             msgs.Add(msg);
 
             var queue = Substitute.For<IBusQueueReciever>();
-            queue.GetMany(3).Returns(Task.FromResult<IEnumerable<BrokeredMessage>>(msgs));
+            queue.GetMany(wait, 3).Returns(Task.FromResult<IEnumerable<BrokeredMessage>>(msgs));
 
-            var poller = new ServiceBusQueuePoller<object>(queue);
+            var poller = new ServiceBusQueuePoller<object>(queue, wait);
             var returned = await poller.PollMany(3);
 
             Assert.IsNotNull(returned);
             Assert.AreEqual(3, returned.Count());
 
-            queue.Received().GetMany(3);
+            queue.Received().GetMany(wait, 3);
         }
 
         [Test]
         public async Task PollGetManyNull()
         {
+            var wait = TimeSpan.FromSeconds(10);
             var queue = Substitute.For<IBusQueueReciever>();
-            queue.GetMany(3).Returns(Task.FromResult<IEnumerable<BrokeredMessage>>(null));
+            queue.GetMany(wait, 3).Returns(Task.FromResult<IEnumerable<BrokeredMessage>>(null));
 
-            var poller = new ServiceBusQueuePoller<object>(queue);
+            var poller = new ServiceBusQueuePoller<object>(queue, wait);
             var returned = await poller.PollMany(3);
 
             Assert.IsNull(returned);
 
-            queue.Received().GetMany(3);
+            queue.Received().GetMany(wait, 3);
         }
 
         [Test]
         [ExpectedException(typeof(ApplicationException))]
         public async Task PollGetManyThrows()
         {
+            var wait = TimeSpan.FromSeconds(10);
             var msg = new BrokeredMessage("data");
             var queue = Substitute.For<IBusQueueReciever>();
-            queue.GetMany().Returns(x => { throw new ApplicationException(); });
+            queue.GetMany(wait).Returns(x => { throw new ApplicationException(); });
 
-            var poller = new ServiceBusQueuePoller<object>(queue);
+            var poller = new ServiceBusQueuePoller<object>(queue, wait);
             await poller.PollMany();
         }
     }

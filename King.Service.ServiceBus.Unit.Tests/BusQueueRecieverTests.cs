@@ -57,18 +57,20 @@
         [ExpectedException(typeof(Exception))]
         public async Task GetThrows()
         {
+            var wait = TimeSpan.FromSeconds(10);
             var m = NamespaceManager.CreateFromConnectionString(connection);
             var client = Substitute.For<IBusQueueClient>();
             client.When(c => c.Recieve(Arg.Any<TimeSpan>())).Do(x => { throw new Exception(); });
 
             var q = new BusQueueReciever(Guid.NewGuid().ToString(), m, client);
-            await q.Get();
+            await q.Get(wait);
         }
 
         [Test]
         [ExpectedException(typeof(MessagingException))]
         public async Task GetThrowsMessagingException()
         {
+            var wait = TimeSpan.FromSeconds(10);
             var m = NamespaceManager.CreateFromConnectionString(connection);
             var first = true;
             var client = Substitute.For<IBusQueueClient>();
@@ -80,25 +82,27 @@
             });
 
             var q = new BusQueueReciever(Guid.NewGuid().ToString(), m, client);
-            await q.Get();
+            await q.Get(wait);
         }
 
         [Test]
         [ExpectedException(typeof(Exception))]
         public async Task GetManyThrows()
         {
+            var wait = TimeSpan.FromSeconds(10);
             var m = NamespaceManager.CreateFromConnectionString(connection);
             var client = Substitute.For<IBusQueueClient>();
             client.When(c => c.RecieveBatch(5, Arg.Any<TimeSpan>())).Do(x => { throw new Exception(); });
 
             var q = new BusQueueReciever(Guid.NewGuid().ToString(), m, client);
-            await q.GetMany();
+            await q.GetMany(wait);
         }
 
         [Test]
         [ExpectedException(typeof(MessagingException))]
         public async Task GetManyThrowsMessagingException()
         {
+            var wait = TimeSpan.FromSeconds(10);
             var m = NamespaceManager.CreateFromConnectionString(connection);
             var first = true;
             var client = Substitute.For<IBusQueueClient>();
@@ -110,7 +114,7 @@
             });
 
             var q = new BusQueueReciever(Guid.NewGuid().ToString(), m, client);
-            await q.GetMany();
+            await q.GetMany(wait);
         }
     }
 }

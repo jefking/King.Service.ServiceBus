@@ -94,10 +94,11 @@
         [Test]
         public async Task Get()
         {
+            var wait = TimeSpan.FromSeconds(10);
             var expected = Guid.NewGuid();
             await this.sender.Send(expected);
 
-            var msg = await this.reciever.Get();
+            var msg = await this.reciever.Get(wait);
             var result = msg.GetBody<Guid>();
             Assert.AreEqual(expected, result);
         }
@@ -105,10 +106,11 @@
         [Test]
         public async Task GetAt()
         {
+            var wait = TimeSpan.FromSeconds(10);
             var expected = Guid.NewGuid();
             await this.sender.Send(expected, DateTime.UtcNow.AddMinutes(-1));
 
-            var msg = await this.reciever.Get();
+            var msg = await this.reciever.Get(wait);
             var result = msg.GetBody<Guid>();
             
             Assert.AreEqual(expected, result);
@@ -117,6 +119,7 @@
         [Test]
         public async Task GetMany()
         {
+            var wait = TimeSpan.FromSeconds(10);
             var random = new Random();
             var count = random.Next(1, 11);
             var sent = new List<Guid>();
@@ -127,7 +130,7 @@
                 sent.Add(expected);
             }
 
-            var got = await this.reciever.GetMany(count);
+            var got = await this.reciever.GetMany(wait, count);
             foreach (var msg in got)
             {
                 var result = msg.GetBody<Guid>();
@@ -138,6 +141,7 @@
         [Test]
         public async Task GetManyNegative()
         {
+            var wait = TimeSpan.FromSeconds(10);
             var random = new Random();
             var count = random.Next(5, 11);
             var sent = new List<Guid>();
@@ -148,7 +152,7 @@
                 sent.Add(expected);
             }
 
-            var got = await this.reciever.GetMany(-count);
+            var got = await this.reciever.GetMany(wait, -count);
             Assert.AreEqual(5, got.Count());
             foreach (var msg in got)
             {
