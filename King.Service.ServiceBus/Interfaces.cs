@@ -66,14 +66,17 @@
         /// <summary>
         /// Get Cloud Queue Message
         /// </summary>
+        /// <param name="waitTime">Wait Time</param>
         /// <returns>Message</returns>
-        Task<BrokeredMessage> Get();
+        Task<BrokeredMessage> Get(TimeSpan waitTime);
 
         /// <summary>
         /// Get Many Cloud Queue Message
         /// </summary>
+        /// <param name="waitTime">Wait Time</param>
+        /// <param name="messageCount">Message Count</param>
         /// <returns>Messages</returns>
-        Task<IEnumerable<BrokeredMessage>> GetMany(int messageCount = 5);
+        Task<IEnumerable<BrokeredMessage>> GetMany(TimeSpan waitTime, int messageCount = 5);
 
         /// <summary>
         /// Register for Events

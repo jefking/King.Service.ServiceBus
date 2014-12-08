@@ -17,7 +17,7 @@
         /// <summary>
         /// Server Wait Time
         /// </summary>
-        protected static readonly TimeSpan serverWaitTime = TimeSpan.FromSeconds(20);
+        protected static readonly TimeSpan serverWaitTime = TimeSpan.FromSeconds(15);
         #endregion
 
         #region Constructors
@@ -47,14 +47,17 @@
         /// <summary>
         /// Get Cloud Queue Message
         /// </summary>
+        /// <param name="waitTime">Wait Time</param>
         /// <returns>Message</returns>
-        public virtual async Task<BrokeredMessage> Get()
+        public virtual async Task<BrokeredMessage> Get(TimeSpan waitTime)
         {
+            waitTime = waitTime <= TimeSpan.Zero ? serverWaitTime : waitTime;
+
             while (true)
             {
                 try
                 {
-                    return await base.client.Recieve(serverWaitTime);
+                    return await base.client.Recieve(waitTime);
                 }
                 catch (MessagingException ex)
                 {
@@ -75,16 +78,19 @@
         /// <summary>
         /// Get Many Cloud Queue Message
         /// </summary>
+        /// <param name="waitTime">Wait Time</param>
+        /// <param name="messageCount">Message Count</param>
         /// <returns>Messages</returns>
-        public virtual async Task<IEnumerable<BrokeredMessage>> GetMany(int messageCount = 5)
+        public virtual async Task<IEnumerable<BrokeredMessage>> GetMany(TimeSpan waitTime, int messageCount = 5)
         {
             messageCount = 1 > messageCount ? 5 : messageCount;
+            waitTime = waitTime <= TimeSpan.Zero ? serverWaitTime : waitTime;
 
             while (true)
             {
                 try
                 {
-                    return await this.client.RecieveBatch(messageCount, serverWaitTime);
+                    return await this.client.RecieveBatch(messageCount, waitTime);
                 }
                 catch (MessagingException ex)
                 {

@@ -3,6 +3,7 @@
     using King.Azure.Data;
     using King.Service.Data;
     using King.Service.Timing;
+    using System;
 
     /// <summary>
     /// Service Bus Dequeue Batch
@@ -19,7 +20,7 @@
         /// <param name="minimumPeriodInSeconds">Minimum Period In Seconds</param>
         /// <param name="maximumPeriodInSeconds">Maximum Period In Seconds</param>
         public BusDequeueBatch(IBusQueueReciever queue, IProcessor<T> processor, int batchCount = 5, int minimumPeriodInSeconds = BaseTimes.MinimumStorageTiming, int maximumPeriodInSeconds = BaseTimes.MaximumStorageTiming)
-            : base(new ServiceBusQueuePoller<T>(queue), processor, batchCount, minimumPeriodInSeconds, maximumPeriodInSeconds)
+            : base(new ServiceBusQueuePoller<T>(queue, TimeSpan.FromSeconds(minimumPeriodInSeconds)), processor, batchCount, minimumPeriodInSeconds, maximumPeriodInSeconds)
         {
         }
         #endregion

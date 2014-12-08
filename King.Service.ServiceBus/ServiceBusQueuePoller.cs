@@ -18,6 +18,11 @@
         /// Queue
         /// </summary>
         protected readonly IBusQueueReciever queue = null;
+
+        /// <summary>
+        /// Wait Time
+        /// </summary>
+        protected readonly TimeSpan waitTime = TimeSpan.FromSeconds(15);
         #endregion
 
         #region Constructors
@@ -25,7 +30,8 @@
         /// Constructor
         /// </summary>
         /// <param name="queue">Queue</param>
-        public ServiceBusQueuePoller(IBusQueueReciever queue)
+        /// <param name="waitTime">Wait Time</param>
+        public ServiceBusQueuePoller(IBusQueueReciever queue, TimeSpan waitTime)
         {
             if (null == queue)
             {
@@ -43,7 +49,7 @@
         /// <returns>Queued Item</returns>
         public virtual async Task<IQueued<T>> Poll()
         {
-            var msg = await this.queue.Get();
+            var msg = await this.queue.Get(this.waitTime);
             return null == msg ? null : new Queued<T>(msg);
         }
 
@@ -54,7 +60,7 @@
         /// <returns>Queued Messages</returns>
         public virtual async Task<IEnumerable<IQueued<T>>> PollMany(int messageCount = 5)
         {
-            var msgs = await this.queue.GetMany(messageCount);
+            var msgs = await this.queue.GetMany(this.waitTime, messageCount);
             return null == msgs || !msgs.Any() ? null : msgs.Select(m => new Queued<T>(m));
         }
         #endregion
