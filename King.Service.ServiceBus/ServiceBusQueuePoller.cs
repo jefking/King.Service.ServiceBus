@@ -39,6 +39,7 @@
             }
 
             this.queue = queue;
+            this.waitTime = waitTime <= TimeSpan.Zero ? TimeSpan.FromSeconds(15) : waitTime;
         }
         #endregion
 
