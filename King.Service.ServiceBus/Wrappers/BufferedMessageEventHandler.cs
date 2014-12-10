@@ -67,11 +67,11 @@
         {
             var obj = string.IsNullOrWhiteSpace(buffered.Data) ? default(T) : JsonConvert.DeserializeObject<T>(buffered.Data);
 
-            Trace.TraceInformation("Message timing: {0} before scheduled release.", buffered.ReleaseAt.Subtract(DateTime.UtcNow));
+            Trace.TraceInformation("{1}: Message timing: {0} before scheduled release.", buffered.ReleaseAt.Subtract(DateTime.UtcNow), this.eventHandler.GetType());
 
             this.sleep.Until(buffered.ReleaseAt);
 
-            Trace.TraceInformation("Message timing: {0} afer scheduled release.", DateTime.UtcNow.Subtract(buffered.ReleaseAt));
+            Trace.TraceInformation("{1}: Message timing: {0} afer scheduled release.", DateTime.UtcNow.Subtract(buffered.ReleaseAt), this.eventHandler.GetType());
 
             return await this.eventHandler.Process(obj);
         }

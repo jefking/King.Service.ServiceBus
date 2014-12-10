@@ -107,11 +107,12 @@
             var success = this.eventHandler.Process((T)body).Result;
             if (success)
             {
-                Trace.TraceInformation("Message processed successfully");
+
+                Trace.TraceInformation("{0}: Message processed successfully from queue: {1}.", this.eventHandler.GetType(), this.queue.Name);
             }
             else
             {
-                throw new InvalidOperationException("Message not processed");
+                throw new InvalidOperationException(string.Format("{0}: Message not processed successfully from queue: {1}.", this.eventHandler.GetType(), this.queue.Name));
             }
         }
 
@@ -125,6 +126,7 @@
             if (e != null && e.Exception != null)
             {
                 Trace.TraceError("'{0}' {1}", e.Action, e.Exception.ToString());
+
                 this.eventHandler.OnError(e.Action, e.Exception);
             }
         }
