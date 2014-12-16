@@ -52,6 +52,18 @@
         /// </summary>
         /// <returns></returns>
         Task Delete();
+
+        /// <summary>
+        /// Lock Duration
+        /// </summary>
+        /// <returns>Lock Duration</returns>
+        Task<TimeSpan> LockDuration();
+
+        /// <summary>
+        /// Description
+        /// </summary>
+        /// <returns>Queue Description</returns>
+        Task<QueueDescription> Description();
         #endregion
     }
     #endregion

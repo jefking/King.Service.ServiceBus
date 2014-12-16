@@ -138,8 +138,27 @@
         /// <returns>Message Count</returns>
         public virtual async Task<long?> ApproixmateMessageCount()
         {
-            var queue = await this.manager.GetQueueAsync(this.name);
+            var queue = await this.Description();
             return queue.MessageCount;
+        }
+
+        /// <summary>
+        /// Lock Duration
+        /// </summary>
+        /// <returns>Lock Duration</returns>
+        public virtual async Task<TimeSpan> LockDuration()
+        {
+            var queue = await this.Description();
+            return queue.LockDuration;
+        }
+
+        /// <summary>
+        /// Description
+        /// </summary>
+        /// <returns>Queue Description</returns>
+        public virtual async Task<QueueDescription> Description()
+        {
+            return await this.manager.GetQueueAsync(this.name);
         }
         #endregion
     }

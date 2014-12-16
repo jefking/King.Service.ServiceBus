@@ -153,7 +153,7 @@
             }
 
             var got = await this.reciever.GetMany(wait, -count);
-            Assert.AreEqual(5, got.Count());
+            Assert.AreEqual(1, got.Count());
             foreach (var msg in got)
             {
                 var result = msg.GetBody<Guid>();
