@@ -111,7 +111,12 @@
             var created = false;
             if (!manager.QueueExists(name))
             {
-                await manager.CreateQueueAsync(name);
+                var qd = new QueueDescription(name)
+                {
+                    EnablePartitioning = true,
+                };
+
+                await manager.CreateQueueAsync(qd);
                 created = true;
             }
 

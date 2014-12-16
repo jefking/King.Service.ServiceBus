@@ -42,6 +42,7 @@
     <Compile Include="BufferedReciever.cs" />
     <Compile Include="BusDequeue.cs" />
     <Compile Include="BusDequeueBatch.cs" />
+    <Compile Include="BusDequeueBatchDynamic.cs" />
     <Compile Include="BusEvents.cs" />
     <Compile Include="BusQueue.cs" />
     <Compile Include="BusQueueReciever.cs" />

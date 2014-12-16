@@ -1,6 +1,7 @@
 ﻿namespace King.Service.ServiceBus
 {
     using Microsoft.ServiceBus;
+    using Microsoft.ServiceBus.Messaging;
     using System;
     using System.Threading.Tasks;
 
@@ -53,7 +54,12 @@
             var exists = await this.manager.TopicExistsAsync(name);
             if (!exists)
             {
-                await this.manager.CreateTopicAsync(name);
+                var td = new TopicDescription(name)
+                {
+                    EnableExpress = true,
+                };
+
+                await this.manager.CreateTopicAsync(td);
             }
         }
         #endregion

@@ -22,7 +22,12 @@
         /// <summary>
         /// Wait Time
         /// </summary>
-        protected readonly TimeSpan waitTime = TimeSpan.FromSeconds(15);
+        protected readonly TimeSpan waitTime = DefaultWaitTime;
+        
+        /// <summary>
+        /// Default Wait Time
+        /// </summary>
+        public static readonly TimeSpan DefaultWaitTime = TimeSpan.FromSeconds(15);
         #endregion
 
         #region Constructors
@@ -39,7 +44,7 @@
             }
 
             this.queue = queue;
-            this.waitTime = waitTime <= TimeSpan.Zero ? TimeSpan.FromSeconds(15) : waitTime;
+            this.waitTime = waitTime <= TimeSpan.Zero ? DefaultWaitTime : waitTime;
         }
         #endregion
 
