@@ -62,8 +62,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\King.Azure.1.1.16\lib\net451\King.Azure.dll</HintPath>
     </Reference>
-    <Reference Include="King.Service">
-      <HintPath>..\..\packages\King.Service.1.8.17\lib\net451\King.Service.dll</HintPath>
+    <Reference Include="King.Service, Version=1.5.0.19, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\King.Service.1.8.19\lib\net451\King.Service.dll</HintPath>
     </Reference>
     <Reference Include="King.Service.ServiceBus">
       <HintPath>..\..\packages\King.Service.ServiceBus.1.0.21\lib\net451\King.Service.ServiceBus.dll</HintPath>

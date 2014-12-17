@@ -2,9 +2,8 @@
 {
     using King.Azure.Data;
     using King.Service.Data;
+    using King.Service.ServiceBus.Wrappers;
     using King.Service.Timing;
-    using Microsoft.ServiceBus;
-    using System;
 
     /// <summary>
     /// Bus Dequeue Batch Dynamic
@@ -12,12 +11,6 @@
     /// <typeparam name="T"></typeparam>
     public class BusDequeueBatchDynamic<T> : DequeueBatchDynamic<T>
     {
-        #region Members
-        /// <summary>
-        /// Maximum batchsize = 32
-        /// </summary>
-        public const byte MaxBatchSize = 32;
-        #endregion
 
         #region Constructors
         /// <summary>
@@ -43,7 +36,7 @@
         /// <param name="minimumPeriodInSeconds">Minimum Period In Seconds</param>
         /// <param name="maximumPeriodInSeconds">Maximum Period In Seconds</param>
         public BusDequeueBatchDynamic(IBusQueueReciever queue, IProcessor<T> processor, int minimumPeriodInSeconds = BaseTimes.MinimumStorageTiming, int maximumPeriodInSeconds = BaseTimes.MaximumStorageTiming)
-            : this(new ServiceBusQueuePoller<T>(queue, ServiceBusQueuePoller<T>.DefaultWaitTime), processor, new TimingTracker(queue.LockDuration().Result, MaxBatchSize), minimumPeriodInSeconds, maximumPeriodInSeconds)
+            : this(new ServiceBusQueuePoller<T>(queue, ServiceBusQueuePoller<T>.DefaultWaitTime), processor, new BusQueueTimingTracker(queue), minimumPeriodInSeconds, maximumPeriodInSeconds)
         {
         }
 
