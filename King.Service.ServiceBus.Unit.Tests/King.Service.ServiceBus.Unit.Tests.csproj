@@ -47,6 +47,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BufferedRecieverTests.cs" />
+    <Compile Include="BusDequeueBatchDynamicTests.cs" />
     <Compile Include="BusDequeueBatchTests.cs" />
     <Compile Include="BusDequeueTests.cs" />
     <Compile Include="BusEventsTests.cs" />
@@ -108,6 +109,7 @@
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
