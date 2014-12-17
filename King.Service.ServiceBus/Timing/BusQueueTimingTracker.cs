@@ -2,6 +2,7 @@
 {
     using King.Service.Timing;
     using System;
+    using System.Diagnostics;
 
     /// <summary>
     /// Bus Queue Timing Tracker
@@ -54,6 +55,9 @@
             if (this.firstRun)
             {
                 base.maxTime = this.queue.LockDuration().Result;
+
+                Trace.TraceInformation("Lock duration for {0} is {1}.", this.queue.Name, base.maxTime);
+
                 this.firstRun = false;
             }
 
