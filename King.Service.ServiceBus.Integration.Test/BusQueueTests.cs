@@ -71,6 +71,13 @@
         }
 
         [Test]
+        public async Task LockDuration()
+        {
+            var lockDuration = await this.sender.LockDuration();
+            Assert.AreEqual(TimeSpan.FromMinutes(1), lockDuration);
+        }
+
+        [Test]
         public async Task SendBrokeredMessage()
         {
             var msg = new BrokeredMessage();
