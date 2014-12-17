@@ -53,7 +53,7 @@
         {
             if (this.firstRun)
             {
-                //base.maxTime = queue.LockDuration().Result;
+                base.maxTime = this.queue.LockDuration().Result;
                 this.firstRun = false;
             }
 

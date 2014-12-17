@@ -1,6 +1,7 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests.Timing
 {
     using King.Service.ServiceBus.Timing;
+    using King.Service.Timing;
     using NSubstitute;
     using NUnit.Framework;
     using System;
@@ -17,6 +18,47 @@
         {
             var queue = Substitute.For<IBusQueue>();
             new BusQueueTimingTracker(queue);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ConstructorQueueNull()
+        {
+            new BusQueueTimingTracker(null);
+        }
+
+        [Test]
+        public void IsTimingTracker()
+        {
+            var queue = Substitute.For<IBusQueue>();
+            Assert.IsNotNull(new BusQueueTimingTracker(queue) as TimingTracker);
+        }
+
+        [Test]
+        public void Calculate()
+        {
+            var queue = Substitute.For<IBusQueue>();
+            queue.LockDuration().Returns(Task.FromResult(TimeSpan.FromMinutes(2)));
+
+            var tt = new BusQueueTimingTracker(queue);
+            tt.Calculate(TimeSpan.FromMinutes(1), 22);
+
+            queue.Received().LockDuration();
+        }
+
+        [Test]
+        public void CalculateMultiple()
+        {
+            var queue = Substitute.For<IBusQueue>();
+            queue.LockDuration().Returns(Task.FromResult(TimeSpan.FromMinutes(2)));
+
+            var tt = new BusQueueTimingTracker(queue);
+            tt.Calculate(TimeSpan.FromMinutes(1), 22);
+            tt.Calculate(TimeSpan.FromMinutes(1), 22);
+            tt.Calculate(TimeSpan.FromMinutes(1), 22);
+            tt.Calculate(TimeSpan.FromMinutes(1), 22);
+
+            queue.Received(1).LockDuration();
         }
 
         [Test]
