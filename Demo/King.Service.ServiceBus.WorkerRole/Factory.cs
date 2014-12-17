@@ -23,13 +23,14 @@
             var scalingQueue = new BusQueueReciever(config.ScalingQueueName, config.Connection);
             var eventReciever = new BusQueueReciever(config.EventsName, config.Connection);
             var bufferReciever = new BusQueueReciever(config.BufferedEventsName, config.Connection);
+            var dynamicReciever = new BusQueueReciever(config.DynamicQueueName, config.Connection);
 
             //Initialize Service Bus
             yield return new InitializeBusQueue(pollReceiver);
             yield return new InitializeBusQueue(scalingQueue);
             yield return new InitializeBusQueue(eventReciever);
             yield return new InitializeBusQueue(bufferReciever);
-            yield return new InitializeBusQueue(config.DynamicQueueName, config.Connection);
+            yield return new InitializeBusQueue(dynamicReciever);
             yield return new InitializeTopic(config.TopicName, config.Connection);
 
             //Polling Dequeue Runner
@@ -46,6 +47,7 @@
             yield return new QueueForAction(new BusQueueSender(config.EventsName, config.Connection), "Event");
             yield return new QueueForAction(new BusQueueSender(config.ScalingQueueName, config.Connection), "Scaling");
             yield return new QueueForBuffer(new BusQueueSender(config.BufferedEventsName, config.Connection));
+            yield return new QueueForAction(new BusQueueSender(config.DynamicQueueName, config.Connection), "Dynamic");
 
             //Auto Scaling Dequeue Task
             yield return new ScalableQueue(scalingQueue, config);
