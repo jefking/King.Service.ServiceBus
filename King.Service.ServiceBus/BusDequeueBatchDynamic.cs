@@ -2,7 +2,7 @@
 {
     using King.Azure.Data;
     using King.Service.Data;
-    using King.Service.ServiceBus.Wrappers;
+    using King.Service.ServiceBus.Timing;
     using King.Service.Timing;
 
     /// <summary>
@@ -11,7 +11,6 @@
     /// <typeparam name="T"></typeparam>
     public class BusDequeueBatchDynamic<T> : DequeueBatchDynamic<T>
     {
-
         #region Constructors
         /// <summary>
         /// Constructor

@@ -11,15 +11,23 @@
     [TestFixture]
     public class BusDequeueBatchDynamicTests
     {
-        //static readonly string ConnectionString = ConfigurationManager.AppSettings["UseDevelopmentStorage=true"];
+        static readonly string ConnectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
 
-        //[Test]
-        //public void Constructor()
-        //{
-        //    var name = Guid.NewGuid().ToString();
-        //    var processor = Substitute.For<IProcessor<object>>();
-        //    new BusDequeueBatchDynamic<object>(name, ConnectionString, processor);
-        //}
+        [Test]
+        public void Constructor()
+        {
+            var name = Guid.NewGuid().ToString();
+            var processor = Substitute.For<IProcessor<object>>();
+            new BusDequeueBatchDynamic<object>(name, ConnectionString, processor);
+        }
+
+        [Test]
+        public void MockableConstructorSimplified()
+        {
+            var queue = Substitute.For<IBusQueueReciever>();
+            var processor = Substitute.For<IProcessor<object>>();
+            new BusDequeueBatchDynamic<object>(queue, processor);
+        }
 
         [Test]
         public void MockableConstructor()
@@ -37,12 +45,6 @@
             var processor = Substitute.For<IProcessor<object>>();
             var tracker = Substitute.For<ITimingTracker>();
             Assert.IsNotNull(new BusDequeueBatchDynamic<object>(queue, processor, tracker) as DequeueBatchDynamic<object>);
-        }
-
-        [Test]
-        public void MaxBatchSize()
-        {
-            Assert.AreEqual(32, BusDequeueBatchDynamic<object>.MaxBatchSize);
         }
     }
 }
