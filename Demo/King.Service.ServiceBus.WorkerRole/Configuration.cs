@@ -27,6 +27,12 @@
             get;
             set;
         }
+        public string DynamicQueueName
+        {
+            get;
+            set;
+        }
+
         public string Connection
         {
             get;

@@ -29,6 +29,7 @@
             yield return new InitializeBusQueue(scalingQueue);
             yield return new InitializeBusQueue(eventReciever);
             yield return new InitializeBusQueue(bufferReciever);
+            yield return new InitializeBusQueue(config.DynamicQueueName, config.Connection);
             yield return new InitializeTopic(config.TopicName, config.Connection);
 
             //Polling Dequeue Runner
@@ -48,6 +49,9 @@
 
             //Auto Scaling Dequeue Task
             yield return new ScalableQueue(scalingQueue, config);
+
+            //Auto Batch Size Dequeue Task
+            yield return new AdaptiveRunner(new BusDequeueBatchDynamic<ExampleModel>(config.DynamicQueueName, config.Connection, new ExampleProcessor()));
         }
     }
 }
