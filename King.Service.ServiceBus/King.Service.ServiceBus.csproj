@@ -43,8 +43,10 @@
     <Compile Include="BusDequeue.cs" />
     <Compile Include="BusDequeueBatch.cs" />
     <Compile Include="BusDequeueBatchDynamic.cs" />
+    <Compile Include="BusDequeueFactory.cs" />
     <Compile Include="BusEvents.cs" />
     <Compile Include="BusQueue.cs" />
+    <Compile Include="BusQueueAutoScaler.cs" />
     <Compile Include="BusQueueReciever.cs" />
     <Compile Include="BusQueueSender.cs" />
     <Compile Include="Delegates.cs" />
