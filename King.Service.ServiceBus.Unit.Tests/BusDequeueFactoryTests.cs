@@ -6,14 +6,12 @@
     using NSubstitute;
     using NUnit.Framework;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
+    [TestFixture]
     public class BusDequeueFactoryTests
     {
-        const string ConnectionString = "UseDevelopmentStorage=true";
+        const string ConnectionString = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
 
         class Setup : QueueSetup<object>
         {
@@ -58,7 +56,7 @@
             Assert.AreEqual(2, tasks.Count());
 
             var t = (from n in tasks
-                     where n.GetType() == typeof(InitializeStorageTask)
+                     where n.GetType() == typeof(InitializeBusQueue)
                      select true).FirstOrDefault();
 
             Assert.IsTrue(t);
