@@ -49,8 +49,10 @@
     <Compile Include="BufferedRecieverTests.cs" />
     <Compile Include="BusDequeueBatchDynamicTests.cs" />
     <Compile Include="BusDequeueBatchTests.cs" />
+    <Compile Include="BusDequeueFactoryTests.cs" />
     <Compile Include="BusDequeueTests.cs" />
     <Compile Include="BusEventsTests.cs" />
+    <Compile Include="BusQueueAutoScalerTests.cs" />
     <Compile Include="BusQueueRecieverTests.cs" />
     <Compile Include="BusQueueSenderTests.cs" />
     <Compile Include="BusQueueTests.cs" />

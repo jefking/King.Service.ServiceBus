@@ -1,10 +1,10 @@
 ﻿namespace King.Service.ServiceBus
 {
     using King.Azure.Data;
-using King.Service.Data;
-using King.Service.Scalability;
-using System;
-using System.Collections.Generic;
+    using King.Service.Data;
+    using King.Service.Scalability;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Storage Dequeue Factory
