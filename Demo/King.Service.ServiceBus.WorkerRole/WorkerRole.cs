@@ -25,6 +25,7 @@ namespace King.Service.WorkerRole
                 TopicName = "topic",
                 ScalingQueueName = "scaling",
                 DynamicQueueName = "dynamic",
+                FactoryQueueName = "factory",
                 Connection = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString"),
             };
 

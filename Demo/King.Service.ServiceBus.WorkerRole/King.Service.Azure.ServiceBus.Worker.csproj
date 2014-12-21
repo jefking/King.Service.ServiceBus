@@ -47,6 +47,7 @@
     <Compile Include="Queue\Queued.cs" />
     <Compile Include="Queue\QueueForBuffer.cs" />
     <Compile Include="Queue\QueueForAction.cs" />
+    <Compile Include="Queue\SetupExample.cs" />
     <Compile Include="Scalable\ScalableQueue.cs" />
     <Compile Include="WorkerRole.cs" />
   </ItemGroup>
@@ -66,9 +67,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\King.Service.1.9.3\lib\net451\King.Service.dll</HintPath>
     </Reference>
-    <Reference Include="King.Service.ServiceBus, Version=1.0.2.23, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="King.Service.ServiceBus, Version=1.0.2.24, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\King.Service.ServiceBus.1.0.24\lib\net451\King.Service.ServiceBus.dll</HintPath>
+      <HintPath>..\..\packages\King.Service.ServiceBus.1.0.25\lib\net451\King.Service.ServiceBus.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

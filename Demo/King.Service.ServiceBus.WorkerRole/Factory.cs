@@ -42,18 +42,26 @@
             //Task for recieving queue events to specific times
             yield return new BufferedReciever<ExampleModel>(bufferReciever, new EventHandler());
 
-            //Simulate messages being added to queues
-            yield return new QueueForAction(new BusQueueSender(config.PollingName, config.Connection), "Poll");
-            yield return new QueueForAction(new BusQueueSender(config.EventsName, config.Connection), "Event");
-            yield return new QueueForAction(new BusQueueSender(config.ScalingQueueName, config.Connection), "Scaling");
-            yield return new QueueForBuffer(new BusQueueSender(config.BufferedEventsName, config.Connection));
-            yield return new QueueForAction(new BusQueueSender(config.DynamicQueueName, config.Connection), "Dynamic");
-
             //Auto Scaling Dequeue Task
             yield return new ScalableQueue(scalingQueue, config);
 
             //Auto Batch Size Dequeue Task
             yield return new AdaptiveRunner(new BusDequeueBatchDynamic<ExampleModel>(config.DynamicQueueName, config.Connection, new ExampleProcessor()));
+
+            //Dynamic Batch Size, Frequency, Threads (and queue creation)
+            var f = new BusDequeueFactory<ExampleModel>();
+            foreach (var t in f.Tasks(new SetupExample(config)))
+            {
+                yield return t;
+            }
+
+            //Simulate messages being added to queues
+            yield return new QueueForAction(new BusQueueSender(config.PollingName, config.Connection), "Poll");
+            yield return new QueueForAction(new BusQueueSender(config.EventsName, config.Connection), "Event");
+            yield return new QueueForAction(new BusQueueSender(config.ScalingQueueName, config.Connection), "Scaling");
+            yield return new QueueForAction(new BusQueueSender(config.DynamicQueueName, config.Connection), "Dynamic");
+            yield return new QueueForAction(new BusQueueSender(config.FactoryQueueName, config.Connection), "Factory");
+            yield return new QueueForBuffer(new BusQueueSender(config.BufferedEventsName, config.Connection));
         }
     }
 }

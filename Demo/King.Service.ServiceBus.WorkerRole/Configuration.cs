@@ -32,6 +32,11 @@
             get;
             set;
         }
+        public string FactoryQueueName
+        {
+            get;
+            set;
+        }
 
         public string Connection
         {
