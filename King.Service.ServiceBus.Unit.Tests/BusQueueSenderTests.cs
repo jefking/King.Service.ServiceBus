@@ -8,6 +8,7 @@
     using NSubstitute;
     using NUnit.Framework;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -86,6 +87,36 @@
         }
 
         [Test]
+        public async Task SendBatch()
+        {
+            var msg = new List<BrokeredMessage>();
+            msg.Add(new BrokeredMessage());
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var client = Substitute.For<IBusQueueClient>();
+            client.Send(msg);
+
+            var q = new BusQueueSender(Guid.NewGuid().ToString(), m, client);
+            await q.Send(msg);
+
+            client.Received().Send(msg);
+        }
+
+        [Test]
+        public async Task SendObjBatch()
+        {
+            var msg = new List<object>();
+            msg.Add(new object());
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var client = Substitute.For<IBusQueueClient>();
+            client.Send(Arg.Any<IEnumerable<BrokeredMessage>>());
+
+            var q = new BusQueueSender(Guid.NewGuid().ToString(), m, client);
+            await q.Send(msg);
+
+            client.Received().Send(Arg.Any<IEnumerable<BrokeredMessage>>());
+        }
+
+        [Test]
         public async Task SendForBuffer()
         {
             var m = NamespaceManager.CreateFromConnectionString(connection);
@@ -126,6 +157,34 @@
         public async Task SendThrows()
         {
             var msg = new BrokeredMessage();
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var client = Substitute.For<IBusQueueClient>();
+            client.When(c => c.Send(msg)).Do(x => { throw new Exception(); });
+
+            var q = new BusQueueSender(Guid.NewGuid().ToString(), m, client);
+            await q.Send(msg);
+        }
+
+        [Test]
+        [ExpectedException(typeof(Exception))]
+        public async Task SendBatchThrows()
+        {
+            var msg = new List<BrokeredMessage>();
+            msg.Add(new BrokeredMessage());
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var client = Substitute.For<IBusQueueClient>();
+            client.When(c => c.Send(msg)).Do(x => { throw new Exception(); });
+
+            var q = new BusQueueSender(Guid.NewGuid().ToString(), m, client);
+            await q.Send(msg);
+        }
+
+        [Test]
+        [ExpectedException(typeof(Exception))]
+        public async Task SendObjBatchThrows()
+        {
+            var msg = new List<BrokeredMessage>();
+            msg.Add(new BrokeredMessage());
             var m = NamespaceManager.CreateFromConnectionString(connection);
             var client = Substitute.For<IBusQueueClient>();
             client.When(c => c.Send(msg)).Do(x => { throw new Exception(); });

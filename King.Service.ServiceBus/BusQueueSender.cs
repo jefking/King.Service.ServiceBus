@@ -6,6 +6,8 @@
     using Microsoft.ServiceBus.Messaging;
     using Newtonsoft.Json;
     using System;
+    using System.Linq;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading.Tasks;
 
@@ -46,7 +48,7 @@
 
         #region Methods
         /// <summary>
-        /// Save Message to Queue
+        /// Send Message to Queue
         /// </summary>
         /// <param name="message">Message</param>
         /// <returns>Task</returns>
@@ -82,7 +84,7 @@
         }
 
         /// <summary>
-        /// Save Object to queue, as json
+        /// Send Object to queue, as json
         /// </summary>
         /// <param name="obj">object</param>
         /// <returns>Task</returns>
@@ -105,6 +107,69 @@
                 };
 
                 await this.Send(msg);
+            }
+        }
+
+        /// <summary>
+        /// Send Message to Queue
+        /// </summary>
+        /// <param name="messages">Messages</param>
+        /// <returns>Task</returns>
+        public virtual async Task Send(IEnumerable<BrokeredMessage> messages)
+        {
+            if (null == messages)
+            {
+                throw new ArgumentNullException("message");
+            }
+
+            while (true)
+            {
+                try
+                {
+                    await this.client.Send(messages);
+
+                    break;
+                }
+                catch (MessagingException ex)
+                {
+                    if (ex.IsTransient)
+                    {
+                        this.HandleTransientError(ex);
+                    }
+                    else
+                    {
+                        Trace.TraceError("Error: '{0}'", ex.ToString());
+
+                        throw;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Send Object to queue, as json
+        /// </summary>
+        /// <param name="messages">Messages</param>
+        /// <returns>Task</returns>
+        public virtual async Task Send(IEnumerable<object> messages)
+        {
+            if (null == messages)
+            {
+                throw new ArgumentNullException("obj");
+            }
+
+            if (messages is IEnumerable<BrokeredMessage>)
+            {
+                await this.Send(messages as IEnumerable<BrokeredMessage>);
+            }
+            else
+            {
+                var toSend = messages.Select(obj => new BrokeredMessage(obj)
+                {
+                    ContentType = obj.GetType().ToString(),
+                });
+
+                await this.Send(toSend);
             }
         }
 

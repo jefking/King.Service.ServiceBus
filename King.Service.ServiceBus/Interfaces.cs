@@ -108,18 +108,32 @@
     {
         #region Methods
         /// <summary>
-        /// Save Message to Queue
+        /// Send Message to Queue
         /// </summary>
         /// <param name="message">Message</param>
         /// <returns>Task</returns>
         Task Send(BrokeredMessage message);
 
         /// <summary>
-        /// Save Object to queue, as json
+        /// Send Object to queue, as json
         /// </summary>
         /// <param name="obj">object</param>
         /// <returns>Task</returns>
         Task Send(object obj);
+        
+        /// <summary>
+        /// Send Message to Queue
+        /// </summary>
+        /// <param name="messages">Messages</param>
+        /// <returns>Task</returns>
+        Task Send(IEnumerable<BrokeredMessage> messages);
+
+        /// <summary>
+        /// Send Object to queue, as json
+        /// </summary>
+        /// <param name="messages">Messages</param>
+        /// <returns>Task</returns>
+        Task Send(IEnumerable<object> messages);
 
         /// <summary>
         /// Send Message with Retry
