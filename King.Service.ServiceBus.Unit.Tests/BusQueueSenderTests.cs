@@ -102,6 +102,7 @@
         }
 
         [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
         public async Task SendBatchNull()
         {
             var m = NamespaceManager.CreateFromConnectionString(connection);

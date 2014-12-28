@@ -164,12 +164,10 @@
             }
             else
             {
-                var toSend = messages.Select(obj => new BrokeredMessage(obj)
+                await this.Send(messages.Select(obj => new BrokeredMessage(obj)
                 {
                     ContentType = obj.GetType().ToString(),
-                });
-
-                await this.Send(toSend);
+                }));
             }
         }
 
