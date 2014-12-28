@@ -102,7 +102,17 @@
         }
 
         [Test]
-        public async Task SendObjBatch()
+        public async Task SendBatchNull()
+        {
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var client = Substitute.For<IBusQueueClient>();
+
+            var q = new BusQueueSender(Guid.NewGuid().ToString(), m, client);
+            await q.Send((IEnumerable<BrokeredMessage>)null);
+        }
+
+        [Test]
+        public async Task SendBatchObjAsBrokeredMessage()
         {
             var msg = new List<object>();
             msg.Add(new object());
@@ -114,6 +124,32 @@
             await q.Send(msg);
 
             client.Received().Send(Arg.Any<IEnumerable<BrokeredMessage>>());
+        }
+
+        [Test]
+        public async Task SendObjBatch()
+        {
+            var msg = new List<BrokeredMessage>();
+            msg.Add(new BrokeredMessage());
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var client = Substitute.For<IBusQueueClient>();
+            client.Send(Arg.Any<IEnumerable<BrokeredMessage>>());
+
+            var q = new BusQueueSender(Guid.NewGuid().ToString(), m, client);
+            await q.Send((IEnumerable<object>)msg);
+
+            client.Received().Send(Arg.Any<IEnumerable<BrokeredMessage>>());
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public async Task SendObjNullBatch()
+        {
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var client = Substitute.For<IBusQueueClient>();
+
+            var q = new BusQueueSender(Guid.NewGuid().ToString(), m, client);
+            await q.Send((IEnumerable<object>)null);
         }
 
         [Test]
@@ -183,11 +219,11 @@
         [ExpectedException(typeof(Exception))]
         public async Task SendObjBatchThrows()
         {
-            var msg = new List<BrokeredMessage>();
-            msg.Add(new BrokeredMessage());
+            var msg = new List<object>();
+            msg.Add(new object());
             var m = NamespaceManager.CreateFromConnectionString(connection);
             var client = Substitute.For<IBusQueueClient>();
-            client.When(c => c.Send(msg)).Do(x => { throw new Exception(); });
+            client.When(c => c.Send(Arg.Any<IEnumerable<BrokeredMessage>>())).Do(x => { throw new Exception(); });
 
             var q = new BusQueueSender(Guid.NewGuid().ToString(), m, client);
             await q.Send(msg);
