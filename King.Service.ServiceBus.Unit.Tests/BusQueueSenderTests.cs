@@ -248,5 +248,25 @@
             var q = new BusQueueSender(Guid.NewGuid().ToString(), m, client);
             await q.Send(msg);
         }
+
+        [Test]
+        [ExpectedException(typeof(MessagingException))]
+        public async Task SendBatchThrowsMessagingException()
+        {
+            var msgs = new List<BrokeredMessage>();
+            msgs.Add(new BrokeredMessage());
+            var m = NamespaceManager.CreateFromConnectionString(connection);
+            var first = true;
+            var client = Substitute.For<IBusQueueClient>();
+            client.When(c => c.Send(msgs)).Do(x =>
+            {
+                var tmp = first;
+                first = false;
+                throw new MessagingException(Guid.NewGuid().ToString(), tmp, new Exception());
+            });
+
+            var q = new BusQueueSender(Guid.NewGuid().ToString(), m, client);
+            await q.Send(msgs);
+        }
     }
 }
