@@ -69,6 +69,13 @@
         /// <param name="callback">Call Back</param>
         /// <param name="options">Options</param>
         void OnMessage(Func<BrokeredMessage, Task> callback, OnMessageOptions options);
+
+        /// <summary>
+        /// Send Batch
+        /// </summary>
+        /// <param name="message">Messages</param>
+        /// <returns>Task</returns>
+        Task Send(IEnumerable<BrokeredMessage> messages);
         #endregion
     }
     #endregion

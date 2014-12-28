@@ -39,6 +39,14 @@
         }
 
         [Test]
+        public async Task SendBatch()
+        {
+            var msgs = new BrokeredMessage[] { new BrokeredMessage(), new BrokeredMessage(), new BrokeredMessage(), new BrokeredMessage() };
+            var bq = new BusQueueClient(QueueClient.CreateFromConnectionString(connection, queue.Name));
+            await bq.Send(msgs);
+        }
+
+        [Test]
         public async Task Receive()
         {
             var expected = Guid.NewGuid();

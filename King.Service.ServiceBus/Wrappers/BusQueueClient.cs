@@ -58,6 +58,16 @@
         }
 
         /// <summary>
+        /// Send Batch
+        /// </summary>
+        /// <param name="message">Messages</param>
+        /// <returns>Task</returns>
+        public virtual async Task Send(IEnumerable<BrokeredMessage> messages)
+        {
+            await this.client.SendBatchAsync(messages);
+        }
+
+        /// <summary>
         /// Recieve
         /// </summary>
         /// <param name="serverWaitTime">Server Wait Time</param>
