@@ -8,7 +8,7 @@
     [TestFixture]
     public class InitializeTopicTests
     {
-        private string connection = ConfigurationSettings.AppSettings["Microsoft.ServiceBus.ConnectionString"];
+        private static readonly string connection = ConfigurationSettings.AppSettings["Microsoft.ServiceBus.ConnectionString"];
 
         [Test]
         public async Task Create()
