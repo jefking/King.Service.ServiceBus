@@ -47,7 +47,7 @@
         /// <summary>
         /// Run Async
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task</returns>
         public override async Task RunAsync()
         {
             await this.manager.CreateEventHubIfNotExistsAsync(name);
