@@ -1,7 +1,7 @@
 namespace King.Service.WorkerRole
 {
     using King.Service.ServiceBus;
-    using Microsoft.WindowsAzure;
+    using Microsoft.Azure;
     using Microsoft.WindowsAzure.ServiceRuntime;
 
     public class WorkerRole : RoleEntryPoint
