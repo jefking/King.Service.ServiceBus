@@ -25,7 +25,7 @@
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">Hub Name</param>
         /// <param name="connectionString">Connection String</param>
         public InitializeHub(string name, string connectionString)
         {
