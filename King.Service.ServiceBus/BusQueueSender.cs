@@ -6,9 +6,9 @@
     using Microsoft.ServiceBus.Messaging;
     using Newtonsoft.Json;
     using System;
-    using System.Linq;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using System.Threading.Tasks;
 
     /// <summary>

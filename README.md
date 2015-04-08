@@ -1,8 +1,7 @@
 ### Task scheduling for Azure and Windows Servers: Service Bus.
-+ Initialize: Queues, Topics, Hubs
-+ Enqueue
++ Initialize: Queues, Topics, Event Hubs
++ Enqueue and Dequeue
 + Enqueue for dequeue at specific time
-+ Dequeue
 + Dequeue Batches
 + Recieve Events
 + Time Sensitive Events
