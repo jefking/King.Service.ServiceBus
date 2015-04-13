@@ -31,5 +31,14 @@
             var bq = new BusTopicClient(TopicClient.CreateFromConnectionString(connection, this.name));
             await bq.Send(msg);
         }
+
+        [Test]
+        public async Task SendBatch()
+        {
+            var msgs = new BrokeredMessage[] { new BrokeredMessage(), new BrokeredMessage(), new BrokeredMessage(), new BrokeredMessage() };
+
+            var bq = new BusTopicClient(TopicClient.CreateFromConnectionString(connection, this.name));
+            await bq.Send(msgs);
+        }
     }
 }

@@ -107,7 +107,6 @@
             var success = this.eventHandler.Process((T)body).Result;
             if (success)
             {
-
                 Trace.TraceInformation("{0}: Message processed successfully from queue: {1}.", this.eventHandler.GetType(), this.queue.Name);
             }
             else

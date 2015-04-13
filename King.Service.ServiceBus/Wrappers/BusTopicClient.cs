@@ -2,6 +2,7 @@
 {
     using Microsoft.ServiceBus.Messaging;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -54,6 +55,16 @@
         public async Task Send(BrokeredMessage message)
         {
             await this.client.SendAsync(message);
+        }
+
+        /// <summary>
+        /// Send Batch
+        /// </summary>
+        /// <param name="message">Messages</param>
+        /// <returns>Task</returns>
+        public async Task Send(IEnumerable<BrokeredMessage> messages)
+        {
+            await this.client.SendBatchAsync(messages);
         }
         #endregion
     }
