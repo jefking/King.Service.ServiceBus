@@ -49,6 +49,7 @@
     <Compile Include="Queue\QueueForAction.cs" />
     <Compile Include="Queue\SetupExample.cs" />
     <Compile Include="Scalable\ScalableQueue.cs" />
+    <Compile Include="Topic\TopicShipper.cs" />
     <Compile Include="WorkerRole.cs" />
   </ItemGroup>
   <ItemGroup>

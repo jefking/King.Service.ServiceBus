@@ -4,6 +4,7 @@
     using King.Service.WorkerRole;
     using King.Service.WorkerRole.Queue;
     using King.Service.WorkerRole.Scalable;
+    using King.Service.WorkerRole.Topic;
     using System.Collections.Generic;
 
     /// <summary>
@@ -62,6 +63,9 @@
             yield return new QueueForAction(new BusQueueSender(config.DynamicQueueName, config.Connection), "Dynamic");
             yield return new QueueForAction(new BusQueueSender(config.FactoryQueueName, config.Connection), "Factory");
             yield return new QueueForBuffer(new BusQueueSender(config.BufferedEventsName, config.Connection));
+
+            //Simulate messages being sent to topics
+            yield return new TopicShipper(new TopicSender(config.TopicName, config.Connection));
         }
     }
 }
