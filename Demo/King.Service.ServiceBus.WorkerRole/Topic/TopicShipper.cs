@@ -18,6 +18,7 @@
             :base(2, 30)
         {
             this.client = client;
+            this.action = "topic";
         }
         #endregion
 
@@ -29,7 +30,7 @@
                 Action = action,
             };
 
-            Trace.TraceInformation("Sending to queue for {0}: '{1}'", model.Action, model.Identifier);
+            Trace.TraceInformation("Sending to topic for {0}: '{1}'", model.Action, model.Identifier);
 
             client.Send(model).Wait();
         }
