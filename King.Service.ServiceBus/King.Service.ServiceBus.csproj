@@ -66,6 +66,7 @@
     <Compile Include="Wrappers\BufferedMessageEventHandler.cs" />
     <Compile Include="Timing\BusQueueTimingTracker.cs" />
     <Compile Include="Wrappers\BusTopicClient.cs" />
+    <Compile Include="Wrappers\HubClient.cs" />
     <Compile Include="Wrappers\Interfaces.cs" />
     <Compile Include="Wrappers\BusQueueClient.cs" />
   </ItemGroup>
