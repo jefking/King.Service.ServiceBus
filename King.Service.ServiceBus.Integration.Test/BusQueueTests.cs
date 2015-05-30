@@ -169,7 +169,7 @@
         }
 
         [Test]
-        public async Task RecieveEvent()
+        public void RecieveEvent()
         {
             this.reciever.RegisterForEvents(OnMessageArrived, new OnMessageOptions());
             this.sender.Send(Guid.NewGuid());
