@@ -47,7 +47,6 @@
     <Compile Include="Queue\Queued.cs" />
     <Compile Include="Queue\QueueForBuffer.cs" />
     <Compile Include="Queue\QueueForAction.cs" />
-    <Compile Include="Queue\SetupExample.cs" />
     <Compile Include="Scalable\ScalableQueue.cs" />
     <Compile Include="Topic\TopicShipper.cs" />
     <Compile Include="WorkerRole.cs" />

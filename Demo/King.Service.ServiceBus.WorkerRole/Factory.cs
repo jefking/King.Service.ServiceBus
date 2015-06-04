@@ -6,6 +6,8 @@
     using King.Service.WorkerRole.Scalable;
     using King.Service.WorkerRole.Topic;
     using System.Collections.Generic;
+    using King.Service.Data;
+
 
     /// <summary>
     /// Factory
@@ -51,7 +53,14 @@
 
             //Dynamic Batch Size, Frequency, Threads (and queue creation)
             var f = new BusDequeueFactory<ExampleModel>();
-            foreach (var t in f.Tasks(new SetupExample(config)))
+            var setup = new QueueSetup<ExampleModel>
+            {
+                Name = config.FactoryQueueName,
+                Priority = QueuePriority.Medium,
+                Processor = () => { return new ExampleProcessor(); },
+            };
+
+            foreach (var t in f.Tasks(setup))
             {
                 yield return t;
             }

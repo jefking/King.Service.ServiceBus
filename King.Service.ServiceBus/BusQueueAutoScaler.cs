@@ -1,17 +1,17 @@
 ﻿namespace King.Service.ServiceBus
 {
+    using System;
+    using System.Collections.Generic;
     using King.Azure.Data;
     using King.Service.Data;
     using King.Service.Scalability;
     using King.Service.Timing;
-    using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Storage Queue AutoScaler
     /// </summary>
     /// <typeparam name="T">Processor Type</typeparam>
-    public class BusQueueAutoScaler<T> : QueueAutoScaler<IQueueSetup<T>>
+    public class BusQueueAutoScaler<T> : QueueAutoScaler<IQueueConnection<T>>
     {
         #region Members
         /// <summary>
@@ -26,12 +26,12 @@
         /// </summary>
         /// <param name="count">Count</param>
         /// <param name="messagesPerScaleUnit">Messages Per-Scale Unit</param>
-        /// <param name="setup">Setup</param>
+        /// <param name="connection">Setup</param>
         /// <param name="minimum">Minimum Scale</param>
         /// <param name="maximum">Maximmum Scale</param>
         /// <param name="checkScaleInMinutes">Check Scale Every</param>
-        public BusQueueAutoScaler(IQueueCount count, IQueueSetup<T> setup, ushort messagesPerScaleUnit = QueueScaler<T>.MessagesPerScaleUnitDefault, byte minimum = 1, byte maximum = 2, byte checkScaleInMinutes = BaseTimes.ScaleCheck)
-            : this(count, setup, new QueueThroughput(), messagesPerScaleUnit, minimum, maximum, checkScaleInMinutes)
+        public BusQueueAutoScaler(IQueueCount count, IQueueConnection<T> connection, ushort messagesPerScaleUnit = QueueScaler<T>.MessagesPerScaleUnitDefault, byte minimum = 1, byte maximum = 2, byte checkScaleInMinutes = BaseTimes.ScaleCheck)
+            : this(count, connection, new QueueThroughput(), messagesPerScaleUnit, minimum, maximum, checkScaleInMinutes)
         {
         }
 
@@ -39,15 +39,15 @@
         /// Mockable Constructor
         /// </summary>
         /// <param name="count">Count</param>
-        /// <param name="setup">Setup</param>
+        /// <param name="connection">Setup</param>
         /// <param name="throughput">Throughput</param>
         /// <param name="messagesPerScaleUnit">Messages Per-Scale Unit</param>
-        /// <param name="setup">Setup</param>
+        /// <param name="connection">Setup</param>
         /// <param name="minimum">Minimum Scale</param>
         /// <param name="maximum">Maximmum Scale</param>
         /// <param name="checkScaleInMinutes">Check Scale Every</param>
-        public BusQueueAutoScaler(IQueueCount count, IQueueSetup<T> setup, IQueueThroughput throughput, ushort messagesPerScaleUnit = QueueScaler<T>.MessagesPerScaleUnitDefault, byte minimum = 1, byte maximum = 2, byte checkScaleInMinutes = BaseTimes.ScaleCheck)
-            : base(count, messagesPerScaleUnit, setup, minimum, maximum, checkScaleInMinutes)
+        public BusQueueAutoScaler(IQueueCount count, IQueueConnection<T> connection, IQueueThroughput throughput, ushort messagesPerScaleUnit = QueueScaler<T>.MessagesPerScaleUnitDefault, byte minimum = 1, byte maximum = 2, byte checkScaleInMinutes = BaseTimes.ScaleCheck)
+            : base(count, messagesPerScaleUnit, connection, minimum, maximum, checkScaleInMinutes)
         {
             if (null == throughput)
             {
@@ -62,33 +62,33 @@
         /// <summary>
         /// Scale Unit
         /// </summary>
-        /// <param name="setup">Setup</param>
+        /// <param name="connection">Queue Connection</param>
         /// <returns>Scalable Task</returns>
-        public override IEnumerable<IScalable> ScaleUnit(IQueueSetup<T> setup)
+        public override IEnumerable<IScalable> ScaleUnit(IQueueConnection<T> connection)
         {
-            if (null == setup)
+            if (null == connection)
             {
                 throw new ArgumentNullException("setup");
             }
 
-            yield return this.throughput.Runner(this.Runs(setup), setup.Priority);
+            yield return this.throughput.Runner(this.Runs(connection), connection.Setup.Priority);
         }
 
         /// <summary>
         /// Runs
         /// </summary>
-        /// <param name="setup">Setup</param>
+        /// <param name="connection">Queue Connection</param>
         /// <returns>Dynamic Runs</returns>
-        public virtual IDynamicRuns Runs(IQueueSetup<T> setup)
+        public virtual IDynamicRuns Runs(IQueueConnection<T> connection)
         {
-            if (null == setup)
+            if (null == connection)
             {
                 throw new ArgumentNullException("setup");
             }
 
-            var minimumPeriodInSeconds = this.throughput.MinimumFrequency(setup.Priority);
-            var maximumPeriodInSeconds = this.throughput.MaximumFrequency(setup.Priority);
-            return new BusDequeueBatchDynamic<T>(setup.Name, setup.ConnectionString, setup.Get(), minimumPeriodInSeconds, maximumPeriodInSeconds);
+            var minimumPeriodInSeconds = this.throughput.MinimumFrequency(connection.Setup.Priority);
+            var maximumPeriodInSeconds = this.throughput.MaximumFrequency(connection.Setup.Priority);
+            return new BusDequeueBatchDynamic<T>(connection.Setup.Name, connection.ConnectionString, connection.Setup.Processor(), minimumPeriodInSeconds, maximumPeriodInSeconds);
         }
         #endregion
     }

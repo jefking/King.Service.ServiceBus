@@ -5,41 +5,24 @@
     using King.Service.Scalability;
     using System;
     using System.Collections.Generic;
+    using King.Service.Data.Model;
+
 
     /// <summary>
-    /// Storage Dequeue Factory
+    /// Service Bus Dequeue Factory
     /// </summary>
-    /// <typeparam name="T">Processor Type</typeparam>
-    public class BusDequeueFactory<T> : ITaskFactory<IQueueSetup<T>>
+    /// <typeparam name="T">Model Type</typeparam>
+    public class BusDequeueFactory : StorageDequeueFactory
     {
-        #region Members
-        /// <summary>
-        /// Queue Throughput
-        /// </summary>
-        protected readonly IQueueThroughput throughput = null;
-        #endregion
-
         #region Constructors
-        /// <summary>
-        /// Default Constructors
-        /// </summary>
-        public BusDequeueFactory()
-            :this(new QueueThroughput())
-        {
-        }
-
         /// <summary>
         /// Mockable Constructor
         /// </summary>
-        /// <param name="throughput">Throughput</param>
-        public BusDequeueFactory(IQueueThroughput throughput)
+        /// <param name="connectionString">Connection String</param>
+        /// <param name="throughput">Queue Throughput</param>
+        public BusDequeueFactory(string connectionString, IQueueThroughput throughput = null)
+            : base(connectionString, throughput)
         {
-            if (null == throughput)
-            {
-                throw new ArgumentNullException("throughput");
-            }
-
-            this.throughput = throughput;
         }
         #endregion
 
@@ -47,44 +30,47 @@
         /// <summary>
         /// Creates the Queue, and Loads Dynamic Dequeuer
         /// </summary>
+        /// <typeparam name="T">Passthrough</typeparam>
         /// <param name="setup">Setup</param>
         /// <param name="processor">Processor</param>
         /// <returns>Tasks</returns>
-        public virtual IEnumerable<IRunnable> Tasks(IQueueSetup<T> setup)
+        public override IEnumerable<IRunnable> Tasks<T>(IQueueSetup<T> setup)
         {
             if (null == setup)
             {
                 throw new ArgumentNullException("setup");
             }
 
-            var queue = new BusQueueReciever(setup.Name, setup.ConnectionString);
-            yield return new InitializeBusQueue(setup.Name, setup.ConnectionString);
-            yield return this.DequeueTask(queue, setup);
+            var queue = new BusQueueReciever(setup.Name, base.connectionString);
+            yield return new InitializeBusQueue(setup.Name, base.connectionString);
+            yield return this.Dequeue<T>(setup);
         }
 
         /// <summary>
-        /// Dequeue Task
+        /// Dequeue Task (Storage Queue Auto Scaler)
         /// </summary>
-        /// <param name="queue">Queue</param>
+        /// <typeparam name="T">Data Type</typeparam>
         /// <param name="setup">Setup</param>
         /// <returns>Storage Queue Auto Scaler</returns>
-        public virtual IRunnable DequeueTask(IBusQueueReciever queue, IQueueSetup<T> setup)
+        public override IRunnable Dequeue<T>(IQueueSetup<T> setup)
         {
-            if (null == queue)
-            {
-                throw new ArgumentNullException("queue");
-            }
             if (null == setup)
             {
                 throw new ArgumentNullException("setup");
             }
 
+            var queue = new BusQueue(setup.Name, base.connectionString);
             var messagesPerScaleUnit = this.throughput.MessagesPerScaleUnit(setup.Priority);
-            byte minimum = this.throughput.MinimumScale(setup.Priority);
-            byte maximum = this.throughput.MaximumScale(setup.Priority);
+            var minimum = this.throughput.MinimumScale(setup.Priority);
+            var maximum = this.throughput.MaximumScale(setup.Priority);
             var checkScaleInMinutes = this.throughput.CheckScaleEvery(setup.Priority);
+            var connection = new QueueConnection<T>()
+            {
+                ConnectionString = this.connectionString,
+                Setup = setup,
+            };
 
-            return new BusQueueAutoScaler<T>(queue, setup, messagesPerScaleUnit, minimum, maximum, checkScaleInMinutes);
+            return new BusQueueAutoScaler<T>(queue, connection, messagesPerScaleUnit, minimum, maximum, checkScaleInMinutes);
         }
         #endregion
     }
