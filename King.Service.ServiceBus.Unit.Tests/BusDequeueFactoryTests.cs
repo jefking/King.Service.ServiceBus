@@ -1,12 +1,11 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests
 {
-    using King.Azure.Data;
+    using System;
+    using System.Linq;
     using King.Service.Data;
     using King.Service.Scalability;
     using NSubstitute;
     using NUnit.Framework;
-    using System;
-    using System.Linq;
 
     [TestFixture]
     public class BusDequeueFactoryTests
@@ -20,9 +19,9 @@
         }
         
         [Test]
-        public void IsITaskFactory()
+        public void IsStorageDequeueFactory()
         {
-            Assert.IsNotNull(new BusDequeueFactory(ConnectionString) as ITaskFactory<IQueueSetup<object>>);
+            Assert.IsNotNull(new BusDequeueFactory(ConnectionString) as StorageDequeueFactory);
         }
 
         [Test]

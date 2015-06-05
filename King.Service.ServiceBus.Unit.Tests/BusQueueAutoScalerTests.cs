@@ -50,10 +50,12 @@
             {
                 Name = "test",
                 Priority = QueuePriority.Low,
+                Processor = () => { return Substitute.For<IProcessor<object>>(); },
             };
 
             var connection = new QueueConnection<object>()
             {
+                ConnectionString = ConnectionString,
                 Setup = setup,
             };
 
