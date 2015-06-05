@@ -1,12 +1,11 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests
 {
+    using System;
     using King.Azure.Data;
     using King.Service.Data;
     using King.Service.Timing;
     using NSubstitute;
     using NUnit.Framework;
-    using System;
-    using System.Configuration;
 
     [TestFixture]
     public class BusDequeueBatchDynamicTests
