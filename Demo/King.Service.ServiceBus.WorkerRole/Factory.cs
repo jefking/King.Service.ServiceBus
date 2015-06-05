@@ -52,7 +52,7 @@
             yield return new AdaptiveRunner(new BusDequeueBatchDynamic<ExampleModel>(config.DynamicQueueName, config.Connection, new ExampleProcessor()));
 
             //Dynamic Batch Size, Frequency, Threads (and queue creation)
-            var f = new BusDequeueFactory<ExampleModel>();
+            var factory = new BusDequeueFactory(config.Connection);
             var setup = new QueueSetup<ExampleModel>
             {
                 Name = config.FactoryQueueName,
@@ -60,7 +60,7 @@
                 Processor = () => { return new ExampleProcessor(); },
             };
 
-            foreach (var t in f.Tasks(setup))
+            foreach (var t in factory.Tasks<ExampleModel>(setup))
             {
                 yield return t;
             }

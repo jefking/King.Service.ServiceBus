@@ -19,9 +19,9 @@
         }
         
         [Test]
-        public void IsStorageDequeueFactory()
+        public void IsDequeueFactory()
         {
-            Assert.IsNotNull(new BusDequeueFactory(ConnectionString) as StorageDequeueFactory);
+            Assert.IsNotNull(new BusDequeueFactory(ConnectionString) as DequeueFactory);
         }
 
         [Test]
@@ -50,7 +50,7 @@
         public void TasksSetupNull()
         {
             var f = new BusDequeueFactory(ConnectionString);
-            var tasks = f.Tasks<object>(null);
+            var tasks = f.Tasks<object>((IQueueSetup<object>)null);
 
             Assert.IsNotNull(tasks);
             Assert.AreEqual(2, tasks.Count());

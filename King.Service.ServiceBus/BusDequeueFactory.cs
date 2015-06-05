@@ -11,8 +11,7 @@
     /// <summary>
     /// Service Bus Dequeue Factory
     /// </summary>
-    /// <typeparam name="T">Model Type</typeparam>
-    public class BusDequeueFactory : StorageDequeueFactory
+    public class BusDequeueFactory : DequeueFactory
     {
         #region Constructors
         /// <summary>
