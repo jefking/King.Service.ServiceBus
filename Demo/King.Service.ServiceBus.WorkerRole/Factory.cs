@@ -60,10 +60,10 @@
                 Processor = () => { return new ExampleProcessor(); },
             };
 
-            foreach (var t in factory.Tasks<ExampleModel>(setup))
-            {
-                yield return t;
-            }
+            //foreach (var t in factory.Tasks<ExampleModel>(setup))
+            //{
+            //    yield return t;
+            //}
 
             //Simulate messages being added to queues
             yield return new QueueForAction(new BusQueueSender(config.PollingName, config.Connection), "Poll");
