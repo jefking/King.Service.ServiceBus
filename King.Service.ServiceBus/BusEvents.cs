@@ -9,6 +9,7 @@
     /// <summary>
     /// Service Bus Queue Events
     /// </summary>
+    /// <typeparam name="T">Model</typeparam>
     public class BusEvents<T> : RecurringTask
     {
         #region Members

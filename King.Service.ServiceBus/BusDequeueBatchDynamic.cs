@@ -8,7 +8,7 @@
     /// <summary>
     /// Bus Dequeue Batch Dynamic
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Model</typeparam>
     public class BusDequeueBatchDynamic<T> : DequeueBatchDynamic<T>
     {
         #region Constructors
