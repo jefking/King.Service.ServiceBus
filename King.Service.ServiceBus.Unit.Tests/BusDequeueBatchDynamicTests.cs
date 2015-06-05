@@ -11,7 +11,7 @@
     [TestFixture]
     public class BusDequeueBatchDynamicTests
     {
-        static readonly string ConnectionString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
+        const string ConnectionString = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
 
         [Test]
         public void Constructor()
