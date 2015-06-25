@@ -71,6 +71,7 @@
             
             var throughput = Substitute.For<IQueueThroughput>();
             throughput.Scale(setup.Priority).Returns(new Range<byte>(min, max));
+            throughput.CheckScaleEvery(setup.Priority).Returns<byte>(1);
 
             var f = new BusDequeueFactory(ConnectionString, throughput);
             var task = f.Dequeue<object>(setup);
@@ -80,6 +81,7 @@
             Assert.IsNotNull(scaler);
 
             throughput.Received().Scale(setup.Priority);
+            throughput.Received().CheckScaleEvery(setup.Priority);
         }
         
         [Test]

@@ -6,8 +6,7 @@
     using System;
     using System.Collections.Generic;
     using King.Service.Data.Model;
-
-
+    
     /// <summary>
     /// Service Bus Dequeue Factory
     /// </summary>
@@ -31,7 +30,6 @@
         /// </summary>
         /// <typeparam name="T">Passthrough</typeparam>
         /// <param name="setup">Setup</param>
-        /// <param name="processor">Processor</param>
         /// <returns>Tasks</returns>
         public override IEnumerable<IRunnable> Tasks<T>(IQueueSetup<T> setup)
         {
