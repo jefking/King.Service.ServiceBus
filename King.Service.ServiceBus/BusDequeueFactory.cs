@@ -60,8 +60,7 @@
 
             var queue = new BusQueue(setup.Name, base.connectionString);
             var messagesPerScaleUnit = this.throughput.MessagesPerScaleUnit(setup.Priority);
-            var minimum = this.throughput.MinimumScale(setup.Priority);
-            var maximum = this.throughput.MaximumScale(setup.Priority);
+            var scale = this.throughput.Scale(setup.Priority);
             var checkScaleInMinutes = this.throughput.CheckScaleEvery(setup.Priority);
             var connection = new QueueConnection<T>()
             {
@@ -69,7 +68,7 @@
                 Setup = setup,
             };
 
-            return new BusQueueAutoScaler<T>(queue, connection, messagesPerScaleUnit, minimum, maximum, checkScaleInMinutes);
+            return new BusQueueAutoScaler<T>(queue, connection, messagesPerScaleUnit, scale.Minimum, scale.Maximum, checkScaleInMinutes);
         }
         #endregion
     }

@@ -42,7 +42,7 @@
         /// <param name="eventHandler">Event Handler</param>
         /// <param name="concurrentCalls">Concurrent Calls</param>
         public BusEvents(IBusQueueReciever queue, IBusEventHandler<T> eventHandler, byte concurrentCalls = DefaultConcurrentCalls)
-            :base(BaseTimes.MinimumTiming, BaseTimes.NoRepeat)
+            :base(BaseTimes.NoRepeat)
         {
             if (null == queue)
             {

@@ -70,8 +70,7 @@
             var min = (byte)random.Next(byte.MinValue, max);
             
             var throughput = Substitute.For<IQueueThroughput>();
-            throughput.MaximumScale(setup.Priority).Returns(max);
-            throughput.MinimumScale(setup.Priority).Returns(min);
+            throughput.Scale(setup.Priority).Returns(new Range<byte>(min, max));
 
             var f = new BusDequeueFactory(ConnectionString, throughput);
             var task = f.Dequeue<object>(setup);
@@ -79,11 +78,8 @@
             Assert.IsNotNull(task);
             var scaler = task as BusQueueAutoScaler<object>;
             Assert.IsNotNull(scaler);
-            Assert.AreEqual(min, scaler.Minimum);
-            Assert.AreEqual(max, scaler.Maximum);
 
-            throughput.Received().MaximumScale(setup.Priority);
-            throughput.Received().MinimumScale(setup.Priority);
+            throughput.Received().Scale(setup.Priority);
         }
         
         [Test]

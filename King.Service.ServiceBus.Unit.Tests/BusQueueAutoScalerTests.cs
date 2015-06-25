@@ -60,8 +60,7 @@
             };
 
             var throughput = Substitute.For<IQueueThroughput>();
-            throughput.MinimumFrequency(setup.Priority).Returns(min);
-            throughput.MaximumFrequency(setup.Priority).Returns(max);
+            throughput.Frequency(setup.Priority).Returns(new Range<byte>(min, max));
 
             var s = new BusQueueAutoScaler<object>(count, connection, throughput);
             var runs = s.Runs(connection);
@@ -70,8 +69,7 @@
             Assert.AreEqual(min, runs.MinimumPeriodInSeconds);
             Assert.AreEqual(max, runs.MaximumPeriodInSeconds);
 
-            throughput.Received().MinimumFrequency(setup.Priority);
-            throughput.Received().MaximumFrequency(setup.Priority);
+            throughput.Received().Frequency(setup.Priority);
         }
 
         [Test]

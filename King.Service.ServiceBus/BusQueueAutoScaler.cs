@@ -86,9 +86,8 @@
                 throw new ArgumentNullException("setup");
             }
 
-            var minimumPeriodInSeconds = this.throughput.MinimumFrequency(connection.Setup.Priority);
-            var maximumPeriodInSeconds = this.throughput.MaximumFrequency(connection.Setup.Priority);
-            return new BusDequeueBatchDynamic<T>(connection.Setup.Name, connection.ConnectionString, connection.Setup.Processor(), minimumPeriodInSeconds, maximumPeriodInSeconds);
+            var frequency = this.throughput.Frequency(connection.Setup.Priority);
+            return new BusDequeueBatchDynamic<T>(connection.Setup.Name, connection.ConnectionString, connection.Setup.Processor(), frequency.Minimum, frequency.Maximum);
         }
         #endregion
     }

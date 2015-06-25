@@ -15,7 +15,7 @@
 
         #region Constructors
         public TopicShipper(ITopicSender client)
-            :base(2, 30)
+            :base(30)
         {
             this.client = client;
             this.action = "topic";
