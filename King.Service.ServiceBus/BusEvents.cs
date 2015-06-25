@@ -10,7 +10,7 @@
     /// Service Bus Queue Events
     /// </summary>
     /// <typeparam name="T">Model</typeparam>
-    public class BusEvents<T> : RecurringTask
+    public class BusEvents<T> : InitializeTask
     {
         #region Members
         /// <summary>
@@ -42,7 +42,6 @@
         /// <param name="eventHandler">Event Handler</param>
         /// <param name="concurrentCalls">Concurrent Calls</param>
         public BusEvents(IBusQueueReciever queue, IBusEventHandler<T> eventHandler, byte concurrentCalls = DefaultConcurrentCalls)
-            :base(BaseTimes.NoRepeat)
         {
             if (null == queue)
             {
