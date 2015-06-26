@@ -1,9 +1,10 @@
 ﻿namespace King.Service.ServiceBus.Queue
 {
-    using King.Azure.Data;
     using System.Diagnostics;
     using System.Threading.Tasks;
-
+    using King.Azure.Data;
+    using King.Service.WorkerRole.Models;
+    
     /// <summary>
     /// Processes dequeued data of type ExampleModel
     /// </summary>

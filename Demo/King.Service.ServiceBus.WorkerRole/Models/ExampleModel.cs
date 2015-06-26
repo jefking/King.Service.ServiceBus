@@ -1,8 +1,7 @@
-﻿namespace King.Service.ServiceBus.Queue
+﻿namespace King.Service.WorkerRole.Models
 {
     using System;
-
-    [Serializable]
+    
     public class ExampleModel
     {
         public Guid Identifier

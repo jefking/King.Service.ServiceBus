@@ -1,9 +1,9 @@
 ﻿namespace King.Service.WorkerRole.Queue
 {
-    using King.Service.ServiceBus;
-    using King.Service.ServiceBus.Queue;
     using System;
     using System.Diagnostics;
+    using King.Service.ServiceBus;
+    using King.Service.WorkerRole.Models;
 
     public class QueueForBuffer : RecurringTask
     {
@@ -20,15 +20,16 @@
 
         public override void Run()
         {
-            var model = new ExampleModel
+            var model = new BufferedModel
             {
                 Identifier = Guid.NewGuid(),
                 Action = "Buffered",
+                ShouldProcessAt = DateTime.UtcNow.AddSeconds(30),
             };
 
             Trace.TraceInformation("Sending to queue for {0}: '{1}'", model.Action, model.Identifier);
 
-            client.SendBuffered(model, DateTime.UtcNow.AddSeconds(30)).Wait();
+            client.SendBuffered(model, model.ShouldProcessAt).Wait();
         }
     }
 }

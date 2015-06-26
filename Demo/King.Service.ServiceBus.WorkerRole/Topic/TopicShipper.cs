@@ -1,9 +1,9 @@
 ﻿namespace King.Service.WorkerRole.Topic
 {
-    using King.Service.ServiceBus;
-    using King.Service.ServiceBus.Queue;
     using System;
     using System.Diagnostics;
+    using King.Service.ServiceBus;
+    using King.Service.WorkerRole.Models;
 
     public class TopicShipper : RecurringTask
     {
