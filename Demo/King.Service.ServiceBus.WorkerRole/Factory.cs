@@ -40,7 +40,7 @@
             yield return new BusEvents<ExampleModel>(eventReciever, new EventHandler());
 
             //Task for recieving queue events to specific times
-            yield return new BufferedReciever<BufferedModel>(eventReciever, new BufferedEventHandler());
+            yield return new BufferedReciever<ExampleModel>(bufferReciever, new EventHandler());
 
             //Auto Scaling Dequeue Task
             yield return new ScalableQueue(scalingQueue, config);
