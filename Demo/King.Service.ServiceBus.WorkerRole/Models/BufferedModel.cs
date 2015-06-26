@@ -2,6 +2,7 @@
 {
     using System;
     
+    [Serializable]
     public class BufferedModel : ExampleModel
     {
         public DateTime ShouldProcessAt

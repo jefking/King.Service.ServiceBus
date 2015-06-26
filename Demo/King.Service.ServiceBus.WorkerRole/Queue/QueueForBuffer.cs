@@ -24,10 +24,10 @@
             {
                 Identifier = Guid.NewGuid(),
                 Action = "Buffered",
-                ShouldProcessAt = DateTime.UtcNow.AddSeconds(30),
+                ShouldProcessAt = DateTime.UtcNow.AddSeconds(15),
             };
 
-            Trace.TraceInformation("Sending to queue for {0}: '{1}'", model.Action, model.Identifier);
+            //Trace.TraceInformation("Sending to queue for {0}: '{1}'", model.Action, model.Identifier);
 
             client.SendBuffered(model, model.ShouldProcessAt).Wait();
         }

@@ -7,11 +7,8 @@
     using King.Service.WorkerRole.Topic;
     using System.Collections.Generic;
     using King.Service.Data;
-
-
-    /// <summary>
-    /// Factory
-    /// </summary>
+    using King.Service.WorkerRole.Models;
+    
     public class Factory : ITaskFactory<Configuration>
     {
         /// <summary>
@@ -43,7 +40,7 @@
             yield return new BusEvents<ExampleModel>(eventReciever, new EventHandler());
 
             //Task for recieving queue events to specific times
-            yield return new BufferedReciever<ExampleModel>(bufferReciever, new EventHandler());
+            yield return new BufferedReciever<BufferedModel>(eventReciever, new BufferedEventHandler());
 
             //Auto Scaling Dequeue Task
             yield return new ScalableQueue(scalingQueue, config);
