@@ -7,20 +7,16 @@
 
     public class TopicShipper : RecurringTask
     {
-        #region Members
         private readonly ITopicSender client;
 
         private readonly string action = null;
-        #endregion
 
-        #region Constructors
         public TopicShipper(ITopicSender client)
             :base(30)
         {
             this.client = client;
             this.action = "topic";
         }
-        #endregion
 
         public override void Run()
         {

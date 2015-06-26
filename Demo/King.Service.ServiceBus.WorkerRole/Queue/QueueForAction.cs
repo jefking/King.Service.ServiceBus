@@ -7,20 +7,16 @@
 
     public class QueueForAction : RecurringTask
     {
-        #region Members
         private readonly IBusQueueSender client;
 
         private readonly string action = null;
-        #endregion
 
-        #region Constructors
         public QueueForAction(IBusQueueSender client, string action)
             :base(30)
         {
             this.client = client;
             this.action = action;
         }
-        #endregion
 
         public override void Run()
         {

@@ -1,13 +1,13 @@
 ﻿namespace King.Service.ServiceBus
 {
+    using System.Collections.Generic;
+    using King.Service.Data;
     using King.Service.ServiceBus.Queue;
     using King.Service.WorkerRole;
+    using King.Service.WorkerRole.Models;
     using King.Service.WorkerRole.Queue;
     using King.Service.WorkerRole.Scalable;
     using King.Service.WorkerRole.Topic;
-    using System.Collections.Generic;
-    using King.Service.Data;
-    using King.Service.WorkerRole.Models;
     
     public class Factory : ITaskFactory<Configuration>
     {

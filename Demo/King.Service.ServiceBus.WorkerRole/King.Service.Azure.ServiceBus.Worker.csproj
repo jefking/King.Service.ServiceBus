@@ -44,7 +44,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queue\EventHandler.cs" />
     <Compile Include="Queue\ExampleProcessor.cs" />
-    <Compile Include="Queue\Queued.cs" />
     <Compile Include="Queue\QueueForBuffer.cs" />
     <Compile Include="Queue\QueueForAction.cs" />
     <Compile Include="Scalable\ScalableQueue.cs" />

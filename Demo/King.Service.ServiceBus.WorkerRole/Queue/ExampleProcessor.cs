@@ -5,9 +5,6 @@
     using King.Azure.Data;
     using King.Service.WorkerRole.Models;
     
-    /// <summary>
-    /// Processes dequeued data of type ExampleModel
-    /// </summary>
     public class ExampleProcessor : IProcessor<ExampleModel>
     {
         public Task<bool> Process(ExampleModel model)

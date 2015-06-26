@@ -7,16 +7,12 @@
 
     public class QueueForBuffer : RecurringTask
     {
-        #region Members
         private readonly IBusQueueSender client;
-        #endregion
 
-        #region Constructors
         public QueueForBuffer(IBusQueueSender client)
         {
             this.client = client;
         }
-        #endregion
 
         public override void Run()
         {
