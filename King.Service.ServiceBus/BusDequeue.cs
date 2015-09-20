@@ -1,9 +1,9 @@
 ﻿namespace King.Service.ServiceBus
 {
+    using System;
     using King.Azure.Data;
     using King.Service.Data;
     using King.Service.Timing;
-    using System;
 
     /// <summary>
     /// Service Bus Dequeue

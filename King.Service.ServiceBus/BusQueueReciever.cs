@@ -1,12 +1,12 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using King.Service.ServiceBus.Wrappers;
-    using Microsoft.ServiceBus;
-    using Microsoft.ServiceBus.Messaging;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading.Tasks;
+    using King.Service.ServiceBus.Wrappers;
+    using Microsoft.ServiceBus;
+    using Microsoft.ServiceBus.Messaging;
 
     /// <summary>
     /// Bus Queue Reciever

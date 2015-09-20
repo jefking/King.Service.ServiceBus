@@ -1,10 +1,10 @@
 ﻿namespace King.Service.ServiceBus
 {
+    using System;
+    using System.Threading.Tasks;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
-    using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Bus Queue

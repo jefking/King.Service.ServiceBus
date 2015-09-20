@@ -1,11 +1,11 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using King.Service.ServiceBus.Wrappers;
-    using Microsoft.ServiceBus;
-    using Microsoft.ServiceBus.Messaging;
     using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
+    using King.Service.ServiceBus.Wrappers;
+    using Microsoft.ServiceBus;
+    using Microsoft.ServiceBus.Messaging;
 
     /// <summary>
     /// Topic Sender

@@ -1,7 +1,7 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using Microsoft.ServiceBus.Messaging;
     using System;
+    using Microsoft.ServiceBus.Messaging;
 
     #region Tansient Error
     /// <summary>

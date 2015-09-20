@@ -1,9 +1,9 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using Microsoft.ServiceBus;
-    using Microsoft.ServiceBus.Messaging;
     using System;
     using System.Threading.Tasks;
+    using Microsoft.ServiceBus;
+    using Microsoft.ServiceBus.Messaging;
 
     /// <summary>
     /// Initialize Topic

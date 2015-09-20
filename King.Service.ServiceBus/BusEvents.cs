@@ -1,10 +1,9 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using King.Service.Timing;
-    using Microsoft.ServiceBus.Messaging;
     using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
+    using Microsoft.ServiceBus.Messaging;
 
     /// <summary>
     /// Service Bus Queue Events
