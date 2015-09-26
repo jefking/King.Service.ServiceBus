@@ -45,7 +45,7 @@
         /// </summary>
         /// <param name="name">Queue Name</param>
         /// <param name="manager">Manager</param>
-        /// <param name="client"Client></param>
+        /// <param name="client"Client>Bus Topic Client</param>
         public TopicSender(string name, NamespaceManager manager, IBusTopicClient client)
         {
             if (string.IsNullOrWhiteSpace(name))
