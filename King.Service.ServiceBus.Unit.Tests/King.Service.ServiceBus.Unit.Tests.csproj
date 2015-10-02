@@ -65,6 +65,7 @@
     <Compile Include="Timing\BusQueueTimingTrackerTests.cs" />
     <Compile Include="Timing\SleepTests.cs" />
     <Compile Include="TopicSenderTests.cs" />
+    <Compile Include="TopicSubscriberTests.cs" />
     <Compile Include="TransientErrorArgsTests.cs" />
     <Compile Include="TransientErrorHandlerTests.cs" />
     <Compile Include="Wrappers\BufferedMessageEventHandlerTests.cs" />
