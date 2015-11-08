@@ -66,7 +66,7 @@
             var wait = TimeSpan.FromSeconds(10);
             var msg = new BrokeredMessage("data");
             var queue = Substitute.For<IBusQueueReciever>();
-            queue.Get(wait).Returns(x => { throw new ApplicationException(); });
+            queue.Get(wait).Returns<BrokeredMessage>(x => { throw new ApplicationException(); });
 
             var poller = new ServiceBusQueuePoller<object>(queue, wait);
             await poller.Poll();
@@ -116,7 +116,7 @@
             var wait = TimeSpan.FromSeconds(10);
             var msg = new BrokeredMessage("data");
             var queue = Substitute.For<IBusQueueReciever>();
-            queue.GetMany(wait).Returns(x => { throw new ApplicationException(); });
+            queue.GetMany(wait).Returns<IEnumerable<BrokeredMessage>>(x => { throw new ApplicationException(); });
 
             var poller = new ServiceBusQueuePoller<object>(queue, wait);
             await poller.PollMany();
