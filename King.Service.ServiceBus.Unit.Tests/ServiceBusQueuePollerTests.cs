@@ -1,13 +1,13 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests
 {
-    using King.Service.ServiceBus;
-    using Microsoft.ServiceBus.Messaging;
-    using NSubstitute;
-    using NUnit.Framework;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using King.Service.ServiceBus;
+    using Microsoft.ServiceBus.Messaging;
+    using NSubstitute;
+    using NUnit.Framework;
 
     [TestFixture]
     public class ServiceBusQueuePollerTests
