@@ -23,12 +23,11 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorThroughputNull()
         {
             var count = Substitute.For<IQueueCount>();
             var connection = Substitute.For<IQueueConnection<object>>();
-            new BusQueueAutoScaler<object>(count, connection, null);
+            Assert.That(() => new BusQueueAutoScaler<object>(count, connection, null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
@@ -73,14 +72,13 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void RunsSetupNull()
         {
             var count = Substitute.For<IQueueCount>();
             var connection = Substitute.For<IQueueConnection<object>>();
 
             var s = new BusQueueAutoScaler<object>(count, connection);
-            s.Runs(null);
+            Assert.That(() => s.Runs(null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
@@ -104,17 +102,13 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ScaleUnitSetupNull()
         {
             var count = Substitute.For<IQueueCount>();
             var connection = Substitute.For<IQueueConnection<object>>();
 
             var s = new BusQueueAutoScaler<object>(count, connection);
-            var unit = s.ScaleUnit(null);
-
-            Assert.IsNotNull(unit);
-            Assert.AreEqual(1, unit.Count());
+            Assert.That(() => s.ScaleUnit(null), Throws.TypeOf<ArgumentNullException>());
         }
     }
 }

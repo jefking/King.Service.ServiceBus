@@ -19,10 +19,9 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorMessageNull()
         {
-            new Queued<object>(null);
+            Assert.That(() => new Queued<object>(null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]

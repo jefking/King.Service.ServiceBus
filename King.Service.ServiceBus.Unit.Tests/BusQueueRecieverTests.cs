@@ -33,19 +33,17 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void RegisterForEventsCallbackNull()
         {
             var queue = new BusQueueReciever(Guid.NewGuid().ToString(), connection);
-            queue.RegisterForEvents(null, new OnMessageOptions());
+            Assert.That(async () => queue.RegisterForEvents(null, new OnMessageOptions()), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void RegisterForEventsOptionsNull()
         {
             var queue = new BusQueueReciever(Guid.NewGuid().ToString(), connection);
-            queue.RegisterForEvents(this.OnMessageArrived, null);
+            Assert.That(() => queue.RegisterForEvents(this.OnMessageArrived, null), Throws.TypeOf<ArgumentNullException>());
         }
 
         private async Task OnMessageArrived(BrokeredMessage message)
@@ -54,8 +52,7 @@
         }
 
         [Test]
-        [ExpectedException(typeof(Exception))]
-        public async Task GetThrows()
+        public void GetThrows()
         {
             var wait = TimeSpan.FromSeconds(10);
             var m = NamespaceManager.CreateFromConnectionString(connection);
@@ -63,12 +60,11 @@
             client.When(c => c.Recieve(Arg.Any<TimeSpan>())).Do(x => { throw new Exception(); });
 
             var q = new BusQueueReciever(Guid.NewGuid().ToString(), m, client);
-            await q.Get(wait);
+            Assert.That(async () => await q.Get(wait), Throws.TypeOf<Exception>());
         }
 
         [Test]
-        [ExpectedException(typeof(MessagingException))]
-        public async Task GetThrowsMessagingException()
+        public void GetThrowsMessagingException()
         {
             var wait = TimeSpan.FromSeconds(10);
             var m = NamespaceManager.CreateFromConnectionString(connection);
@@ -82,12 +78,11 @@
             });
 
             var q = new BusQueueReciever(Guid.NewGuid().ToString(), m, client);
-            await q.Get(wait);
+            Assert.That(async () => await q.Get(wait), Throws.TypeOf<MessagingException>());
         }
 
         [Test]
-        [ExpectedException(typeof(Exception))]
-        public async Task GetManyThrows()
+        public void GetManyThrows()
         {
             var wait = TimeSpan.FromSeconds(10);
             var m = NamespaceManager.CreateFromConnectionString(connection);
@@ -95,12 +90,11 @@
             client.When(c => c.RecieveBatch(5, Arg.Any<TimeSpan>())).Do(x => { throw new Exception(); });
 
             var q = new BusQueueReciever(Guid.NewGuid().ToString(), m, client);
-            await q.GetMany(wait);
+            Assert.That(async () => await q.GetMany(wait), Throws.TypeOf<Exception>());
         }
 
         [Test]
-        [ExpectedException(typeof(MessagingException))]
-        public async Task GetManyThrowsMessagingException()
+        public void GetManyThrowsMessagingException()
         {
             var wait = TimeSpan.FromSeconds(10);
             var m = NamespaceManager.CreateFromConnectionString(connection);
@@ -114,7 +108,7 @@
             });
 
             var q = new BusQueueReciever(Guid.NewGuid().ToString(), m, client);
-            await q.GetMany(wait);
+            Assert.That(async () => await q.GetMany(wait), Throws.TypeOf<MessagingException>());
         }
     }
 }

@@ -20,24 +20,21 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void ConstructorNameNull()
         {
-            new TopicSubscriber(null, connection, Guid.NewGuid().ToString());
+            Assert.That(() => new TopicSubscriber(null, connection, Guid.NewGuid().ToString()), Throws.TypeOf<ArgumentException>());
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void ConstructorConnectionNull()
         {
-            new TopicSubscriber(Guid.NewGuid().ToString(), null, Guid.NewGuid().ToString());
+            Assert.That(() => new TopicSubscriber(Guid.NewGuid().ToString(), null, Guid.NewGuid().ToString()), Throws.TypeOf<ArgumentException>());
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void ConstructorSubscriptionNameNull()
         {
-            new TopicSubscriber(Guid.NewGuid().ToString(), connection, null);
+            Assert.That(() => new TopicSubscriber(Guid.NewGuid().ToString(), connection, null), Throws.TypeOf<ArgumentException>());
         }
     }
 }

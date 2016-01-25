@@ -21,11 +21,10 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorQueueNull()
         {
             var wait = TimeSpan.FromSeconds(10);
-            new ServiceBusQueuePoller<object>(null, wait);
+            Assert.That(() => new ServiceBusQueuePoller<object>(null, wait), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
@@ -60,7 +59,6 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ApplicationException))]
         public async Task PollGetThrows()
         {
             var wait = TimeSpan.FromSeconds(10);
@@ -69,7 +67,7 @@
             queue.Get(wait).Returns<BrokeredMessage>(x => { throw new ApplicationException(); });
 
             var poller = new ServiceBusQueuePoller<object>(queue, wait);
-            await poller.Poll();
+            Assert.That(async () => await poller.Poll(), Throws.TypeOf<ApplicationException>());
         }
 
         [Test]
@@ -110,8 +108,7 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ApplicationException))]
-        public async Task PollGetManyThrows()
+        public void PollGetManyThrows()
         {
             var wait = TimeSpan.FromSeconds(10);
             var msg = new BrokeredMessage("data");
@@ -119,7 +116,7 @@
             queue.GetMany(wait).Returns<IEnumerable<BrokeredMessage>>(x => { throw new ApplicationException(); });
 
             var poller = new ServiceBusQueuePoller<object>(queue, wait);
-            await poller.PollMany();
+            Assert.That(async () => await poller.PollMany(), Throws.TypeOf<ApplicationException>());
         }
     }
 }

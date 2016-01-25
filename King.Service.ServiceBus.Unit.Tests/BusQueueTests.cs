@@ -1,12 +1,12 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests
 {
+    using System;
     using King.Service.ServiceBus;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
     using NSubstitute;
     using NUnit.Framework;
-    using System;
 
     [TestFixture]
     public class BusQueueTests
@@ -20,35 +20,31 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void ConstructorNameNull()
         {
-            new BusQueue(null, connection);
+            Assert.That(() => new BusQueue(null, connection), Throws.TypeOf<ArgumentException>());
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void ConstructorMockableNameNull()
         {
             var m = NamespaceManager.CreateFromConnectionString(connection);
             var client = Substitute.For<IBusQueueClient>();
-            new BusQueue(null, m, client);
+            Assert.That(() => new BusQueue(null, m, client), Throws.TypeOf<ArgumentException>());
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorManagerNull()
         {
             var client = Substitute.For<IBusQueueClient>();
-            new BusQueue(Guid.NewGuid().ToString(), null, client);
+            Assert.That(() => new BusQueue(Guid.NewGuid().ToString(), null, client), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorClientNull()
         {
             var m = NamespaceManager.CreateFromConnectionString(connection);
-            new BusQueue(Guid.NewGuid().ToString(), m, null);
+            Assert.That(() => new BusQueue(Guid.NewGuid().ToString(), m, null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]

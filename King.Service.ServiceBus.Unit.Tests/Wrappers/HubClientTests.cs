@@ -18,10 +18,9 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorQueueClientNull()
         {
-            new HubClient(null);
+            Assert.That(() => new HubClient(null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]

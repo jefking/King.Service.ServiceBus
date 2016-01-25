@@ -21,10 +21,9 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorQueueNull()
         {
-            new BusQueueTimingTracker(null);
+            Assert.That(() => new BusQueueTimingTracker(null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]

@@ -20,10 +20,9 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void ConstructorNameNull()
         {
-            new TopicSender(null, connection);
+            Assert.That(() => new TopicSender(null, connection), Throws.TypeOf<ArgumentException>());
         }
 
         [Test]
@@ -33,44 +32,39 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void ConstructorMockableNameNull()
         {
             var m = NamespaceManager.CreateFromConnectionString(connection);
             var client = Substitute.For<IBusTopicClient>();
-            new TopicSender(null, m, client);
+            Assert.That(() => new TopicSender(null, m, client), Throws.TypeOf<ArgumentException>());
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorManagerNull()
         {
             var client = Substitute.For<IBusTopicClient>();
-            new TopicSender(Guid.NewGuid().ToString(), null, client);
+            Assert.That(() => new TopicSender(Guid.NewGuid().ToString(), null, client), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorClientNull()
         {
             var m = NamespaceManager.CreateFromConnectionString(connection);
-            new TopicSender(Guid.NewGuid().ToString(), m, null);
+            Assert.That(() => new TopicSender(Guid.NewGuid().ToString(), m, null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public async Task SaveObjectNull()
+        public void SaveObjectNull()
         {
             var queue = new TopicSender(Guid.NewGuid().ToString(), connection);
-            await queue.Send((object)null);
+            Assert.That(async () => await queue.Send((object)null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public async Task SaveBrokeredMessageNull()
+        public void SaveBrokeredMessageNull()
         {
             var queue = new TopicSender(Guid.NewGuid().ToString(), connection);
-            await queue.Send((BrokeredMessage)null);
+            Assert.That(async () => await queue.Send((BrokeredMessage)null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
@@ -149,8 +143,7 @@
         }
 
         [Test]
-        [ExpectedException(typeof(Exception))]
-        public async Task SendThrows()
+        public void SendThrows()
         {
             var msg = new BrokeredMessage();
             var m = NamespaceManager.CreateFromConnectionString(connection);
@@ -158,11 +151,10 @@
             client.When(c => c.Send(msg)).Do(x => { throw new Exception(); });
 
             var q = new TopicSender(Guid.NewGuid().ToString(), m, client);
-            await q.Send(msg);
+            Assert.That(async () => await q.Send(msg), Throws.TypeOf<Exception>());
         }
 
         [Test]
-        [ExpectedException(typeof(MessagingException))]
         public async Task SendThrowsMessagingException()
         {
             var msg = new BrokeredMessage();
@@ -177,7 +169,7 @@
             });
 
             var q = new TopicSender(Guid.NewGuid().ToString(), m, client);
-            await q.Send(msg);
+            Assert.That(async () => await q.Send(msg), Throws.TypeOf<MessagingException>());
         }
     }
 }

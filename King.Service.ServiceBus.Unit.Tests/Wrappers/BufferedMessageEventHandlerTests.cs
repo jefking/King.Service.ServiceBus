@@ -21,19 +21,17 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorHandlerNull()
         {
             var sleep = Substitute.For<ISleep>();
-            new BufferedMessageEventHandler<object>(null, sleep);
+            Assert.That(() => new BufferedMessageEventHandler<object>(null, sleep), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorSleepNull()
         {
             var handler = Substitute.For<IBusEventHandler<object>>();
-            new BufferedMessageEventHandler<object>(handler, null);
+            Assert.That(() => new BufferedMessageEventHandler<object>(handler, null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]

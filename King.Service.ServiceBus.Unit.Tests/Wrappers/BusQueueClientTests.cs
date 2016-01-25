@@ -18,10 +18,9 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorQueueClientNull()
         {
-            new BusQueueClient(null);
+            Assert.That(() => new BusQueueClient(null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]

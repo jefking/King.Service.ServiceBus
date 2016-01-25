@@ -28,19 +28,17 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorNameNull()
         {
             var handler = Substitute.For<IBusEventHandler<object>>();
-            new BusEvents<object>(null, handler);
+            Assert.That(() => new BusEvents<object>(null, handler), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorConnectionStringNull()
         {
             var queue = Substitute.For<IBusQueueReciever>();
-            new BusEvents<object>(queue, null);
+            Assert.That(() => new BusEvents<object>(queue, null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
@@ -76,7 +74,6 @@
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public async Task OnMessageArrivedNotProcessed()
         {
             var data = Guid.NewGuid().ToString();
@@ -91,7 +88,7 @@
             var events = new BusEvents<string>(queue, handler);
             await events.OnMessageArrived(msg);
 
-            handler.Received().Process(data);
+            Assert.That(async () => handler.Received().Process(data), Throws.TypeOf<InvalidOperationException>());
         }
 
         [Test]

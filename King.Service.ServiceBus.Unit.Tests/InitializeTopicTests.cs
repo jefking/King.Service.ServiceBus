@@ -14,18 +14,16 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void ConstructorConnectionStringNull()
         {
-            new InitializeTopic(Guid.NewGuid().ToString(), null);
+            Assert.That(() => new InitializeTopic(Guid.NewGuid().ToString(), null), Throws.TypeOf<ArgumentException>());
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void ConstructorNameNull()
         {
             var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
-            new InitializeTopic(null, fake);
+            Assert.That(() => new InitializeTopic(null, fake), Throws.TypeOf<ArgumentException>());
         }
 
         [Test]

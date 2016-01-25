@@ -46,14 +46,10 @@
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void TasksSetupNull()
         {
             var f = new BusDequeueFactory(ConnectionString);
-            var tasks = f.Tasks<object>((IQueueSetup<object>)null);
-
-            Assert.IsNotNull(tasks);
-            Assert.AreEqual(2, tasks.Count());
+            Assert.That(() => f.Tasks<object>((IQueueSetup<object>)null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
@@ -85,11 +81,10 @@
         }
         
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void DequeueTaskSetupNull()
         {
             var f = new BusDequeueFactory(ConnectionString);
-            var task = f.Dequeue<object>(null);
+            Assert.That(() => f.Dequeue<object>(null), Throws.TypeOf<ArgumentNullException>());
         }
     }
 }
