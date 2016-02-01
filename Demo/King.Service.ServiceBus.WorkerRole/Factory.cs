@@ -17,42 +17,37 @@
         /// <returns></returns>
         public IEnumerable<IRunnable> Tasks(Configuration config)
         {
+            var tasks = new List<IRunnable>();
+
             //Connections
             var eventReciever = new BusQueueReciever(config.EventsName, config.Connection);
             var bufferReciever = new BusQueueReciever(config.BufferedEventsName, config.Connection);
 
             //Initialize Service Bus
-            yield return new InitializeBusQueue(eventReciever);
-            yield return new InitializeBusQueue(bufferReciever);
-            yield return new InitializeTopic(config.TopicName, config.Connection);
-            
+            tasks.Add(new InitializeBusQueue(eventReciever));
+            tasks.Add(new InitializeBusQueue(bufferReciever));
+            tasks.Add(new InitializeTopic(config.TopicName, config.Connection));
+
             //Task for watching for queue events
-            yield return new BusEvents<ExampleModel>(eventReciever, new EventHandler());
+            tasks.Add(new BusEvents<ExampleModel>(eventReciever, new EventHandler()));
 
             //Task for recieving queue events to specific times
-            yield return new BufferedReciever<ExampleModel>(bufferReciever, new EventHandler());
+            tasks.Add(new BufferedReciever<ExampleModel>(bufferReciever, new EventHandler()));
             
             //Dynamic Batch Size, Frequency, Threads (and queue creation)
             var factory = new BusDequeueFactory(config.Connection);
-            var setup = new QueueSetupProcessor<ExampleProcessor, ExampleModel>
-            {
-                Name = config.FactoryQueueName,
-                Priority = QueuePriority.Medium,
-            };
-
-            foreach (var t in factory.Tasks<ExampleModel>(setup))
-            {
-                yield return t;
-            }
+            tasks.AddRange(factory.Dequeue<ExampleProcessor, ExampleModel>(config.FactoryQueueName, QueuePriority.Medium));
 
             //Simulate messages being added to queues
-            yield return new QueueForAction(new BusQueueSender(config.PollingName, config.Connection), "Poll");
-            yield return new QueueForAction(new BusQueueSender(config.EventsName, config.Connection), "Event");
-            yield return new QueueForAction(new BusQueueSender(config.FactoryQueueName, config.Connection), "Factory");
-            yield return new QueueForBuffer(new BusQueueSender(config.BufferedEventsName, config.Connection));
+            tasks.Add(new QueueForAction(new BusQueueSender(config.PollingName, config.Connection), "Poll"));
+            tasks.Add(new QueueForAction(new BusQueueSender(config.EventsName, config.Connection), "Event"));
+            tasks.Add(new QueueForAction(new BusQueueSender(config.FactoryQueueName, config.Connection), "Factory"));
+            tasks.Add(new QueueForBuffer(new BusQueueSender(config.BufferedEventsName, config.Connection)));
 
             //Simulate messages being sent to topics
-            yield return new TopicShipper(new TopicSender(config.TopicName, config.Connection));
+            tasks.Add(new TopicShipper(new TopicSender(config.TopicName, config.Connection)));
+
+            return tasks;
         }
     }
 }
