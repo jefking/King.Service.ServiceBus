@@ -2,11 +2,6 @@
 {
     public class Configuration
     {
-        public string PollingName
-        {
-            get;
-            set;
-        }
         public string ScalingQueueName
         {
             get;
