@@ -13,7 +13,7 @@
         /// <summary>
         /// Load Tasks
         /// </summary>
-        /// <param name="passthrough"></param>
+        /// <param name="passthrough">Configuration</param>
         /// <returns></returns>
         public IEnumerable<IRunnable> Tasks(Configuration config)
         {

@@ -2,11 +2,6 @@
 {
     public class Configuration
     {
-        public string ScalingQueueName
-        {
-            get;
-            set;
-        }
         public string EventsName
         {
             get;
@@ -18,11 +13,6 @@
             set;
         }
         public string TopicName
-        {
-            get;
-            set;
-        }
-        public string DynamicQueueName
         {
             get;
             set;

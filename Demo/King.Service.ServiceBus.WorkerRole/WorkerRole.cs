@@ -19,12 +19,9 @@ namespace King.Service.WorkerRole
         {
             var config = new Configuration()
             {
-                PollingName = "polling",
                 EventsName = "events",
                 BufferedEventsName = "buffered",
                 TopicName = "topic",
-                ScalingQueueName = "scaling",
-                DynamicQueueName = "dynamic",
                 FactoryQueueName = "factory",
                 Connection = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString"),
             };
