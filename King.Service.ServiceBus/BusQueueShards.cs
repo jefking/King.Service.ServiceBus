@@ -7,6 +7,9 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// Bus Queue Shards
+    /// </summary>
     public class BusQueueShards : IQueueShardSender<IBusQueueSender>, IAzureStorage
     {
         #region Members
