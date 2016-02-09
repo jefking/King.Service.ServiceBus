@@ -2,31 +2,11 @@
 {
     public class Configuration
     {
-        public string EventsName
-        {
-            get;
-            set;
-        }
-        public string BufferedEventsName
-        {
-            get;
-            set;
-        }
-        public string TopicName
-        {
-            get;
-            set;
-        }
-        public string FactoryQueueName
-        {
-            get;
-            set;
-        }
-
-        public string Connection
-        {
-            get;
-            set;
-        }
+        public string EventsName;
+        public string BufferedEventsName;
+        public string TopicName;
+        public string FactoryQueueName;
+        public string Connection;
+        public string ScalingQueueName;
     }
 }
