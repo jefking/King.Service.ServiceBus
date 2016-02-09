@@ -8,5 +8,6 @@
         public string FactoryQueueName;
         public string Connection;
         public string ScalingQueueName;
+        public string ShardsQueueName;
     }
 }

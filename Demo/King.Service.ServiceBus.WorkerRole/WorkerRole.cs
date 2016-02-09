@@ -23,6 +23,7 @@ namespace King.Service.WorkerRole
                 BufferedEventsName = "buffered",
                 TopicName = "topic",
                 FactoryQueueName = "factory",
+                ShardsQueueName = "shards",
                 Connection = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString"),
             };
 
