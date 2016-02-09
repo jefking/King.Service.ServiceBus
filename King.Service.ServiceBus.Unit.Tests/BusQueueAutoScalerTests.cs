@@ -108,7 +108,8 @@
             var connection = Substitute.For<IQueueConnection<object>>();
 
             var s = new BusQueueAutoScaler<object>(count, connection);
-            Assert.That(() => s.ScaleUnit(null), Throws.TypeOf<ArgumentNullException>());
+            var x = s.ScaleUnit(null);
+            Assert.That(() => x.ElementAt(0), Throws.TypeOf<ArgumentNullException>());
         }
     }
 }

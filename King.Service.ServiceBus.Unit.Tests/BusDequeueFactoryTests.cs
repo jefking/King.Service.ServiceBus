@@ -48,8 +48,9 @@
         [Test]
         public void TasksSetupNull()
         {
-            var f = new BusDequeueFactory(ConnectionString);
-            Assert.That(() => f.Tasks<object>((IQueueSetup<object>)null), Throws.TypeOf<ArgumentNullException>());
+            BusDequeueFactory f = new BusDequeueFactory(ConnectionString);
+            var x = f.Tasks<object>((IQueueSetup<object>)null);
+            Assert.That(() => x.ElementAt(0), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
