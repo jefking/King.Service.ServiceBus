@@ -50,6 +50,7 @@
     <Compile Include="BusQueueAutoScaler.cs" />
     <Compile Include="BusQueueReciever.cs" />
     <Compile Include="BusQueueSender.cs" />
+    <Compile Include="BusQueueShards.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="InitializeBusQueue.cs" />
     <Compile Include="InitializeHub.cs" />
