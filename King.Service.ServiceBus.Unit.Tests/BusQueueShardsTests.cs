@@ -11,7 +11,7 @@
     [TestFixture]
     public class BusQueueShardsTests
     {
-        private const string ConnectionString = "UseDevelopmentStorage=true;";
+        const string ConnectionString = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
 
         [Test]
         public void Constructor()
