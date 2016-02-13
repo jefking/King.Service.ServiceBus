@@ -15,6 +15,7 @@
                 //Simulate messages being added to queues
                 new QueueForAction(new BusQueueSender(config.EventsName, config.Connection), "Event"),
                 new QueueForAction(new BusQueueSender(config.FactoryQueueName, config.Connection), "Factory"),
+                new QueueToShards(new BusQueueShards(config.ShardsQueueName, config.Connection, 10)),
                 new QueueForBuffer(new BusQueueSender(config.BufferedEventsName, config.Connection)),
 
                 //Simulate messages being sent to topics

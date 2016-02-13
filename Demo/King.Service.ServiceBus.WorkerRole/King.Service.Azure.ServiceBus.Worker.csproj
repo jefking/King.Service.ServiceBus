@@ -47,6 +47,7 @@
     <Compile Include="Queue\ExampleProcessor.cs" />
     <Compile Include="Queue\QueueForBuffer.cs" />
     <Compile Include="Queue\QueueForAction.cs" />
+    <Compile Include="Queue\QueueToShards.cs" />
     <Compile Include="Scalable\ScalableQueue.cs" />
     <Compile Include="Topic\TopicShipper.cs" />
     <Compile Include="WorkerRole.cs" />
@@ -67,8 +68,8 @@
       <HintPath>..\..\packages\King.Service.1.12.5\lib\net45\King.Service.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="King.Service.ServiceBus, Version=1.0.4.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\King.Service.ServiceBus.1.1.4\lib\net45\King.Service.ServiceBus.dll</HintPath>
+    <Reference Include="King.Service.ServiceBus, Version=1.0.4.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\King.Service.ServiceBus.1.1.5\lib\net45\King.Service.ServiceBus.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
