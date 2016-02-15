@@ -11,7 +11,7 @@
     <RootNamespace>King.Service.Worker</RootNamespace>
     <AssemblyName>King.Service.Worker</AssemblyName>
     <StartDevelopmentStorage>True</StartDevelopmentStorage>
-    <Name>King.Service.Azure.ServiceBus</Name>
+    <Name>King.Service.ServiceBus</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,12 +40,12 @@
     <Folder Include="King.Service.Azure.ServiceBus.WorkerContent" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\King.Service.ServiceBus.WorkerRole\King.Service.Azure.ServiceBus.Worker.csproj">
-      <Name>King.Service.Azure.ServiceBus.Worker</Name>
+    <ProjectReference Include="..\King.Service.ServiceBus.WorkerRole\King.Service.ServiceBus.Worker.csproj">
+      <Name>King.Service.ServiceBus.Worker</Name>
       <Project>{a0bd1435-033c-4995-ae80-8f0646949fd9}</Project>
       <Private>True</Private>
       <RoleType>Worker</RoleType>
-      <RoleName>King.Service.Azure.ServiceBus.Worker</RoleName>
+      <RoleName>King.Service.ServiceBus.Worker</RoleName>
     </ProjectReference>
   </ItemGroup>
   <!-- Import the target files for this project template -->
