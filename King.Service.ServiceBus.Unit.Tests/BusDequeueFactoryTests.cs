@@ -25,6 +25,23 @@
         }
 
         [Test]
+        public void InitializeNameNull()
+        {
+            var f = new BusDequeueFactory(ConnectionString);
+            Assert.That(() => f.Initialize((string)null), Throws.TypeOf<ArgumentException>());
+        }
+
+        [Test]
+        public void InitializeName()
+        {
+            var f = new BusDequeueFactory(ConnectionString);
+            var task = f.Initialize(Guid.NewGuid().ToString());
+
+            Assert.IsNotNull(task);
+            Assert.IsNotNull(task as InitializeBusQueue);
+        }
+
+        [Test]
         public void Tasks()
         {
             var setup = new QueueSetup<object>

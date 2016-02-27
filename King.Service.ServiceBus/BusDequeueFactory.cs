@@ -25,6 +25,21 @@
 
         #region Methods
         /// <summary>
+        /// Create Queue
+        /// </summary>
+        /// <param name="name">Name</param>
+        /// <returns>Initialization Tasks</returns>
+        public override IRunnable Initialize(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("name");
+            }
+
+            return new InitializeBusQueue(name, base.connectionString);
+        }
+
+        /// <summary>
         /// Creates the Queue, and Loads Dynamic Dequeuer
         /// </summary>
         /// <typeparam name="T">Passthrough</typeparam>
@@ -38,24 +53,23 @@
             }
 
             var queue = new BusQueueReciever(setup.Name, base.connectionString);
-            yield return new InitializeBusQueue(setup.Name, base.connectionString);
+            yield return this.Initialize(setup.Name);
             yield return this.Dequeue<T>(setup);
         }
 
         /// <summary>
-        /// Dequeue Task (Storage Queue Auto Scaler)
+        /// Dequeue Task (Service Bus Queue Auto Scaler)
         /// </summary>
         /// <typeparam name="T">Data Type</typeparam>
         /// <param name="setup">Setup</param>
-        /// <returns>Storage Queue Auto Scaler</returns>
+        /// <returns>Service Bus Queue Auto Scaler</returns>
         public override IRunnable Dequeue<T>(IQueueSetup<T> setup)
         {
             if (null == setup)
             {
                 throw new ArgumentNullException("setup");
             }
-
-            var queue = new BusQueue(setup.Name, base.connectionString);
+            
             var messagesPerScaleUnit = this.throughput.MessagesPerScaleUnit(setup.Priority);
             var scale = this.throughput.Scale(setup.Priority);
             var checkScaleInMinutes = this.throughput.CheckScaleEvery(setup.Priority);
@@ -65,7 +79,12 @@
                 Setup = setup,
             };
 
-            return new BusQueueAutoScaler<T>(queue, connection, messagesPerScaleUnit, scale.Minimum, scale.Maximum, checkScaleInMinutes);
+            return new BusQueueAutoScaler<T>(new BusQueue(setup.Name, base.connectionString)
+                , connection
+                , messagesPerScaleUnit
+                , scale.Minimum
+                , scale.Maximum
+                , checkScaleInMinutes);
         }
         #endregion
     }
