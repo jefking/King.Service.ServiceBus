@@ -1,9 +1,9 @@
 ﻿namespace King.Service.WorkerRole
 {
+    using System.Collections.Generic;
     using King.Service.WorkerRole.Queue;
     using King.Service.WorkerRole.Topic;
     using ServiceBus;
-    using System.Collections.Generic;
 
     //For Demo Purposes
     public class DataGenerationFactory : ITaskFactory<Configuration>
@@ -19,7 +19,7 @@
                 new QueueForBuffer(new BusQueueSender(config.BufferedEventsName, config.Connection)),
 
                 //Simulate messages being sent to topics
-                new TopicShipper(new TopicSender(config.TopicName, config.Connection)),
+                new TopicShipper(new BusTopicSender(config.TopicName, config.Connection)),
             };
         }
     }
