@@ -2,13 +2,14 @@
 {
     using System;
     using System.Threading.Tasks;
+    using Azure.Data;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
 
     /// <summary>
-    /// Initialize Hub
+    /// Service Bus Hub
     /// </summary>
-    public class InitializeHub : InitializeTask
+    public class BusHub : IAzureStorage
     {
         #region Members
         /// <summary>
@@ -34,7 +35,7 @@
         /// <param name="name">Hub Name</param>
         /// <param name="connectionString">Connection String</param>
         /// <param name="partitionCount"></param>
-        public InitializeHub(string name, string connectionString, int partitionCount = 16)
+        public BusHub(string name, string connectionString, int partitionCount = 16)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -62,21 +63,42 @@
                 return this.partitionCount;
             }
         }
+
+        /// <summary>
+        /// Hub Name
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+        }
         #endregion
 
         #region Methods
         /// <summary>
-        /// Run Async
+        /// Create If Not Exists
         /// </summary>
-        /// <returns>Task</returns>
-        public override async Task RunAsync()
+        /// <returns>Created</returns>
+        public async Task<bool> CreateIfNotExists()
         {
             var description = new EventHubDescription(name)
             {
                 PartitionCount = this.partitionCount,
             };
 
-            await this.manager.CreateEventHubIfNotExistsAsync(description);
+            var d = await this.manager.CreateEventHubIfNotExistsAsync(description);
+            return d.Status == EntityStatus.Active;
+        }
+
+        /// <summary>
+        /// Delete
+        /// </summary>
+        /// <returns>Task</returns>
+        public async Task Delete()
+        {
+            await this.manager.DeleteEventHubAsync(this.name);
         }
         #endregion
     }

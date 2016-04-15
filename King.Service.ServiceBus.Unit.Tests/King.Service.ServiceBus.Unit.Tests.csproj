@@ -52,12 +52,12 @@
     <Compile Include="BusDequeueFactoryTests.cs" />
     <Compile Include="BusDequeueTests.cs" />
     <Compile Include="BusEventsTests.cs" />
+    <Compile Include="BusHubTests.cs" />
     <Compile Include="BusQueueAutoScalerTests.cs" />
     <Compile Include="BusQueueRecieverTests.cs" />
     <Compile Include="BusQueueSenderTests.cs" />
     <Compile Include="BusQueueShardsTests.cs" />
     <Compile Include="BusQueueTests.cs" />
-    <Compile Include="InitializeHubTests.cs" />
     <Compile Include="BusTopicTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\QueuedTests.cs" />

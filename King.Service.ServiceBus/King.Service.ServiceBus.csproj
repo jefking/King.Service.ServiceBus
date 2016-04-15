@@ -46,6 +46,7 @@
     <Compile Include="BusDequeueBatchDynamic.cs" />
     <Compile Include="BusDequeueFactory.cs" />
     <Compile Include="BusEvents.cs" />
+    <Compile Include="BusHub.cs" />
     <Compile Include="BusQueue.cs" />
     <Compile Include="BusQueueAutoScaler.cs" />
     <Compile Include="BusQueueReciever.cs" />
@@ -53,7 +54,6 @@
     <Compile Include="BusQueueShards.cs" />
     <Compile Include="BusTopic.cs" />
     <Compile Include="Delegates.cs" />
-    <Compile Include="InitializeHub.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="Models\BufferedMessage.cs" />
     <Compile Include="Models\Interfaces.cs" />
