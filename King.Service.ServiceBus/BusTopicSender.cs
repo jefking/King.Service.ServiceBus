@@ -8,7 +8,7 @@
     using Microsoft.ServiceBus.Messaging;
 
     /// <summary>
-    /// Topic Sender
+    /// Bus Topic Sender
     /// </summary>
     public class BusTopicSender : TransientErrorHandler, ITopicSender
     {
@@ -73,7 +73,7 @@
         /// </summary>
         /// <param name="message">Message</param>
         /// <returns>Task</returns>
-        public async Task Send(BrokeredMessage message)
+        public virtual async Task Send(BrokeredMessage message)
         {
             if (null == message)
             {
@@ -109,7 +109,7 @@
         /// </summary>
         /// <param name="obj">object</param>
         /// <returns>Task</returns>
-        public async Task Send(object obj)
+        public virtual async Task Send(object obj)
         {
             if (null == obj)
             {

@@ -56,7 +56,7 @@
         /// <summary>
         /// Number of partitons to create the Event Hub With
         /// </summary>
-        public int PartitionCount
+        public virtual int PartitionCount
         {
             get
             {
@@ -67,7 +67,7 @@
         /// <summary>
         /// Hub Name
         /// </summary>
-        public string Name
+        public virtual string Name
         {
             get
             {
@@ -81,7 +81,7 @@
         /// Create If Not Exists
         /// </summary>
         /// <returns>Created</returns>
-        public async Task<bool> CreateIfNotExists()
+        public virtual async Task<bool> CreateIfNotExists()
         {
             var description = new EventHubDescription(name)
             {
@@ -96,7 +96,7 @@
         /// Delete
         /// </summary>
         /// <returns>Task</returns>
-        public async Task Delete()
+        public virtual async Task Delete()
         {
             await this.manager.DeleteEventHubAsync(this.name);
         }

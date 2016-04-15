@@ -74,25 +74,6 @@
         }
 
         [Test]
-        public async Task OnMessageArrivedNotProcessed()
-        {
-            var data = Guid.NewGuid().ToString();
-            var msg = new BrokeredMessage(data)
-            {
-                ContentType = data.GetType().ToString(),
-            };
-            var queue = Substitute.For<IBusQueueReciever>();
-            var handler = Substitute.For<IBusEventHandler<string>>();
-            handler.Process(data).Returns(Task.FromResult(false));
-
-            var events = new BusEvents<string>(queue, handler);
-            await events.OnMessageArrived(msg);
-
-            //Assert.That(() => , Throws.TypeOf<InvalidOperationException>());
-            await handler.Received().Process(data);
-        }
-
-        [Test]
         public void OnExceptionReceived()
         {
             var args = new ExceptionReceivedEventArgs(new Exception(), Guid.NewGuid().ToString());

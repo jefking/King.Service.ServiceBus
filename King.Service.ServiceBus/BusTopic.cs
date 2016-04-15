@@ -49,7 +49,7 @@
         /// <summary>
         /// Topic Name
         /// </summary>
-        public string Name
+        public virtual string Name
         {
             get
             {
@@ -63,7 +63,7 @@
         /// Create If Not Exists
         /// </summary>
         /// <returns>Created</returns>
-        public async Task<bool> CreateIfNotExists()
+        public virtual async Task<bool> CreateIfNotExists()
         {
             var exists = await this.manager.TopicExistsAsync(this.name);
             if (!exists)
@@ -85,7 +85,7 @@
         /// Delete
         /// </summary>
         /// <returns>Task</returns>
-        public async Task Delete()
+        public virtual async Task Delete()
         {
             var exists = await this.manager.TopicExistsAsync(this.name);
             if (!exists)
