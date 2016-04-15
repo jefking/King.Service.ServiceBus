@@ -2,13 +2,14 @@
 {
     using System;
     using System.Threading.Tasks;
+    using Azure.Data;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
 
     /// <summary>
-    /// Initialize Topic
+    /// Bus Topic
     /// </summary>
-    public class InitializeTopic : InitializeTask
+    public class BusTopic : IAzureStorage
     {
         #region Members
         /// <summary>
@@ -26,9 +27,9 @@
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">Topic name</param>
         /// <param name="connectionString">Connection String</param>
-        public InitializeTopic(string name, string connectionString)
+        public BusTopic(string name, string connectionString)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -44,22 +45,52 @@
         }
         #endregion
 
+        #region Properties
+        /// <summary>
+        /// Topic Name
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+        }
+        #endregion
+
         #region Methods
         /// <summary>
-        /// Run Async
+        /// Create If Not Exists
         /// </summary>
-        /// <returns>Task</returns>
-        public override async Task RunAsync()
+        /// <returns>Created</returns>
+        public async Task<bool> CreateIfNotExists()
         {
-            var exists = await this.manager.TopicExistsAsync(name);
+            var exists = await this.manager.TopicExistsAsync(this.name);
             if (!exists)
             {
-                var td = new TopicDescription(name)
+                var td = new TopicDescription(this.name)
                 {
                     EnableExpress = true,
                 };
 
                 await this.manager.CreateTopicAsync(td);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Delete
+        /// </summary>
+        /// <returns>Task</returns>
+        public async Task Delete()
+        {
+            var exists = await this.manager.TopicExistsAsync(this.name);
+            if (!exists)
+            {
+                await this.manager.DeleteTopicAsync(this.name);
             }
         }
         #endregion

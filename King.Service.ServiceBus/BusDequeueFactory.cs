@@ -36,7 +36,7 @@
                 throw new ArgumentException("name");
             }
 
-            return new InitializeBusQueue(name, base.connectionString);
+            return new InitializeStorageTask(new BusQueue(name, base.connectionString));
         }
 
         /// <summary>
@@ -69,7 +69,7 @@
             {
                 throw new ArgumentNullException("setup");
             }
-            
+
             var messagesPerScaleUnit = this.throughput.MessagesPerScaleUnit(setup.Priority);
             var scale = this.throughput.Scale(setup.Priority);
             var checkScaleInMinutes = this.throughput.CheckScaleEvery(setup.Priority);

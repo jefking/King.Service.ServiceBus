@@ -12,17 +12,9 @@
     /// <summary>
     /// Bus Queue Interface
     /// </summary>
-    public interface IBusQueue : ITransientErrorHandler, IQueueCount
+    public interface IBusQueue : ITransientErrorHandler, IQueueCount, IAzureStorage
     {
         #region Properties
-        /// <summary>
-        /// Queue Name
-        /// </summary>
-        string Name
-        {
-            get;
-        }
-
         /// <summary>
         /// Queue Client
         /// </summary>
@@ -41,18 +33,6 @@
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Create If Not Exists
-        /// </summary>
-        /// <returns></returns>
-        Task<bool> CreateIfNotExists();
-
-        /// <summary>
-        /// Delete Queue
-        /// </summary>
-        /// <returns></returns>
-        Task Delete();
-
         /// <summary>
         /// Lock Duration
         /// </summary>
@@ -120,7 +100,7 @@
         /// <param name="obj">object</param>
         /// <returns>Task</returns>
         Task Send(object obj);
-        
+
         /// <summary>
         /// Send Message to Queue
         /// </summary>

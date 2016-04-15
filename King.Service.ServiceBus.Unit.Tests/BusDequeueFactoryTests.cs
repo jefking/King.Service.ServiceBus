@@ -17,7 +17,7 @@
         {
             new BusDequeueFactory(ConnectionString);
         }
-        
+
         [Test]
         public void IsDequeueFactory()
         {
@@ -38,7 +38,7 @@
             var task = f.Initialize(Guid.NewGuid().ToString());
 
             Assert.IsNotNull(task);
-            Assert.IsNotNull(task as InitializeBusQueue);
+            Assert.IsNotNull(task as InitializeStorageTask);
         }
 
         [Test]
@@ -56,7 +56,7 @@
             Assert.AreEqual(2, tasks.Count());
 
             var t = (from n in tasks
-                     where n.GetType() == typeof(InitializeBusQueue)
+                     where n.GetType() == typeof(InitializeStorageTask)
                      select true).FirstOrDefault();
 
             Assert.IsTrue(t);
@@ -82,7 +82,7 @@
             var random = new Random();
             var max = (byte)random.Next(byte.MinValue, byte.MaxValue);
             var min = (byte)random.Next(byte.MinValue, max);
-            
+
             var throughput = Substitute.For<IQueueThroughput>();
             throughput.Scale(setup.Priority).Returns(new Range<byte>(min, max));
             throughput.CheckScaleEvery(setup.Priority).Returns<byte>(1);
@@ -97,7 +97,7 @@
             throughput.Received().Scale(setup.Priority);
             throughput.Received().CheckScaleEvery(setup.Priority);
         }
-        
+
         [Test]
         public void DequeueTaskSetupNull()
         {

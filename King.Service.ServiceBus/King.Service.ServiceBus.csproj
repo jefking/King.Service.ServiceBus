@@ -51,10 +51,9 @@
     <Compile Include="BusQueueReciever.cs" />
     <Compile Include="BusQueueSender.cs" />
     <Compile Include="BusQueueShards.cs" />
+    <Compile Include="BusTopic.cs" />
     <Compile Include="Delegates.cs" />
-    <Compile Include="InitializeBusQueue.cs" />
     <Compile Include="InitializeHub.cs" />
-    <Compile Include="InitializeTopic.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="Models\BufferedMessage.cs" />
     <Compile Include="Models\Interfaces.cs" />
