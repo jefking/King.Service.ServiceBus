@@ -6,7 +6,7 @@ namespace King.Service.WorkerRole
 
     public class WorkerRole : RoleEntryPoint
     {
-        private readonly IRoleTaskManager<Configuration> manager = new RoleTaskManager<Configuration>(new ITaskFactory<Configuration>[] { new Factory(), new DataGenerationFactory()});
+        private readonly IRoleTaskManager<Configuration> manager = new RoleTaskManager<Configuration>(new ITaskFactory<Configuration>[] { new Factory(), new DataGenerationFactory() });
 
         public override void Run()
         {
@@ -22,6 +22,7 @@ namespace King.Service.WorkerRole
                 EventsName = "events",
                 BufferedEventsName = "buffered",
                 TopicName = "topic",
+                HubName = "hub",
                 FactoryQueueName = "factory",
                 ShardsQueueName = "shards",
                 Connection = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString"),

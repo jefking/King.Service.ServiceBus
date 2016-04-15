@@ -25,6 +25,7 @@
                 new InitializeStorageTask(new BusQueue(config.EventsName, config.Connection)),
                 new InitializeStorageTask(new BusQueue(config.BufferedEventsName, config.Connection)),
                 new InitializeStorageTask(new BusTopic(config.TopicName, config.Connection)),
+                new InitializeStorageTask(new BusHub(config.HubName, config.Connection)),
 
                 //Task for watching for queue events
                 new BusEvents<ExampleModel>(new BusQueueReciever(config.EventsName, config.Connection), new EventHandler()),

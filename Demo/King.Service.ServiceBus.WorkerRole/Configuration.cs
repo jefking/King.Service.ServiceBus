@@ -5,6 +5,7 @@
         public string EventsName;
         public string BufferedEventsName;
         public string TopicName;
+        public string HubName;
         public string FactoryQueueName;
         public string Connection;
         public string ScalingQueueName;
