@@ -1,11 +1,11 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests
 {
+    using System;
+    using System.Threading.Tasks;
     using King.Service.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
     using NSubstitute;
     using NUnit.Framework;
-    using System;
-    using System.Threading.Tasks;
 
     [TestFixture]
     public class BusEventsTests
@@ -70,7 +70,7 @@
             var events = new BusEvents<string>(queue, handler);
             await events.OnMessageArrived(msg);
 
-            handler.Received().Process(data);
+            await handler.Received().Process(data);
         }
 
         [Test]
@@ -88,7 +88,8 @@
             var events = new BusEvents<string>(queue, handler);
             await events.OnMessageArrived(msg);
 
-            Assert.That(async () => handler.Received().Process(data), Throws.TypeOf<InvalidOperationException>());
+            //Assert.That(() => , Throws.TypeOf<InvalidOperationException>());
+            handler.Received().Process(data).Wait();
         }
 
         [Test]
