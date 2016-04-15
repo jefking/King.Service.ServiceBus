@@ -53,6 +53,7 @@
     <Compile Include="BusQueueSender.cs" />
     <Compile Include="BusQueueShards.cs" />
     <Compile Include="BusTopic.cs" />
+    <Compile Include="BusTopicEvents.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="Models\BufferedMessage.cs" />
