@@ -11,7 +11,7 @@
     /// Generic Poller, re-use for any queued models you have.
     /// </summary>
     /// <typeparam name="T">Message with T as Body</typeparam>
-    public class ServiceBusQueuePoller<T> : IPoller<T>
+    public class BusQueuePoller<T> : IPoller<T>
     {
         #region Members
         /// <summary>
@@ -23,7 +23,7 @@
         /// Wait Time
         /// </summary>
         protected readonly TimeSpan waitTime = DefaultWaitTime;
-        
+
         /// <summary>
         /// Default Wait Time
         /// </summary>
@@ -36,7 +36,7 @@
         /// </summary>
         /// <param name="queue">Queue</param>
         /// <param name="waitTime">Wait Time</param>
-        public ServiceBusQueuePoller(IBusQueueReciever queue, TimeSpan waitTime)
+        public BusQueuePoller(IBusQueueReciever queue, TimeSpan waitTime)
         {
             if (null == queue)
             {

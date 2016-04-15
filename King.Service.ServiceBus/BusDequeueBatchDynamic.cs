@@ -35,7 +35,7 @@
         /// <param name="minimumPeriodInSeconds">Minimum Period In Seconds</param>
         /// <param name="maximumPeriodInSeconds">Maximum Period In Seconds</param>
         public BusDequeueBatchDynamic(IBusQueueReciever queue, IProcessor<T> processor, int minimumPeriodInSeconds = BaseTimes.MinimumStorageTiming, int maximumPeriodInSeconds = BaseTimes.MaximumStorageTiming)
-            : this(new ServiceBusQueuePoller<T>(queue, ServiceBusQueuePoller<T>.DefaultWaitTime), processor, new BusQueueTimingTracker(queue), minimumPeriodInSeconds, maximumPeriodInSeconds)
+            : this(new BusQueuePoller<T>(queue, BusQueuePoller<T>.DefaultWaitTime), processor, new BusQueueTimingTracker(queue), minimumPeriodInSeconds, maximumPeriodInSeconds)
         {
         }
 

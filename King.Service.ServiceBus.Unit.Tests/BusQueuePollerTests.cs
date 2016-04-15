@@ -10,21 +10,21 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class ServiceBusQueuePollerTests
+    public class BusQueuePollerTests
     {
         [Test]
         public void Constructor()
         {
             var wait = TimeSpan.FromSeconds(10);
             var queue = Substitute.For<IBusQueueReciever>();
-            new ServiceBusQueuePoller<object>(queue, wait);
+            new BusQueuePoller<object>(queue, wait);
         }
 
         [Test]
         public void ConstructorQueueNull()
         {
             var wait = TimeSpan.FromSeconds(10);
-            Assert.That(() => new ServiceBusQueuePoller<object>(null, wait), Throws.TypeOf<ArgumentNullException>());
+            Assert.That(() => new BusQueuePoller<object>(null, wait), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
@@ -35,7 +35,7 @@
             var queue = Substitute.For<IBusQueueReciever>();
             queue.Get(wait).Returns(Task.FromResult(msg));
 
-            var poller = new ServiceBusQueuePoller<object>(queue, wait);
+            var poller = new BusQueuePoller<object>(queue, wait);
             var returned = await poller.Poll();
 
             Assert.IsNotNull(returned);
@@ -50,7 +50,7 @@
             var queue = Substitute.For<IBusQueueReciever>();
             queue.Get(wait).Returns(Task.FromResult<BrokeredMessage>(null));
 
-            var poller = new ServiceBusQueuePoller<object>(queue, wait);
+            var poller = new BusQueuePoller<object>(queue, wait);
             var returned = await poller.Poll();
 
             Assert.IsNull(returned);
@@ -66,7 +66,7 @@
             var queue = Substitute.For<IBusQueueReciever>();
             queue.Get(wait).Returns<BrokeredMessage>(x => { throw new ApplicationException(); });
 
-            var poller = new ServiceBusQueuePoller<object>(queue, wait);
+            var poller = new BusQueuePoller<object>(queue, wait);
             Assert.That(async () => await poller.Poll(), Throws.TypeOf<ApplicationException>());
         }
 
@@ -83,7 +83,7 @@
             var queue = Substitute.For<IBusQueueReciever>();
             queue.GetMany(wait, 3).Returns(Task.FromResult<IEnumerable<BrokeredMessage>>(msgs));
 
-            var poller = new ServiceBusQueuePoller<object>(queue, wait);
+            var poller = new BusQueuePoller<object>(queue, wait);
             var returned = await poller.PollMany(3);
 
             Assert.IsNotNull(returned);
@@ -99,7 +99,7 @@
             var queue = Substitute.For<IBusQueueReciever>();
             queue.GetMany(wait, 3).Returns(Task.FromResult<IEnumerable<BrokeredMessage>>(null));
 
-            var poller = new ServiceBusQueuePoller<object>(queue, wait);
+            var poller = new BusQueuePoller<object>(queue, wait);
             var returned = await poller.PollMany(3);
 
             Assert.IsNull(returned);
@@ -115,7 +115,7 @@
             var queue = Substitute.For<IBusQueueReciever>();
             queue.GetMany(wait).Returns<IEnumerable<BrokeredMessage>>(x => { throw new ApplicationException(); });
 
-            var poller = new ServiceBusQueuePoller<object>(queue, wait);
+            var poller = new BusQueuePoller<object>(queue, wait);
             Assert.That(async () => await poller.PollMany(), Throws.TypeOf<ApplicationException>());
         }
     }
