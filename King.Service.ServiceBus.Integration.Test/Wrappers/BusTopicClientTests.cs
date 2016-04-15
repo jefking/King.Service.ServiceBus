@@ -3,7 +3,6 @@
     using System;
     using System.Configuration;
     using System.Threading.Tasks;
-    using Data;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus.Messaging;
     using NUnit.Framework;
@@ -21,8 +20,15 @@
             var random = new Random();
             this.name = string.Format("a{0}b", random.Next());
 
-            var init = new InitializeStorageTask(new BusTopic(name, connection));
-            init.Run();
+            var init = new BusTopic(name, connection);
+            init.CreateIfNotExists().Wait();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            var init = new BusTopic(name, connection);
+            init.Delete().Wait();
         }
 
         [Test]
