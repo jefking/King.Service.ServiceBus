@@ -12,7 +12,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Task scheduling for Azure on Windows: Service Bus.</description>
         <summary>Task scheduling for Azure on Windows: Service Bus.</summary>
-        <releaseNotes>Easily create numerous queues easily.</releaseNotes>
+        <releaseNotes>Standard interfaces for initialization, Topics further implemented.</releaseNotes>
         <copyright>Jef King</copyright>
         <tags>King.Service.ServiceBus Azure Queue Service Bus EventHub Event Hub service-bus scale Topic Topics PubSub Publisher Subscriber Event Time Sensitive time-sensitive auto-scale dynamic-scale dynamic Queuing Background Worker Work Data Processing Table Environment Initialize Task Tasks volume Dequeue Dequeuing run task service services tasks scheduling King.Service King.Azure</tags>
         <dependencies>
