@@ -89,7 +89,7 @@
             await events.OnMessageArrived(msg);
 
             //Assert.That(() => , Throws.TypeOf<InvalidOperationException>());
-            handler.Received().Process(data).Wait();
+            await handler.Received().Process(data);
         }
 
         [Test]
