@@ -1,13 +1,21 @@
 ﻿namespace King.Service.ServiceBus
 {
     using System;
+    using System.Threading.Tasks;
     using Microsoft.ServiceBus;
-
+    using Microsoft.ServiceBus.Messaging;
     /// <summary>
     /// Topic Subscriber
     /// </summary>
     public class BusTopicSubscriber
     {
+        #region Members
+        /// <summary>
+        /// Subscription Description
+        /// </summary>
+        protected readonly SubscriptionDescription desciption;
+        #endregion
+
         #region Constructors
         /// <summary>
         /// Constructor
@@ -33,19 +41,23 @@
 
             var nm = NamespaceManager.CreateFromConnectionString(connection);
 
-            if (string.IsNullOrWhiteSpace(sqlFilter))
+            this.desciption = this.Bind(nm, name, subscriptionName, sqlFilter).Result;
+        }
+        #endregion
+
+        #region Methods
+        public virtual async Task<SubscriptionDescription> Bind(NamespaceManager nm, string name, string subscriptionName, string sqlFilter)
+        {
+
+            if (!await nm.SubscriptionExistsAsync(name, subscriptionName))
             {
-                //if (!nm.SubscriptionExists(name, subscriptionName))
-                //{
-                //    nm.CreateSubscription(name, subscriptionName);
-                //}
+                return (string.IsNullOrWhiteSpace(sqlFilter)) ?
+                    await nm.CreateSubscriptionAsync(name, subscriptionName) :
+                    await nm.CreateSubscriptionAsync(name, subscriptionName, new SqlFilter(sqlFilter));
             }
             else
             {
-                //if (!nm.SubscriptionExists(name, subscriptionName))
-                //{
-                //    nm.CreateSubscription(name, subscriptionName, new SqlFilter(sqlFilter));
-                //}
+                return await nm.GetSubscriptionAsync(name, subscriptionName);
             }
         }
         #endregion
