@@ -3,6 +3,7 @@
     using System;
     using System.Configuration;
     using System.Threading.Tasks;
+    using Azure.Data;
     using NUnit.Framework;
 
     [TestFixture]
@@ -10,49 +11,53 @@
     {
         private static readonly string connection = ConfigurationSettings.AppSettings["Microsoft.ServiceBus.ConnectionString"];
 
+        IAzureStorage queue;
+
+        [SetUp]
+        public void Setup()
+        {
+            var random = new Random();
+            var name = string.Format("a{0}b", random.Next());
+            queue = new BusQueue(name, connection);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            queue.Delete().Wait();
+        }
+
         [Test]
         public async Task Create()
         {
-            var random = new Random();
-            var name = "a" + random.Next() + "b";
-            var init = new BusHub(name, connection);
-            var e = await init.CreateIfNotExists();
+            var e = await queue.CreateIfNotExists();
             Assert.IsTrue(e);
         }
 
         [Test]
         public async Task CreateTwice()
         {
-            var random = new Random();
-            var name = "a" + random.Next() + "b";
-            var init = new BusHub(name, connection);
-            var e = await init.CreateIfNotExists();
+            var e = await queue.CreateIfNotExists();
             Assert.IsTrue(e);
-            e = await init.CreateIfNotExists();
+            e = await queue.CreateIfNotExists();
             Assert.IsFalse(e);
         }
 
         [Test]
         public async Task Delete()
         {
-            var random = new Random();
-            var name = "a" + random.Next() + "b";
-            var init = new BusHub(name, connection);
-            var e = await init.CreateIfNotExists();
+            var e = await queue.CreateIfNotExists();
             Assert.IsTrue(e);
-            await init.Delete();
+            await queue.Delete();
         }
 
         [Test]
         public async Task DeleteTwice()
         {
-            var random = new Random();
-            var name = "a" + random.Next() + "b";
-            var init = new BusHub(name, connection);
-            var e = await init.CreateIfNotExists();
+            var e = await queue.CreateIfNotExists();
             Assert.IsTrue(e);
-            await init.Delete();
-            await init.Delete();
+            await queue.Delete();
+            await queue.Delete();
         }
     }
 }

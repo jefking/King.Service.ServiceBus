@@ -1,19 +1,20 @@
 ﻿namespace King.Service.ServiceBus.Integration.Test.Wrappers
 {
-    using King.Service.ServiceBus.Wrappers;
-    using Microsoft.ServiceBus.Messaging;
-    using NUnit.Framework;
     using System;
     using System.Collections.Generic;
     using System.Configuration;
     using System.Threading.Tasks;
+    using Azure.Data;
+    using King.Service.ServiceBus.Wrappers;
+    using Microsoft.ServiceBus.Messaging;
+    using NUnit.Framework;
 
     [TestFixture]
     public class BusQueueClientTests
     {
         private string connection = ConfigurationSettings.AppSettings["Microsoft.ServiceBus.ConnectionString"];
 
-        IBusQueue queue;
+        IAzureStorage queue;
 
         [SetUp]
         public void Setup()

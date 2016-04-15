@@ -2,7 +2,6 @@
 {
     using System;
     using Microsoft.ServiceBus;
-    using Microsoft.ServiceBus.Messaging;
 
     /// <summary>
     /// Topic Subscriber
@@ -36,17 +35,17 @@
 
             if (string.IsNullOrWhiteSpace(sqlFilter))
             {
-                if (!nm.SubscriptionExists(name, subscriptionName))
-                {
-                    nm.CreateSubscription(name, subscriptionName);
-                }
+                //if (!nm.SubscriptionExists(name, subscriptionName))
+                //{
+                //    nm.CreateSubscription(name, subscriptionName);
+                //}
             }
             else
             {
-                if (!nm.SubscriptionExists(name, subscriptionName))
-                {
-                    nm.CreateSubscription(name, subscriptionName, new SqlFilter(sqlFilter));
-                }
+                //if (!nm.SubscriptionExists(name, subscriptionName))
+                //{
+                //    nm.CreateSubscription(name, subscriptionName, new SqlFilter(sqlFilter));
+                //}
             }
         }
         #endregion

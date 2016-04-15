@@ -89,7 +89,7 @@
             };
 
             var d = await this.manager.CreateEventHubIfNotExistsAsync(description);
-            return d.Status == EntityStatus.Active;
+            return d.Status == EntityStatus.Creating;
         }
 
         /// <summary>
