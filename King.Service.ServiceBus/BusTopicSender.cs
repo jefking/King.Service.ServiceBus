@@ -10,7 +10,7 @@
     /// <summary>
     /// Topic Sender
     /// </summary>
-    public class TopicSender : TransientErrorHandler, ITopicSender
+    public class BusTopicSender : TransientErrorHandler, ITopicSender
     {
         #region Members
         /// <summary>
@@ -35,7 +35,7 @@
         /// </summary>
         /// <param name="name">Queue Name</param>
         /// <param name="connectionString">Connection String</param>
-        public TopicSender(string name, string connectionString)
+        public BusTopicSender(string name, string connectionString)
             : this(name, NamespaceManager.CreateFromConnectionString(connectionString), new BusTopicClient(TopicClient.CreateFromConnectionString(connectionString, name)))
         {
         }
@@ -46,7 +46,7 @@
         /// <param name="name">Queue Name</param>
         /// <param name="manager">Manager</param>
         /// <param name="client"Client>Bus Topic Client</param>
-        public TopicSender(string name, NamespaceManager manager, IBusTopicClient client)
+        public BusTopicSender(string name, NamespaceManager manager, IBusTopicClient client)
         {
             if (string.IsNullOrWhiteSpace(name))
             {

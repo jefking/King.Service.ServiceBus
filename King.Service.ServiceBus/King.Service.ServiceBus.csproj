@@ -62,8 +62,8 @@
     <Compile Include="ServiceBusQueuePoller.cs" />
     <Compile Include="Timing\Interfaces.cs" />
     <Compile Include="Timing\Sleep.cs" />
-    <Compile Include="TopicSender.cs" />
-    <Compile Include="TopicSubscriber.cs" />
+    <Compile Include="BusTopicSender.cs" />
+    <Compile Include="BusTopicSubscriber.cs" />
     <Compile Include="TransientErrorHandler.cs" />
     <Compile Include="Wrappers\BufferedMessageEventHandler.cs" />
     <Compile Include="Timing\BusQueueTimingTracker.cs" />

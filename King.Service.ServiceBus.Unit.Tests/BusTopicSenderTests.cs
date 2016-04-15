@@ -9,26 +9,26 @@
     using System.Threading.Tasks;
 
     [TestFixture]
-    public class TopicSenderTests
+    public class BusTopicSenderTests
     {
         const string connection = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
 
         [Test]
         public void Constructor()
         {
-            new TopicSender(Guid.NewGuid().ToString(), connection);
+            new BusTopicSender(Guid.NewGuid().ToString(), connection);
         }
 
         [Test]
         public void ConstructorNameNull()
         {
-            Assert.That(() => new TopicSender(null, connection), Throws.TypeOf<ArgumentException>());
+            Assert.That(() => new BusTopicSender(null, connection), Throws.TypeOf<ArgumentException>());
         }
 
         [Test]
         public void IsITopicSender()
         {
-            Assert.IsNotNull(new TopicSender(Guid.NewGuid().ToString(), connection) as ITopicSender);
+            Assert.IsNotNull(new BusTopicSender(Guid.NewGuid().ToString(), connection) as ITopicSender);
         }
 
         [Test]
@@ -36,34 +36,34 @@
         {
             var m = NamespaceManager.CreateFromConnectionString(connection);
             var client = Substitute.For<IBusTopicClient>();
-            Assert.That(() => new TopicSender(null, m, client), Throws.TypeOf<ArgumentException>());
+            Assert.That(() => new BusTopicSender(null, m, client), Throws.TypeOf<ArgumentException>());
         }
 
         [Test]
         public void ConstructorManagerNull()
         {
             var client = Substitute.For<IBusTopicClient>();
-            Assert.That(() => new TopicSender(Guid.NewGuid().ToString(), null, client), Throws.TypeOf<ArgumentNullException>());
+            Assert.That(() => new BusTopicSender(Guid.NewGuid().ToString(), null, client), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
         public void ConstructorClientNull()
         {
             var m = NamespaceManager.CreateFromConnectionString(connection);
-            Assert.That(() => new TopicSender(Guid.NewGuid().ToString(), m, null), Throws.TypeOf<ArgumentNullException>());
+            Assert.That(() => new BusTopicSender(Guid.NewGuid().ToString(), m, null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
         public void SaveObjectNull()
         {
-            var queue = new TopicSender(Guid.NewGuid().ToString(), connection);
+            var queue = new BusTopicSender(Guid.NewGuid().ToString(), connection);
             Assert.That(async () => await queue.Send((object)null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
         public void SaveBrokeredMessageNull()
         {
-            var queue = new TopicSender(Guid.NewGuid().ToString(), connection);
+            var queue = new BusTopicSender(Guid.NewGuid().ToString(), connection);
             Assert.That(async () => await queue.Send((BrokeredMessage)null), Throws.TypeOf<ArgumentNullException>());
         }
 
@@ -75,7 +75,7 @@
             var client = Substitute.For<IBusTopicClient>();
             client.Send(msg);
 
-            var q = new TopicSender(Guid.NewGuid().ToString(), m, client);
+            var q = new BusTopicSender(Guid.NewGuid().ToString(), m, client);
             await q.Send(msg);
 
             client.Received().Send(msg);
@@ -89,7 +89,7 @@
             var client = Substitute.For<IBusTopicClient>();
             client.Send(Arg.Any<BrokeredMessage>());
 
-            var q = new TopicSender(Guid.NewGuid().ToString(), m, client);
+            var q = new BusTopicSender(Guid.NewGuid().ToString(), m, client);
             await q.Send(msg);
 
             client.Received().Send(Arg.Any<BrokeredMessage>());
@@ -103,7 +103,7 @@
             var client = Substitute.For<IBusTopicClient>();
             client.Send(msg);
 
-            var q = new TopicSender(Guid.NewGuid().ToString(), m, client);
+            var q = new BusTopicSender(Guid.NewGuid().ToString(), m, client);
             await q.Send((object)msg);
 
             client.Received().Send(msg);
@@ -115,7 +115,7 @@
             this.exception = null;
             var ex = new MessagingException("hahaha");
 
-            var bq = new TopicSender(Guid.NewGuid().ToString(), connection);
+            var bq = new BusTopicSender(Guid.NewGuid().ToString(), connection);
             bq.TransientErrorOccured += this.Error;
             bq.HandleTransientError(ex);
 
@@ -128,7 +128,7 @@
             this.exception = null;
             var ex = new MessagingException("hahaha");
 
-            var bq = new TopicSender(Guid.NewGuid().ToString(), connection);
+            var bq = new BusTopicSender(Guid.NewGuid().ToString(), connection);
             bq.TransientErrorOccured += this.Error;
             bq.HandleTransientError(null);
 
@@ -150,7 +150,7 @@
             var client = Substitute.For<IBusTopicClient>();
             client.When(c => c.Send(msg)).Do(x => { throw new Exception(); });
 
-            var q = new TopicSender(Guid.NewGuid().ToString(), m, client);
+            var q = new BusTopicSender(Guid.NewGuid().ToString(), m, client);
             Assert.That(async () => await q.Send(msg), Throws.TypeOf<Exception>());
         }
 
@@ -168,7 +168,7 @@
                 throw new MessagingException(Guid.NewGuid().ToString(), tmp, new Exception());
             });
 
-            var q = new TopicSender(Guid.NewGuid().ToString(), m, client);
+            var q = new BusTopicSender(Guid.NewGuid().ToString(), m, client);
             Assert.That(async () => await q.Send(msg), Throws.TypeOf<MessagingException>());
         }
     }

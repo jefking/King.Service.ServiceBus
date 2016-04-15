@@ -6,7 +6,7 @@
     /// <summary>
     /// Topic Subscriber
     /// </summary>
-    public class TopicSubscriber
+    public class BusTopicSubscriber
     {
         #region Constructors
         /// <summary>
@@ -16,7 +16,7 @@
         /// <param name="connection">Connection String</param>
         /// <param name="subscriptionName">Subsciption Name</param>
         /// <param name="sqlFilter">SQL Query (null = all)</param>
-        public TopicSubscriber(string name, string connection, string subscriptionName, string sqlFilter = null)
+        public BusTopicSubscriber(string name, string connection, string subscriptionName, string sqlFilter = null)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
