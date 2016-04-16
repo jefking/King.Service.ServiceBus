@@ -16,8 +16,8 @@
         <copyright>Jef King</copyright>
         <tags>King.Service.ServiceBus Azure Queue Service Bus EventHub Event Hub service-bus scale Topic Topics PubSub Publisher Subscriber Event Time Sensitive time-sensitive auto-scale dynamic-scale dynamic Queuing Background Worker Work Data Processing Table Environment Initialize Task Tasks volume Dequeue Dequeuing run task service services tasks scheduling King.Service King.Azure</tags>
         <dependencies>
-          <dependency id="WindowsAzure.ServiceBus" version="3.1.6" />
-          <dependency id="King.Service"  version="1.1.25" />
+          <dependency id="WindowsAzure.ServiceBus" version="3.1.7" />
+          <dependency id="King.Service"  version="1.12.7" />
         </dependencies>
         <frameworkAssemblies>
             <frameworkAssembly assemblyName="System" targetFramework="net45" />
