@@ -7,9 +7,9 @@
     using Microsoft.ServiceBus.Messaging;
 
     /// <summary>
-    /// Topic Subscriber
+    /// Topic Subscription
     /// </summary>
-    public class BusTopicSubscriber : IAzureStorage
+    public class BusTopicSubscription : IAzureStorage
     {
         #region Members
         /// <summary>
@@ -41,7 +41,7 @@
         /// <param name="connection">Connection String</param>
         /// <param name="subscriptionName">Subsciption Name</param>
         /// <param name="sqlFilter">SQL Query (null = all)</param>
-        public BusTopicSubscriber(string topicName, string connection, string subscriptionName, string sqlFilter = null)
+        public BusTopicSubscription(string topicName, string connection, string subscriptionName, string sqlFilter = null)
         {
             if (string.IsNullOrWhiteSpace(topicName))
             {

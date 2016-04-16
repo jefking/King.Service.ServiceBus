@@ -15,13 +15,13 @@
         {
             var name = Guid.NewGuid().ToString();
             var topicPath = Guid.NewGuid().ToString();
-            new BusTopicSubscriptionClient(SubscriptionClient.CreateFromConnectionString(connection, topicPath, name));
+            new BusSubscriptionClient(SubscriptionClient.CreateFromConnectionString(connection, topicPath, name));
         }
 
         [Test]
         public void ConstructorQueueClientNull()
         {
-            Assert.That(() => new BusTopicSubscriptionClient(null), Throws.TypeOf<ArgumentNullException>());
+            Assert.That(() => new BusSubscriptionClient(null), Throws.TypeOf<ArgumentNullException>());
         }
     }
 }

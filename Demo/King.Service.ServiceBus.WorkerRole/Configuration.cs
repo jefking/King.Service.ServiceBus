@@ -10,5 +10,7 @@
         public string Connection;
         public string ScalingQueueName;
         public string ShardsQueueName;
+        public string TopicSubscriptionName;
+        public string TopicSubscriptionSqlFilter;
     }
 }

@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
     using NUnit.Framework;
 
-    public class BusTopicSubscriberTests
+    public class BusTopicSubscriptionTests
     {
         private string connection = ConfigurationSettings.AppSettings["Microsoft.ServiceBus.ConnectionString"];
 
@@ -31,7 +31,7 @@
         [Test]
         public async Task CreateIfNotExists()
         {
-            var s = new BusTopicSubscriber(name, connection, "subsciption");
+            var s = new BusTopicSubscription(name, connection, "subsciption");
             var c = await s.CreateIfNotExists();
 
             Assert.IsTrue(c);
@@ -40,7 +40,7 @@
         [Test]
         public async Task Delete()
         {
-            var s = new BusTopicSubscriber(name, connection, "subsciption");
+            var s = new BusTopicSubscription(name, connection, "subsciption");
             var c = await s.CreateIfNotExists();
 
             await s.Delete();

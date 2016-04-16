@@ -113,4 +113,19 @@
         #endregion
     }
     #endregion
+
+    #region IBusSubscriptionClient
+    /// <summary>
+    /// Bus Subscription Client Interface
+    /// </summary>
+    public interface IBusSubscriptionClient
+    {
+        /// <summary>
+        /// Register For Events
+        /// </summary>
+        /// <param name="callback">Call Back</param>
+        /// <param name="options">Options</param>
+        void OnMessageAsync(Func<BrokeredMessage, Task> callback, OnMessageOptions onMessageOptions);
+    }
+    #endregion
 }

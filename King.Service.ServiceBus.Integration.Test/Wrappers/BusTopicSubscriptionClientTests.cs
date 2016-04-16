@@ -23,7 +23,7 @@
             topic = new BusTopic(name, connection);
             topic.CreateIfNotExists().Wait();
 
-            var s = new BusTopicSubscriber(topic.Name, connection, "testing");
+            var s = new BusTopicSubscription(topic.Name, connection, "testing");
             s.CreateIfNotExists().Wait();
         }
 
@@ -36,8 +36,8 @@
         [Test]
         public void RegisterForEvents()
         {
-            var c = new BusTopicSubscriptionClient(SubscriptionClient.CreateFromConnectionString(connection, this.topic.Name, "testing"));
-            c.RegisterForEvents((BrokeredMessage msg) => { return Task.Run(() => { }); }, new OnMessageOptions());
+            var c = new BusSubscriptionClient(SubscriptionClient.CreateFromConnectionString(connection, this.topic.Name, "testing"));
+            c.OnMessageAsync((BrokeredMessage msg) => { return Task.Run(() => { }); }, new OnMessageOptions());
         }
     }
 }

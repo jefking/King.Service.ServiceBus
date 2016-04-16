@@ -22,6 +22,8 @@ namespace King.Service.WorkerRole
                 EventsName = "events",
                 BufferedEventsName = "buffered",
                 TopicName = "topic",
+                TopicSubscriptionName = "subscription",
+                TopicSubscriptionSqlFilter = "",
                 HubName = "hub",
                 FactoryQueueName = "factory",
                 ShardsQueueName = "shards",

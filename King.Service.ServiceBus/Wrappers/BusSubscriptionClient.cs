@@ -5,9 +5,9 @@
     using Microsoft.ServiceBus.Messaging;
 
     /// <summary>
-    /// Bus Topic Subscription Client
+    /// Bus Subscription Client
     /// </summary>
-    public class BusTopicSubscriptionClient : IBusEventReciever
+    public class BusSubscriptionClient : IBusSubscriptionClient
     {
         #region Members
         /// <summary>
@@ -21,7 +21,7 @@
         /// Constructor
         /// </summary>
         /// <param name="client">Queue Client</param>
-        public BusTopicSubscriptionClient(SubscriptionClient client)
+        public BusSubscriptionClient(SubscriptionClient client)
         {
             if (null == client)
             {
@@ -34,11 +34,11 @@
 
         #region Methods
         /// <summary>
-        /// 
+        /// On Message Async
         /// </summary>
-        /// <param name="callback"></param>
-        /// <param name="options"></param>
-        public void RegisterForEvents(Func<BrokeredMessage, Task> callback, OnMessageOptions options)
+        /// <param name="callback">Call Back</param>
+        /// <param name="options">Options</param>
+        public void OnMessageAsync(Func<BrokeredMessage, Task> callback, OnMessageOptions options)
         {
             this.client.OnMessageAsync(callback, options);
         }
