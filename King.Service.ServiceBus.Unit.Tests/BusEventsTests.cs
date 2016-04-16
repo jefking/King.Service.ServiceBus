@@ -74,6 +74,19 @@
         }
 
         [Test]
+        public void MessageArrivedNotSuccessful()
+        {
+            var data = Guid.NewGuid().ToString();
+            var queue = Substitute.For<IBusQueueReciever>();
+            var handler = Substitute.For<IBusEventHandler<string>>();
+            handler.Process(data).Returns(Task.FromResult(false));
+
+            var events = new BusEvents<string>(queue, handler);
+
+            Assert.That(() => events.MessageArrived(data), Throws.TypeOf<InvalidOperationException>());
+        }
+
+        [Test]
         public void OnExceptionReceived()
         {
             var args = new ExceptionReceivedEventArgs(new Exception(), Guid.NewGuid().ToString());
