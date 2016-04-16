@@ -98,11 +98,16 @@
             var created = false;
             if (!await this.manager.SubscriptionExistsAsync(topicName, subscriptionName))
             {
-                var d = (string.IsNullOrWhiteSpace(sqlFilter)) ?
-                    await this.manager.CreateSubscriptionAsync(topicName, subscriptionName) :
+                if (string.IsNullOrWhiteSpace(sqlFilter))
+                {
+                    await this.manager.CreateSubscriptionAsync(topicName, subscriptionName);
+                }
+                else
+                {
                     await this.manager.CreateSubscriptionAsync(topicName, subscriptionName, new SqlFilter(sqlFilter));
+                }
 
-                created = d.Status == EntityStatus.Creating;
+                created = true;
             }
 
             return created;
