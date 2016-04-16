@@ -2,12 +2,11 @@
 {
     using System.Collections.Generic;
     using King.Service.Data;
-    using King.Service.ServiceBus.Queue;
     using King.Service.WorkerRole;
     using King.Service.WorkerRole.Models;
     using King.Service.WorkerRole.Queue;
-    using Microsoft.ServiceBus.Messaging;
-    using Wrappers;
+    using Queue;
+
     public class Factory : ITaskFactory<Configuration>
     {
         /// <summary>
@@ -26,14 +25,14 @@
                 new InitializeStorageTask(new BusQueue(config.EventsName, config.Connection)),
                 new InitializeStorageTask(new BusQueue(config.BufferedEventsName, config.Connection)),
                 new InitializeStorageTask(new BusTopic(config.TopicName, config.Connection)),
-                new InitializeStorageTask(new BusTopicSubscriber(config.TopicName, config.Connection, config.TopicSubscriptionName, config.TopicSubscriptionSqlFilter)),
+                new InitializeStorageTask(new BusTopicSubscription(config.TopicName, config.Connection, config.TopicSubscriptionName, config.TopicSubscriptionSqlFilter)),
                 new InitializeStorageTask(new BusHub(config.HubName, config.Connection)),
 
                 //Task for watching for queue events
                 new BusEvents<ExampleModel>(new BusQueueReciever(config.EventsName, config.Connection), new EventHandler()),
 
                 //Task for watching topic events
-                new BusEvents<ExampleModel>(new BusTopicSubscriptionClient(SubscriptionClient.CreateFromConnectionString(config.Connection, config.TopicName, config.TopicSubscriptionName)), new EventHandler()),
+                new BusEvents<ExampleModel>(new BusSubscriptionReciever(config.TopicName, config.Connection, config.TopicSubscriptionName), new EventHandler()),
 
                 //Task for recieving queue events to specific times
                 new BufferedReciever<ExampleModel>(new BusQueueReciever(config.BufferedEventsName, config.Connection), new EventHandler()),
