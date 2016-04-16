@@ -1,10 +1,10 @@
 ﻿namespace King.Service.ServiceBus
 {
+    using System;
+    using System.Threading.Tasks;
     using Azure.Data;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
-    using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Topic Subscriber
@@ -112,7 +112,7 @@
         /// Delete
         /// </summary>
         /// <returns>Task</returns>
-        public async Task Delete()
+        public virtual async Task Delete()
         {
             if (!await this.manager.SubscriptionExistsAsync(topicName, subscriptionName))
             {

@@ -1,9 +1,9 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using Microsoft.ServiceBus.Messaging;
     using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
+    using Microsoft.ServiceBus.Messaging;
 
     /// <summary>
     /// Service Bus Topic Events
