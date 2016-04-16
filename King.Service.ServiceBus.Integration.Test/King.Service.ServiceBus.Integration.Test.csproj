@@ -123,6 +123,7 @@
   <ItemGroup>
     <Compile Include="BusQueueTests.cs" />
     <Compile Include="BusHubTests.cs" />
+    <Compile Include="BusTopicSubscriberTests.cs" />
     <Compile Include="BusTopicTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueuedTests.cs" />
