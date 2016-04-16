@@ -114,7 +114,7 @@
         /// <returns>Task</returns>
         public virtual async Task Delete()
         {
-            if (!await this.manager.SubscriptionExistsAsync(topicName, subscriptionName))
+            if (await this.manager.SubscriptionExistsAsync(topicName, subscriptionName))
             {
                 await this.manager.DeleteSubscriptionAsync(this.topicName, this.topicName);
             }

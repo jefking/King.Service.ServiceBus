@@ -88,7 +88,7 @@
         public virtual async Task Delete()
         {
             var exists = await this.manager.TopicExistsAsync(this.name);
-            if (!exists)
+            if (exists)
             {
                 await this.manager.DeleteTopicAsync(this.name);
             }

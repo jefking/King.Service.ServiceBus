@@ -1,12 +1,8 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests
 {
-    using King.Service.ServiceBus.Wrappers;
-    using Microsoft.ServiceBus;
-    using Microsoft.ServiceBus.Messaging;
-    using NSubstitute;
-    using NUnit.Framework;
     using System;
-    using System.Threading.Tasks;
+    using Azure.Data;
+    using NUnit.Framework;
 
     [TestFixture]
     public class BusTopicSubscriberTests
@@ -35,6 +31,30 @@
         public void ConstructorSubscriptionNameNull()
         {
             Assert.That(() => new BusTopicSubscriber(Guid.NewGuid().ToString(), connection, null), Throws.TypeOf<ArgumentException>());
+        }
+
+        [Test]
+        public void IsIAzureStorage()
+        {
+            Assert.IsNotNull(new BusTopicSubscriber(Guid.NewGuid().ToString(), connection, Guid.NewGuid().ToString()) as IAzureStorage);
+        }
+
+        [Test]
+        public void Name()
+        {
+            var name = Guid.NewGuid().ToString();
+            var s = new BusTopicSubscriber(Guid.NewGuid().ToString(), connection, name);
+
+            Assert.AreEqual(name, s.Name);
+        }
+
+        [Test]
+        public void TopicName()
+        {
+            var name = Guid.NewGuid().ToString();
+            var s = new BusTopicSubscriber(name, connection, Guid.NewGuid().ToString());
+
+            Assert.AreEqual(name, s.TopicName);
         }
     }
 }
