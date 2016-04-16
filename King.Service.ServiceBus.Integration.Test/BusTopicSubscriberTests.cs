@@ -15,14 +15,17 @@
         public void Setup()
         {
             var random = new Random();
-            var name = string.Format("a{0}b", random.Next());
+            name = string.Format("a{0}b", random.Next());
+
+            var t = new BusTopic(name, connection);
+            t.CreateIfNotExists().Wait();
         }
 
         [TearDown]
         public void TearDown()
         {
-            var s = new BusTopicSubscriber(name, connection, "subsciption");
-            s.Delete().Wait();
+            var t = new BusTopic(name, connection);
+            t.Delete().Wait();
         }
 
         [Test]
@@ -39,8 +42,6 @@
         {
             var s = new BusTopicSubscriber(name, connection, "subsciption");
             var c = await s.CreateIfNotExists();
-
-            Assert.IsTrue(c);
 
             await s.Delete();
         }
