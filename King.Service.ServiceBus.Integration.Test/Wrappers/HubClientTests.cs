@@ -21,8 +21,15 @@
             var random = new Random();
             this.name = string.Format("a{0}b", random.Next());
 
-            var init = new InitializeStorageTask(new BusHub(name, connection));
-            init.Run();
+            var init = new BusHub(name, connection);
+            init.CreateIfNotExists().Wait();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            var init = new BusHub(name, connection);
+            init.Delete().Wait();
         }
 
         [Test]
