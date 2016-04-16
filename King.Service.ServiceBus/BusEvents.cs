@@ -79,7 +79,7 @@
             var eventDrivenMessagingOptions = new OnMessageOptions
             {
                 AutoComplete = true,
-                MaxConcurrentCalls = concurrentCalls,
+                MaxConcurrentCalls = concurrentCalls
             };
 
             eventDrivenMessagingOptions.ExceptionReceived += OnExceptionReceived;
@@ -94,16 +94,16 @@
         /// <returns>Task</returns>
         public virtual async Task OnMessageArrived(BrokeredMessage message)
         {
-            await Task.Factory.StartNew(this.MessageArrived, message.GetBody<T>());
+            await this.Process(message.GetBody<T>());
         }
 
         /// <summary>
         /// Message Arrived, Background Thread
         /// </summary>
-        /// <param name="body">Message Body</param>
-        public virtual void MessageArrived(object body)
+        /// <param name="contents">Message Body</param>
+        public virtual async Task Process(T contents)
         {
-            var success = this.eventHandler.Process((T)body).Result;
+            var success = await this.eventHandler.Process(contents);
             if (success)
             {
                 Trace.TraceInformation("{0}: Message processed successfully from queue.", this.eventHandler.GetType());

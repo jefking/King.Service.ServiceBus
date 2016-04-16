@@ -83,7 +83,7 @@
 
             var events = new BusEvents<string>(queue, handler);
 
-            Assert.That(() => events.MessageArrived(data), Throws.TypeOf<InvalidOperationException>());
+            Assert.That(() => events.Process(data), Throws.TypeOf<InvalidOperationException>());
         }
 
         [Test]
