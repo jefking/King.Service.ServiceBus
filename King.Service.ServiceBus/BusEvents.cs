@@ -6,7 +6,7 @@
     using Microsoft.ServiceBus.Messaging;
 
     /// <summary>
-    /// Service Bus Queue Events
+    /// Service Bus Event Processing
     /// </summary>
     /// <typeparam name="T">Model</typeparam>
     public class BusEvents<T> : InitializeTask
@@ -106,11 +106,11 @@
             var success = await this.eventHandler.Process(contents);
             if (success)
             {
-                Trace.TraceInformation("{0}: Message processed successfully from queue.", this.eventHandler.GetType());
+                Trace.TraceInformation("{0}: Message processed successfully.", this.eventHandler.GetType());
             }
             else
             {
-                throw new InvalidOperationException(string.Format("{0}: Message not processed successfully from queue.", this.eventHandler.GetType()));
+                throw new InvalidOperationException(string.Format("{0}: Message not processed successfully.", this.eventHandler.GetType()));
             }
         }
 
