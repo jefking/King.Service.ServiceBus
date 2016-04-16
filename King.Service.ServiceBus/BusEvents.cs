@@ -13,9 +13,9 @@
     {
         #region Members
         /// <summary>
-        /// Queue Client
+        /// Event Source
         /// </summary>
-        protected readonly IBusQueueReciever queue = null;
+        protected readonly IBusEventReciever source = null;
 
         /// <summary>
         /// Bus Event Handler
@@ -35,23 +35,23 @@
 
         #region Constructors
         /// <summary>
-        /// Service Bus Queue Events
+        /// Service Bus Events
         /// </summary>
-        /// <param name="queue">Queue</param>
+        /// <param name="source">Source</param>
         /// <param name="eventHandler">Event Handler</param>
         /// <param name="concurrentCalls">Concurrent Calls</param>
-        public BusEvents(IBusQueueReciever queue, IBusEventHandler<T> eventHandler, byte concurrentCalls = DefaultConcurrentCalls)
+        public BusEvents(IBusEventReciever source, IBusEventHandler<T> eventHandler, byte concurrentCalls = DefaultConcurrentCalls)
         {
-            if (null == queue)
+            if (null == source)
             {
-                throw new ArgumentNullException("queue");
+                throw new ArgumentNullException("source");
             }
             if (null == eventHandler)
             {
                 throw new ArgumentNullException("eventHandler");
             }
 
-            this.queue = queue;
+            this.source = source;
             this.eventHandler = eventHandler;
             this.concurrentCalls = concurrentCalls <= 5 ? DefaultConcurrentCalls : concurrentCalls;
         }
@@ -84,7 +84,7 @@
 
             eventDrivenMessagingOptions.ExceptionReceived += OnExceptionReceived;
 
-            this.queue.RegisterForEvents(OnMessageArrived, eventDrivenMessagingOptions);
+            this.source.RegisterForEvents(OnMessageArrived, eventDrivenMessagingOptions);
         }
 
         /// <summary>
@@ -106,11 +106,11 @@
             var success = this.eventHandler.Process((T)body).Result;
             if (success)
             {
-                Trace.TraceInformation("{0}: Message processed successfully from queue: {1}.", this.eventHandler.GetType(), this.queue.Name);
+                Trace.TraceInformation("{0}: Message processed successfully from queue.", this.eventHandler.GetType());
             }
             else
             {
-                throw new InvalidOperationException(string.Format("{0}: Message not processed successfully from queue: {1}.", this.eventHandler.GetType(), this.queue.Name));
+                throw new InvalidOperationException(string.Format("{0}: Message not processed successfully from queue.", this.eventHandler.GetType()));
             }
         }
 

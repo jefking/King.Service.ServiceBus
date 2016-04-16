@@ -52,7 +52,7 @@
     /// <summary>
     /// Bus Queue Reciever Interface
     /// </summary>
-    public interface IBusQueueReciever : IBusQueue
+    public interface IBusQueueReciever : IBusQueue, IBusEventReciever
     {
         #region Methods
         /// <summary>
@@ -69,7 +69,17 @@
         /// <param name="messageCount">Message Count</param>
         /// <returns>Messages</returns>
         Task<IEnumerable<BrokeredMessage>> GetMany(TimeSpan waitTime, int messageCount = 5);
+        #endregion
+    }
+    #endregion
 
+    #region IBusQueueReciever
+    /// <summary>
+    /// Bus Event Reciever Interface
+    /// </summary>
+    public interface IBusEventReciever
+    {
+        #region Methods
         /// <summary>
         /// Register for Events
         /// </summary>

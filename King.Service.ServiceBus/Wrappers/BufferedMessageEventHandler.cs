@@ -1,11 +1,11 @@
 ﻿namespace King.Service.ServiceBus.Wrappers
 {
-    using King.Service.ServiceBus.Models;
-    using King.Service.ServiceBus.Timing;
-    using Newtonsoft.Json;
     using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
+    using King.Service.ServiceBus.Models;
+    using King.Service.ServiceBus.Timing;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Buffered Message Event Handler
@@ -25,7 +25,7 @@
         protected readonly IBusEventHandler<T> eventHandler = null;
         #endregion
 
-        #region Members
+        #region Constructors
         /// <summary>
         /// Constructor
         /// </summary>
@@ -57,7 +57,7 @@
         {
             this.eventHandler.OnError(action, ex);
         }
-        
+
         /// <summary>
         /// Process Buffered Message
         /// </summary>

@@ -53,7 +53,6 @@
     <Compile Include="BusQueueSender.cs" />
     <Compile Include="BusQueueShards.cs" />
     <Compile Include="BusTopic.cs" />
-    <Compile Include="BusTopicEvents.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="Models\BufferedMessage.cs" />
@@ -69,6 +68,7 @@
     <Compile Include="Wrappers\BufferedMessageEventHandler.cs" />
     <Compile Include="Timing\BusQueueTimingTracker.cs" />
     <Compile Include="Wrappers\BusTopicClient.cs" />
+    <Compile Include="Wrappers\BusTopicSubscriptionClient.cs" />
     <Compile Include="Wrappers\HubClient.cs" />
     <Compile Include="Wrappers\Interfaces.cs" />
     <Compile Include="Wrappers\BusQueueClient.cs" />
