@@ -70,6 +70,7 @@
     <Compile Include="TransientErrorHandlerTests.cs" />
     <Compile Include="Wrappers\BufferedMessageEventHandlerTests.cs" />
     <Compile Include="Wrappers\BusQueueClientTests.cs" />
+    <Compile Include="Wrappers\BusTopicSubscriptionClientTests.cs" />
     <Compile Include="Wrappers\HubClientTests.cs" />
     <Compile Include="Wrappers\BusTopicClientTests.cs" />
   </ItemGroup>
