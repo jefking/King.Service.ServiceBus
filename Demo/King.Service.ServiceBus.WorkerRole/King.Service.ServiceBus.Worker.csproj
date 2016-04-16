@@ -68,8 +68,8 @@
       <HintPath>..\..\packages\King.Service.1.12.7\lib\net45\King.Service.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="King.Service.ServiceBus, Version=1.0.5.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\King.Service.ServiceBus.1.2.2\lib\net45\King.Service.ServiceBus.dll</HintPath>
+    <Reference Include="King.Service.ServiceBus, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\King.Service.ServiceBus.1.2.3\lib\net45\King.Service.ServiceBus.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -96,6 +96,7 @@
       <HintPath>..\..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.2.1\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Diagnostics, Version=2.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <Private>False</Private>
     </Reference>
