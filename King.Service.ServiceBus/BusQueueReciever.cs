@@ -27,7 +27,7 @@
         /// <param name="name">Queue Name</param>
         /// <param name="connectionString">Connection String</param>
         public BusQueueReciever(string name, string connectionString)
-            :base(name, connectionString)
+            : base(name, connectionString)
         {
         }
 

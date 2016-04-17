@@ -12,7 +12,7 @@
         private string connection = ConfigurationSettings.AppSettings["Microsoft.ServiceBus.ConnectionString"];
 
         IBusQueueSender sender;
-        IBusQueueReciever reciever;
+        IBusMessageReciever reciever;
         string name;
 
         [SetUp]

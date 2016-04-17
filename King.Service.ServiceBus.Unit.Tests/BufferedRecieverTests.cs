@@ -10,7 +10,7 @@
         [Test]
         public void Constructor()
         {
-            var queue = Substitute.For<IBusQueueReciever>();
+            var queue = Substitute.For<IBusMessageReciever>();
             var handler = Substitute.For<IBusEventHandler<object>>();
             new BufferedReciever<object>(queue, handler);
         }
@@ -18,7 +18,7 @@
         [Test]
         public void IsBusEventsBufferedMessage()
         {
-            var queue = Substitute.For<IBusQueueReciever>();
+            var queue = Substitute.For<IBusMessageReciever>();
             var handler = Substitute.For<IBusEventHandler<object>>();
             Assert.IsNotNull(new BufferedReciever<object>(queue, handler) as BusEvents<BufferedMessage>);
         }

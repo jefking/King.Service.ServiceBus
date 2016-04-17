@@ -17,7 +17,7 @@
         /// <summary>
         /// Reciever
         /// </summary>
-        protected readonly IBusQueueReciever queue = null;
+        protected readonly IBusMessageReciever queue = null;
 
         /// <summary>
         /// Wait Time
@@ -36,7 +36,7 @@
         /// </summary>
         /// <param name="queue">Queue</param>
         /// <param name="waitTime">Wait Time</param>
-        public BusQueuePoller(IBusQueueReciever queue, TimeSpan waitTime)
+        public BusQueuePoller(IBusMessageReciever queue, TimeSpan waitTime)
         {
             if (null == queue)
             {

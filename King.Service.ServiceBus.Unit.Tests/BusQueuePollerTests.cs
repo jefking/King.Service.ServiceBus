@@ -16,7 +16,7 @@
         public void Constructor()
         {
             var wait = TimeSpan.FromSeconds(10);
-            var queue = Substitute.For<IBusQueueReciever>();
+            var queue = Substitute.For<IBusMessageReciever>();
             new BusQueuePoller<object>(queue, wait);
         }
 
@@ -30,7 +30,7 @@
         [Test]
         public void ConstructorWaitTimeZero()
         {
-            var queue = Substitute.For<IBusQueueReciever>();
+            var queue = Substitute.For<IBusMessageReciever>();
             var bqp = new BusQueuePoller<object>(queue, TimeSpan.Zero);
             Assert.AreEqual(BusQueuePoller<object>.DefaultWaitTime, bqp.WaitTime);
         }
@@ -46,7 +46,7 @@
         {
             var wait = TimeSpan.FromSeconds(10);
             var msg = new BrokeredMessage("data");
-            var queue = Substitute.For<IBusQueueReciever>();
+            var queue = Substitute.For<IBusMessageReciever>();
             queue.Get(wait).Returns(Task.FromResult(msg));
 
             var poller = new BusQueuePoller<object>(queue, wait);
@@ -61,7 +61,7 @@
         public async Task PollGetNull()
         {
             var wait = TimeSpan.FromSeconds(10);
-            var queue = Substitute.For<IBusQueueReciever>();
+            var queue = Substitute.For<IBusMessageReciever>();
             queue.Get(wait).Returns(Task.FromResult<BrokeredMessage>(null));
 
             var poller = new BusQueuePoller<object>(queue, wait);
@@ -77,7 +77,7 @@
         {
             var wait = TimeSpan.FromSeconds(10);
             var msg = new BrokeredMessage("data");
-            var queue = Substitute.For<IBusQueueReciever>();
+            var queue = Substitute.For<IBusMessageReciever>();
             queue.Get(wait).Returns<BrokeredMessage>(x => { throw new ApplicationException(); });
 
             var poller = new BusQueuePoller<object>(queue, wait);
@@ -94,7 +94,7 @@
             msgs.Add(msg);
             msgs.Add(msg);
 
-            var queue = Substitute.For<IBusQueueReciever>();
+            var queue = Substitute.For<IBusMessageReciever>();
             queue.GetMany(wait, 3).Returns(Task.FromResult<IEnumerable<BrokeredMessage>>(msgs));
 
             var poller = new BusQueuePoller<object>(queue, wait);
@@ -110,7 +110,7 @@
         public async Task PollGetManyNull()
         {
             var wait = TimeSpan.FromSeconds(10);
-            var queue = Substitute.For<IBusQueueReciever>();
+            var queue = Substitute.For<IBusMessageReciever>();
             queue.GetMany(wait, 3).Returns(Task.FromResult<IEnumerable<BrokeredMessage>>(null));
 
             var poller = new BusQueuePoller<object>(queue, wait);
@@ -126,7 +126,7 @@
         {
             var wait = TimeSpan.FromSeconds(10);
             var msg = new BrokeredMessage("data");
-            var queue = Substitute.For<IBusQueueReciever>();
+            var queue = Substitute.For<IBusMessageReciever>();
             queue.GetMany(wait).Returns<IEnumerable<BrokeredMessage>>(x => { throw new ApplicationException(); });
 
             var poller = new BusQueuePoller<object>(queue, wait);

@@ -23,7 +23,7 @@
         [Test]
         public void MockableConstructorSimplified()
         {
-            var queue = Substitute.For<IBusQueueReciever>();
+            var queue = Substitute.For<IBusMessageReciever>();
             var processor = Substitute.For<IProcessor<object>>();
             new BusDequeueBatchDynamic<object>(queue, processor);
         }

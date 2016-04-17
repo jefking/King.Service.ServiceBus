@@ -23,7 +23,7 @@
         [Test]
         public void IsIBusQueueReciever()
         {
-            Assert.IsNotNull(new BusQueueReciever(Guid.NewGuid().ToString(), connection) as IBusQueueReciever);
+            Assert.IsNotNull(new BusQueueReciever(Guid.NewGuid().ToString(), connection) as IBusMessageReciever);
         }
 
         [Test]
