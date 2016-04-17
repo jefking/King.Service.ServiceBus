@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus.Messaging;
+
     /// <summary>
     /// Bus Message Reciever
     /// </summary>

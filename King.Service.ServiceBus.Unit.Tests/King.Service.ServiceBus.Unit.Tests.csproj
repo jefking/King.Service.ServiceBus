@@ -47,6 +47,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BufferedRecieverTests.cs" />
+    <Compile Include="BusMessageRecieverTests.cs" />
     <Compile Include="QueueBatchDynamicTests.cs" />
     <Compile Include="BusDequeueBatchTests.cs" />
     <Compile Include="BusDequeueFactoryTests.cs" />

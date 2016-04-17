@@ -6,6 +6,7 @@
     using NSubstitute;
     using NUnit.Framework;
     using ServiceBus.Wrappers;
+
     [TestFixture]
     public class BusSubscriptionRecieverTests
     {
