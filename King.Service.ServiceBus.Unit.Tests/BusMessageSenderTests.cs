@@ -300,5 +300,32 @@
             Assert.That(async () => await q.Send(null, DateTime.UtcNow), Throws.TypeOf<ArgumentNullException>());
 
         }
+
+        [Test]
+        public void BufferedOffset()
+        {
+            Assert.AreEqual(-6, BusMessageSender.BufferedOffset);
+        }
+
+        [Test]
+        public async Task SendBuffered()
+        {
+            var client = Substitute.For<IBusQueueClient>();
+            client.Send(Arg.Any<BrokeredMessage>());
+
+            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            await q.SendBuffered(new object(), DateTime.UtcNow);
+
+            client.Received().Send(Arg.Any<BrokeredMessage>());
+        }
+
+        [Test]
+        public async Task SendBufferedDataNull()
+        {
+            var client = Substitute.For<IBusQueueClient>();
+
+            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            await q.SendBuffered(null, DateTime.UtcNow);
+        }
     }
 }

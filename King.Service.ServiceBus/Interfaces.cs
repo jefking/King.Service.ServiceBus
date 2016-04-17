@@ -132,17 +132,7 @@
         /// <param name="enqueueAt">Schedule for Enqueue</param>
         /// <returns>Task</returns>
         Task Send(object message, DateTime enqueueAt);
-        #endregion
-    }
-    #endregion
 
-    #region IBusQueueSender
-    /// <summary>
-    /// Bus Queue Sender Interface
-    /// </summary>
-    public interface IBusQueueSender : IBusMessageSender
-    {
-        #region Methods
         /// <summary>
         /// Send Message for Buffer
         /// </summary>

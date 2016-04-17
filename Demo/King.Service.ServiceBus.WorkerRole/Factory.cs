@@ -17,7 +17,7 @@
 
                 //Initialize Service Bus Resources
                 new InitializeStorageTask(new BusQueue(config.EventsName, config.Connection)),
-                new InitializeStorageTask(new BusQueue(config.BufferedEventsName, config.Connection)),
+                new InitializeStorageTask(new BusQueue(config.BufferedQueueName, config.Connection)),
                 new InitializeStorageTask(new BusTopic(config.TopicName, config.Connection)),
                 new InitializeStorageTask(new BusTopicSubscription(config.TopicName, config.Connection, config.TopicSubscriptionName, config.TopicSubscriptionSqlFilter)),
                 new InitializeStorageTask(new BusHub(config.HubName, config.Connection)),
@@ -27,7 +27,8 @@
                 new BusEvents<ExampleModel>(new BusSubscriptionReciever(config.TopicName, config.Connection, config.TopicSubscriptionName), new EventHandler()),
 
                 //Task for recieving queue events to specific times
-                new BufferedReciever<ExampleModel>(new BusQueueReciever(config.BufferedEventsName, config.Connection), new EventHandler()),
+                new BufferedReciever<ExampleModel>(new BusQueueReciever(config.BufferedQueueName, config.Connection), new EventHandler()),
+                new BufferedReciever<ExampleModel>(new BusSubscriptionReciever(config.BufferedTopicName, config.Connection, config.BufferedSubscriptionName), new EventHandler()),
             });
 
             //Dynamic Batch Size, Frequency, Threads (and queue creation)

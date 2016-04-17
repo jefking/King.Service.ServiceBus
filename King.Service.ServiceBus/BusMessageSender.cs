@@ -6,6 +6,8 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.ServiceBus.Messaging;
+    using Models;
+    using Newtonsoft.Json;
     using Wrappers;
 
     /// <summary>
@@ -14,6 +16,11 @@
     public class BusMessageSender : TransientErrorHandler, IBusMessageSender
     {
         #region Members
+        /// <summary>
+        /// Buffered Offset (Seconds)
+        /// </summary>
+        public const sbyte BufferedOffset = -6;
+
         /// <summary>
         /// Service Bus Message Client
         /// </summary>
@@ -192,6 +199,24 @@
             };
 
             await this.Send(msg);
+        }
+
+        /// <summary>
+        /// Send Message for Buffer
+        /// </summary>
+        /// <param name="message">Message</param>
+        /// <param name="enqueueAt">Schedule for Enqueue</param>
+        /// <param name="offset">Offset</param>
+        /// <returns>Task</returns>
+        public virtual async Task SendBuffered(object data, DateTime releaseAt, sbyte offset = BufferedOffset)
+        {
+            var message = new BufferedMessage
+            {
+                Data = null == data ? null : JsonConvert.SerializeObject(data),
+                ReleaseAt = releaseAt,
+            };
+
+            await this.Send(message, releaseAt.AddSeconds(offset));
         }
         #endregion
     }

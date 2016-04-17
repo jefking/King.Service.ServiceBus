@@ -20,7 +20,7 @@ namespace King.Service.WorkerRole
             var config = new Configuration()
             {
                 EventsName = "events",
-                BufferedEventsName = "buffered",
+                BufferedQueueName = "buffered",
                 TopicName = "topic",
                 TopicSubscriptionName = "subscription",
                 //TopicSubscriptionSqlFilter = "",

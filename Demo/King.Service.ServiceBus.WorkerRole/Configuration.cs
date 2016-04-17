@@ -3,7 +3,9 @@
     public class Configuration
     {
         public string EventsName;
-        public string BufferedEventsName;
+        public string BufferedQueueName;
+        public string BufferedTopicName;
+        public string BufferedSubscriptionName;
         public string TopicName;
         public string HubName;
         public string FactoryQueueName;

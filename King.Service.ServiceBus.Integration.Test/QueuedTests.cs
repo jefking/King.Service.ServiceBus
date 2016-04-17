@@ -11,7 +11,7 @@
     {
         private string connection = ConfigurationSettings.AppSettings["Microsoft.ServiceBus.ConnectionString"];
 
-        IBusQueueSender sender;
+        IBusMessageSender sender;
         IBusMessageReciever reciever;
         string name;
 

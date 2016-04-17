@@ -14,7 +14,8 @@
                 new QueueForAction(new BusQueueSender(config.EventsName, config.Connection), "event through queue"),
                 new QueueForAction(new BusQueueSender(config.FactoryQueueName, config.Connection), "factory"),
                 new QueueForAction(new BusTopicSender(config.TopicName, config.Connection), "topic"),
-                new QueueForBuffer(new BusQueueSender(config.BufferedEventsName, config.Connection)),
+                new QueueForBuffer(new BusQueueSender(config.BufferedQueueName, config.Connection)),
+                //new QueueForBuffer(new BusTopicSender(config.BufferedTopicName, config.Connection)),
                 new QueueToShards(new BusQueueShardSender(config.ShardsQueueName, config.Connection, config.ShardsCount)),
             };
         }
