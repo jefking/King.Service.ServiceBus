@@ -29,7 +29,7 @@
         [Test]
         public void ConstructorClientNull()
         {
-            Assert.That(() => new BusMessageSender(Guid.NewGuid().ToString(), null), Throws.TypeOf<ArgumentException>());
+            Assert.That(() => new BusMessageSender(Guid.NewGuid().ToString(), null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]

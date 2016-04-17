@@ -62,6 +62,12 @@
         }
 
         [Test]
+        public void ConstructorShardsEmpty()
+        {
+            Assert.That(() => new BusQueueShardSender(new List<IBusShard>()), Throws.TypeOf<ArgumentException>());
+        }
+
+        [Test]
         public void ConstructorShardDefault()
         {
             var sqs = new BusQueueShardSender("test", ConnectionString);
