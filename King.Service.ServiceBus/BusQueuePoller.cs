@@ -17,47 +17,22 @@
         /// <summary>
         /// Reciever
         /// </summary>
-        protected readonly IBusMessageReciever queue = null;
-
-        /// <summary>
-        /// Wait Time
-        /// </summary>
-        protected readonly TimeSpan waitTime = DefaultWaitTime;
-
-        /// <summary>
-        /// Default Wait Time
-        /// </summary>
-        public static readonly TimeSpan DefaultWaitTime = TimeSpan.FromSeconds(15);
+        protected readonly IBusMessageReciever reciever = null;
         #endregion
 
         #region Constructors
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="queue">Queue</param>
-        /// <param name="waitTime">Wait Time</param>
-        public BusQueuePoller(IBusMessageReciever queue, TimeSpan waitTime)
+        /// <param name="reciever">Reciever</param>
+        public BusQueuePoller(IBusMessageReciever reciever)
         {
-            if (null == queue)
+            if (null == reciever)
             {
-                throw new ArgumentNullException("queue");
+                throw new ArgumentNullException("reciever");
             }
 
-            this.queue = queue;
-            this.waitTime = waitTime <= TimeSpan.Zero ? DefaultWaitTime : waitTime;
-        }
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// Wait Time
-        /// </summary>
-        public TimeSpan WaitTime
-        {
-            get
-            {
-                return this.waitTime;
-            }
+            this.reciever = reciever;
         }
         #endregion
 
@@ -68,7 +43,7 @@
         /// <returns>Queued Item</returns>
         public virtual async Task<IQueued<T>> Poll()
         {
-            var msg = await this.queue.Get(this.waitTime);
+            var msg = await this.reciever.Get(this.reciever.ServerWaitTime);
             return null == msg ? null : new Queued<T>(msg);
         }
 
@@ -79,7 +54,7 @@
         /// <returns>Queued Messages</returns>
         public virtual async Task<IEnumerable<IQueued<T>>> PollMany(int messageCount = 5)
         {
-            var msgs = await this.queue.GetMany(this.waitTime, messageCount);
+            var msgs = await this.reciever.GetMany(this.reciever.ServerWaitTime, messageCount);
             return null == msgs || !msgs.Any() ? null : msgs.Select(m => new Queued<T>(m));
         }
         #endregion
