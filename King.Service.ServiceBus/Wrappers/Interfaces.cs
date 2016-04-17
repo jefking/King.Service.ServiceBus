@@ -7,19 +7,10 @@
 
     #region IBusClient
     /// <summary>
-    /// Bus Client
+    /// Service Bus Client
     /// </summary>
     public interface IBusClient<T>
     {
-        #region Methods
-        /// <summary>
-        /// Send
-        /// </summary>
-        /// <param name="message">Message</param>
-        /// <returns>Task</returns>
-        Task Send(BrokeredMessage message);
-        #endregion
-
         #region Properties
         /// <summary>
         /// Queue Client
@@ -36,7 +27,7 @@
     /// <summary>
     /// Bus Topic Client Interface
     /// </summary>
-    public interface IBusTopicClient : IBusClient<TopicClient>
+    public interface IBusTopicClient : IBusClient<TopicClient>, IBusSender
     {
     }
     #endregion
@@ -45,7 +36,40 @@
     /// <summary>
     /// Bus Queue Client Wrapper
     /// </summary>
-    public interface IBusQueueClient : IBusClient<QueueClient>
+    public interface IBusQueueClient : IBusClient<QueueClient>, IBusSender, IBusReciever
+    {
+    }
+    #endregion
+
+    #region IBusSender
+    /// <summary>
+    /// Service Bus Sender
+    /// </summary>
+    public interface IBusSender
+    {
+        #region Methods
+        /// <summary>
+        /// Send
+        /// </summary>
+        /// <param name="message">Message</param>
+        /// <returns>Task</returns>
+        Task Send(BrokeredMessage message);
+
+        /// <summary>
+        /// Send Batch
+        /// </summary>
+        /// <param name="message">Messages</param>
+        /// <returns>Task</returns>
+        Task Send(IEnumerable<BrokeredMessage> messages);
+        #endregion
+    }
+    #endregion
+
+    #region IBusReciever
+    /// <summary>
+    /// Service Bus Message Reciever
+    /// </summary>
+    public interface IBusReciever
     {
         #region Methods
         /// <summary>
@@ -69,13 +93,6 @@
         /// <param name="callback">Call Back</param>
         /// <param name="options">Options</param>
         void OnMessage(Func<BrokeredMessage, Task> callback, OnMessageOptions options);
-
-        /// <summary>
-        /// Send Batch
-        /// </summary>
-        /// <param name="message">Messages</param>
-        /// <returns>Task</returns>
-        Task Send(IEnumerable<BrokeredMessage> messages);
         #endregion
     }
     #endregion
@@ -111,21 +128,6 @@
         /// <returns>Task</returns>
         Task Send(IEnumerable<EventData> messages);
         #endregion
-    }
-    #endregion
-
-    #region IBusSubscriptionClient
-    /// <summary>
-    /// Bus Subscription Client Interface
-    /// </summary>
-    public interface IBusSubscriptionClient
-    {
-        /// <summary>
-        /// Register For Events
-        /// </summary>
-        /// <param name="callback">Call Back</param>
-        /// <param name="options">Options</param>
-        void OnMessageAsync(Func<BrokeredMessage, Task> callback, OnMessageOptions onMessageOptions);
     }
     #endregion
 }

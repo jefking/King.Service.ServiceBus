@@ -35,13 +35,13 @@
             Func<BrokeredMessage, Task> callback = (BrokeredMessage msg) => { return Task.Run(() => { }); };
             var options = new OnMessageOptions();
 
-            var client = Substitute.For<IBusSubscriptionClient>();
-            client.OnMessageAsync(callback, options);
+            var client = Substitute.For<IBusReciever>();
+            client.OnMessage(callback, options);
 
             var bsr = new BusSubscriptionReciever(client);
             bsr.RegisterForEvents(callback, options);
 
-            client.Received().OnMessageAsync(callback, options);
+            client.Received().OnMessage(callback, options);
         }
     }
 }

@@ -37,7 +37,7 @@
         public void RegisterForEvents()
         {
             var c = new BusSubscriptionClient(SubscriptionClient.CreateFromConnectionString(connection, this.topic.Name, "testing"));
-            c.OnMessageAsync((BrokeredMessage msg) => { return Task.Run(() => { }); }, new OnMessageOptions());
+            c.OnMessage((BrokeredMessage msg) => { return Task.Run(() => { }); }, new OnMessageOptions());
         }
     }
 }

@@ -12,9 +12,9 @@
     {
         #region Members
         /// <summary>
-        /// Bus Subscription Client
+        /// Service Bus Subscription Client
         /// </summary>
-        protected readonly IBusSubscriptionClient client;
+        protected readonly IBusReciever client;
         #endregion
 
         #region Constructors
@@ -30,7 +30,7 @@
         /// Mockable Constructor
         /// </summary>
         /// <param name="client">Bus Subscription Client</param>
-        public BusSubscriptionReciever(IBusSubscriptionClient client)
+        public BusSubscriptionReciever(IBusReciever client)
         {
             if (null == client)
             {
@@ -49,7 +49,7 @@
         /// <param name="options">Options</param>
         public void RegisterForEvents(Func<BrokeredMessage, Task> callback, OnMessageOptions options)
         {
-            this.client.OnMessageAsync(callback, options);
+            this.client.OnMessage(callback, options);
         }
         #endregion
     }
