@@ -9,7 +9,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class BusQueueShardsTests
+    public class BusQueueShardSenderTests
     {
         const string ConnectionString = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
 
@@ -32,6 +32,15 @@
             var count = (byte)random.Next(1, 1000);
             var sqs = new BusQueueShardSender("test", ConnectionString, count);
             Assert.AreEqual(count, sqs.ShardCount);
+        }
+
+        [Test]
+        public void ShardCountZero()
+        {
+            var random = new Random();
+            var count = (byte)0;
+            var sqs = new BusQueueShardSender("test", ConnectionString, count);
+            Assert.AreEqual(BusQueueShardSender.DefaultShardCount, sqs.ShardCount);
         }
 
         [Test]
@@ -193,6 +202,12 @@
             var index = sqs.Index((byte)val);
 
             Assert.AreEqual(expected, index);
+        }
+
+        [Test]
+        public void DefaultShardCount()
+        {
+            Assert.AreEqual(2, BusQueueShardSender.DefaultShardCount);
         }
     }
 }

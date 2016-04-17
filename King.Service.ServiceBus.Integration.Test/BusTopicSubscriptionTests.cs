@@ -38,6 +38,15 @@
         }
 
         [Test]
+        public async Task CreateIfNotExistsWithFilter()
+        {
+            var s = new BusTopicSubscription(name, connection, "subsciption", "MesageId > 100");
+            var c = await s.CreateIfNotExists();
+
+            Assert.IsTrue(c);
+        }
+
+        [Test]
         public async Task Delete()
         {
             var s = new BusTopicSubscription(name, connection, "subsciption");

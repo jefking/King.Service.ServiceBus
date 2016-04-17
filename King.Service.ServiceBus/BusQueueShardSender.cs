@@ -21,6 +21,11 @@
         /// Base of the Name
         /// </summary>
         protected readonly string baseName;
+
+        /// <summary>
+        /// Default Shard Count
+        /// </summary>
+        public const byte DefaultShardCount = 2;
         #endregion
 
         #region Constructors
@@ -42,7 +47,7 @@
             }
 
             this.baseName = name;
-            shardCount = shardCount > 0 ? shardCount : (byte)2;
+            shardCount = shardCount > 0 ? shardCount : DefaultShardCount;
 
             var qs = new IBusShard[shardCount];
             for (var i = 0; i < shardCount; i++)

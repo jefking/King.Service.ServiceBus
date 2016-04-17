@@ -57,8 +57,9 @@
     <Compile Include="BusQueueAutoScalerTests.cs" />
     <Compile Include="BusQueueRecieverTests.cs" />
     <Compile Include="BusQueueSenderTests.cs" />
-    <Compile Include="BusQueueShardsTests.cs" />
+    <Compile Include="BusQueueShardSenderTests.cs" />
     <Compile Include="BusQueueTests.cs" />
+    <Compile Include="BusShardTests.cs" />
     <Compile Include="BusSubscriptionRecieverTests.cs" />
     <Compile Include="BusTopicTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

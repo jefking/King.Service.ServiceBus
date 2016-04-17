@@ -86,6 +86,17 @@
                 return this.topicName;
             }
         }
+
+        /// <summary>
+        /// Filter
+        /// </summary>
+        public virtual string Filter
+        {
+            get
+            {
+                return this.sqlFilter;
+            }
+        }
         #endregion
 
         #region Methods
