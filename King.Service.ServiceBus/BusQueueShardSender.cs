@@ -9,7 +9,7 @@
     /// <summary>
     /// Bus Shard Sender
     /// </summary>
-    public class BusShardSender : IBusShardSender
+    public class BusQueueShardSender : IBusShardSender
     {
         #region Members
         /// <summary>
@@ -30,7 +30,7 @@
         /// <param name="name">Name</param>
         /// <param name="connection">Connection</param>
         /// <param name="shardCount">Shard Count</param>
-        public BusShardSender(string name, string connection, byte shardCount = 2)
+        public BusQueueShardSender(string name, string connection, byte shardCount = 2)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -60,7 +60,7 @@
         /// Constructor for mocking
         /// </summary>
         /// <param name="queues">Queues</param>
-        public BusShardSender(IEnumerable<IBusShard> queues)
+        public BusQueueShardSender(IEnumerable<IBusShard> queues)
         {
             if (null == queues)
             {

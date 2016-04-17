@@ -52,7 +52,7 @@
     <Compile Include="BusQueueAutoScaler.cs" />
     <Compile Include="BusQueueReciever.cs" />
     <Compile Include="BusQueueSender.cs" />
-    <Compile Include="BusShardSender.cs" />
+    <Compile Include="BusQueueShardSender.cs" />
     <Compile Include="BusSubscriptionReciever.cs" />
     <Compile Include="BusTopic.cs" />
     <Compile Include="Delegates.cs" />
