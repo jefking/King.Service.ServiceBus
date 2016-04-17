@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using King.Azure.Data;
     using NSubstitute;
@@ -64,6 +65,16 @@
             var name = Guid.NewGuid().ToString();
             var sqs = new BusQueueShardSender(name, ConnectionString, 2);
             Assert.AreEqual(name, sqs.Name);
+        }
+
+        [Test]
+        public void Queues()
+        {
+            var random = new Random();
+            var i = (byte)random.Next(1, byte.MaxValue);
+            var sqs = new BusQueueShardSender("test", ConnectionString, i);
+            Assert.IsNotNull(sqs.Queues);
+            Assert.AreEqual(i, sqs.Queues.Count());
         }
 
         [Test]
