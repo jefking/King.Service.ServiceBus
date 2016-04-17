@@ -15,7 +15,7 @@
     {
         #region Members
         /// <summary>
-        /// Queue
+        /// Reciever
         /// </summary>
         protected readonly IBusQueueReciever queue = null;
 

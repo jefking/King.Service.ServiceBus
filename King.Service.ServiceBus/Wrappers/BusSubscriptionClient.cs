@@ -21,6 +21,17 @@
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="topicPath">Topic Name</param>
+        /// <param name="connection">Connection String</param>
+        /// <param name="name">Subscription Name</param>
+        public BusSubscriptionClient(string topicPath, string connection, string name)
+            : this(SubscriptionClient.CreateFromConnectionString(connection, topicPath, name))
+        {
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
         /// <param name="client">Queue Client</param>
         public BusSubscriptionClient(SubscriptionClient client)
         {
