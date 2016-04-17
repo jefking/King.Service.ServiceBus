@@ -25,9 +25,9 @@
         }
 
         [Test]
-        public void IsITopicSender()
+        public void IsBusMessageSender()
         {
-            Assert.IsNotNull(new BusTopicSender(Guid.NewGuid().ToString(), connection) as IBusTopicSender);
+            Assert.IsNotNull(new BusTopicSender(Guid.NewGuid().ToString(), connection) as BusMessageSender);
         }
 
         [Test]
@@ -35,12 +35,6 @@
         {
             var client = Substitute.For<IBusTopicClient>();
             Assert.That(() => new BusTopicSender(null, client), Throws.TypeOf<ArgumentException>());
-        }
-
-        [Test]
-        public void ConstructorClientNull()
-        {
-            Assert.That(() => new BusTopicSender(Guid.NewGuid().ToString(), (string)null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]

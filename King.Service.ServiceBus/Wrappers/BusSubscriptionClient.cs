@@ -41,7 +41,7 @@
         /// <param name="options">Options</param>
         public void OnMessage(Func<BrokeredMessage, Task> callback, OnMessageOptions options)
         {
-            throw new NotImplementedException();
+            this.client.OnMessageAsync(callback, options);
         }
 
         /// <summary>
