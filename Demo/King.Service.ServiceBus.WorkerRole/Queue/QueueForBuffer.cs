@@ -7,9 +7,9 @@
 
     public class QueueForBuffer : RecurringTask
     {
-        private readonly IBusQueueSender client;
+        private readonly IBusMessageSender client;
 
-        public QueueForBuffer(IBusQueueSender client)
+        public QueueForBuffer(IBusMessageSender client)
         {
             this.client = client;
         }
