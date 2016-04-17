@@ -140,6 +140,7 @@
     /// <summary>
     /// Bus Queue Sender Interface
     /// </summary>
+    public interface IBusQueueSender : IBusMessageSender
     {
         #region Methods
         /// <summary>
@@ -207,6 +208,51 @@
         /// Transient Error Event
         /// </summary>
         event TransientErrorEventHandler TransientErrorOccured;
+        #endregion
+    }
+    #endregion
+
+    #region IBusQueueShardSender
+    /// <summary>
+    /// Bus Queue Shards Interface
+    /// </summary>
+    public interface IBusQueueShardSender : IAzureStorage
+    {
+        #region Properties
+        /// <summary>
+        /// Shard Count
+        /// </summary>
+        byte ShardCount
+        {
+            get;
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Queue Message to shard, 0 means at random
+        /// </summary>
+        /// <param name="obj">message</param>
+        /// <param name="shardTarget">Shard Target</param>
+        /// <returns>Task</returns>
+        Task Save(object obj, byte shardTarget = 0);
+
+        /// <summary>
+        /// Determine index of queues to interact with
+        /// </summary>
+        /// <remarks>
+        /// Specifically broken out for testing safety
+        /// </remarks>
+        /// <param name="shardTarget">Shard Target</param>
+        /// <returns>Index</returns>
+        byte Index(byte shardTarget);
+
+        /// <summary>
+        /// Shard Name
+        /// </summary>
+        /// <param name="shardTarget">Shard Target</param>
+        /// <returns>Name of Shard</returns>
+        string ShardName(byte shardTarget);
         #endregion
     }
     #endregion

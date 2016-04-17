@@ -7,7 +7,7 @@
     /// <summary>
     /// Bus Queue Shards
     /// </summary>
-    public class BusQueueShardSender : IAzureStorage
+    public class BusQueueShardSender : IBusQueueShardSender
     {
         #region Members
         /// <summary>
@@ -59,6 +59,17 @@
             get
             {
                 return this.baseName;
+            }
+        }
+
+        /// <summary>
+        /// Shard Count
+        /// </summary>
+        public byte ShardCount
+        {
+            get
+            {
+                return this.shardCount;
             }
         }
         #endregion
