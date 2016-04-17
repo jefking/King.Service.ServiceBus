@@ -13,7 +13,7 @@
         [Test]
         public void ConstructorMockable()
         {
-            var queue = Substitute.For<IBusMessageReciever>();
+            var queue = Substitute.For<IBusQueueReciever>();
             var handler = Substitute.For<IBusEventHandler<object>>();
             new BusEvents<object>(queue, handler);
         }
@@ -21,7 +21,7 @@
         [Test]
         public void ConstructorConcurrentOne()
         {
-            var queue = Substitute.For<IBusMessageReciever>();
+            var queue = Substitute.For<IBusQueueReciever>();
             var handler = Substitute.For<IBusEventHandler<object>>();
             var be = new BusEvents<object>(queue, handler, 1);
             Assert.AreEqual(BusEvents<object>.DefaultConcurrentCalls, be.ConcurrentCalls);
@@ -37,7 +37,7 @@
         [Test]
         public void ConstructorConnectionStringNull()
         {
-            var queue = Substitute.For<IBusMessageReciever>();
+            var queue = Substitute.For<IBusQueueReciever>();
             Assert.That(() => new BusEvents<object>(queue, null), Throws.TypeOf<ArgumentNullException>());
         }
 
@@ -45,7 +45,7 @@
         public void Run()
         {
             var args = new ExceptionReceivedEventArgs(new Exception(), Guid.NewGuid().ToString());
-            var queue = Substitute.For<IBusMessageReciever>();
+            var queue = Substitute.For<IBusQueueReciever>();
             queue.RegisterForEvents(Arg.Any<Func<BrokeredMessage, Task>>(), Arg.Any<OnMessageOptions>());
             var handler = Substitute.For<IBusEventHandler<object>>();
 
@@ -63,7 +63,7 @@
             {
                 ContentType = data.GetType().ToString(),
             };
-            var queue = Substitute.For<IBusMessageReciever>();
+            var queue = Substitute.For<IBusQueueReciever>();
             var handler = Substitute.For<IBusEventHandler<string>>();
             handler.Process(data).Returns(Task.FromResult(true));
 
@@ -77,7 +77,7 @@
         public void MessageArrivedNotSuccessful()
         {
             var data = Guid.NewGuid().ToString();
-            var queue = Substitute.For<IBusMessageReciever>();
+            var queue = Substitute.For<IBusQueueReciever>();
             var handler = Substitute.For<IBusEventHandler<string>>();
             handler.Process(data).Returns(Task.FromResult(false));
 
@@ -90,7 +90,7 @@
         public void OnExceptionReceived()
         {
             var args = new ExceptionReceivedEventArgs(new Exception(), Guid.NewGuid().ToString());
-            var queue = Substitute.For<IBusMessageReciever>();
+            var queue = Substitute.For<IBusQueueReciever>();
             var handler = Substitute.For<IBusEventHandler<object>>();
             handler.OnError(args.Action, args.Exception);
 
@@ -104,7 +104,7 @@
         public void OnExceptionReceivedSenderNull()
         {
             var args = new ExceptionReceivedEventArgs(new Exception(), Guid.NewGuid().ToString());
-            var queue = Substitute.For<IBusMessageReciever>();
+            var queue = Substitute.For<IBusQueueReciever>();
             var handler = Substitute.For<IBusEventHandler<object>>();
             handler.OnError(args.Action, args.Exception);
 
@@ -119,7 +119,7 @@
         public void OnExceptionReceivedExceptionNull()
         {
             var args = new ExceptionReceivedEventArgs(null, Guid.NewGuid().ToString());
-            var queue = Substitute.For<IBusMessageReciever>();
+            var queue = Substitute.For<IBusQueueReciever>();
             var handler = Substitute.For<IBusEventHandler<object>>();
             handler.OnError(Arg.Any<string>(), Arg.Any<Exception>());
 
