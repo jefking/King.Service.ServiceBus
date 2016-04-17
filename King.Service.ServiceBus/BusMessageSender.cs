@@ -8,6 +8,9 @@
     using Microsoft.ServiceBus.Messaging;
     using Wrappers;
 
+    /// <summary>
+    /// Bus Message Sender
+    /// </summary>
     public class BusMessageSender : TransientErrorHandler, IBusMessageSender
     {
         #region Members
