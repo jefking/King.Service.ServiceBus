@@ -5,7 +5,6 @@
     using King.Service.WorkerRole.Topic;
     using ServiceBus;
 
-    //For Demo Purposes
     public class DataGenerationFactory : ITaskFactory<Configuration>
     {
         public IEnumerable<IRunnable> Tasks(Configuration config)
@@ -13,8 +12,8 @@
             return new IRunnable[]
             {
                 //Simulate messages being added to queues
-                new QueueForAction(new BusQueueSender(config.EventsName, config.Connection), "Event"),
-                new QueueForAction(new BusQueueSender(config.FactoryQueueName, config.Connection), "Factory"),
+                new QueueForAction(new BusQueueSender(config.EventsName, config.Connection), "event through queue"),
+                new QueueForAction(new BusQueueSender(config.FactoryQueueName, config.Connection), "factory"),
                 new QueueToShards(new BusQueueShards(config.ShardsQueueName, config.Connection, 10)),
                 new QueueForBuffer(new BusQueueSender(config.BufferedEventsName, config.Connection)),
 
