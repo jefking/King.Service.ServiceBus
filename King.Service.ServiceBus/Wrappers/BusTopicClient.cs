@@ -19,6 +19,16 @@
 
         #region Constructors
         /// <summary>
+        /// Default Constructor
+        /// </summary>
+        /// <param name="name">Name</param>
+        /// <param name="connection">Connetion</param>
+        public BusTopicClient(string name, string connection)
+            : this(TopicClient.CreateFromConnectionString(connection, name))
+        {
+        }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="client">Topic Client</param>

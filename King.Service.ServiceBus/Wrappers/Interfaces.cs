@@ -101,18 +101,8 @@
     /// <summary>
     /// Event Hub Client Interface
     /// </summary>
-    public interface IHubClient
+    public interface IHubClient : IBusClient<EventHubClient>
     {
-        #region Properties
-        /// <summary>
-        /// Event Hub Client
-        /// </summary>
-        EventHubClient Client
-        {
-            get;
-        }
-        #endregion
-
         #region Members
         /// <summary>
         /// Send

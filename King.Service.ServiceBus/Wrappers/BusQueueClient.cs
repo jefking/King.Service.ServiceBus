@@ -1,9 +1,9 @@
 ﻿namespace King.Service.ServiceBus.Wrappers
 {
-    using Microsoft.ServiceBus.Messaging;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Microsoft.ServiceBus.Messaging;
 
     /// <summary>
     /// Bus Queue Client Wrapper
@@ -18,6 +18,16 @@
         #endregion
 
         #region Constructors
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
+        /// <param name="name">Name</param>
+        /// <param name="connection">Connetion</param>
+        public BusQueueClient(string name, string connection)
+            : this(QueueClient.CreateFromConnectionString(connection, name))
+        {
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>

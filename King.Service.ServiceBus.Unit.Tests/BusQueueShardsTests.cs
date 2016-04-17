@@ -16,58 +16,58 @@
         [Test]
         public void Constructor()
         {
-            var sqs = new BusQueueShards("test", ConnectionString, 2);
+            var sqs = new BusQueueShardSender("test", ConnectionString, 2);
             Assert.AreEqual(2, sqs.Queues.Count());
         }
 
         [Test]
         public void ConstructorConnectionNull()
         {
-            Assert.That(() => new BusQueueShards("test", null), Throws.TypeOf<ArgumentException>());
+            Assert.That(() => new BusQueueShardSender("test", null), Throws.TypeOf<ArgumentException>());
         }
 
         [Test]
         public void ConstructorNameNull()
         {
-            Assert.That(() => new BusQueueShards(null, ConnectionString), Throws.TypeOf<ArgumentException>());
+            Assert.That(() => new BusQueueShardSender(null, ConnectionString), Throws.TypeOf<ArgumentException>());
         }
 
         [Test]
         public void ConstructorQueuesNull()
         {
-            Assert.That(() => new BusQueueShards(null), Throws.TypeOf<ArgumentNullException>());
+            Assert.That(() => new BusQueueShardSender(null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
         public void ConstructorQueuesEmpty()
         {
-            Assert.That(() => new BusQueueShards(new IBusQueueSender[0]), Throws.TypeOf<ArgumentException>());
+            Assert.That(() => new BusQueueShardSender(new IBusQueueSender[0]), Throws.TypeOf<ArgumentException>());
         }
 
         [Test]
         public void ConstructorShardDefault()
         {
-            var sqs = new BusQueueShards("test", ConnectionString);
+            var sqs = new BusQueueShardSender("test", ConnectionString);
             Assert.AreEqual(2, sqs.Queues.Count());
         }
 
         [Test]
         public void IsIQueueShardSender()
         {
-            Assert.IsNotNull(new BusQueueShards("test", ConnectionString) as IQueueShardSender<IBusQueueSender>);
+            Assert.IsNotNull(new BusQueueShardSender("test", ConnectionString) as IQueueShardSender<IBusQueueSender>);
         }
 
         [Test]
         public void IsIAzureStorage()
         {
-            Assert.IsNotNull(new BusQueueShards("test", ConnectionString) as IAzureStorage);
+            Assert.IsNotNull(new BusQueueShardSender("test", ConnectionString) as IAzureStorage);
         }
 
         [Test]
         public void Name()
         {
             var name = Guid.NewGuid().ToString();
-            var sqs = new BusQueueShards(name, ConnectionString, 2);
+            var sqs = new BusQueueShardSender(name, ConnectionString, 2);
             Assert.AreEqual(name, sqs.Name);
         }
 
@@ -76,7 +76,7 @@
         {
             var random = new Random();
             var i = (byte)random.Next(1, byte.MaxValue);
-            var sqs = new BusQueueShards("test", ConnectionString, i);
+            var sqs = new BusQueueShardSender("test", ConnectionString, i);
             Assert.IsNotNull(sqs.Queues);
             Assert.AreEqual(i, sqs.Queues.Count());
         }
@@ -93,7 +93,7 @@
                 q.CreateIfNotExists().Returns(Task.FromResult(true));
                 qs.Add(q);
             }
-            var sqs = new BusQueueShards(qs.ToArray());
+            var sqs = new BusQueueShardSender(qs.ToArray());
 
             var success = await sqs.CreateIfNotExists();
             Assert.IsTrue(success);
@@ -116,7 +116,7 @@
                 q.Delete().Returns(Task.FromResult(true));
                 qs.Add(q);
             }
-            var sqs = new BusQueueShards(qs.ToArray());
+            var sqs = new BusQueueShardSender(qs.ToArray());
 
             await sqs.Delete();
 
@@ -143,7 +143,7 @@
                 qs.Add(q);
             }
 
-            var sqs = new BusQueueShards(qs);
+            var sqs = new BusQueueShardSender(qs);
 
             await sqs.Save(msg, (byte)index);
 
@@ -171,7 +171,7 @@
             qs.Add(q);
             qs.Add(q);
 
-            var sqs = new BusQueueShards(qs);
+            var sqs = new BusQueueShardSender(qs);
 
             var index = sqs.Index(0);
 
@@ -187,7 +187,7 @@
             var qs = new List<IBusQueueSender>();
             qs.Add(q);
 
-            var sqs = new BusQueueShards(qs);
+            var sqs = new BusQueueShardSender(qs);
 
             var index = sqs.Index((byte)val);
 

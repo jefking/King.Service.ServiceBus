@@ -1,27 +1,29 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using Azure.Data;
     using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Linq;
     using System.Threading.Tasks;
+    using Azure.Data;
 
     /// <summary>
     /// Bus Queue Shards
     /// </summary>
-    public class BusQueueShards : IQueueShardSender<IBusQueueSender>, IAzureStorage
+    public class BusQueueShardSender : IAzureStorage
     {
         #region Members
         /// <summary>
-        /// Queues
+        /// Shard Count
         /// </summary>
-        protected readonly IEnumerable<IBusQueueSender> queues;
+        protected readonly byte shardCount = 2;
 
         /// <summary>
         /// Base of the Name
         /// </summary>
         protected readonly string baseName;
+
+        /// <summary>
+        /// Service Bus Connection String
+        /// </summary>
+        protected readonly string connection;
         #endregion
 
         #region Constructors
@@ -29,9 +31,9 @@
         /// Constructor
         /// </summary>
         /// <param name="name">Name</param>
-        /// <param name="connection">Connection</param>
+        /// <param name="connection">Service Bus Connection String</param>
         /// <param name="shardCount">Shard Count</param>
-        public BusQueueShards(string name, string connection, byte shardCount = 2)
+        public BusQueueShardSender(string name, string connection, byte shardCount = 2)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -43,49 +45,12 @@
             }
 
             this.baseName = name;
-            shardCount = shardCount > 0 ? shardCount : (byte)2;
-
-            var qs = new IBusQueueSender[shardCount];
-            for (var i = 0; i < shardCount; i++)
-            {
-                var n = string.Format("{0}{1}", this.baseName, i);
-                qs[i] = new BusQueueSender(n, connection);
-            }
-
-            this.queues = new ReadOnlyCollection<IBusQueueSender>(qs);
-        }
-
-        /// <summary>
-        /// Constructor for mocking
-        /// </summary>
-        /// <param name="queues">Queues</param>
-        public BusQueueShards(IEnumerable<IBusQueueSender> queues)
-        {
-            if (null == queues)
-            {
-                throw new ArgumentNullException("queue");
-            }
-            if (0 == queues.Count())
-            {
-                throw new ArgumentException("Queues length is 0.");
-            }
-
-            this.queues = queues;
+            this.connection = connection;
+            this.shardCount = shardCount > 0 ? shardCount : (byte)2;
         }
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Queues
-        /// </summary>
-        public virtual IReadOnlyCollection<IBusQueueSender> Queues
-        {
-            get
-            {
-                return new ReadOnlyCollection<IBusQueueSender>(this.queues.ToList());
-            }
-        }
-
         /// <summary>
         /// Name
         /// </summary>
@@ -108,8 +73,9 @@
         public virtual async Task<bool> CreateIfNotExists()
         {
             var success = true;
-            foreach (var q in this.queues)
+            for (byte i = 0; i < this.shardCount; i++)
             {
+                var q = new BusQueue(this.ShardName(i), this.connection);
                 success &= await q.CreateIfNotExists();
             }
 
@@ -122,8 +88,9 @@
         /// <returns>Task</returns>
         public virtual async Task Delete()
         {
-            foreach (var q in this.queues)
+            for (byte i = 0; i < this.shardCount; i++)
             {
+                var q = new BusQueue(this.ShardName(i), this.connection);
                 await q.Delete();
             }
         }
@@ -136,8 +103,7 @@
         /// <returns>Task</returns>
         public virtual async Task Save(object obj, byte shardTarget = 0)
         {
-            var index = this.Index(shardTarget);
-            var q = this.queues.ElementAt(index);
+            var q = new BusQueueSender(this.ShardName(shardTarget), this.connection);
             await q.Send(obj);
         }
 
@@ -152,8 +118,23 @@
         public virtual byte Index(byte shardTarget)
         {
             var random = new Random();
-            var count = this.queues.Count();
+            var count = this.shardCount;
             return shardTarget == 0 || shardTarget > count ? (byte)random.Next(0, count) : shardTarget;
+        }
+
+        /// <summary>
+        /// Shard Name
+        /// </summary>
+        /// <param name="shardTarget">Shard Target</param>
+        /// <returns>Name of Shard</returns>
+        public virtual string ShardName(byte shardTarget)
+        {
+            if (0 > shardTarget || this.shardCount < shardTarget)
+            {
+                throw new ArgumentOutOfRangeException("Index out of Range.");
+            }
+
+            return string.Format("{0}{1}", this.baseName, shardTarget);
         }
         #endregion
     }

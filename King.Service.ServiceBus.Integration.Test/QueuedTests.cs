@@ -1,10 +1,10 @@
 ﻿namespace King.Service.ServiceBus.Integration.Test
 {
-    using King.Service.ServiceBus.Models;
-    using NUnit.Framework;
     using System;
     using System.Configuration;
     using System.Threading.Tasks;
+    using King.Service.ServiceBus.Models;
+    using NUnit.Framework;
 
     [TestFixture]
     public class QueuedTests
@@ -13,14 +13,18 @@
 
         IBusQueueSender sender;
         IBusQueueReciever reciever;
+        string name;
 
         [SetUp]
         public void Setup()
         {
             var random = new Random();
-            var name = string.Format("a{0}b", random.Next());
+            name = string.Format("a{0}b", random.Next());
+
+            var bq = new BusQueue(name, connection);
+            bq.CreateIfNotExists().Wait();
+
             sender = new BusQueueSender(name, connection);
-            sender.CreateIfNotExists().Wait();
 
             reciever = new BusQueueReciever(name, connection);
         }
@@ -28,7 +32,8 @@
         [TearDown]
         public void TearDown()
         {
-            sender.Delete().Wait();
+            var bq = new BusQueue(name, connection);
+            bq.Delete().Wait();
         }
 
         [Test]

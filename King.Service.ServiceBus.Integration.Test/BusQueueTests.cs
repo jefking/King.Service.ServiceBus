@@ -1,13 +1,13 @@
 ﻿namespace King.Service.ServiceBus.Integration.Test
 {
-    using Microsoft.ServiceBus.Messaging;
-    using NUnit.Framework;
     using System;
     using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.ServiceBus.Messaging;
+    using NUnit.Framework;
 
     [TestFixture]
     public class BusQueueTests
@@ -16,14 +16,18 @@
 
         IBusQueueSender sender;
         IBusQueueReciever reciever;
+        string name;
 
         [SetUp]
         public void Setup()
         {
             var random = new Random();
-            var name = string.Format("a{0}b", random.Next());
+            name = string.Format("a{0}b", random.Next());
+
+            var bq = new BusQueue(name, connection);
+            bq.CreateIfNotExists().Wait();
+
             sender = new BusQueueSender(name, connection);
-            sender.CreateIfNotExists().Wait();
 
             reciever = new BusQueueReciever(name, connection);
         }
@@ -31,7 +35,8 @@
         [TearDown]
         public void TearDown()
         {
-            sender.Delete().Wait();
+            var bq = new BusQueue(name, connection);
+            bq.Delete().Wait();
         }
 
         [Test]
@@ -51,30 +56,36 @@
         [Test]
         public async Task Delete()
         {
-            await sender.Delete();
-            var result = await sender.CreateIfNotExists();
+            var bq = new BusQueue(name, connection);
+
+            await bq.Delete();
+            var result = await bq.CreateIfNotExists();
             Assert.IsTrue(result);
 
-            await sender.Delete();
-            result = await sender.CreateIfNotExists();
+            await bq.Delete();
+            result = await bq.CreateIfNotExists();
             Assert.IsTrue(result);
 
-            await sender.Delete();
+            await bq.Delete();
         }
 
         [Test]
         public async Task ApproixmateMessageCount()
         {
+            var bq = new BusQueue(name, connection);
+
             var msg = new BrokeredMessage();
             await this.sender.Send(msg);
-            var count = await this.sender.ApproixmateMessageCount();
+            var count = await bq.ApproixmateMessageCount();
             Assert.AreEqual(1, count);
         }
 
         [Test]
         public async Task LockDuration()
         {
-            var lockDuration = await this.sender.LockDuration();
+            var bq = new BusQueue(name, connection);
+
+            var lockDuration = await bq.LockDuration();
             Assert.AreEqual(TimeSpan.FromMinutes(1), lockDuration);
         }
 
@@ -120,7 +131,7 @@
 
             var msg = await this.reciever.Get(wait);
             var result = msg.GetBody<Guid>();
-            
+
             Assert.AreEqual(expected, result);
         }
 

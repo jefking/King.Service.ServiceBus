@@ -28,7 +28,7 @@
         [Test]
         public void IsITopicSender()
         {
-            Assert.IsNotNull(new BusTopicSender(Guid.NewGuid().ToString(), connection) as ITopicSender);
+            Assert.IsNotNull(new BusTopicSender(Guid.NewGuid().ToString(), connection) as IBusTopicSender);
         }
 
         [Test]

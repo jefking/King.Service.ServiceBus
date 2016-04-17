@@ -73,7 +73,7 @@
     }
     #endregion
 
-    #region IBusQueueReciever
+    #region IBusEventReciever
     /// <summary>
     /// Bus Event Reciever Interface
     /// </summary>
@@ -90,11 +90,11 @@
     }
     #endregion
 
-    #region IBusQueueSender
+    #region IBusMessageSender
     /// <summary>
-    /// Bus Queue Sender Interface
+    /// Service Bus Message Sender Interface
     /// </summary>
-    public interface IBusQueueSender : IBusQueue
+    public interface IBusMessageSender
     {
         #region Methods
         /// <summary>
@@ -132,7 +132,16 @@
         /// <param name="enqueueAt">Schedule for Enqueue</param>
         /// <returns>Task</returns>
         Task Send(object message, DateTime enqueueAt);
+        #endregion
+    }
+    #endregion
 
+    #region IBusQueueSender
+    /// <summary>
+    /// Bus Queue Sender Interface
+    /// </summary>
+    {
+        #region Methods
         /// <summary>
         /// Send Message for Buffer
         /// </summary>
@@ -167,7 +176,7 @@
     /// <summary>
     /// Topic Sender
     /// </summary>
-    public interface ITopicSender : ITransientErrorHandler
+    public interface IBusTopicSender : ITransientErrorHandler
     {
         #region Methods
         /// <summary>
