@@ -27,6 +27,12 @@
         }
 
         [Test]
+        public void ConstructorClientNull()
+        {
+            Assert.That(() => new BusMessageSender(Guid.NewGuid().ToString(), null), Throws.TypeOf<ArgumentException>());
+        }
+
+        [Test]
         public void IsTransientErrorHandler()
         {
             var c = Substitute.For<IBusSender>();
@@ -265,7 +271,7 @@
             var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
             Assert.That(async () => await q.Send(msg), Throws.TypeOf<Exception>());
         }
-        
+
         [Test]
         public void SendBatchThrowsMessagingException()
         {
@@ -283,6 +289,16 @@
 
             var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
             Assert.That(async () => await q.Send(msgs), Throws.TypeOf<MessagingException>());
+        }
+
+        [Test]
+        public void SendAtNullMessage()
+        {
+            var client = Substitute.For<IBusTopicClient>();
+
+            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            Assert.That(async () => await q.Send(null, DateTime.UtcNow), Throws.TypeOf<ArgumentNullException>());
+
         }
     }
 }

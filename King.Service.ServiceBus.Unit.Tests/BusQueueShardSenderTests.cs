@@ -16,7 +16,7 @@
         [Test]
         public void Constructor()
         {
-            var sqs = new BusQueueShardSender("test", ConnectionString, 2);
+            new BusQueueShardSender("test", ConnectionString, 2);
         }
 
         [Test]
@@ -53,6 +53,12 @@
         public void ConstructorNameNull()
         {
             Assert.That(() => new BusQueueShardSender(null, ConnectionString), Throws.TypeOf<ArgumentException>());
+        }
+
+        [Test]
+        public void ConstructorShardsNull()
+        {
+            Assert.That(() => new BusQueueShardSender(null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]

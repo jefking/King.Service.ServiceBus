@@ -28,6 +28,20 @@
         }
 
         [Test]
+        public void ConstructorWaitTimeZero()
+        {
+            var queue = Substitute.For<IBusQueueReciever>();
+            var bqp = new BusQueuePoller<object>(queue, TimeSpan.Zero);
+            Assert.AreEqual(BusQueuePoller<object>.DefaultWaitTime, bqp.WaitTime);
+        }
+
+        [Test]
+        public void DefaultWaitTime()
+        {
+            Assert.AreEqual(TimeSpan.FromSeconds(15), BusQueuePoller<object>.DefaultWaitTime);
+        }
+
+        [Test]
         public async Task Poll()
         {
             var wait = TimeSpan.FromSeconds(10);
@@ -59,7 +73,7 @@
         }
 
         [Test]
-        public async Task PollGetThrows()
+        public void PollGetThrows()
         {
             var wait = TimeSpan.FromSeconds(10);
             var msg = new BrokeredMessage("data");

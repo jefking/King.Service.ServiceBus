@@ -48,6 +48,19 @@
         }
         #endregion
 
+        #region Properties
+        /// <summary>
+        /// Wait Time
+        /// </summary>
+        public TimeSpan WaitTime
+        {
+            get
+            {
+                return this.waitTime;
+            }
+        }
+        #endregion
+
         #region Methods
         /// <summary>
         /// Poll for Queued Message
