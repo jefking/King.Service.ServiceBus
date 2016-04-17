@@ -40,7 +40,7 @@
 
             //Dynamic Batch Size, Frequency, Threads (and queue creation)
             tasks.AddRange(factory.Dequeue<ExampleProcessor, ExampleModel>(config.FactoryQueueName, QueuePriority.Medium));
-            tasks.AddRange(factory.Shards<ExampleProcessor, ExampleModel>(config.ShardsQueueName, 10));
+            tasks.AddRange(factory.Shards<ExampleProcessor, ExampleModel>(config.ShardsQueueName, config.ShardsCount));
 
             return tasks;
         }

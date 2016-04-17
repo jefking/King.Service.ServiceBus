@@ -27,6 +27,7 @@ namespace King.Service.WorkerRole
                 HubName = "hub",
                 FactoryQueueName = "factory",
                 ShardsQueueName = "shards",
+                ShardsCount = 3,
                 Connection = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString"),
             };
 
