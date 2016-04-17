@@ -1,12 +1,11 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests
 {
+    using System;
+    using System.Threading.Tasks;
     using King.Service.ServiceBus.Wrappers;
-    using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
     using NSubstitute;
     using NUnit.Framework;
-    using System;
-    using System.Threading.Tasks;
 
     [TestFixture]
     public class BusTopicSenderTests
@@ -34,23 +33,14 @@
         [Test]
         public void ConstructorMockableNameNull()
         {
-            var m = NamespaceManager.CreateFromConnectionString(connection);
             var client = Substitute.For<IBusTopicClient>();
-            Assert.That(() => new BusTopicSender(null, m, client), Throws.TypeOf<ArgumentException>());
-        }
-
-        [Test]
-        public void ConstructorManagerNull()
-        {
-            var client = Substitute.For<IBusTopicClient>();
-            Assert.That(() => new BusTopicSender(Guid.NewGuid().ToString(), null, client), Throws.TypeOf<ArgumentNullException>());
+            Assert.That(() => new BusTopicSender(null, client), Throws.TypeOf<ArgumentException>());
         }
 
         [Test]
         public void ConstructorClientNull()
         {
-            var m = NamespaceManager.CreateFromConnectionString(connection);
-            Assert.That(() => new BusTopicSender(Guid.NewGuid().ToString(), m, null), Throws.TypeOf<ArgumentNullException>());
+            Assert.That(() => new BusTopicSender(Guid.NewGuid().ToString(), (string)null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
@@ -71,11 +61,11 @@
         public async Task Send()
         {
             var msg = new BrokeredMessage();
-            var m = NamespaceManager.CreateFromConnectionString(connection);
+
             var client = Substitute.For<IBusTopicClient>();
             client.Send(msg);
 
-            var q = new BusTopicSender(Guid.NewGuid().ToString(), m, client);
+            var q = new BusTopicSender(Guid.NewGuid().ToString(), client);
             await q.Send(msg);
 
             client.Received().Send(msg);
@@ -85,11 +75,11 @@
         public async Task SendData()
         {
             var msg = new object();
-            var m = NamespaceManager.CreateFromConnectionString(connection);
+
             var client = Substitute.For<IBusTopicClient>();
             client.Send(Arg.Any<BrokeredMessage>());
 
-            var q = new BusTopicSender(Guid.NewGuid().ToString(), m, client);
+            var q = new BusTopicSender(Guid.NewGuid().ToString(), client);
             await q.Send(msg);
 
             client.Received().Send(Arg.Any<BrokeredMessage>());
@@ -99,11 +89,11 @@
         public async Task SendBrokeredMessageAsObject()
         {
             var msg = new BrokeredMessage();
-            var m = NamespaceManager.CreateFromConnectionString(connection);
+
             var client = Substitute.For<IBusTopicClient>();
             client.Send(msg);
 
-            var q = new BusTopicSender(Guid.NewGuid().ToString(), m, client);
+            var q = new BusTopicSender(Guid.NewGuid().ToString(), client);
             await q.Send((object)msg);
 
             client.Received().Send(msg);
@@ -146,11 +136,11 @@
         public void SendThrows()
         {
             var msg = new BrokeredMessage();
-            var m = NamespaceManager.CreateFromConnectionString(connection);
+
             var client = Substitute.For<IBusTopicClient>();
             client.When(c => c.Send(msg)).Do(x => { throw new Exception(); });
 
-            var q = new BusTopicSender(Guid.NewGuid().ToString(), m, client);
+            var q = new BusTopicSender(Guid.NewGuid().ToString(), client);
             Assert.That(async () => await q.Send(msg), Throws.TypeOf<Exception>());
         }
 
@@ -158,7 +148,7 @@
         public async Task SendThrowsMessagingException()
         {
             var msg = new BrokeredMessage();
-            var m = NamespaceManager.CreateFromConnectionString(connection);
+
             var first = true;
             var client = Substitute.For<IBusTopicClient>();
             client.When(c => c.Send(msg)).Do(x =>
@@ -168,7 +158,7 @@
                 throw new MessagingException(Guid.NewGuid().ToString(), tmp, new Exception());
             });
 
-            var q = new BusTopicSender(Guid.NewGuid().ToString(), m, client);
+            var q = new BusTopicSender(Guid.NewGuid().ToString(), client);
             Assert.That(async () => await q.Send(msg), Throws.TypeOf<MessagingException>());
         }
     }
