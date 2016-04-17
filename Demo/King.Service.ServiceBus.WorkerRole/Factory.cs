@@ -28,7 +28,6 @@
 
                 //Task for recieving queue events to specific times
                 new BufferedReciever<ExampleModel>(new BusQueueReciever(config.BufferedEventsName, config.Connection), new EventHandler()),
-                new BufferedReciever<ExampleModel>(new BusSubscriptionReciever(config.BufferedEventsName, config.Connection, ""), new EventHandler()),
             });
 
             //Dynamic Batch Size, Frequency, Threads (and queue creation)
