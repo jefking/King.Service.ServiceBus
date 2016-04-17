@@ -216,7 +216,7 @@
     /// <summary>
     /// Bus Queue Shards Interface
     /// </summary>
-    public interface IBusQueueShardSender : IAzureStorage
+    public interface IBusShardSender : IAzureStorage
     {
         #region Properties
         /// <summary>
@@ -246,13 +246,32 @@
         /// <param name="shardTarget">Shard Target</param>
         /// <returns>Index</returns>
         byte Index(byte shardTarget);
+        #endregion
+    }
+    #endregion
+
+    #region IBusShard
+    /// <summary>
+    /// Service Bus Shard
+    /// </summary>
+    public interface IBusShard
+    {
+        #region Properties
+        /// <summary>
+        /// Resource
+        /// </summary>
+        IAzureStorage Resource
+        {
+            get;
+        }
 
         /// <summary>
-        /// Shard Name
+        /// Sender
         /// </summary>
-        /// <param name="shardTarget">Shard Target</param>
-        /// <returns>Name of Shard</returns>
-        string ShardName(byte shardTarget);
+        IBusMessageSender Sender
+        {
+            get;
+        }
         #endregion
     }
     #endregion

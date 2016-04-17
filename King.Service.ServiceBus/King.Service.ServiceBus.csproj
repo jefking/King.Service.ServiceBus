@@ -52,7 +52,7 @@
     <Compile Include="BusQueueAutoScaler.cs" />
     <Compile Include="BusQueueReciever.cs" />
     <Compile Include="BusQueueSender.cs" />
-    <Compile Include="BusQueueShardSender.cs" />
+    <Compile Include="BusShardSender.cs" />
     <Compile Include="BusSubscriptionReciever.cs" />
     <Compile Include="BusTopic.cs" />
     <Compile Include="Delegates.cs" />
@@ -69,6 +69,7 @@
     <Compile Include="TransientErrorHandler.cs" />
     <Compile Include="Wrappers\BufferedMessageEventHandler.cs" />
     <Compile Include="Timing\BusQueueTimingTracker.cs" />
+    <Compile Include="BusShard.cs" />
     <Compile Include="Wrappers\BusTopicClient.cs" />
     <Compile Include="Wrappers\BusSubscriptionClient.cs" />
     <Compile Include="Wrappers\HubClient.cs" />
