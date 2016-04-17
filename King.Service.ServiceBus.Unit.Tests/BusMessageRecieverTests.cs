@@ -24,7 +24,7 @@
         {
             var reciever = Substitute.For<IBusReciever>();
             var bsr = new BusMessageReciever(reciever);
-            Assert.AreEqual(BusMessageReciever.DefaultWaitTime, bsr.ServerWaitTime);
+            Assert.AreEqual(TimeSpan.FromSeconds(BusMessageReciever.DefaultWaitTime), bsr.ServerWaitTime);
         }
     }
 }
