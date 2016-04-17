@@ -7,12 +7,12 @@
 
     public class QueueForAction : RecurringTask
     {
-        private readonly IBusQueueSender client;
+        private readonly IBusMessageSender client;
 
         private readonly string action = null;
 
-        public QueueForAction(IBusQueueSender client, string action)
-            :base(30)
+        public QueueForAction(IBusMessageSender client, string action)
+            : base(30)
         {
             this.client = client;
             this.action = action;
