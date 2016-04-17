@@ -87,7 +87,7 @@
             }
 
             var frequency = this.throughput.Frequency(connection.Setup.Priority);
-            return new BusDequeueBatchDynamic<T>(connection.Setup.Name, connection.ConnectionString, connection.Setup.Processor(), frequency.Minimum, frequency.Maximum);
+            return new QueueBatchDynamic<T>(connection.Setup.Name, connection.ConnectionString, connection.Setup.Processor(), frequency.Minimum, frequency.Maximum);
         }
         #endregion
     }

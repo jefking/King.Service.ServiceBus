@@ -1,13 +1,13 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests
 {
+    using System;
+    using System.Threading.Tasks;
     using King.Service.ServiceBus;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
     using NSubstitute;
     using NUnit.Framework;
-    using System;
-    using System.Threading.Tasks;
 
     [TestFixture]
     public class BusQueueRecieverTests
@@ -27,9 +27,9 @@
         }
 
         [Test]
-        public void IsBusQueue()
+        public void IsBusMessageReciever()
         {
-            Assert.IsNotNull(new BusQueueReciever(Guid.NewGuid().ToString(), connection) as BusQueue);
+            Assert.IsNotNull(new BusQueueReciever(Guid.NewGuid().ToString(), connection) as BusMessageReciever);
         }
 
         [Test]
@@ -55,11 +55,11 @@
         public void GetThrows()
         {
             var wait = TimeSpan.FromSeconds(10);
-            var m = NamespaceManager.CreateFromConnectionString(connection);
+
             var client = Substitute.For<IBusQueueClient>();
             client.When(c => c.Recieve(Arg.Any<TimeSpan>())).Do(x => { throw new Exception(); });
 
-            var q = new BusQueueReciever(Guid.NewGuid().ToString(), m, client);
+            var q = new BusQueueReciever(client);
             Assert.That(async () => await q.Get(wait), Throws.TypeOf<Exception>());
         }
 
@@ -67,7 +67,7 @@
         public void GetThrowsMessagingException()
         {
             var wait = TimeSpan.FromSeconds(10);
-            var m = NamespaceManager.CreateFromConnectionString(connection);
+
             var first = true;
             var client = Substitute.For<IBusQueueClient>();
             client.When(c => c.Recieve(Arg.Any<TimeSpan>())).Do(x =>
@@ -77,7 +77,7 @@
                 throw new MessagingException(Guid.NewGuid().ToString(), tmp, new Exception());
             });
 
-            var q = new BusQueueReciever(Guid.NewGuid().ToString(), m, client);
+            var q = new BusQueueReciever(client);
             Assert.That(async () => await q.Get(wait), Throws.TypeOf<MessagingException>());
         }
 
@@ -85,11 +85,11 @@
         public void GetManyThrows()
         {
             var wait = TimeSpan.FromSeconds(10);
-            var m = NamespaceManager.CreateFromConnectionString(connection);
+
             var client = Substitute.For<IBusQueueClient>();
             client.When(c => c.RecieveBatch(5, Arg.Any<TimeSpan>())).Do(x => { throw new Exception(); });
 
-            var q = new BusQueueReciever(Guid.NewGuid().ToString(), m, client);
+            var q = new BusQueueReciever(client);
             Assert.That(async () => await q.GetMany(wait), Throws.TypeOf<Exception>());
         }
 
@@ -107,7 +107,7 @@
                 throw new MessagingException(Guid.NewGuid().ToString(), tmp, new Exception());
             });
 
-            var q = new BusQueueReciever(Guid.NewGuid().ToString(), m, client);
+            var q = new BusQueueReciever(client);
             Assert.That(async () => await q.GetMany(wait), Throws.TypeOf<MessagingException>());
         }
     }

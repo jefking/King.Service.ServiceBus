@@ -19,7 +19,7 @@
         /// <param name="minimumPeriodInSeconds">Minimum Period In Seconds</param>
         /// <param name="maximumPeriodInSeconds">Maximum Period In Seconds</param>
         public BusDequeue(IBusMessageReciever reciever, IProcessor<T> processor, int minimumPeriodInSeconds = BaseTimes.MinimumStorageTiming, int maximumPeriodInSeconds = BaseTimes.MaximumStorageTiming)
-            : base(new BusQueuePoller<T>(reciever), processor, minimumPeriodInSeconds, maximumPeriodInSeconds)
+            : base(new BusPoller<T>(reciever), processor, minimumPeriodInSeconds, maximumPeriodInSeconds)
         {
         }
         #endregion

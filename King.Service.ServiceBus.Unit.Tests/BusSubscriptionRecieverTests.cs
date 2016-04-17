@@ -24,9 +24,9 @@
         }
 
         [Test]
-        public void IsIBusEventReciever()
+        public void IsBusMessageReciever()
         {
-            Assert.IsNotNull(new BusSubscriptionReciever(Guid.NewGuid().ToString(), connection, Guid.NewGuid().ToString()) as IBusEventReciever);
+            Assert.IsNotNull(new BusSubscriptionReciever(Guid.NewGuid().ToString(), connection, Guid.NewGuid().ToString()) as BusMessageReciever);
         }
 
         [Test]
