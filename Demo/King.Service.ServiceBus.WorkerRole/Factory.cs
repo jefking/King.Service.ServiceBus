@@ -15,14 +15,14 @@
 
             var tasks = new List<IRunnable>(new IRunnable[] {
 
-                //Initialize Service Bus
+                //Initialize Service Bus Resources
                 new InitializeStorageTask(new BusQueue(config.EventsName, config.Connection)),
                 new InitializeStorageTask(new BusQueue(config.BufferedEventsName, config.Connection)),
                 new InitializeStorageTask(new BusTopic(config.TopicName, config.Connection)),
                 new InitializeStorageTask(new BusTopicSubscription(config.TopicName, config.Connection, config.TopicSubscriptionName, config.TopicSubscriptionSqlFilter)),
                 new InitializeStorageTask(new BusHub(config.HubName, config.Connection)),
 
-                //Events
+                //Messaging Events
                 new BusEvents<ExampleModel>(new BusQueueReciever(config.EventsName, config.Connection), new EventHandler()),
                 new BusEvents<ExampleModel>(new BusSubscriptionReciever(config.TopicName, config.Connection, config.TopicSubscriptionName), new EventHandler()),
 

@@ -40,7 +40,7 @@
         /// <param name="topicName">Topic Name</param>
         /// <param name="connection">Connection String</param>
         /// <param name="subscriptionName">Subsciption Name</param>
-        /// <param name="sqlFilter">SQL Query (null = all)</param>
+        /// <param name="sqlFilter">SQL Query (default = all)</param>
         public BusTopicSubscription(string topicName, string connection, string subscriptionName, string sqlFilter = null)
         {
             if (string.IsNullOrWhiteSpace(topicName))

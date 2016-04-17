@@ -12,7 +12,7 @@
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="name">Queue Name</param>
+        /// <param name="name">Topic Name</param>
         /// <param name="connectionString">Connection String</param>
         public BusTopicSender(string name, string connectionString)
             : this(name, new BusTopicClient(TopicClient.CreateFromConnectionString(connectionString, name)))
@@ -22,7 +22,7 @@
         /// <summary>
         /// Mockable Constructor
         /// </summary>
-        /// <param name="name">Queue Name</param>
+        /// <param name="name">Topic Name</param>
         /// <param name="client"Client>Service Bus Message Client</param>
         public BusTopicSender(string name, IBusSender client)
             : base(name, client)

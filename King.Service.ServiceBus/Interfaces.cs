@@ -69,32 +69,23 @@
         /// <param name="messageCount">Message Count</param>
         /// <returns>Messages</returns>
         Task<IEnumerable<BrokeredMessage>> GetMany(TimeSpan waitTime, int messageCount = 5);
-        #endregion
-    }
-    #endregion
 
-    #region IBusQueueReciever
-    /// <summary>
-    /// Bus Queue Reciever Interface
-    /// </summary>
-    public interface IBusQueueReciever : IBusMessageReciever, IBusQueue, IBusEventReciever
-    {
-    }
-    #endregion
-
-    #region IBusEventReciever
-    /// <summary>
-    /// Bus Event Reciever Interface
-    /// </summary>
-    public interface IBusEventReciever
-    {
-        #region Methods
         /// <summary>
         /// Register for Events
         /// </summary>
         /// <param name="callback">Callback</param>
         /// <param name="options">Options</param>
         void RegisterForEvents(Func<BrokeredMessage, Task> callback, OnMessageOptions options);
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Server Wait Time
+        /// </summary>
+        TimeSpan ServerWaitTime
+        {
+            get;
+        }
         #endregion
     }
     #endregion

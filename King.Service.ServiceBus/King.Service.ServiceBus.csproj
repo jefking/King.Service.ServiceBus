@@ -47,6 +47,7 @@
     <Compile Include="BusDequeueFactory.cs" />
     <Compile Include="BusEvents.cs" />
     <Compile Include="BusHub.cs" />
+    <Compile Include="BusMessageReciever.cs" />
     <Compile Include="BusMessageSender.cs" />
     <Compile Include="BusQueue.cs" />
     <Compile Include="BusQueueAutoScaler.cs" />

@@ -19,14 +19,13 @@
 
         #region Constructors
         /// <summary>
-        /// Service Bus Queue Events
+        /// Service Bus Events
         /// </summary>
-        /// <param name="queue">Queue</param>
+        /// <param name="reciever">Storage</param>
         /// <param name="eventHandler">Event Handler</param>
-        /// <param name="sleep"></param>
         /// <param name="concurrentCalls">Concurrent Calls</param>
-        public BufferedReciever(IBusQueueReciever queue, IBusEventHandler<T> eventHandler, byte concurrentCalls = BufferedReciever<T>.DefaultConcurrentCalls)
-            : base(queue, new BufferedMessageEventHandler<T>(eventHandler, new Sleep()), concurrentCalls)
+        public BufferedReciever(IBusMessageReciever reciever, IBusEventHandler<T> eventHandler, byte concurrentCalls = BufferedReciever<T>.DefaultConcurrentCalls)
+            : base(reciever, new BufferedMessageEventHandler<T>(eventHandler, new Sleep()), concurrentCalls)
         {
         }
         #endregion

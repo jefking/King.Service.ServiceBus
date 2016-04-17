@@ -15,12 +15,12 @@
         /// <summary>
         /// Event Source
         /// </summary>
-        protected readonly IBusEventReciever source = null;
+        protected readonly IBusMessageReciever reciever = null;
 
         /// <summary>
         /// Bus Event Handler
         /// </summary>
-        protected readonly IBusEventHandler<T> eventHandler = null;
+        protected readonly IBusEventHandler<T> handler = null;
 
         /// <summary>
         /// Maximum Concurrent Calls
@@ -37,12 +37,12 @@
         /// <summary>
         /// Service Bus Events
         /// </summary>
-        /// <param name="source">Source</param>
+        /// <param name="reciever">Source</param>
         /// <param name="eventHandler">Event Handler</param>
         /// <param name="concurrentCalls">Concurrent Calls</param>
-        public BusEvents(IBusEventReciever source, IBusEventHandler<T> eventHandler, byte concurrentCalls = DefaultConcurrentCalls)
+        public BusEvents(IBusMessageReciever reciever, IBusEventHandler<T> eventHandler, byte concurrentCalls = DefaultConcurrentCalls)
         {
-            if (null == source)
+            if (null == reciever)
             {
                 throw new ArgumentNullException("source");
             }
@@ -51,8 +51,8 @@
                 throw new ArgumentNullException("eventHandler");
             }
 
-            this.source = source;
-            this.eventHandler = eventHandler;
+            this.reciever = reciever;
+            this.handler = eventHandler;
             this.concurrentCalls = concurrentCalls <= 5 ? DefaultConcurrentCalls : concurrentCalls;
         }
         #endregion
@@ -84,7 +84,7 @@
 
             eventDrivenMessagingOptions.ExceptionReceived += OnExceptionReceived;
 
-            this.source.RegisterForEvents(OnMessageArrived, eventDrivenMessagingOptions);
+            this.reciever.RegisterForEvents(OnMessageArrived, eventDrivenMessagingOptions);
         }
 
         /// <summary>
@@ -103,14 +103,14 @@
         /// <param name="contents">Message Body</param>
         public virtual async Task Process(T contents)
         {
-            var success = await this.eventHandler.Process(contents);
+            var success = await this.handler.Process(contents);
             if (success)
             {
-                Trace.TraceInformation("{0}: Message processed successfully.", this.eventHandler.GetType());
+                Trace.TraceInformation("{0}: Message processed successfully.", this.handler.GetType());
             }
             else
             {
-                throw new InvalidOperationException(string.Format("{0}: Message not processed successfully.", this.eventHandler.GetType()));
+                throw new InvalidOperationException(string.Format("{0}: Message not processed successfully.", this.handler.GetType()));
             }
         }
 
@@ -125,7 +125,7 @@
             {
                 Trace.TraceError("'{0}' {1}", e.Action, e.Exception.ToString());
 
-                this.eventHandler.OnError(e.Action, e.Exception);
+                this.handler.OnError(e.Action, e.Exception);
             }
         }
         #endregion
