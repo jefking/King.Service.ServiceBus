@@ -16,6 +16,16 @@
         /// Brokered Message
         /// </summary>
         protected readonly BrokeredMessage message = null;
+
+        /// <summary>
+        /// Cached Copy of Message Data
+        /// </summary>
+        protected T cache = default(T);
+
+        /// <summary>
+        /// Cached
+        /// </summary>
+        protected bool cached = false;
         #endregion
 
         #region Constructors
@@ -50,10 +60,16 @@
         /// <returns>Data</returns>
         public virtual Task<T> Data()
         {
-            return Task.FromResult(this.message.GetBody<T>());
+            if (!cached)
+            {
+                cache = this.message.GetBody<T>();
+                cached = true;
+            }
+
+            return Task.FromResult(cache);
         }
 
-        /// <summary>
+        /// <summary> 
         /// Complete
         /// </summary>
         /// <returns>Task</returns>
