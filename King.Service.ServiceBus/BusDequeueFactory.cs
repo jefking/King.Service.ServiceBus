@@ -1,10 +1,10 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using System;
-    using System.Collections.Generic;
     using King.Service.Data;
     using King.Service.Data.Model;
     using King.Service.Scalability;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Service Bus Dequeue Factory
@@ -52,7 +52,6 @@
                 throw new ArgumentNullException("setup");
             }
 
-            var queue = new BusQueueReciever(setup.Name, base.connectionString);
             yield return this.Initialize(setup.Name);
             yield return this.Dequeue<T>(setup);
         }
