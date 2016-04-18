@@ -1,10 +1,10 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using System;
-    using System.Threading.Tasks;
     using Azure.Data;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
+    using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Bus Topic
@@ -71,6 +71,9 @@
                 var td = new TopicDescription(this.name)
                 {
                     EnableExpress = true,
+                    SupportOrdering = true,
+                    EnableBatchedOperations = true,
+                    EnablePartitioning = true,
                 };
 
                 await this.manager.CreateTopicAsync(td);
