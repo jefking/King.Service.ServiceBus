@@ -1,7 +1,7 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using System;
     using King.Azure.Data;
+    using System;
 
     /// <summary>
     /// Bus Shard
@@ -17,11 +17,11 @@
         /// <summary>
         /// Sender
         /// </summary>
-        protected readonly IBusMessageSender sender;
+        protected readonly IQueueObject sender;
         #endregion
 
         #region Constructors
-        public BusShard(IAzureStorage resource, IBusMessageSender sender)
+        public BusShard(IAzureStorage resource, IQueueObject sender)
         {
             if (null == resource)
             {
@@ -52,7 +52,7 @@
         /// <summary>
         /// Sender
         /// </summary>
-        public virtual IBusMessageSender Sender
+        public virtual IQueueObject Sender
         {
             get
             {

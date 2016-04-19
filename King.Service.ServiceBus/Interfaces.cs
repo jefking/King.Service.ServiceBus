@@ -12,7 +12,7 @@
     /// <summary>
     /// Bus Queue Interface
     /// </summary>
-    public interface IBusQueue : ITransientErrorHandler, IQueueCount, IAzureStorage
+    public interface IBusQueue : IQueueCount, IAzureStorage
     {
         #region Properties
         /// <summary>
@@ -251,7 +251,7 @@
         /// <summary>
         /// Sender
         /// </summary>
-        IBusMessageSender Sender
+        IQueueObject Sender
         {
             get;
         }

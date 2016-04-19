@@ -9,7 +9,7 @@
     /// <summary>
     /// Bus Queue
     /// </summary>
-    public class BusQueue : TransientErrorHandler, IBusQueue
+    public class BusQueue : IBusQueue
     {
         #region Members
         /// <summary>

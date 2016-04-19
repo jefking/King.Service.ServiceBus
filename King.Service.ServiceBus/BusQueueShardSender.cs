@@ -53,9 +53,7 @@
             for (var i = 0; i < shardCount; i++)
             {
                 var n = string.Format("{0}{1}", this.baseName, i);
-                var r = new BusQueue(n, connection);
-                var s = new BusQueueSender(n, connection);
-                qs[i] = new BusShard(r, s);
+                qs[i] = new BusShard(new BusQueue(n, connection), new BusQueueSender(n, connection));
             }
 
             this.queues = new ReadOnlyCollection<IBusShard>(qs);

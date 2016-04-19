@@ -1,12 +1,11 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests
 {
-    using System;
     using King.Service.ServiceBus;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus;
-    using Microsoft.ServiceBus.Messaging;
     using NSubstitute;
     using NUnit.Framework;
+    using System;
 
     [TestFixture]
     public class BusQueueTests
@@ -69,39 +68,6 @@
             var expected = NamespaceManager.CreateFromConnectionString(connection);
             var bq = new BusQueue(Guid.NewGuid().ToString(), expected, Substitute.For<IBusQueueClient>());
             Assert.AreEqual(expected, bq.Manager);
-        }
-
-        [Test]
-        public void HandleTransientError()
-        {
-            this.exception = null;
-            var ex = new MessagingException("hahaha");
-
-            var bq = new BusQueue(Guid.NewGuid().ToString(), connection);
-            bq.TransientErrorOccured += this.Error;
-            bq.HandleTransientError(ex);
-
-            Assert.AreEqual(ex, this.exception);
-        }
-
-        [Test]
-        public void HandleTransientErrorNull()
-        {
-            this.exception = null;
-            var ex = new MessagingException("hahaha");
-
-            var bq = new BusQueue(Guid.NewGuid().ToString(), connection);
-            bq.TransientErrorOccured += this.Error;
-            bq.HandleTransientError(null);
-
-            Assert.IsNull(this.exception);
-        }
-
-        Exception exception = null;
-
-        private void Error(object obj, TransientErrorArgs args)
-        {
-            this.exception = args.Exception;
         }
     }
 }
