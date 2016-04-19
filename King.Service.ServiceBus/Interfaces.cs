@@ -1,12 +1,12 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using King.Azure.Data;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     #region IBusQueue
     /// <summary>
@@ -94,7 +94,7 @@
     /// <summary>
     /// Service Bus Message Sender Interface
     /// </summary>
-    public interface IBusMessageSender
+    public interface IBusMessageSender : IQueueObject
     {
         #region Methods
         /// <summary>
@@ -103,13 +103,6 @@
         /// <param name="message">Message</param>
         /// <returns>Task</returns>
         Task Send(BrokeredMessage message);
-
-        /// <summary>
-        /// Send Object to queue, as json
-        /// </summary>
-        /// <param name="obj">object</param>
-        /// <returns>Task</returns>
-        Task Send(object obj);
 
         /// <summary>
         /// Send Message to Queue
