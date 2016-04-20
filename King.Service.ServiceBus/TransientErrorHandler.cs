@@ -1,7 +1,7 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using System.Diagnostics;
     using Microsoft.ServiceBus.Messaging;
+    using System.Diagnostics;
 
     /// <summary>
     /// Transient Error Handler
@@ -31,6 +31,7 @@
                     {
                         Exception = ex,
                     };
+
                     handle(this, arg);
                 }
 
