@@ -20,6 +20,18 @@
         }
 
         [Test]
+        public void IsIDisposable()
+        {
+            Assert.IsNotNull(new TransientErrorHandler() as IDisposable);
+        }
+
+        [Test]
+        public void Disposable()
+        {
+            using (new TransientErrorHandler()) { }
+        }
+
+        [Test]
         public void HandleTransientError()
         {
             var ex = new MessagingException(Guid.NewGuid().ToString());
