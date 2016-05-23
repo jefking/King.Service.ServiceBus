@@ -42,7 +42,7 @@
         [Test]
         public async Task OnMessageArrivedJson()
         {
-            var data = Guid.NewGuid().ToString();
+            var data = Guid.NewGuid();
             var json = JsonConvert.SerializeObject(data);
             var msg = new BrokeredMessage(json)
             {
@@ -59,7 +59,7 @@
         [Test]
         public async Task OnMessageArrivedBinary()
         {
-            var data = Guid.NewGuid().ToString();
+            var data = Guid.NewGuid();
             var msg = new BrokeredMessage(data)
             {
                 ContentType = data.GetType().ToString(),
