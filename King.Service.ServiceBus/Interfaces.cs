@@ -1,12 +1,12 @@
 ﻿namespace King.Service.ServiceBus
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using King.Azure.Data;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     #region IBusQueue
     /// <summary>
@@ -115,16 +115,26 @@
         /// Send Object to queue, as json
         /// </summary>
         /// <param name="messages">Messages</param>
+        /// <param name="encoding">Encoding</param>
         /// <returns>Task</returns>
-        Task Send(IEnumerable<object> messages);
+        Task Send(IEnumerable<object> messages, Encoding encoding = Encoding.Json);
 
         /// <summary>
         /// Send Message with Retry
         /// </summary>
         /// <param name="message">Message</param>
         /// <param name="enqueueAt">Schedule for Enqueue</param>
+        /// <param name="encoding">Encoding</param>
         /// <returns>Task</returns>
-        Task Send(object message, DateTime enqueueAt);
+        Task Send(object message, DateTime enqueueAt, Encoding encoding = Encoding.Json);
+
+        /// <summary>
+        /// Send Message to Queue
+        /// </summary>
+        /// <param name="message">Message</param>
+        /// <param name="encoding">Encoding</param>
+        /// <returns>Task</returns>
+        Task Send(object message, Encoding encoding = Encoding.Json);
 
         /// <summary>
         /// Send Message for Buffer
