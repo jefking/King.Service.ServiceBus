@@ -63,6 +63,7 @@
     <Compile Include="Models\Queued.cs" />
     <Compile Include="BusPoller.cs" />
     <Compile Include="QueueBatchDynamic.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Timing\TopicTimingTracker.cs" />
     <Compile Include="Timing\Interfaces.cs" />
     <Compile Include="Timing\Sleep.cs" />
