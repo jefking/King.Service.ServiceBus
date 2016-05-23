@@ -98,6 +98,17 @@
         /// <returns>Task</returns>
         public virtual async Task Send(object obj)
         {
+            await Send(obj, Encoding.Json);
+        }
+
+        /// <summary>
+        /// Save Object to queue, as json
+        /// </summary>
+        /// <param name="obj">object</param>
+        /// <param name="encoding">Encoding (Default Json)</param>
+        /// <returns>Task</returns>
+        public virtual async Task Send(object obj, Encoding encoding = Encoding.Json)
+        {
             if (null == obj)
             {
                 throw new ArgumentNullException("obj");
@@ -109,10 +120,14 @@
             }
             else
             {
-                var msg = new BrokeredMessage(obj)
+                var data = encoding == Encoding.Json ? JsonConvert.SerializeObject(obj) : obj;
+
+                var msg = new BrokeredMessage(data)
                 {
                     ContentType = obj.GetType().ToString(),
                 };
+
+                msg.Properties.Add("encoding", (byte)encoding);
 
                 await this.Send(msg);
             }
@@ -158,8 +173,9 @@
         /// Send Object to queue, as json
         /// </summary>
         /// <param name="messages">Messages</param>
+        /// <param name="encoding">Encoding (Default Json)</param>
         /// <returns>Task</returns>
-        public virtual async Task Send(IEnumerable<object> messages)
+        public virtual async Task Send(IEnumerable<object> messages, Encoding encoding = Encoding.Json)
         {
             if (null == messages)
             {
@@ -172,10 +188,19 @@
             }
             else
             {
-                await this.Send(messages.Select(obj => new BrokeredMessage(obj)
+                var brokeredMessages = new List<BrokeredMessage>(messages.Count());
+                foreach (var m in messages)
                 {
-                    ContentType = obj.GetType().ToString(),
-                }));
+                    var data = encoding == Encoding.Json ? JsonConvert.SerializeObject(m) : m;
+                    var msg = new BrokeredMessage(data)
+                    {
+                        ContentType = m.GetType().ToString(),
+                    };
+
+                    msg.Properties.Add("encoding", (byte)encoding);
+                }
+
+                await this.Send(brokeredMessages);
             }
         }
 
@@ -185,18 +210,20 @@
         /// <param name="message">Message</param>
         /// <param name="enqueueAt">Schedule for Enqueue</param>
         /// <returns>Task</returns>
-        public virtual async Task Send(object message, DateTime enqueueAt)
+        public virtual async Task Send(object message, DateTime enqueueAt, Encoding encoding = Encoding.Json)
         {
             if (null == message)
             {
                 throw new ArgumentNullException("message");
             }
 
-            var msg = new BrokeredMessage(message)
+            var data = encoding == Encoding.Json ? JsonConvert.SerializeObject(message) : message;
+            var msg = new BrokeredMessage(data)
             {
                 ScheduledEnqueueTimeUtc = enqueueAt,
                 ContentType = message.GetType().ToString(),
             };
+            msg.Properties.Add("encoding", (byte)encoding);
 
             await this.Send(msg);
         }

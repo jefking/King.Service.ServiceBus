@@ -7,6 +7,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.ServiceBus.Messaging;
+    using Newtonsoft.Json;
     using NUnit.Framework;
 
     [TestFixture]
@@ -115,10 +116,23 @@
         {
             var wait = TimeSpan.FromSeconds(10);
             var expected = Guid.NewGuid();
-            await this.sender.Send(expected);
+            await this.sender.Send(expected, Encoding.Binary);
 
             var msg = await this.reciever.Get(wait);
             var result = msg.GetBody<Guid>();
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public async Task GetJson()
+        {
+            var wait = TimeSpan.FromSeconds(10);
+            var expected = Guid.NewGuid();
+            await this.sender.Send(expected);
+
+            var msg = await this.reciever.Get(wait);
+            var json = msg.GetBody<string>();
+            var result = JsonConvert.DeserializeObject<Guid>(json);
             Assert.AreEqual(expected, result);
         }
 
@@ -127,7 +141,7 @@
         {
             var wait = TimeSpan.FromSeconds(10);
             var expected = Guid.NewGuid();
-            await this.sender.Send(expected, DateTime.UtcNow.AddMinutes(-1));
+            await this.sender.Send(expected, DateTime.UtcNow.AddMinutes(-1), Encoding.Binary);
 
             var msg = await this.reciever.Get(wait);
             var result = msg.GetBody<Guid>();
@@ -136,7 +150,43 @@
         }
 
         [Test]
+        public async Task GetAtJson()
+        {
+            var wait = TimeSpan.FromSeconds(10);
+            var expected = Guid.NewGuid();
+            await this.sender.Send(expected, DateTime.UtcNow.AddMinutes(-1));
+
+            var msg = await this.reciever.Get(wait);
+            var json = msg.GetBody<string>();
+            var result = JsonConvert.DeserializeObject<Guid>(json);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
         public async Task GetMany()
+        {
+            var wait = TimeSpan.FromSeconds(10);
+            var random = new Random();
+            var count = random.Next(1, 11);
+            var sent = new List<Guid>();
+            for (var i = 0; i < count; i++)
+            {
+                var expected = Guid.NewGuid();
+                await this.sender.Send(expected, Encoding.Binary);
+                sent.Add(expected);
+            }
+
+            var got = await this.reciever.GetMany(wait, count);
+            foreach (var msg in got)
+            {
+                var result = msg.GetBody<Guid>();
+                Assert.IsTrue(sent.Contains(result));
+            }
+        }
+
+        [Test]
+        public async Task GetManyJson()
         {
             var wait = TimeSpan.FromSeconds(10);
             var random = new Random();
@@ -152,13 +202,37 @@
             var got = await this.reciever.GetMany(wait, count);
             foreach (var msg in got)
             {
-                var result = msg.GetBody<Guid>();
+                var json = msg.GetBody<string>();
+                var result = JsonConvert.DeserializeObject<Guid>(json);
                 Assert.IsTrue(sent.Contains(result));
             }
         }
 
         [Test]
         public async Task GetManyNegative()
+        {
+            var wait = TimeSpan.FromSeconds(10);
+            var random = new Random();
+            var count = random.Next(5, 11);
+            var sent = new List<Guid>();
+            for (var i = 0; i < count; i++)
+            {
+                var expected = Guid.NewGuid();
+                await this.sender.Send(expected, Encoding.Binary);
+                sent.Add(expected);
+            }
+
+            var got = await this.reciever.GetMany(wait, -count);
+            Assert.AreEqual(1, got.Count());
+            foreach (var msg in got)
+            {
+                var result = msg.GetBody<Guid>();
+                Assert.IsTrue(sent.Contains(result));
+            }
+        }
+
+        [Test]
+        public async Task GetManyNegativeJson()
         {
             var wait = TimeSpan.FromSeconds(10);
             var random = new Random();
@@ -175,7 +249,8 @@
             Assert.AreEqual(1, got.Count());
             foreach (var msg in got)
             {
-                var result = msg.GetBody<Guid>();
+                var json = msg.GetBody<string>();
+                var result = JsonConvert.DeserializeObject<Guid>(json);
                 Assert.IsTrue(sent.Contains(result));
             }
         }

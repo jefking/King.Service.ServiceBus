@@ -84,6 +84,20 @@
         }
 
         [Test]
+        public async Task SendBinary()
+        {
+            var msg = new BrokeredMessage();
+
+            var client = Substitute.For<IBusTopicClient>();
+            client.Send(msg);
+
+            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            await q.Send(msg, Encoding.Binary);
+
+            client.Received().Send(msg);
+        }
+
+        [Test]
         public async Task SendData()
         {
             var msg = new object();
@@ -98,6 +112,20 @@
         }
 
         [Test]
+        public async Task SendDataBinary()
+        {
+            var msg = new object();
+
+            var client = Substitute.For<IBusTopicClient>();
+            client.Send(Arg.Any<BrokeredMessage>());
+
+            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            await q.Send(msg, Encoding.Binary);
+
+            client.Received().Send(Arg.Any<BrokeredMessage>());
+        }
+
+        [Test]
         public async Task SendBrokeredMessageAsObject()
         {
             var msg = new BrokeredMessage();
@@ -107,6 +135,20 @@
 
             var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
             await q.Send((object)msg);
+
+            client.Received().Send(msg);
+        }
+
+        [Test]
+        public async Task SendBrokeredMessageAsObjectAsBinary()
+        {
+            var msg = new BrokeredMessage();
+
+            var client = Substitute.For<IBusTopicClient>();
+            client.Send(msg);
+
+            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            await q.Send((object)msg, Encoding.Binary);
 
             client.Received().Send(msg);
         }
@@ -161,7 +203,7 @@
         }
 
         [Test]
-        public async Task SendThrowsMessagingException()
+        public void SendThrowsMessagingException()
         {
             var msg = new BrokeredMessage();
 
@@ -211,6 +253,21 @@
         }
 
         [Test]
+        public async Task SendBatchObjAsBrokeredMessageBinary()
+        {
+            var msg = new List<object>();
+            msg.Add(new object());
+
+            var client = Substitute.For<IBusQueueClient>();
+            client.Send(Arg.Any<IEnumerable<BrokeredMessage>>());
+
+            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            await q.Send(msg, Encoding.Binary);
+
+            client.Received().Send(Arg.Any<IEnumerable<BrokeredMessage>>());
+        }
+
+        [Test]
         public async Task SendObjBatch()
         {
             var msg = new List<BrokeredMessage>();
@@ -221,6 +278,21 @@
 
             var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
             await q.Send((IEnumerable<object>)msg);
+
+            client.Received().Send(Arg.Any<IEnumerable<BrokeredMessage>>());
+        }
+
+        [Test]
+        public async Task SendObjBatchBinary()
+        {
+            var msg = new List<BrokeredMessage>();
+            msg.Add(new BrokeredMessage());
+
+            var client = Substitute.For<IBusQueueClient>();
+            client.Send(Arg.Any<IEnumerable<BrokeredMessage>>());
+
+            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            await q.Send((IEnumerable<object>)msg, Encoding.Binary);
 
             client.Received().Send(Arg.Any<IEnumerable<BrokeredMessage>>());
         }
@@ -242,6 +314,18 @@
 
             var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
             await q.Send(new BufferedMessage() { ReleaseAt = DateTime.UtcNow });
+
+            client.Received().Send(Arg.Any<BrokeredMessage>());
+        }
+
+        [Test]
+        public async Task SendForBufferBinary()
+        {
+            var client = Substitute.For<IBusQueueClient>();
+            client.Send(Arg.Any<BrokeredMessage>());
+
+            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            await q.Send(new BufferedMessage() { ReleaseAt = DateTime.UtcNow }, Encoding.Binary);
 
             client.Received().Send(Arg.Any<BrokeredMessage>());
         }
