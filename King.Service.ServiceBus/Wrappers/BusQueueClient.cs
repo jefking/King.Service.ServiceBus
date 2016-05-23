@@ -47,7 +47,7 @@
         /// <summary>
         /// Queue Client
         /// </summary>
-        public QueueClient Client
+        public virtual QueueClient Client
         {
             get
             {
