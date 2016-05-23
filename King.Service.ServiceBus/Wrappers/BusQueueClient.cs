@@ -15,6 +15,11 @@
         /// Queue Client
         /// </summary>
         protected readonly QueueClient client = null;
+
+        /// <summary>
+        /// Encoding Property Key
+        /// </summary>
+        public const string EncodingKey = "encoding";
         #endregion
 
         #region Constructors

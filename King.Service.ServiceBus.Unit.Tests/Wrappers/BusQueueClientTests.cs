@@ -1,9 +1,9 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests.Wrappers
 {
+    using System;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus.Messaging;
     using NUnit.Framework;
-    using System;
 
     [TestFixture]
     public class BusQueueClientTests
@@ -29,6 +29,12 @@
             var client = QueueClient.CreateFromConnectionString(connection, "test");
             var btc = new BusQueueClient(client);
             Assert.AreEqual(client, btc.Client);
+        }
+
+        [Test]
+        public void EncodingKey()
+        {
+            Assert.AreEqual("encoding", BusQueueClient.EncodingKey);
         }
     }
 }
