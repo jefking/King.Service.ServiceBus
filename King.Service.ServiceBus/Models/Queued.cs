@@ -1,9 +1,11 @@
 ﻿namespace King.Service.ServiceBus.Models
 {
-    using King.Azure.Data;
-    using Microsoft.ServiceBus.Messaging;
     using System;
     using System.Threading.Tasks;
+    using King.Azure.Data;
+    using Microsoft.ServiceBus.Messaging;
+    using Newtonsoft.Json;
+    using Wrappers;
 
     /// <summary>
     /// Generic Wrapper for Brokered Messages
@@ -62,7 +64,19 @@
         {
             if (!cached)
             {
-                cache = this.message.GetBody<T>();
+                var p = this.message.Properties;
+
+                if (p.ContainsKey(BusQueueClient.EncodingKey)
+                    && (Encoding)p[BusQueueClient.EncodingKey] == Encoding.Json)
+                {
+                    var raw = this.message.GetBody<string>();
+                    cache = JsonConvert.DeserializeObject<T>(raw);
+                }
+                else
+                {
+                    cache = this.message.GetBody<T>();
+                }
+
                 cached = true;
             }
 
