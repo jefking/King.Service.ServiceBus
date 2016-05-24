@@ -1,7 +1,7 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests
 {
     using System;
-    using Azure.Data;
+    using King.Azure.Data;
     using NUnit.Framework;
 
     [TestFixture]

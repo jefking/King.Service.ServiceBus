@@ -3,7 +3,7 @@
     using System;
     using System.Configuration;
     using System.Threading.Tasks;
-    using Azure.Data;
+    using King.Azure.Data;
     using NUnit.Framework;
 
     [TestFixture]

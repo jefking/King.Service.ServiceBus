@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Configuration;
     using System.Threading.Tasks;
-    using Azure.Data;
+    using King.Azure.Data;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus.Messaging;
     using NUnit.Framework;

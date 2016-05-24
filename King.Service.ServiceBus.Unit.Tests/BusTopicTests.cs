@@ -1,7 +1,7 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests
 {
     using System;
-    using Azure.Data;
+    using King.Azure.Data;
     using NUnit.Framework;
 
     [TestFixture]
@@ -28,7 +28,7 @@
         }
 
         [Test]
-        public void IsInitializeTask()
+        public void IsIAzureStorage()
         {
             var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
             Assert.IsNotNull(new BusTopic(Guid.NewGuid().ToString(), fake) as IAzureStorage);
