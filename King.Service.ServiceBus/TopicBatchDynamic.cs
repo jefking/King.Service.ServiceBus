@@ -1,6 +1,6 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using Azure.Data;
+    using King.Azure.Data;
     using King.Service.Data;
     using Service.Timing;
     using Timing;
@@ -21,7 +21,7 @@
         /// <param name="processor">Processor</param>
         /// <param name="minimumPeriodInSeconds">Minimum Period In Seconds</param>
         /// <param name="maximumPeriodInSeconds">Maximum Period In Seconds</param>
-        public TopicBatchDynamic(string name, string connectionString, string subscriptionName, IProcessor<T> processor, int minimumPeriodInSeconds = BaseTimes.MinimumStorageTiming, int maximumPeriodInSeconds = BaseTimes.MaximumStorageTiming)
+        public TopicBatchDynamic(string name, string connectionString, string subscriptionName, IProcessor<T> processor, int minimumPeriodInSeconds = BaseTimes.DefaultMinimumTiming, int maximumPeriodInSeconds = BaseTimes.DefaultMaximumTiming)
             : base(new BusPoller<T>(new BusSubscriptionReciever(name, connectionString, subscriptionName)), processor, new TopicTimingTracker(), minimumPeriodInSeconds, maximumPeriodInSeconds)
         {
         }
