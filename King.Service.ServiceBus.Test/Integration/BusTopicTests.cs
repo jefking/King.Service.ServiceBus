@@ -1,16 +1,13 @@
-﻿namespace King.Service.ServiceBus.Integration.Test
+﻿namespace King.Service.ServiceBus.Test.Integration
 {
-    using System;
-    using System.Configuration;
-    using System.Threading.Tasks;
     using King.Azure.Data;
     using NUnit.Framework;
+    using System;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class BusTopicTests
     {
-        private static readonly string connection = ConfigurationSettings.AppSettings["Microsoft.ServiceBus.ConnectionString"];
-
         IAzureStorage topic;
 
         [SetUp]
@@ -19,7 +16,7 @@
             var random = new Random();
             var name = string.Format("a{0}b", random.Next());
 
-            topic = new BusTopic(name, connection);
+            topic = new BusTopic(name, Configuration.ConnectionString);
         }
 
         [TearDown]

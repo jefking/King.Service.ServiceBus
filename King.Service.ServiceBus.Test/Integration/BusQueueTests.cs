@@ -1,20 +1,17 @@
-﻿namespace King.Service.ServiceBus.Integration.Test
+﻿namespace King.Service.ServiceBus.Test.Integration
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Microsoft.ServiceBus.Messaging;
     using Newtonsoft.Json;
     using NUnit.Framework;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class BusQueueTests
     {
-        private string connection = ConfigurationSettings.AppSettings["Microsoft.ServiceBus.ConnectionString"];
-
         IBusMessageSender sender;
         IBusMessageReciever reciever;
         string name;
@@ -25,18 +22,18 @@
             var random = new Random();
             name = string.Format("a{0}b", random.Next());
 
-            var bq = new BusQueue(name, connection);
+            var bq = new BusQueue(name, Configuration.ConnectionString);
             bq.CreateIfNotExists().Wait();
 
-            sender = new BusQueueSender(name, connection);
+            sender = new BusQueueSender(name, Configuration.ConnectionString);
 
-            reciever = new BusQueueReciever(name, connection);
+            reciever = new BusQueueReciever(name, Configuration.ConnectionString);
         }
 
         [TearDown]
         public void TearDown()
         {
-            var bq = new BusQueue(name, connection);
+            var bq = new BusQueue(name, Configuration.ConnectionString);
             bq.Delete().Wait();
         }
 
@@ -45,7 +42,7 @@
         {
             var random = new Random();
             var name = string.Format("a{0}b", random.Next());
-            var q = new BusQueue(name, connection);
+            var q = new BusQueue(name, Configuration.ConnectionString);
             var result = await q.CreateIfNotExists();
             Assert.IsTrue(result);
             result = await q.CreateIfNotExists();
@@ -57,7 +54,7 @@
         [Test]
         public async Task Delete()
         {
-            var bq = new BusQueue(name, connection);
+            var bq = new BusQueue(name, Configuration.ConnectionString);
 
             await bq.Delete();
             var result = await bq.CreateIfNotExists();
@@ -73,7 +70,7 @@
         [Test]
         public async Task ApproixmateMessageCount()
         {
-            var bq = new BusQueue(name, connection);
+            var bq = new BusQueue(name, Configuration.ConnectionString);
 
             var msg = new BrokeredMessage();
             await this.sender.Send(msg);
@@ -84,7 +81,7 @@
         [Test]
         public async Task LockDuration()
         {
-            var bq = new BusQueue(name, connection);
+            var bq = new BusQueue(name, Configuration.ConnectionString);
 
             var lockDuration = await bq.LockDuration();
             Assert.AreEqual(TimeSpan.FromMinutes(1), lockDuration);
