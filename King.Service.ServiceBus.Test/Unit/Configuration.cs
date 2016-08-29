@@ -2,6 +2,6 @@
 {
     public class Configuration
     {
-        public const string ConnectionString = "Endpoint=sb://kinger.servicebus.windows.net/;SharedAccessKeyName=oss;SharedAccessKey=xixl3KqBe3faRAMH++AoqAKs2KkSAzB2m6dxTLQkJPI=";
+        public const string ConnectionString = "Endpoint=sb://kinger.servicebus.windows.net/;SharedAccessKeyName=oss;SharedAccessKey=efYHLmvDCGtL9d1FEBpA3OzkE1WEQAZTmmzYpki2jr8=";
     }
 }
