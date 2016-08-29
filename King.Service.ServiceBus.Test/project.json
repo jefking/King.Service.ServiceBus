@@ -10,6 +10,7 @@
   "dependencies": {
     "NUnitLite": "3.4.1",
     "NSubstitute": "2.0.0-rc",
-    "King.Service.ServiceBus": "1.4.2"
+    "King.Service.ServiceBus": "1.4.2",
+    "Newtonsoft.Json": "9.0.1"
   }
 }
