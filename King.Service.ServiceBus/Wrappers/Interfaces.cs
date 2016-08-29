@@ -101,23 +101,8 @@
     /// <summary>
     /// Event Hub Client Interface
     /// </summary>
-    public interface IHubClient : IBusClient<EventHubClient>
+    public interface IHubClient : IBusClient<MessageSender>, IBusSender
     {
-        #region Members
-        /// <summary>
-        /// Send
-        /// </summary>
-        /// <param name="message">Message</param>
-        /// <returns>Task</returns>
-        Task Send(EventData message);
-
-        /// <summary>
-        /// Send Batch
-        /// </summary>
-        /// <param name="message">Messages</param>
-        /// <returns>Task</returns>
-        Task Send(IEnumerable<EventData> messages);
-        #endregion
     }
     #endregion
 }

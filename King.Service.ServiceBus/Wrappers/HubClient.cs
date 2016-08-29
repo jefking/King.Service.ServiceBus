@@ -12,9 +12,9 @@
     {
         #region Members
         /// <summary>
-        /// Event Hub Client
+        /// Event Hub Message Sender
         /// </summary>
-        protected readonly EventHubClient client = null;
+        protected readonly MessageSender client = null;
         #endregion
 
         #region Constructors
@@ -22,7 +22,7 @@
         /// Constructor
         /// </summary>
         /// <param name="client">Event Hub Client</param>
-        public HubClient(EventHubClient client)
+        public HubClient(MessageSender client)
         {
             if (null == client)
             {
@@ -37,7 +37,7 @@
         /// <summary>
         /// Event Hub Client
         /// </summary>
-        public EventHubClient Client
+        public MessageSender Client
         {
             get
             {
@@ -52,7 +52,7 @@
         /// </summary>
         /// <param name="message">Message</param>
         /// <returns>Task</returns>
-        public async Task Send(EventData message)
+        public async Task Send(BrokeredMessage message)
         {
             await this.client.SendAsync(message);
         }
@@ -62,7 +62,7 @@
         /// </summary>
         /// <param name="message">Messages</param>
         /// <returns>Task</returns>
-        public async Task Send(IEnumerable<EventData> messages)
+        public async Task Send(IEnumerable<BrokeredMessage> messages)
         {
             await this.client.SendBatchAsync(messages);
         }
