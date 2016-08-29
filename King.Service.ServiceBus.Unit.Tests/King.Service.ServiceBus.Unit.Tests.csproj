@@ -160,7 +160,12 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\King.Service.ServiceBus\King.Service.ServiceBus.xproj">
+      <Project>{db2562c5-ec67-4afd-8dd2-163c23e159aa}</Project>
+      <Name>King.Service.ServiceBus</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
