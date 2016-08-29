@@ -32,6 +32,6 @@
     "King.Service": "2.0.3",
     "WindowsAzure.ServiceBus": "2.3.4.0",
     "System.Threading.Tasks": "4.0.10",
-    "System.Runtime": "4.1.0"
+    "System.Runtime": "4.0.20"
   }
 }
