@@ -1,12 +1,15 @@
 {
   "version": "2.0.0-*",
   "description": "King.Service.ServiceBus.Test Console Application",
+
   "buildOptions": {
     "emitEntryPoint": true
   },
+
   "frameworks": {
     "net462": {}
   },
+
   "dependencies": {
     "NUnitLite": "3.4.1",
     "NSubstitute": "2.0.0-rc",
