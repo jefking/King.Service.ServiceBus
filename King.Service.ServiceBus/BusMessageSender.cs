@@ -24,7 +24,7 @@
         /// <summary>
         /// Service Bus Message Client
         /// </summary>
-        protected readonly IBusSender client = null;
+        protected readonly IBrokeredMessageSender client = null;
 
         /// <summary>
         /// Name
@@ -38,7 +38,7 @@
         /// </summary>
         /// <param name="name">Message Bus Name</param>
         /// <param name="client"Client>Service Bus Message Client</param>
-        public BusMessageSender(string name, IBusSender client)
+        public BusMessageSender(string name, IBrokeredMessageSender client)
         {
             if (string.IsNullOrWhiteSpace(name))
             {

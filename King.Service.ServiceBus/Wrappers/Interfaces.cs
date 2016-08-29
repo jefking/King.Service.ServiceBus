@@ -27,7 +27,7 @@
     /// <summary>
     /// Bus Topic Client Interface
     /// </summary>
-    public interface IBusTopicClient : IBusClient<TopicClient>, IBusSender
+    public interface IBusTopicClient : IBusClient<TopicClient>, IBrokeredMessageSender
     {
     }
     #endregion
@@ -36,7 +36,7 @@
     /// <summary>
     /// Bus Queue Client Wrapper
     /// </summary>
-    public interface IBusQueueClient : IBusClient<QueueClient>, IBusSender, IBusReciever
+    public interface IBusQueueClient : IBusClient<QueueClient>, IBrokeredMessageSender, IBusReciever
     {
     }
     #endregion
@@ -45,7 +45,7 @@
     /// <summary>
     /// Service Bus Sender
     /// </summary>
-    public interface IBusSender
+    public interface IBusSender<T>
     {
         #region Methods
         /// <summary>
@@ -53,15 +53,24 @@
         /// </summary>
         /// <param name="message">Message</param>
         /// <returns>Task</returns>
-        Task Send(BrokeredMessage message);
+        Task Send(T message);
 
         /// <summary>
         /// Send Batch
         /// </summary>
         /// <param name="message">Messages</param>
         /// <returns>Task</returns>
-        Task Send(IEnumerable<BrokeredMessage> messages);
+        Task Send(IEnumerable<T> messages);
         #endregion
+    }
+    #endregion
+
+    #region IBusSender
+    /// <summary>
+    /// Service Bus Sender
+    /// </summary>
+    public interface IBrokeredMessageSender : IBusSender<BrokeredMessage>
+    {
     }
     #endregion
 
@@ -101,7 +110,7 @@
     /// <summary>
     /// Event Hub Client Interface
     /// </summary>
-    public interface IHubClient : IBusClient<MessageSender>, IBusSender
+    public interface IHubClient : IBusClient<EventHubClient>, IBusSender<EventData>
     {
     }
     #endregion

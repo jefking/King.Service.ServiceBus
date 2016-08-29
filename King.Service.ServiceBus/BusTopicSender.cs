@@ -24,7 +24,7 @@
         /// </summary>
         /// <param name="name">Topic Name</param>
         /// <param name="client"Client>Service Bus Message Client</param>
-        public BusTopicSender(string name, IBusSender client)
+        public BusTopicSender(string name, IBrokeredMessageSender client)
             : base(name, client)
         {
         }
