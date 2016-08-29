@@ -1,9 +1,9 @@
 ﻿namespace King.Service.ServiceBus.Unit.Tests.Wrappers
 {
-    using System;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus.Messaging;
     using NUnit.Framework;
+    using System;
 
     [TestFixture]
     public class BusTopicSubscriptionClientTests

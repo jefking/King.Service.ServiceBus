@@ -15,14 +15,14 @@
         [Test]
         public void Constructor()
         {
-            var c = Substitute.For<IBusSender>();
+            var c = Substitute.For<IBrokeredMessageSender>();
             new BusMessageSender(Guid.NewGuid().ToString(), c);
         }
 
         [Test]
         public void ConstructorNameNull()
         {
-            var c = Substitute.For<IBusSender>();
+            var c = Substitute.For<IBrokeredMessageSender>();
             Assert.That(() => new BusMessageSender(null, c), Throws.TypeOf<ArgumentException>());
         }
 
@@ -35,14 +35,14 @@
         [Test]
         public void IsTransientErrorHandler()
         {
-            var c = Substitute.For<IBusSender>();
+            var c = Substitute.For<IBrokeredMessageSender>();
             Assert.IsNotNull(new BusMessageSender(Guid.NewGuid().ToString(), c) as TransientErrorHandler);
         }
 
         [Test]
         public void IsIBusMessageSender()
         {
-            var c = Substitute.For<IBusSender>();
+            var c = Substitute.For<IBrokeredMessageSender>();
             Assert.IsNotNull(new BusMessageSender(Guid.NewGuid().ToString(), c) as IBusMessageSender);
         }
 

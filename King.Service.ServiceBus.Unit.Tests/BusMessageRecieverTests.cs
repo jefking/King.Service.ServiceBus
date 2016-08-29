@@ -3,7 +3,7 @@
     using System;
     using NSubstitute;
     using NUnit.Framework;
-    using ServiceBus.Wrappers;
+    using King.Service.ServiceBus.Wrappers;
 
     [TestFixture]
     public class BusMessageRecieverTests

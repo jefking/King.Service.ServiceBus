@@ -1,7 +1,6 @@
 ﻿namespace King.Service.ServiceBus.Models
 {
     using System;
-    using System.Runtime.Serialization;
 
     /// <summary>
     /// Buffered Message

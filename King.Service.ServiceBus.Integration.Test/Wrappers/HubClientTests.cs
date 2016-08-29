@@ -1,12 +1,11 @@
 ﻿namespace King.Service.ServiceBus.Integration.Test.Wrappers
 {
-    using System;
-    using System.Configuration;
-    using System.Threading.Tasks;
-    using Data;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus.Messaging;
     using NUnit.Framework;
+    using System;
+    using System.Configuration;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class HubClientTests

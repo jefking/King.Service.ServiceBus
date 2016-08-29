@@ -5,7 +5,7 @@
     using Microsoft.ServiceBus.Messaging;
     using NSubstitute;
     using NUnit.Framework;
-    using ServiceBus.Wrappers;
+    using King.Service.ServiceBus.Wrappers;
 
     [TestFixture]
     public class BusSubscriptionRecieverTests

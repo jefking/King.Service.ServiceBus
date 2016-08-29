@@ -1,10 +1,10 @@
 ﻿namespace King.Service.ServiceBus.Models
 {
-    using System;
-    using System.Threading.Tasks;
     using King.Azure.Data;
     using Microsoft.ServiceBus.Messaging;
     using Newtonsoft.Json;
+    using System;
+    using System.Threading.Tasks;
     using Wrappers;
 
     /// <summary>

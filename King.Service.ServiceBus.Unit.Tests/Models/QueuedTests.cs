@@ -6,7 +6,8 @@
     using Microsoft.ServiceBus.Messaging;
     using Newtonsoft.Json;
     using NUnit.Framework;
-    using ServiceBus.Wrappers;
+    using King.Service.ServiceBus.Wrappers;
+
     [TestFixture]
     public class QueuedTests
     {
