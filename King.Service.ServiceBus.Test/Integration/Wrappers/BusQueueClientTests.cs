@@ -4,6 +4,7 @@
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus.Messaging;
     using NUnit.Framework;
+    using ServiceBus.Test.Unit;
     using System;
     using System.Collections.Generic;
     using System.Configuration;
@@ -12,7 +13,7 @@
     [TestFixture]
     public class BusQueueClientTests
     {
-        private string connection = ConfigurationSettings.AppSettings["Microsoft.ServiceBus.ConnectionString"];
+        private string connection = Configuration.ConnectionString;
 
         IAzureStorage queue;
 

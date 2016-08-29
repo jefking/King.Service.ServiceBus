@@ -3,6 +3,7 @@
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus.Messaging;
     using NUnit.Framework;
+    using ServiceBus.Test.Unit;
     using System;
     using System.Configuration;
     using System.Threading.Tasks;
@@ -10,7 +11,7 @@
     [TestFixture]
     public class HubClientTests
     {
-        private string connection = ConfigurationSettings.AppSettings["Microsoft.ServiceBus.ConnectionString"];
+        private string connection = Configuration.ConnectionString;
 
         string name;
 

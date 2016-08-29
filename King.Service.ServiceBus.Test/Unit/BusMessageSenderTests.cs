@@ -75,12 +75,12 @@
             var msg = new BrokeredMessage();
 
             var client = Substitute.For<IBusTopicClient>();
-            client.Send(msg);
+            await client.Send(msg);
 
             var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
             await q.Send(msg);
 
-            client.Received().Send(msg);
+            await client.Received().Send(msg);
         }
 
         [Test]

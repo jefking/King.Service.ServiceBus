@@ -6,11 +6,12 @@
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus.Messaging;
     using NUnit.Framework;
+    using ServiceBus.Test.Unit;
 
     [TestFixture]
     public class BusTopicClientTests
     {
-        private string connection = ConfigurationSettings.AppSettings["Microsoft.ServiceBus.ConnectionString"];
+        private string connection = Configuration.ConnectionString;
 
         string name;
 
