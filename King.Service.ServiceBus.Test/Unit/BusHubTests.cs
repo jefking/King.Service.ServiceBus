@@ -10,7 +10,7 @@
         [Test]
         public void Constructor()
         {
-            var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
+            var fake = Configuration.ConnectionString;
             new BusHub(Guid.NewGuid().ToString(), fake);
         }
 
@@ -23,14 +23,14 @@
         [Test]
         public void ConstructorNameNull()
         {
-            var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
+            var fake = Configuration.ConnectionString;
             Assert.That(() => new BusHub(null, fake), Throws.TypeOf<ArgumentException>());
         }
 
         [Test]
         public void IsInitializeTask()
         {
-            var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
+            var fake = Configuration.ConnectionString;
             Assert.IsNotNull(new BusHub(Guid.NewGuid().ToString(), fake) as IAzureStorage);
         }
 
@@ -38,7 +38,7 @@
         public void Name()
         {
             var name = Guid.NewGuid().ToString();
-            var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
+            var fake = Configuration.ConnectionString;
             var bt = new BusHub(name, fake);
 
             Assert.AreEqual(name, bt.Name);
@@ -49,7 +49,7 @@
         {
             var random = new Random();
             var pc = random.Next(8, 32);
-            var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
+            var fake = Configuration.ConnectionString;
             var bt = new BusHub(Guid.NewGuid().ToString(), fake, pc);
 
             Assert.AreEqual(pc, bt.PartitionCount);
@@ -60,7 +60,7 @@
         {
             var random = new Random();
             var pc = random.Next(0, 8);
-            var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
+            var fake = Configuration.ConnectionString;
             var bt = new BusHub(Guid.NewGuid().ToString(), fake, pc);
 
             Assert.AreEqual(8, bt.PartitionCount);
@@ -71,7 +71,7 @@
         {
             var random = new Random();
             var pc = random.Next(32, 200);
-            var fake = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
+            var fake = Configuration.ConnectionString;
             var bt = new BusHub(Guid.NewGuid().ToString(), fake, pc);
 
             Assert.AreEqual(32, bt.PartitionCount);

@@ -7,7 +7,7 @@
     [TestFixture]
     public class BusTopicSubscriptionTests
     {
-        const string connection = "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=[your secret]";
+        const string connection = Configuration.ConnectionString;
 
         [Test]
         public void Constructor()
