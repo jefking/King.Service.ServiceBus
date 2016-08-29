@@ -1,4 +1,4 @@
-﻿namespace King.Service.ServiceBus.Unit.Tests.Wrappers
+﻿namespace King.Service.ServiceBus.Test.Unit.Wrappers
 {
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus.Messaging;

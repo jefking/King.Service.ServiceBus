@@ -1,4 +1,4 @@
-﻿namespace King.Service.ServiceBus.Unit.Tests
+﻿namespace King.Service.ServiceBus.Test.Unit
 {
     using Microsoft.ServiceBus.Messaging;
     using NUnit.Framework;
