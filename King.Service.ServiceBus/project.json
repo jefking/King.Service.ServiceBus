@@ -25,16 +25,13 @@
   },
 
   "frameworks": {
-    "net462": {
-      "dependencies": {
-        "System": {},
-        "System.Data": {}
-      }
-    }
+    "net46": {}
   },
 
   "dependencies": {
+    "King.Service": "2.0.3",
     "WindowsAzure.ServiceBus": "2.3.4.0",
-    "King.Service": "2.0.3"
+    "System.Threading.Tasks": "4.0.10",
+    "System.Runtime": "4.1.0"
   }
 }
