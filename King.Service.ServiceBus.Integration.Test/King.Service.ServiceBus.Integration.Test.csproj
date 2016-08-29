@@ -133,12 +133,6 @@
     <Compile Include="Wrappers\BusTopicClientTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\King.Service.ServiceBus\King.Service.ServiceBus.csproj">
-      <Project>{e656bbd6-0eae-4df3-b52c-b5940a9c4d66}</Project>
-      <Name>King.Service.ServiceBus</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>

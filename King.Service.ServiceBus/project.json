@@ -1,0 +1,40 @@
+﻿{
+  "version": "1.4.2",
+  "title": "King.Service.ServiceBus",
+  "description": "Task scheduling .NET: Service Bus.",
+  "authors": [ "Jef King" ],
+  "packOptions": {
+    "summary": "Task scheduling .NET: Service Bus.",
+    "releaseNotes": "New project layout",
+    "tags": [ "King.Service.ServiceBus Azure Queue Service Bus EventHub Event Hub service-bus scale Topic Topics PubSub Publisher Subscriber Event Time Sensitive time-sensitive auto-scale dynamic-scale dynamic Queuing Background Worker Work Data Processing Table Environment Initialize Task Tasks volume Dequeue Dequeuing run task service services tasks scheduling King.Service King.Azure" ],
+    "projectUrl": "https://github.com/jefking/King.Service.ServiceBus",
+    "licenseUrl": "https://github.com/jefking/King.Service.ServiceBus/blob/master/LICENSE",
+    "iconUrl": "https://raw.githubusercontent.com/jefking/King.Service.ServiceBus/master/icon.png",
+    "authors": [ "Jef King" ],
+    "copyright": "Jef King",
+    "language": "en-US",
+    "owners": [ "Jef King" ]
+  },
+
+  "configurations": {
+    "Release": {
+      "buildOptions": {
+        "optimize": true
+      }
+    }
+  },
+
+  "frameworks": {
+    "net462": {
+      "dependencies": {
+        "System": {},
+        "System.Data": {}
+      }
+    }
+  },
+
+  "dependencies": {
+    "WindowsAzure.ServiceBus": "2.3.4.0",
+    "King.Service": "2.0.3"
+  }
+}
