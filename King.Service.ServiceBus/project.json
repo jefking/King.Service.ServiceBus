@@ -1,7 +1,7 @@
 {
   "version": "1.4.2",
   "title": "King.Service.ServiceBus",
-  "description": "Task scheduling .NET: Service Bus.",
+  "description": "Task scheduling for .NET: Service Bus.",
   "authors": [ "Jef King" ],
   "packOptions": {
     "summary": "Task scheduling .NET: Service Bus.",
@@ -31,9 +31,9 @@
   },
 
   "dependencies": {
-    "King.Service": "2.0.4",
-    "WindowsAzure.ServiceBus": "3.3.2",
     "System.Threading.Tasks": "4.0.10",
-    "System.Runtime": "4.0.20"
+    "System.Runtime": "4.0.20",
+    "King.Service": "2.1.3",
+    "WindowsAzure.ServiceBus": "3.3.2"
   }
 }
