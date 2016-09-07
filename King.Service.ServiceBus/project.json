@@ -4,7 +4,7 @@
   "description": "Task scheduling for .NET: Service Bus.",
   "authors": [ "Jef King" ],
   "packOptions": {
-    "summary": "Task scheduling .NET: Service Bus.",
+    "summary": "Task scheduling for .NET: Service Bus.",
     "releaseNotes": "New project layout",
     "tags": [ "King.Service.ServiceBus", "Azure", "Queue", "Service", "Bus", "EventHub", "Event", "Hub", "service-bus", "scale", "Topic", "Topics", "PubSub", "Publisher", "Subscriber", "Event", "Time", "Sensitive", "time-sensitive", "auto-scale", "dynamic-scale", "dynamic", "Queuing", "Background", "Worker", "Work", "Data", "Processing", "Table", "Environment", "Initialize", "Task", "Tasks", "volume", "Dequeue", "Dequeuing", "run", "task", "service", "services", "tasks", "scheduling", "King.Service", "King.Azure" ],
     "projectUrl": "https://github.com/jefking/King.Service.ServiceBus",
