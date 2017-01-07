@@ -1,5 +1,5 @@
 {
-  "version": "1.4.6",
+  "version": "1.4.7",
   "title": "King.Service.ServiceBus",
   "description": "Task scheduling for .NET: Azure Service Bus",
   "authors": [ "Jef King" ],
@@ -34,7 +34,7 @@
   "dependencies": {
     "System.Threading.Tasks": "4.0.10",
     "System.Runtime": "4.0.20",
-    "King.Service": "2.1.6",
-    "WindowsAzure.ServiceBus": "3.4.3"
+    "King.Service": "2.1.7",
+    "WindowsAzure.ServiceBus": "3.4.4"
   }
 }
