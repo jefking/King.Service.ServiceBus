@@ -10,10 +10,10 @@
     "net462": {}
   },
 
-  "dependencies": { 
+  "dependencies": {
     "NSubstitute": "2.0.0-rc",
     "King.Service.ServiceBus": "1.4.7",
     "Newtonsoft.Json": "9.0.1",
-    "NUnitLite": "3.5.0"
+    "NUnitLite": "3.6.0"
   }
 }

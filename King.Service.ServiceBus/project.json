@@ -32,9 +32,9 @@
   },
 
   "dependencies": {
-    "System.Threading.Tasks": "4.0.10",
-    "System.Runtime": "4.0.20",
-    "King.Service": "2.1.7",
-    "WindowsAzure.ServiceBus": "3.4.4"
+    "King.Service": "2.1.8",
+    "WindowsAzure.ServiceBus": "3.4.5",
+    "System.Runtime": "4.3.0",
+    "System.Threading.Tasks": "4.3.0"
   }
 }
