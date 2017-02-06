@@ -11,8 +11,8 @@
   },
 
   "dependencies": {
-    "NSubstitute": "2.0.0-rc",
-    "King.Service.ServiceBus": "1.4.7",
+    "NSubstitute": "2.0.1-rc",
+    "King.Service.ServiceBus": "1.4.8",
     "Newtonsoft.Json": "9.0.1",
     "NUnitLite": "3.6.0"
   }
