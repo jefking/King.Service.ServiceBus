@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Task scheduling for .NET: Azure Service Bus</Description>
+    <AssemblyTitle>King.Service.ServiceBus</AssemblyTitle>
+    <VersionPrefix>1.4.8</VersionPrefix>
+    <Authors>Jef King</Authors>
+    <TargetFrameworks>net462;net461;net46</TargetFrameworks>
+    <AssemblyName>King.Service.ServiceBus</AssemblyName>
+    <PackageId>King.Service.ServiceBus</PackageId>
+    <PackageTags>King.Service.ServiceBus;Azure;Queue;Service;Bus;EventHub;Event;Hub;service-bus;scale;Topic;Topics;PubSub;Publisher;Subscriber;Event;Time;Sensitive;time-sensitive;auto-scale;dynamic-scale;dynamic;Queuing;Background;Worker;Work;Data;Processing;Table;Environment;Initialize;Task;Tasks;volume;Dequeue;Dequeuing;run;task;service;services;tasks;scheduling;King.Service;King.Azure</PackageTags>
+    <PackageReleaseNotes>Enable Tracing.</PackageReleaseNotes>
+    <PackageIconUrl>https://raw.githubusercontent.com/jefking/King.Service.ServiceBus/master/icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/jefking/King.Service.ServiceBus</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/jefking/King.Service.ServiceBus/blob/master/LICENSE</PackageLicenseUrl>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="King.Service" Version="2.1.8" />
+    <PackageReference Include="WindowsAzure.ServiceBus" Version="3.4.5" />
+    <PackageReference Include="System.Runtime" Version="4.3.0" />
+    <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+</Project>
