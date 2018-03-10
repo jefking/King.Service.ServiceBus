@@ -34,7 +34,7 @@
 
   <ItemGroup>
     <PackageReference Include="King.Service" Version="2.2.1" />
-    <PackageReference Include="WindowsAzure.ServiceBus" Version="3.4.5" />
+    <PackageReference Include="WindowsAzure.ServiceBus" Version="3.4.6" />
     <PackageReference Include="System.Runtime" Version="4.3.0" />
     <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
   </ItemGroup>
