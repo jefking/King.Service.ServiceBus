@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using King.Azure.Data;
+    using global::Azure.Data.Wrappers;
     using King.Service.ServiceBus.Models;
 
     /// <summary>

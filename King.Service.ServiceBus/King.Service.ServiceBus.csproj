@@ -5,7 +5,7 @@
     <AssemblyTitle>King.Service.ServiceBus</AssemblyTitle>
     <VersionPrefix>1.4.8</VersionPrefix>
     <Authors>Jef King</Authors>
-    <TargetFrameworks>net462;net461;net46</TargetFrameworks>
+    <TargetFrameworks>net462;net461;net46;net47;net471</TargetFrameworks>
     <AssemblyName>King.Service.ServiceBus</AssemblyName>
     <PackageId>King.Service.ServiceBus</PackageId>
     <PackageTags>King.Service.ServiceBus;Azure;Queue;Service;Bus;EventHub;Event;Hub;service-bus;scale;Topic;Topics;PubSub;Publisher;Subscriber;Event;Time;Sensitive;time-sensitive;auto-scale;dynamic-scale;dynamic;Queuing;Background;Worker;Work;Data;Processing;Table;Environment;Initialize;Task;Tasks;volume;Dequeue;Dequeuing;run;task;service;services;tasks;scheduling;King.Service;King.Azure</PackageTags>

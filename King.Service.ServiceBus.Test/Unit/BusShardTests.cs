@@ -1,7 +1,7 @@
 ﻿namespace King.Service.ServiceBus.Test.Unit
 {
     using System;
-    using King.Azure.Data;
+    using global::Azure.Data.Wrappers;
     using NSubstitute;
     using NUnit.Framework;
 

@@ -1,6 +1,6 @@
 ﻿namespace King.Service.ServiceBus.Test.Integration
 {
-    using King.Azure.Data;
+    using global::Azure.Data.Wrappers;
     using NUnit.Framework;
     using System;
     using System.Threading.Tasks;

@@ -1,6 +1,6 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using King.Azure.Data;
+    using global::Azure.Data.Wrappers;
     using King.Service.Data;
     using Service.Timing;
     using Timing;

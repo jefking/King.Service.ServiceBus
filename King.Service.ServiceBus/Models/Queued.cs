@@ -1,6 +1,6 @@
 ﻿namespace King.Service.ServiceBus.Models
 {
-    using King.Azure.Data;
+    using global::Azure.Data.Wrappers;
     using Microsoft.ServiceBus.Messaging;
     using Newtonsoft.Json;
     using System;

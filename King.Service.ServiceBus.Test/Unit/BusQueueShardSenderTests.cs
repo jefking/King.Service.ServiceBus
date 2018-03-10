@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using King.Azure.Data;
+    using global::Azure.Data.Wrappers;
     using NSubstitute;
     using NUnit.Framework;
 

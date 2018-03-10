@@ -1,13 +1,13 @@
 ﻿namespace King.Service.ServiceBus
 {
+    using Microsoft.ServiceBus.Messaging;
+    using Models;
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
-    using Microsoft.ServiceBus.Messaging;
-    using Models;
-    using Newtonsoft.Json;
     using Wrappers;
 
     /// <summary>
@@ -51,6 +51,21 @@
 
             this.name = name;
             this.client = client;
+        }
+
+        public Task<T> GetAsync<T>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<T>> GetManyAsync<T>(int count = 5)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<T>> PeekAsync<T>(int count = 1)
+        {
+            throw new NotImplementedException();
         }
         #endregion
 
@@ -226,6 +241,11 @@
             msg.Properties.Add("encoding", (byte)encoding);
 
             await this.Send(msg);
+        }
+
+        public Task SendAsync<T>(T message)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

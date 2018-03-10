@@ -1,6 +1,6 @@
 ﻿namespace King.Service.ServiceBus.Integration.Test.Wrappers
 {
-    using King.Azure.Data;
+    using global::Azure.Data.Wrappers;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus.Messaging;
     using NUnit.Framework;
