@@ -9,7 +9,7 @@
     <AssemblyName>King.Service.ServiceBus</AssemblyName>
     <PackageId>King.Service.ServiceBus</PackageId>
     <PackageTags>King.Service.ServiceBus;Azure;Queue;Service;Bus;EventHub;Event;Hub;service-bus;scale;Topic;Topics;PubSub;Publisher;Subscriber;Event;Time;Sensitive;time-sensitive;auto-scale;dynamic-scale;dynamic;Queuing;Background;Worker;Work;Data;Processing;Table;Environment;Initialize;Task;Tasks;volume;Dequeue;Dequeuing;run;task;service;services;tasks;scheduling;King.Service;King.Azure</PackageTags>
-    <PackageReleaseNotes>Enable Tracing.</PackageReleaseNotes>
+    <PackageReleaseNotes>Updating versions prior to .NET Core implementation.</PackageReleaseNotes>
     <PackageIconUrl>https://raw.githubusercontent.com/jefking/King.Service.ServiceBus/master/icon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/jefking/King.Service.ServiceBus</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/jefking/King.Service.ServiceBus/blob/master/LICENSE</PackageLicenseUrl>
@@ -25,6 +25,7 @@
     <RepositoryUrl>https://github.com/jefking/King.Service.ServiceBus</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <ApplicationIcon>icon.ico</ApplicationIcon>
+    <Version>1.4.9</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net462|AnyCPU'">
