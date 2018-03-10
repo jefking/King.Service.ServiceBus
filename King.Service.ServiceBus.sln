@@ -1,18 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{A3AD7D55-CE3B-453E-B069-6F20C3FC4121}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9BA1A71C-1DD4-475F-A243-D875CEA15DA0}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
-EndProject
-Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "King.Service.ServiceBus", "Demo\King.Service.ServiceBus.Worker\King.Service.ServiceBus.ccproj", "{288B0347-E6B3-47BA-B10A-308D0E15E805}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Service.ServiceBus.Worker", "Demo\King.Service.ServiceBus.WorkerRole\King.Service.ServiceBus.Worker.csproj", "{A0BD1435-033C-4995-AE80-8F0646949FD9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "King.Service.ServiceBus", "King.Service.ServiceBus\King.Service.ServiceBus.csproj", "{DB2562C5-EC67-4AFD-8DD2-163C23E159AA}"
 EndProject
@@ -24,14 +18,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{288B0347-E6B3-47BA-B10A-308D0E15E805}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{288B0347-E6B3-47BA-B10A-308D0E15E805}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{288B0347-E6B3-47BA-B10A-308D0E15E805}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{288B0347-E6B3-47BA-B10A-308D0E15E805}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A0BD1435-033C-4995-AE80-8F0646949FD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A0BD1435-033C-4995-AE80-8F0646949FD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A0BD1435-033C-4995-AE80-8F0646949FD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A0BD1435-033C-4995-AE80-8F0646949FD9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DB2562C5-EC67-4AFD-8DD2-163C23E159AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DB2562C5-EC67-4AFD-8DD2-163C23E159AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB2562C5-EC67-4AFD-8DD2-163C23E159AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -44,8 +30,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{288B0347-E6B3-47BA-B10A-308D0E15E805} = {A3AD7D55-CE3B-453E-B069-6F20C3FC4121}
-		{A0BD1435-033C-4995-AE80-8F0646949FD9} = {A3AD7D55-CE3B-453E-B069-6F20C3FC4121}
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0A7BDF91-8D3E-47DC-A507-F18E85580089}
 	EndGlobalSection
 EndGlobal
