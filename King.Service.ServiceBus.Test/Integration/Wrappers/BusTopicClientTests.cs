@@ -1,17 +1,15 @@
 ﻿namespace King.Service.ServiceBus.Integration.Test.Wrappers
 {
-    using System;
-    using System.Configuration;
-    using System.Threading.Tasks;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus.Messaging;
     using NUnit.Framework;
-    using ServiceBus.Test.Unit;
+    using System;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class BusTopicClientTests
     {
-        private string connection = Configuration.ConnectionString;
+        private string connection = King.Service.ServiceBus.Test.Integration.Configuration.ConnectionString;
 
         string name;
 

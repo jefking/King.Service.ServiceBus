@@ -1,11 +1,11 @@
 ﻿namespace King.Service.ServiceBus
 {
+    using global::Azure.Data.Wrappers;
+    using King.Service.ServiceBus.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using global::Azure.Data.Wrappers;
-    using King.Service.ServiceBus.Models;
 
     /// <summary>
     /// Generic Poller, re-use for any queued models you have.

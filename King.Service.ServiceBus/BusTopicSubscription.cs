@@ -1,10 +1,10 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using System;
-    using System.Threading.Tasks;
     using global::Azure.Data.Wrappers;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
+    using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Topic Subscription

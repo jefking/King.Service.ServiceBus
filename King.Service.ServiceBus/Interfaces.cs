@@ -1,12 +1,12 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using global::Azure.Data.Wrappers;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.ServiceBus;
     using Microsoft.ServiceBus.Messaging;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     #region IBusQueue
     /// <summary>
