@@ -1,10 +1,10 @@
 ### Task scheduling for Azure and Windows Servers: Service Bus.
 + Initialize: Queues, Topics, Event Hubs
-+ Enqueue and Dequeue
++ Enqueue and dequeue
 + Enqueue for dequeue at specific time
-+ Dequeue Batches
-+ Recieve Events
-+ Time Sensitive Events
++ Dequeue batches
++ Recieve events
++ Time sensitive events
 + Plugs into [King.Service](https://github.com/jefking/King.Service)
 
 ### [NuGet](https://www.nuget.org/packages/King.Service.ServiceBus)
