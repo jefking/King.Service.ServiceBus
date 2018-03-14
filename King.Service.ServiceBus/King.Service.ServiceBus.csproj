@@ -3,13 +3,13 @@
   <PropertyGroup>
     <Description>Task scheduling for .NET: Azure Service Bus</Description>
     <AssemblyTitle>King.Service.ServiceBus</AssemblyTitle>
-    <VersionPrefix>1.4.8</VersionPrefix>
+    <VersionPrefix>2.0.0-alpha</VersionPrefix>
     <Authors>Jef King</Authors>
-    <TargetFrameworks>net462;net461;net46;net47;net471</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
     <AssemblyName>King.Service.ServiceBus</AssemblyName>
     <PackageId>King.Service.ServiceBus</PackageId>
     <PackageTags>King.Service.ServiceBus;Azure;Queue;Service;Bus;EventHub;Event;Hub;service-bus;scale;Topic;Topics;PubSub;Publisher;Subscriber;Event;Time;Sensitive;time-sensitive;auto-scale;dynamic-scale;dynamic;Queuing;Background;Worker;Work;Data;Processing;Table;Environment;Initialize;Task;Tasks;volume;Dequeue;Dequeuing;run;task;service;services;tasks;scheduling;King.Service;King.Azure</PackageTags>
-    <PackageReleaseNotes>Updating versions prior to .NET Core implementation. .NET 4.7 support.</PackageReleaseNotes>
+    <PackageReleaseNotes>.NET Standard implementation.</PackageReleaseNotes>
     <PackageIconUrl>https://raw.githubusercontent.com/jefking/King.Service.ServiceBus/master/icon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/jefking/King.Service.ServiceBus</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/jefking/King.Service.ServiceBus/blob/master/LICENSE</PackageLicenseUrl>
@@ -25,34 +25,19 @@
     <RepositoryUrl>https://github.com/jefking/King.Service.ServiceBus</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <ApplicationIcon>icon.ico</ApplicationIcon>
-    <Version>1.4.9</Version>
+    <Version>2.0.0-alpha</Version>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net462|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|AnyCPU'">
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <TreatSpecificWarningsAsErrors />
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="King.Service" Version="2.2.1" />
-    <PackageReference Include="WindowsAzure.ServiceBus" Version="3.4.6" />
+    <PackageReference Include="Microsoft.Azure.ServiceBus" Version="2.0.0" />
     <PackageReference Include="System.Runtime" Version="4.3.0" />
     <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
 </Project>
