@@ -5,12 +5,12 @@
     using System.Diagnostics;
     using System.Threading.Tasks;
     using King.Service.ServiceBus.Wrappers;
-    using Microsoft.ServiceBus.Messaging;
+    using Microsoft.Azure.ServiceBus;
 
     /// <summary>
     /// Bus Message Reciever
     /// </summary>
-    public class BusMessageReciever : TransientErrorHandler, IBusMessageReciever
+    public class BusMessageReciever : IBusMessageReciever
     {
         #region Members
         /// <summary>
@@ -63,75 +63,11 @@
 
         #region Methods
         /// <summary>
-        /// Get Cloud Message
-        /// </summary>
-        /// <param name="waitTime">Wait Time</param>
-        /// <returns>Message</returns>
-        public virtual async Task<BrokeredMessage> Get(TimeSpan waitTime)
-        {
-            waitTime = waitTime <= TimeSpan.Zero ? serverWaitTime : waitTime;
-
-            while (true)
-            {
-                try
-                {
-                    return await this.reciever.Recieve(waitTime);
-                }
-                catch (MessagingException ex)
-                {
-                    if (ex.IsTransient)
-                    {
-                        base.HandleTransientError(ex);
-                    }
-                    else
-                    {
-                        Trace.TraceError(ex.ToString());
-
-                        throw;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Get Many Cloud Message
-        /// </summary>
-        /// <param name="waitTime">Wait Time</param>
-        /// <param name="messageCount">Message Count</param>
-        /// <returns>Messages</returns>
-        public virtual async Task<IEnumerable<BrokeredMessage>> GetMany(TimeSpan waitTime, int messageCount = 5)
-        {
-            messageCount = 1 > messageCount ? 5 : messageCount;
-            waitTime = waitTime <= TimeSpan.Zero ? serverWaitTime : waitTime;
-
-            while (true)
-            {
-                try
-                {
-                    return await this.reciever.RecieveBatch(messageCount, waitTime);
-                }
-                catch (MessagingException ex)
-                {
-                    if (ex.IsTransient)
-                    {
-                        base.HandleTransientError(ex);
-                    }
-                    else
-                    {
-                        Trace.TraceError(ex.ToString());
-
-                        throw;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// On Error
         /// </summary>
         /// <param name="action">Action</param>
         /// <param name="ex">Exception</param>
-        public virtual void RegisterForEvents(Func<BrokeredMessage, Task> callback, OnMessageOptions options)
+        public virtual void RegisterForEvents(Func<Message, Task> callback, MessageHandlerOptions options)
         {
             if (null == callback)
             {

@@ -1,5 +1,8 @@
 ﻿namespace King.Service.ServiceBus
 {
+    using Microsoft.Azure.ServiceBus;
+    using Microsoft.Azure.ServiceBus.Core;
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -15,7 +18,7 @@
         /// <summary>
         /// Queues
         /// </summary>
-        protected readonly IEnumerable<IBusShard> queues;
+        protected readonly IEnumerable<ISenderClient> queues;
 
         /// <summary>
         /// Base of the Name
@@ -49,21 +52,21 @@
             this.baseName = name;
             shardCount = shardCount > 0 ? shardCount : DefaultShardCount;
 
-            var qs = new IBusShard[shardCount];
+            var qs = new ISenderClient[shardCount];
             for (var i = 0; i < shardCount; i++)
             {
                 var n = string.Format("{0}{1}", this.baseName, i);
-                qs[i] = new BusShard(new BusQueue(n, connection), new BusQueueSender(n, connection));
+                qs[i] = new QueueClient(n, connection);
             }
 
-            this.queues = new ReadOnlyCollection<IBusShard>(qs);
+            this.queues = new ReadOnlyCollection<ISenderClient>(qs);
         }
 
         /// <summary>
         /// Constructor for mocking
         /// </summary>
         /// <param name="queues">Queues</param>
-        public BusQueueShardSender(IEnumerable<IBusShard> queues)
+        public BusQueueShardSender(IEnumerable<ISenderClient> queues)
         {
             if (null == queues)
             {
@@ -82,11 +85,11 @@
         /// <summary>
         /// Queue Shards
         /// </summary>
-        public virtual IReadOnlyCollection<IBusShard> Queues
+        public virtual IReadOnlyCollection<ISenderClient> Queues
         {
             get
             {
-                return new ReadOnlyCollection<IBusShard>(this.queues.ToList());
+                return new ReadOnlyCollection<ISenderClient>(this.queues.ToList());
             }
         }
 
@@ -115,35 +118,6 @@
 
         #region Methods
         /// <summary>
-        /// Queue Message
-        /// </summary>
-        /// <param name="obj">message</param>
-        /// <param name="shardTarget">Shard Target</param>
-        /// <returns>Task</returns>
-        public virtual async Task<bool> CreateIfNotExists()
-        {
-            var success = true;
-            foreach (var q in this.queues)
-            {
-                success &= await q.Resource.CreateIfNotExists();
-            }
-
-            return success;
-        }
-
-        /// <summary>
-        /// Delete all queues
-        /// </summary>
-        /// <returns>Task</returns>
-        public virtual async Task Delete()
-        {
-            foreach (var q in this.queues)
-            {
-                await q.Resource.Delete();
-            }
-        }
-
-        /// <summary>
         /// Queue Message to shard, 0 means at random
         /// </summary>
         /// <param name="obj">message</param>
@@ -153,7 +127,10 @@
         {
             var index = this.Index(shardTarget);
             var q = this.queues.ElementAt(index);
-            await q.Sender.Send(obj);
+
+            var j = JsonConvert.SerializeObject(obj);
+            var data = System.Text.Encoding.Default.GetBytes(j);
+            await q.SendAsync(new Message(data));
         }
 
         /// <summary>

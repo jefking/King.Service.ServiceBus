@@ -1,7 +1,7 @@
 ﻿namespace King.Service.ServiceBus
 {
     using King.Service.ServiceBus.Wrappers;
-    using Microsoft.ServiceBus.Messaging;
+    using Microsoft.Azure.ServiceBus;
 
     /// <summary>
     /// Bus Subscription Reciever
@@ -13,7 +13,7 @@
         /// Default Constructor
         /// </summary>
         public BusSubscriptionReciever(string topicName, string connection, string subscriptionName, ReceiveMode mode = ReceiveMode.PeekLock)
-            : base(new BusSubscriptionClient(SubscriptionClient.CreateFromConnectionString(connection, topicName, subscriptionName, mode)))
+            : base(new BusSubscriptionClient(new SubscriptionClient(connection, topicName, subscriptionName, mode)))
         {
         }
 

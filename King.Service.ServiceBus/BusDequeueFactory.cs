@@ -3,6 +3,7 @@
     using King.Service.Data;
     using King.Service.Data.Model;
     using King.Service.Scalability;
+    using Microsoft.Azure.ServiceBus;
     using System;
     using System.Collections.Generic;
 
@@ -36,7 +37,8 @@
                 throw new ArgumentException("name");
             }
 
-            return new InitializeStorageTask(new BusQueue(name, base.connectionString));
+            //return new InitializeStorageTask(new BusQueue(name, base.connectionString));
+            return null;
         }
 
         /// <summary>
@@ -78,12 +80,13 @@
                 Setup = setup,
             };
 
-            return new BusQueueAutoScaler<T>(new BusQueue(setup.Name, base.connectionString)
-                , connection
-                , messagesPerScaleUnit
-                , scale.Minimum
-                , scale.Maximum
-                , checkScaleInMinutes);
+            //return new BusQueueAutoScaler<T>(new QueueClient(setup.Name, base.connectionString)
+            //    , connection
+            //    , messagesPerScaleUnit
+            //    , scale.Minimum
+            //    , scale.Maximum
+            //    , checkScaleInMinutes);
+            return null;
         }
         #endregion
     }

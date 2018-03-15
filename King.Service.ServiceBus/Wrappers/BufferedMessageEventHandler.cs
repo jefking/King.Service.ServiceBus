@@ -53,9 +53,9 @@
         /// </summary>
         /// <param name="action">Action</param>
         /// <param name="ex">Exception</param>
-        public void OnError(string action, Exception ex)
+        public async Task OnError(string action, Exception ex)
         {
-            this.eventHandler.OnError(action, ex);
+            await this.eventHandler.OnError(action, ex);
         }
 
         /// <summary>

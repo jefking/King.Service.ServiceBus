@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Microsoft.ServiceBus.Messaging;
+    using Microsoft.Azure.ServiceBus;
 
     /// <summary>
     /// Bus Subscription Client
@@ -14,7 +14,7 @@
         /// <summary>
         /// Subscription Client
         /// </summary>
-        protected readonly SubscriptionClient client = null;
+        protected readonly ISubscriptionClient client = null;
         #endregion
 
         #region Constructors
@@ -25,15 +25,15 @@
         /// <param name="connection">Connection String</param>
         /// <param name="name">Subscription Name</param>
         public BusSubscriptionClient(string topicPath, string connection, string name)
-            : this(SubscriptionClient.CreateFromConnectionString(connection, topicPath, name))
+            : this(new SubscriptionClient(connection, topicPath, name))
         {
         }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="client">Queue Client</param>
-        public BusSubscriptionClient(SubscriptionClient client)
+        /// <param name="client">Subscription Client</param>
+        public BusSubscriptionClient(ISubscriptionClient client)
         {
             if (null == client)
             {
@@ -50,30 +50,10 @@
         /// </summary>
         /// <param name="callback">Call Back</param>
         /// <param name="options">Options</param>
-        public void OnMessage(Func<BrokeredMessage, Task> callback, OnMessageOptions options)
+        public void OnMessage(Func<Message, Task> callback, MessageHandlerOptions options)
         {
-            this.client.OnMessageAsync(callback, options);
-        }
-
-        /// <summary>
-        /// Recieve
-        /// </summary>
-        /// <param name="serverWaitTime">Server Wait Time</param>
-        /// <returns>Brokered Message</returns>
-        public virtual async Task<BrokeredMessage> Recieve(TimeSpan serverWaitTime)
-        {
-            return await this.client.ReceiveAsync(serverWaitTime);
-        }
-
-        /// <summary>
-        /// Recieve Batch
-        /// </summary>
-        /// <param name="messageCount">Message Count</param>
-        /// <param name="serverWaitTime">Server Wait Time</param>
-        /// <returns>Brokered Messages</returns>
-        public virtual async Task<IEnumerable<BrokeredMessage>> RecieveBatch(int messageCount, TimeSpan serverWaitTime)
-        {
-            return await this.client.ReceiveBatchAsync(messageCount, serverWaitTime);
+            //REGISTER FOR EVENT
+            //this.client.OnMessageAsync(callback, options);
         }
         #endregion
     }

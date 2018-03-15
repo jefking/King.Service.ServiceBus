@@ -2,8 +2,7 @@
 {
     using global::Azure.Data.Wrappers;
     using King.Service.ServiceBus.Wrappers;
-    using Microsoft.ServiceBus;
-    using Microsoft.ServiceBus.Messaging;
+    using Microsoft.Azure.ServiceBus;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -22,28 +21,6 @@
         {
             get;
         }
-
-        /// <summary>
-        /// Namespace Manager
-        /// </summary>
-        NamespaceManager Manager
-        {
-            get;
-        }
-        #endregion
-
-        #region Methods
-        /// <summary>
-        /// Lock Duration
-        /// </summary>
-        /// <returns>Lock Duration</returns>
-        Task<TimeSpan> LockDuration();
-
-        /// <summary>
-        /// Description
-        /// </summary>
-        /// <returns>Queue Description</returns>
-        Task<QueueDescription> Description();
         #endregion
     }
     #endregion
@@ -56,26 +33,11 @@
     {
         #region Methods
         /// <summary>
-        /// Get Cloud Queue Message
-        /// </summary>
-        /// <param name="waitTime">Wait Time</param>
-        /// <returns>Message</returns>
-        Task<BrokeredMessage> Get(TimeSpan waitTime);
-
-        /// <summary>
-        /// Get Many Cloud Queue Message
-        /// </summary>
-        /// <param name="waitTime">Wait Time</param>
-        /// <param name="messageCount">Message Count</param>
-        /// <returns>Messages</returns>
-        Task<IEnumerable<BrokeredMessage>> GetMany(TimeSpan waitTime, int messageCount = 5);
-
-        /// <summary>
         /// Register for Events
         /// </summary>
         /// <param name="callback">Callback</param>
         /// <param name="options">Options</param>
-        void RegisterForEvents(Func<BrokeredMessage, Task> callback, OnMessageOptions options);
+        void RegisterForEvents(Func<Message, Task> callback, MessageHandlerOptions options);
         #endregion
 
         #region Properties
@@ -102,14 +64,14 @@
         /// </summary>
         /// <param name="message">Message</param>
         /// <returns>Task</returns>
-        Task Send(BrokeredMessage message);
+        Task Send(Message message);
 
         /// <summary>
         /// Send Message to Queue
         /// </summary>
         /// <param name="messages">Messages</param>
         /// <returns>Task</returns>
-        Task Send(IEnumerable<BrokeredMessage> messages);
+        Task Send(IEnumerable<Message> messages);
 
         /// <summary>
         /// Send Object to queue, as json
@@ -161,7 +123,8 @@
         /// </summary>
         /// <param name="action">Action</param>
         /// <param name="ex">Exception</param>
-        void OnError(string action, Exception ex);
+        /// <returns>Task</returns>
+        Task OnError(string action, Exception ex);
         #endregion
     }
     #endregion
@@ -170,7 +133,7 @@
     /// <summary>
     /// Topic Sender
     /// </summary>
-    public interface IBusTopicSender : ITransientErrorHandler
+    public interface IBusTopicSender
     {
         #region Methods
         /// <summary>
@@ -178,7 +141,7 @@
         /// </summary>
         /// <param name="message">Message</param>
         /// <returns>Task</returns>
-        Task Send(BrokeredMessage message);
+        Task Send(Message message);
 
         /// <summary>
         /// Save Object to queue, as json
@@ -190,26 +153,11 @@
     }
     #endregion
 
-    #region ITransientErrorHandler
-    /// <summary>
-    /// Transient Error Handler Interface
-    /// </summary>
-    public interface ITransientErrorHandler
-    {
-        #region Events
-        /// <summary>
-        /// Transient Error Event
-        /// </summary>
-        event TransientErrorEventHandler TransientErrorOccured;
-        #endregion
-    }
-    #endregion
-
     #region IBusQueueShardSender
     /// <summary>
     /// Bus Queue Shards Interface
     /// </summary>
-    public interface IBusShardSender : IAzureStorage
+    public interface IBusShardSender
     {
         #region Properties
         /// <summary>
@@ -239,32 +187,6 @@
         /// <param name="shardTarget">Shard Target</param>
         /// <returns>Index</returns>
         byte Index(byte shardTarget);
-        #endregion
-    }
-    #endregion
-
-    #region IBusShard
-    /// <summary>
-    /// Service Bus Shard
-    /// </summary>
-    public interface IBusShard
-    {
-        #region Properties
-        /// <summary>
-        /// Resource
-        /// </summary>
-        IAzureStorage Resource
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Sender
-        /// </summary>
-        IQueueObject Sender
-        {
-            get;
-        }
         #endregion
     }
     #endregion

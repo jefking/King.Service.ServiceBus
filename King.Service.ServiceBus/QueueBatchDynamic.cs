@@ -2,6 +2,7 @@
 {
     using global::Azure.Data.Wrappers;
     using King.Service.Data;
+    using Microsoft.Azure.ServiceBus;
     using Service.Timing;
     using Timing;
 
@@ -21,7 +22,7 @@
         /// <param name="minimumPeriodInSeconds">Minimum Period In Seconds</param>
         /// <param name="maximumPeriodInSeconds">Maximum Period In Seconds</param>
         public QueueBatchDynamic(string name, string connectionString, IProcessor<T> processor, int minimumPeriodInSeconds = BaseTimes.DefaultMinimumTiming, int maximumPeriodInSeconds = BaseTimes.DefaultMaximumTiming)
-            : base(new BusPoller<T>(new BusQueueReciever(name, connectionString)), processor, new QueueTimingTracker(new BusQueue(name, connectionString)), minimumPeriodInSeconds, maximumPeriodInSeconds)
+            : base(new BusPoller<T>(new BusQueueReciever(name, connectionString)), processor, new QueueTimingTracker(new QueueClient(name, connectionString)), minimumPeriodInSeconds, maximumPeriodInSeconds)
         {
         }
         #endregion

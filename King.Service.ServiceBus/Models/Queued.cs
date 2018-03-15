@@ -1,9 +1,12 @@
 ﻿namespace King.Service.ServiceBus.Models
 {
     using global::Azure.Data.Wrappers;
-    using Microsoft.ServiceBus.Messaging;
+    using Microsoft.Azure.ServiceBus;
     using Newtonsoft.Json;
     using System;
+    using System.IO;
+    using System.Runtime.Serialization;
+    using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading.Tasks;
     using Wrappers;
 
@@ -11,13 +14,13 @@
     /// Generic Wrapper for Brokered Messages
     /// </summary>
     /// <typeparam name="T">Type, Serialized in Message Body</typeparam>
-    public class Queued<T> : IQueued<T>
+    public class Queued<T>
     {
         #region Members
         /// <summary>
         /// Brokered Message
         /// </summary>
-        protected readonly BrokeredMessage message = null;
+        protected readonly Message message = null;
 
         /// <summary>
         /// Cached Copy of Message Data
@@ -35,7 +38,7 @@
         /// Constructor
         /// </summary>
         /// <param name="msg">Message</param>
-        public Queued(BrokeredMessage msg)
+        public Queued(Message msg)
         {
             if (null == msg)
             {
@@ -48,15 +51,6 @@
 
         #region Methods
         /// <summary>
-        /// Abandon Message
-        /// </summary>
-        /// <returns>Task</returns>
-        public virtual async Task Abandon()
-        {
-            await this.message.AbandonAsync();
-        }
-
-        /// <summary>
         /// Data
         /// </summary>
         /// <returns>Data</returns>
@@ -64,32 +58,30 @@
         {
             if (!cached)
             {
-                var p = this.message.Properties;
+                var p = this.message.UserProperties;
 
                 if (p.ContainsKey(BusQueueClient.EncodingKey)
                     && (Encoding)p[BusQueueClient.EncodingKey] == Encoding.Json)
                 {
-                    var raw = this.message.GetBody<string>();
+                    var d = message.Body;
+                    var raw = System.Text.Encoding.Default.GetString(d);
                     cache = JsonConvert.DeserializeObject<T>(raw);
                 }
                 else
                 {
-                    cache = this.message.GetBody<T>();
+                    using (var memStream = new MemoryStream())
+                    {
+                        var binForm = new BinaryFormatter();
+                        memStream.Write(this.message.Body, 0, this.message.Body.Length);
+                        memStream.Seek(0, SeekOrigin.Begin);
+                        cache = (T)binForm.Deserialize(memStream);
+                    }
                 }
 
                 cached = true;
             }
 
             return Task.FromResult(cache);
-        }
-
-        /// <summary> 
-        /// Complete
-        /// </summary>
-        /// <returns>Task</returns>
-        public virtual async Task Complete()
-        {
-            await this.message.CompleteAsync();
         }
         #endregion
     }

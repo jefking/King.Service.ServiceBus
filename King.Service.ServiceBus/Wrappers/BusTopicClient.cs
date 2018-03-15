@@ -1,8 +1,9 @@
 ﻿namespace King.Service.ServiceBus.Wrappers
 {
-    using Microsoft.ServiceBus.Messaging;
+    using Microsoft.Azure.ServiceBus;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -14,7 +15,7 @@
         /// <summary>
         /// Topic Client
         /// </summary>
-        protected readonly TopicClient client = null;
+        protected readonly ITopicClient client = null;
         #endregion
 
         #region Constructors
@@ -24,7 +25,7 @@
         /// <param name="name">Name</param>
         /// <param name="connection">Connetion</param>
         public BusTopicClient(string name, string connection)
-            : this(TopicClient.CreateFromConnectionString(connection, name))
+            : this(new TopicClient(connection, name))
         {
         }
 
@@ -32,7 +33,7 @@
         /// Constructor
         /// </summary>
         /// <param name="client">Topic Client</param>
-        public BusTopicClient(TopicClient client)
+        public BusTopicClient(ITopicClient client)
         {
             if (null == client)
             {
@@ -47,7 +48,7 @@
         /// <summary>
         /// Topic Client
         /// </summary>
-        public TopicClient Client
+        public ITopicClient Client
         {
             get
             {
@@ -62,7 +63,7 @@
         /// </summary>
         /// <param name="message">Message</param>
         /// <returns>Task</returns>
-        public async Task Send(BrokeredMessage message)
+        public async Task Send(Message message)
         {
             await this.client.SendAsync(message);
         }
@@ -72,9 +73,9 @@
         /// </summary>
         /// <param name="message">Messages</param>
         /// <returns>Task</returns>
-        public async Task Send(IEnumerable<BrokeredMessage> messages)
+        public async Task Send(IEnumerable<Message> messages)
         {
-            await this.client.SendBatchAsync(messages);
+            await this.client.SendAsync(messages.ToList());
         }
         #endregion
     }
