@@ -1,29 +1,10 @@
 ﻿namespace King.Service.ServiceBus
 {
     using global::Azure.Data.Wrappers;
-    using King.Service.ServiceBus.Wrappers;
     using Microsoft.Azure.ServiceBus;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
-    #region IBusQueue
-    /// <summary>
-    /// Bus Queue Interface
-    /// </summary>
-    public interface IBusQueue : IQueueCount, IAzureStorage
-    {
-        #region Properties
-        /// <summary>
-        /// Queue Client
-        /// </summary>
-        IBusQueueClient Client
-        {
-            get;
-        }
-        #endregion
-    }
-    #endregion
 
     #region IBusQueueReciever
     /// <summary>
@@ -128,31 +109,7 @@
         #endregion
     }
     #endregion
-
-    #region ITopicSender
-    /// <summary>
-    /// Topic Sender
-    /// </summary>
-    public interface IBusTopicSender
-    {
-        #region Methods
-        /// <summary>
-        /// Save Message to Queue
-        /// </summary>
-        /// <param name="message">Message</param>
-        /// <returns>Task</returns>
-        Task Send(Message message);
-
-        /// <summary>
-        /// Save Object to queue, as json
-        /// </summary>
-        /// <param name="obj">object</param>
-        /// <returns>Task</returns>
-        Task Send(object obj);
-        #endregion
-    }
-    #endregion
-
+    
     #region IBusQueueShardSender
     /// <summary>
     /// Bus Queue Shards Interface

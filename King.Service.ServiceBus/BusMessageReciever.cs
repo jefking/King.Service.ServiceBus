@@ -1,11 +1,9 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Threading.Tasks;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.Azure.ServiceBus;
+    using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Bus Message Reciever

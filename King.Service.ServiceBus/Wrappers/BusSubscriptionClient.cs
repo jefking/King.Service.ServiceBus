@@ -1,9 +1,8 @@
 ﻿namespace King.Service.ServiceBus.Wrappers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Microsoft.Azure.ServiceBus;
+    using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Bus Subscription Client

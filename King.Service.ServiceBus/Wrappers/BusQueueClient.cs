@@ -3,8 +3,8 @@
     using Microsoft.Azure.ServiceBus;
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
     using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Bus Queue Client Wrapper

@@ -1,10 +1,8 @@
 ﻿namespace King.Service.ServiceBus
 {
     using global::Azure.Data.Wrappers;
-    using King.Service.ServiceBus.Models;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     /// <summary>

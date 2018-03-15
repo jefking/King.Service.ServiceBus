@@ -3,7 +3,6 @@
     using King.Service.Data;
     using King.Service.Data.Model;
     using King.Service.Scalability;
-    using Microsoft.Azure.ServiceBus;
     using System;
     using System.Collections.Generic;
 

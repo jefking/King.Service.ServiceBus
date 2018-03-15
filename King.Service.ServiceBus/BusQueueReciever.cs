@@ -1,6 +1,5 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using System;
     using King.Service.ServiceBus.Wrappers;
 
     /// <summary>

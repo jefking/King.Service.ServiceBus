@@ -1,11 +1,9 @@
 ﻿namespace King.Service.ServiceBus.Models
 {
-    using global::Azure.Data.Wrappers;
     using Microsoft.Azure.ServiceBus;
     using Newtonsoft.Json;
     using System;
     using System.IO;
-    using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading.Tasks;
     using Wrappers;
