@@ -4,6 +4,7 @@
     using Microsoft.Azure.ServiceBus;
     using System;
     using System.Collections.Generic;
+    using System.Threading;
     using System.Threading.Tasks;
 
     #region IBusQueueReciever
@@ -18,7 +19,7 @@
         /// </summary>
         /// <param name="callback">Callback</param>
         /// <param name="options">Options</param>
-        void RegisterForEvents(Func<Message, Task> callback, MessageHandlerOptions options);
+        void RegisterForEvents(Func<IMessageSession, Message, CancellationToken, Task> callback, SessionHandlerOptions options);
         #endregion
 
         #region Properties

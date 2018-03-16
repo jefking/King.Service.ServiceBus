@@ -4,6 +4,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -89,10 +90,9 @@
         /// </summary>
         /// <param name="callback">Call Back</param>
         /// <param name="options">Options</param>
-        public virtual void OnMessage(Func<Message, Task> callback, MessageHandlerOptions options)
+        public virtual void OnMessage(Func<IMessageSession, Message, CancellationToken, Task> callback, SessionHandlerOptions options)
         {
-            //REGISTER FOR EVENTS
-            //this.client.OnMessageAsync(callback, options);
+            this.client.RegisterSessionHandler(callback, options);
         }
         #endregion
     }

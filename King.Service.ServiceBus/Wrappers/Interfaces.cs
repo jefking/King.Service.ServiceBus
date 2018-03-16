@@ -3,6 +3,7 @@
     using Microsoft.Azure.ServiceBus;
     using System;
     using System.Collections.Generic;
+    using System.Threading;
     using System.Threading.Tasks;
 
     #region IBusClient
@@ -86,7 +87,7 @@
         /// </summary>
         /// <param name="callback">Call Back</param>
         /// <param name="options">Options</param>
-        void OnMessage(Func<Message, Task> callback, MessageHandlerOptions options);
+        void OnMessage(Func<IMessageSession, Message, CancellationToken, Task> callback, SessionHandlerOptions options);
         #endregion
     }
     #endregion

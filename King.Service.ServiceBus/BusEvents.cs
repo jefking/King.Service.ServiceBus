@@ -4,6 +4,7 @@
     using Newtonsoft.Json;
     using System;
     using System.Diagnostics;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -77,10 +78,10 @@
         /// </summary>
         public override void Run()
         {
-            var eventDrivenMessagingOptions = new MessageHandlerOptions(this.OnExceptionReceived)
+            var eventDrivenMessagingOptions = new SessionHandlerOptions(this.OnExceptionReceived)
             {
                 AutoComplete = true,
-                MaxConcurrentCalls = concurrentCalls
+                MaxConcurrentSessions = concurrentCalls
             };
 
             this.reciever.RegisterForEvents(OnMessageArrived, eventDrivenMessagingOptions);
@@ -91,7 +92,7 @@
         /// </summary>
         /// <param name="message">Brokered Message</param>
         /// <returns>Task</returns>
-        public virtual async Task OnMessageArrived(Message message)
+        public virtual async Task OnMessageArrived(IMessageSession session, Message message, CancellationToken cancel)
         {
             var d = message.Body;
             var j = System.Text.Encoding.Default.GetString(d);

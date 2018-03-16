@@ -3,6 +3,7 @@
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.Azure.ServiceBus;
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -65,7 +66,7 @@
         /// </summary>
         /// <param name="action">Action</param>
         /// <param name="ex">Exception</param>
-        public virtual void RegisterForEvents(Func<Message, Task> callback, MessageHandlerOptions options)
+        public virtual void RegisterForEvents(Func<IMessageSession, Message, CancellationToken, Task> callback, SessionHandlerOptions options)
         {
             if (null == callback)
             {
