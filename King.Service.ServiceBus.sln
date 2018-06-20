@@ -11,11 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "King.Service.ServiceBus", "King.Service.ServiceBus\King.Service.ServiceBus.csproj", "{DB2562C5-EC67-4AFD-8DD2-163C23E159AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Service.ServiceBus.Test", "King.Service.ServiceBus.Test\King.Service.ServiceBus.Test.csproj", "{8C3FC1B9-B611-4F76-B0C2-B7D5C1ADE953}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "King.Service.ServiceBus.Test", "King.Service.ServiceBus.Test\King.Service.ServiceBus.Test.csproj", "{8C3FC1B9-B611-4F76-B0C2-B7D5C1ADE953}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{C65F42FD-B47D-4427-8396-ADD19474D203}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Service.ServiceBus.Demo", "King.Service.ServiceBus.Demo\King.Service.ServiceBus.Demo.csproj", "{65230279-62D5-49F8-A6E8-BD99B263586B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "King.Service.ServiceBus.Demo", "King.Service.ServiceBus.Demo\King.Service.ServiceBus.Demo.csproj", "{65230279-62D5-49F8-A6E8-BD99B263586B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,9 +36,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{65230279-62D5-49F8-A6E8-BD99B263586B} = {C65F42FD-B47D-4427-8396-ADD19474D203}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0A7BDF91-8D3E-47DC-A507-F18E85580089}
