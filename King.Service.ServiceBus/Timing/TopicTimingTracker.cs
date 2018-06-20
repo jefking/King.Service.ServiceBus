@@ -1,7 +1,7 @@
 ﻿namespace King.Service.ServiceBus.Timing
 {
-    using System;
     using King.Service.Timing;
+    using System;
 
     /// <summary>
     /// Bus Topic Timing Tracker

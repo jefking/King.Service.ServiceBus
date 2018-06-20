@@ -1,11 +1,11 @@
 ﻿namespace King.Service.ServiceBus.Wrappers
 {
-    using System;
-    using System.Diagnostics;
-    using System.Threading.Tasks;
     using King.Service.ServiceBus.Models;
     using King.Service.ServiceBus.Timing;
     using Newtonsoft.Json;
+    using System;
+    using System.Diagnostics;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Buffered Message Event Handler
@@ -53,9 +53,9 @@
         /// </summary>
         /// <param name="action">Action</param>
         /// <param name="ex">Exception</param>
-        public void OnError(string action, Exception ex)
+        public async Task OnError(string action, Exception ex)
         {
-            this.eventHandler.OnError(action, ex);
+            await this.eventHandler.OnError(action, ex);
         }
 
         /// <summary>

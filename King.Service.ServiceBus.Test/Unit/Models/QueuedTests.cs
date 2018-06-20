@@ -1,12 +1,12 @@
 ﻿namespace King.Service.ServiceBus.Test.Unit
 {
-    using System;
-    using System.Threading.Tasks;
     using King.Service.ServiceBus.Models;
-    using Microsoft.ServiceBus.Messaging;
+    using King.Service.ServiceBus.Wrappers;
+    using Microsoft.Azure.ServiceBus;
     using Newtonsoft.Json;
     using NUnit.Framework;
-    using King.Service.ServiceBus.Wrappers;
+    using System;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class QueuedTests
@@ -14,7 +14,7 @@
         [Test]
         public void Constructor()
         {
-            var msg = new BrokeredMessage();
+            var msg = new Message();
             new Queued<object>(msg);
 
         }
@@ -29,7 +29,8 @@
         public async Task OnMessageArrived()
         {
             var data = Guid.NewGuid().ToString();
-            var msg = new BrokeredMessage(data)
+            var bytes = System.Text.Encoding.ASCII.GetBytes(data);
+            var msg = new Message(bytes)
             {
                 ContentType = data.GetType().ToString(),
             };
@@ -45,11 +46,12 @@
         {
             var data = Guid.NewGuid();
             var json = JsonConvert.SerializeObject(data);
-            var msg = new BrokeredMessage(json)
+            var bytes = System.Text.Encoding.ASCII.GetBytes(json);
+            var msg = new Message(bytes)
             {
                 ContentType = data.GetType().ToString(),
             };
-            msg.Properties.Add(BusQueueClient.EncodingKey, Encoding.Json);
+            msg.UserProperties.Add(BusQueueClient.EncodingKey, Encoding.Json);
 
             var queue = new Queued<Guid>(msg);
             var result = await queue.Data();
@@ -61,11 +63,11 @@
         public async Task OnMessageArrivedBinary()
         {
             var data = Guid.NewGuid();
-            var msg = new BrokeredMessage(data)
+            var msg = new Message(data.ToByteArray())
             {
                 ContentType = data.GetType().ToString(),
             };
-            msg.Properties.Add(BusQueueClient.EncodingKey, Encoding.Binary);
+            msg.UserProperties.Add(BusQueueClient.EncodingKey, Encoding.Binary);
 
             var queue = new Queued<Guid>(msg);
             var result = await queue.Data();

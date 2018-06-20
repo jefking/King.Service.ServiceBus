@@ -1,7 +1,7 @@
 ﻿namespace King.Service.ServiceBus.Test.Unit.Wrappers
 {
     using King.Service.ServiceBus.Wrappers;
-    using Microsoft.ServiceBus.Messaging;
+    using Microsoft.Azure.ServiceBus;
     using NUnit.Framework;
     using System;
 
@@ -15,7 +15,7 @@
         {
             var name = Guid.NewGuid().ToString();
             var topicPath = Guid.NewGuid().ToString();
-            new BusSubscriptionClient(SubscriptionClient.CreateFromConnectionString(connection, topicPath, name));
+            new BusSubscriptionClient(new SubscriptionClient(connection, topicPath, name));
         }
 
         [Test]

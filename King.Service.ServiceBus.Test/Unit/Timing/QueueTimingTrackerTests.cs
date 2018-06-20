@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
     using King.Service.ServiceBus.Timing;
     using King.Service.Timing;
+    using Microsoft.Azure.ServiceBus;
     using NSubstitute;
     using NUnit.Framework;
 
@@ -13,7 +14,7 @@
         [Test]
         public void Constructor()
         {
-            var queue = Substitute.For<IBusQueue>();
+            var queue = Substitute.For<IQueueClient>();
             new QueueTimingTracker(queue);
         }
 
@@ -26,35 +27,39 @@
         [Test]
         public void IsTimingTracker()
         {
-            var queue = Substitute.For<IBusQueue>();
+            var queue = Substitute.For<IQueueClient>();
             Assert.IsNotNull(new QueueTimingTracker(queue) as TimingTracker);
         }
 
         [Test]
         public void Calculate()
         {
-            var queue = Substitute.For<IBusQueue>();
-            queue.LockDuration().Returns(Task.FromResult(TimeSpan.FromMinutes(2)));
+            var queue = Substitute.For<IQueueClient>();
+            //queue.LockDuration().Returns(Task.FromResult(TimeSpan.FromMinutes(2)));
 
-            var tt = new QueueTimingTracker(queue);
-            tt.Calculate(TimeSpan.FromMinutes(1), 22);
+            //var tt = new QueueTimingTracker(queue);
+            //tt.Calculate(TimeSpan.FromMinutes(1), 22);
 
-            queue.Received().LockDuration();
+            //queue.Received().LockDuration();
+
+            Assert.Fail();
         }
 
         [Test]
         public void CalculateMultiple()
         {
-            var queue = Substitute.For<IBusQueue>();
-            queue.LockDuration().Returns(Task.FromResult(TimeSpan.FromMinutes(2)));
+            var queue = Substitute.For<IQueueClient>();
+            //queue.LockDuration().Returns(Task.FromResult(TimeSpan.FromMinutes(2)));
 
-            var tt = new QueueTimingTracker(queue);
-            tt.Calculate(TimeSpan.FromMinutes(1), 22);
-            tt.Calculate(TimeSpan.FromMinutes(1), 22);
-            tt.Calculate(TimeSpan.FromMinutes(1), 22);
-            tt.Calculate(TimeSpan.FromMinutes(1), 22);
+            //var tt = new QueueTimingTracker(queue);
+            //tt.Calculate(TimeSpan.FromMinutes(1), 22);
+            //tt.Calculate(TimeSpan.FromMinutes(1), 22);
+            //tt.Calculate(TimeSpan.FromMinutes(1), 22);
+            //tt.Calculate(TimeSpan.FromMinutes(1), 22);
 
-            queue.Received(1).LockDuration();
+            //queue.Received(1).LockDuration();
+
+            Assert.Fail();
         }
 
         [Test]

@@ -1,6 +1,5 @@
 ﻿namespace King.Service.ServiceBus.Test.Unit
 {
-    using Microsoft.ServiceBus.Messaging;
     using NUnit.Framework;
     using System;
 
@@ -10,25 +9,31 @@
         [Test]
         public void Constructor()
         {
-            new TransientErrorArgs();
+            //new TransientErrorArgs();
+
+            Assert.Fail();
         }
 
         [Test]
         public void IsEventArgs()
         {
-            Assert.IsNotNull(new TransientErrorArgs() as EventArgs);
+            //Assert.IsNotNull(new TransientErrorArgs() as EventArgs);
+
+            Assert.Fail();
         }
 
         [Test]
         public void Exception()
         {
-            var expected = new MessagingException(Guid.NewGuid().ToString());
-            var args = new TransientErrorArgs
-            {
-                Exception = expected,
-            };
+            //var expected = new MessagingException(Guid.NewGuid().ToString());
+            //var args = new TransientErrorArgs
+            //{
+            //    Exception = expected,
+            //};
 
-            Assert.AreEqual(expected, args.Exception);
+            //Assert.AreEqual(expected, args.Exception);
+
+            Assert.Fail();
         }
     }
 }

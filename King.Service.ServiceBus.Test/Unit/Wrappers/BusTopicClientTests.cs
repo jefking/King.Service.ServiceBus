@@ -1,7 +1,7 @@
 ﻿namespace King.Service.ServiceBus.Test.Unit.Wrappers
 {
     using King.Service.ServiceBus.Wrappers;
-    using Microsoft.ServiceBus.Messaging;
+    using Microsoft.Azure.ServiceBus;
     using NUnit.Framework;
     using System;
 
@@ -14,7 +14,7 @@
         public void Constructor()
         {
             var name = Guid.NewGuid().ToString();
-            new BusTopicClient(TopicClient.CreateFromConnectionString(connection, name));
+            new BusTopicClient(new TopicClient(connection, name));
         }
 
         [Test]
@@ -26,7 +26,7 @@
         [Test]
         public void Client()
         {
-            var client = TopicClient.CreateFromConnectionString(connection, "test");
+            var client = new TopicClient(connection, "test");
             var btc = new BusTopicClient(client);
             Assert.AreEqual(client, btc.Client);
         }

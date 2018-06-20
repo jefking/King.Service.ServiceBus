@@ -1,7 +1,7 @@
 ﻿namespace King.Service.ServiceBus
 {
     using King.Service.ServiceBus.Wrappers;
-    using Microsoft.ServiceBus.Messaging;
+    using Microsoft.Azure.ServiceBus;
 
     /// <summary>
     /// Bus Topic Sender
@@ -15,7 +15,7 @@
         /// <param name="name">Topic Name</param>
         /// <param name="connectionString">Connection String</param>
         public BusTopicSender(string name, string connectionString)
-            : this(name, new BusTopicClient(TopicClient.CreateFromConnectionString(connectionString, name)))
+            : this(name, new BusTopicClient(new TopicClient(connectionString, name)))
         {
         }
 
@@ -24,7 +24,7 @@
         /// </summary>
         /// <param name="name">Topic Name</param>
         /// <param name="client"Client>Service Bus Message Client</param>
-        public BusTopicSender(string name, IBrokeredMessageSender client)
+        public BusTopicSender(string name, IMessageSender client)
             : base(name, client)
         {
         }

@@ -1,19 +1,21 @@
 ﻿namespace King.Service.ServiceBus
 {
-    using Microsoft.ServiceBus.Messaging;
+    using Microsoft.Azure.ServiceBus;
     using Models;
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.IO;
     using System.Linq;
+    using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading.Tasks;
     using Wrappers;
 
     /// <summary>
     /// Bus Message Sender
     /// </summary>
-    public class BusMessageSender : TransientErrorHandler, IBusMessageSender
+    public class BusMessageSender : IBusMessageSender
     {
         #region Members
         /// <summary>
@@ -24,7 +26,7 @@
         /// <summary>
         /// Service Bus Message Client
         /// </summary>
-        protected readonly IBrokeredMessageSender client = null;
+        protected readonly IMessageSender client = null;
 
         /// <summary>
         /// Name
@@ -38,7 +40,7 @@
         /// </summary>
         /// <param name="name">Message Bus Name</param>
         /// <param name="client"Client>Service Bus Message Client</param>
-        public BusMessageSender(string name, IBrokeredMessageSender client)
+        public BusMessageSender(string name, IMessageSender client)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -75,7 +77,7 @@
         /// </summary>
         /// <param name="message">Message</param>
         /// <returns>Task</returns>
-        public virtual async Task Send(BrokeredMessage message)
+        public virtual async Task Send(Message message)
         {
             if (null == message)
             {
@@ -90,18 +92,11 @@
 
                     break;
                 }
-                catch (MessagingException ex)
+                catch (Exception ex)
                 {
-                    if (ex.IsTransient)
-                    {
-                        this.HandleTransientError(ex);
-                    }
-                    else
-                    {
-                        Trace.TraceError("Error: '{0}'", ex.ToString());
+                    Trace.TraceError("Error: '{0}'", ex.ToString());
 
-                        throw;
-                    }
+                    throw;
                 }
             }
         }
@@ -129,20 +124,35 @@
                 throw new ArgumentNullException("obj");
             }
 
-            if (obj is BrokeredMessage)
+            if (obj is Message)
             {
-                await this.Send(obj as BrokeredMessage);
+                await this.Send(obj as Message);
             }
             else
             {
-                var data = encoding == Encoding.Json ? JsonConvert.SerializeObject(obj) : obj;
-
-                var msg = new BrokeredMessage(data)
+                byte[] data;
+                switch (encoding)
+                {
+                    case Encoding.Json:
+                        var j = JsonConvert.SerializeObject(obj);
+                        data = System.Text.Encoding.Default.GetBytes(j);
+                        break;
+                    default:
+                        var bf = new BinaryFormatter();
+                        using (var ms = new MemoryStream())
+                        {
+                            bf.Serialize(ms, obj);
+                            data = ms.ToArray();
+                        }
+                        break;
+                }
+                
+                var msg = new Message(data)
                 {
                     ContentType = obj.GetType().ToString(),
                 };
 
-                msg.Properties.Add("encoding", (byte)encoding);
+                msg.UserProperties.Add("encoding", (byte)encoding);
 
                 await this.Send(msg);
             }
@@ -153,7 +163,7 @@
         /// </summary>
         /// <param name="messages">Messages</param>
         /// <returns>Task</returns>
-        public virtual async Task Send(IEnumerable<BrokeredMessage> messages)
+        public virtual async Task Send(IEnumerable<Message> messages)
         {
             if (null == messages)
             {
@@ -168,18 +178,11 @@
 
                     break;
                 }
-                catch (MessagingException ex)
+                catch (Exception ex)
                 {
-                    if (ex.IsTransient)
-                    {
-                        this.HandleTransientError(ex);
-                    }
-                    else
-                    {
-                        Trace.TraceError("Error: '{0}'", ex.ToString());
+                    Trace.TraceError("Error: '{0}'", ex.ToString());
 
-                        throw;
-                    }
+                    throw;
                 }
             }
         }
@@ -197,25 +200,41 @@
                 throw new ArgumentNullException("obj");
             }
 
-            if (messages is IEnumerable<BrokeredMessage>)
+            if (messages is IEnumerable<Message>)
             {
-                await this.Send(messages as IEnumerable<BrokeredMessage>);
+                await this.Send(messages as IEnumerable<Message>);
             }
             else
             {
-                var brokeredMessages = new List<BrokeredMessage>(messages.Count());
+                var Messages = new List<Message>(messages.Count());
                 foreach (var m in messages)
                 {
-                    var data = encoding == Encoding.Json ? JsonConvert.SerializeObject(m) : m;
-                    var msg = new BrokeredMessage(data)
+                    byte[] data;
+                    switch (encoding)
+                    {
+                        case Encoding.Json:
+                            var j = JsonConvert.SerializeObject(m);
+                            data = System.Text.Encoding.Default.GetBytes(j);
+                            break;
+                        default:
+                            var bf = new BinaryFormatter();
+                            using (var ms = new MemoryStream())
+                            {
+                                bf.Serialize(ms, m);
+                                data = ms.ToArray();
+                            }
+                            break;
+                    }
+
+                    var msg = new Message(data)
                     {
                         ContentType = m.GetType().ToString(),
                     };
 
-                    msg.Properties.Add("encoding", (byte)encoding);
+                    msg.UserProperties.Add("encoding", (byte)encoding);
                 }
 
-                await this.Send(brokeredMessages);
+                await this.Send(Messages);
             }
         }
 
@@ -232,13 +251,29 @@
                 throw new ArgumentNullException("message");
             }
 
-            var data = encoding == Encoding.Json ? JsonConvert.SerializeObject(message) : message;
-            var msg = new BrokeredMessage(data)
+            byte[] data;
+            switch (encoding)
+            {
+                case Encoding.Json:
+                    var j = JsonConvert.SerializeObject(message);
+                    data = System.Text.Encoding.Default.GetBytes(j);
+                    break;
+                default:
+                    var bf = new BinaryFormatter();
+                    using (var ms = new MemoryStream())
+                    {
+                        bf.Serialize(ms, message);
+                        data = ms.ToArray();
+                    }
+                    break;
+            }
+
+            var msg = new Message(data)
             {
                 ScheduledEnqueueTimeUtc = enqueueAt,
                 ContentType = message.GetType().ToString(),
             };
-            msg.Properties.Add("encoding", (byte)encoding);
+            msg.UserProperties.Add("encoding", (byte)encoding);
 
             await this.Send(msg);
         }

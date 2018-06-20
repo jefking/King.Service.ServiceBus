@@ -2,7 +2,7 @@
 {
     using global::Azure.Data.Wrappers;
     using King.Service.ServiceBus.Wrappers;
-    using Microsoft.ServiceBus.Messaging;
+    using Microsoft.Azure.ServiceBus;
     using NUnit.Framework;
     using System;
     using System.Collections.Generic;
@@ -22,11 +22,11 @@
             var random = new Random();
             name = string.Format("a{0}b", random.Next());
 
-            topic = new BusTopic(name, connection);
-            topic.CreateIfNotExists().Wait();
+            //topic = new BusTopic(name, connection);
+            //topic.CreateIfNotExists().Wait();
 
-            var s = new BusTopicSubscription(topic.Name, connection, "testing");
-            s.CreateIfNotExists().Wait();
+            //var s = new BusTopicSubscription(topic.Name, connection, "testing");
+            //s.CreateIfNotExists().Wait();
         }
 
         [TearDown]
@@ -38,14 +38,16 @@
         [Test]
         public void RegisterForEvents()
         {
-            var c = new BusSubscriptionClient(SubscriptionClient.CreateFromConnectionString(connection, this.topic.Name, "testing"));
-            c.OnMessage((BrokeredMessage msg) => { return Task.Run(() => { }); }, new OnMessageOptions());
+            var c = new BusSubscriptionClient(new SubscriptionClient(connection, this.topic.Name, "testing"));
+            //c.OnMessage((Message msg) => { return Task.Run(() => { }); }, new OnMessageOptions());
+
+            Assert.Fail();
         }
 
         [Test]
         public async Task Send()
         {
-            var msg = new BrokeredMessage();
+            var msg = new Message();
             var bq = new BusTopicClient(name, connection);
             await bq.Send(msg);
         }
@@ -53,7 +55,7 @@
         [Test]
         public async Task SendBatch()
         {
-            var msgs = new BrokeredMessage[] { new BrokeredMessage(), new BrokeredMessage(), new BrokeredMessage(), new BrokeredMessage() };
+            var msgs = new Message[] { new Message(), new Message(), new Message(), new Message() };
             var bq = new BusTopicClient(name, connection);
             await bq.Send(msgs);
         }
@@ -62,14 +64,16 @@
         public async Task Receive()
         {
             var expected = Guid.NewGuid();
-            var msg = new BrokeredMessage(expected);
-            var bq = new BusTopicClient(name, connection);
-            await bq.Send(msg);
+            //var msg = new Message(expected);
+            //var bq = new BusTopicClient(name, connection);
+            //await bq.Send(msg);
 
-            var r = new BusSubscriptionClient(name, connection, "testing");
-            var resultMsg = await r.Recieve(TimeSpan.FromSeconds(10));
-            var result = resultMsg.GetBody<Guid>();
-            Assert.AreEqual(expected, result);
+            //var r = new BusSubscriptionClient(name, connection, "testing");
+            //var resultMsg = await r.Recieve(TimeSpan.FromSeconds(10));
+            //var result = resultMsg.GetBody<Guid>();
+            //Assert.AreEqual(expected, result);
+
+            Assert.Fail();
         }
 
         [Test]
@@ -79,22 +83,24 @@
             var count = random.Next(1, 11);
             var sent = new List<Guid>();
             var bq = new BusTopicClient(name, connection);
-            for (var i = 0; i < count; i++)
-            {
-                var expected = Guid.NewGuid();
-                var msg = new BrokeredMessage(expected);
-                await bq.Send(msg);
-                sent.Add(expected);
-            }
+            //for (var i = 0; i < count; i++)
+            //{
+            //    var expected = Guid.NewGuid();
+            //    var msg = new Message(expected);
+            //    await bq.Send(msg);
+            //    sent.Add(expected);
+            //}
 
-            var r = new BusSubscriptionClient(name, connection, "testing");
+            //var r = new BusSubscriptionClient(name, connection, "testing");
 
-            var got = await r.RecieveBatch(count, TimeSpan.FromSeconds(10));
-            foreach (var msg in got)
-            {
-                var result = msg.GetBody<Guid>();
-                Assert.IsTrue(sent.Contains(result));
-            }
+            //var got = await r.RecieveBatch(count, TimeSpan.FromSeconds(10));
+            //foreach (var msg in got)
+            //{
+            //    var result = msg.GetBody<Guid>();
+            //    Assert.IsTrue(sent.Contains(result));
+            //}
+
+            Assert.Fail();
         }
     }
 }

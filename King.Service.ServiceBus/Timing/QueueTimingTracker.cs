@@ -1,6 +1,7 @@
 ﻿namespace King.Service.ServiceBus.Timing
 {
     using King.Service.Timing;
+    using Microsoft.Azure.ServiceBus;
     using System;
     using System.Diagnostics;
 
@@ -23,7 +24,7 @@
         /// <summary>
         /// Queue
         /// </summary>
-        protected readonly IBusQueue queue = null;
+        protected readonly IQueueClient queue = null;
         #endregion
 
         #region Constructors
@@ -31,7 +32,7 @@
         /// Constructor
         /// </summary>
         /// <param name="queue">Queue</param>
-        public QueueTimingTracker(IBusQueue queue)
+        public QueueTimingTracker(IQueueClient queue)
             : base(TimeSpan.FromMinutes(1), MaxBatchSize)
         {
             if (null == queue)
@@ -54,9 +55,10 @@
         {
             if (this.firstRun)
             {
-                base.maxTime = this.queue.LockDuration().Result;
+                //BUG
+                base.maxTime = TimeSpan.FromMinutes(1);//this.queue.LockDuration().Result;
 
-                Trace.TraceInformation("Lock duration for {0} is {1}.", this.queue.Name, base.maxTime);
+                Trace.TraceInformation("Lock duration for {0} is {1}.", this.queue.QueueName, base.maxTime);
 
                 this.firstRun = false;
             }

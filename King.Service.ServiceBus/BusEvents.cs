@@ -1,9 +1,11 @@
 ﻿namespace King.Service.ServiceBus
 {
+    using Microsoft.Azure.ServiceBus;
+    using Newtonsoft.Json;
     using System;
     using System.Diagnostics;
+    using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.ServiceBus.Messaging;
 
     /// <summary>
     /// Service Bus Event Processing
@@ -76,13 +78,11 @@
         /// </summary>
         public override void Run()
         {
-            var eventDrivenMessagingOptions = new OnMessageOptions
+            var eventDrivenMessagingOptions = new SessionHandlerOptions(this.OnExceptionReceived)
             {
                 AutoComplete = true,
-                MaxConcurrentCalls = concurrentCalls
+                MaxConcurrentSessions = concurrentCalls
             };
-
-            eventDrivenMessagingOptions.ExceptionReceived += OnExceptionReceived;
 
             this.reciever.RegisterForEvents(OnMessageArrived, eventDrivenMessagingOptions);
         }
@@ -92,9 +92,12 @@
         /// </summary>
         /// <param name="message">Brokered Message</param>
         /// <returns>Task</returns>
-        public virtual async Task OnMessageArrived(BrokeredMessage message)
+        public virtual async Task OnMessageArrived(IMessageSession session, Message message, CancellationToken cancel)
         {
-            await this.Process(message.GetBody<T>());
+            var d = message.Body;
+            var j = System.Text.Encoding.Default.GetString(d);
+            var o = JsonConvert.DeserializeObject<T>(j);
+            await this.Process(o);
         }
 
         /// <summary>
@@ -117,15 +120,14 @@
         /// <summary>
         /// Event handler for each time an error occurs.
         /// </summary>
-        /// <param name="sender">Sender</param>
         /// <param name="e">Arguments</param>
-        public virtual void OnExceptionReceived(object sender, ExceptionReceivedEventArgs e)
+        public virtual async Task OnExceptionReceived(ExceptionReceivedEventArgs e)
         {
             if (e != null && e.Exception != null)
             {
-                Trace.TraceError("'{0}' {1}", e.Action, e.Exception.ToString());
+                Trace.TraceError("'{0}' {1}", e.ExceptionReceivedContext.Action, e.Exception.ToString());
 
-                this.handler.OnError(e.Action, e.Exception);
+                await this.handler.OnError(e.ExceptionReceivedContext.Action, e.Exception);
             }
         }
         #endregion

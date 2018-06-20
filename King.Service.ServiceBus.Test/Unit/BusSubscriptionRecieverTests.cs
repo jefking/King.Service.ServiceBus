@@ -1,11 +1,11 @@
 ﻿namespace King.Service.ServiceBus.Test.Unit
 {
-    using System;
-    using System.Threading.Tasks;
-    using Microsoft.ServiceBus.Messaging;
+    using King.Service.ServiceBus.Wrappers;
+    using Microsoft.Azure.ServiceBus;
     using NSubstitute;
     using NUnit.Framework;
-    using King.Service.ServiceBus.Wrappers;
+    using System;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class BusSubscriptionRecieverTests
@@ -33,16 +33,18 @@
         [Test]
         public void RegisterForEvents()
         {
-            Func<BrokeredMessage, Task> callback = (BrokeredMessage msg) => { return Task.Run(() => { }); };
-            var options = new OnMessageOptions();
+            Func<Message, Task> callback = (Message msg) => { return Task.Run(() => { }); };
+            //var options = new OnMessageOptions();
 
-            var client = Substitute.For<IBusReciever>();
-            client.OnMessage(callback, options);
+            //var client = Substitute.For<IBusReciever>();
+            //client.OnMessage(callback, options);
 
-            var bsr = new BusSubscriptionReciever(client);
-            bsr.RegisterForEvents(callback, options);
+            //var bsr = new BusSubscriptionReciever(client);
+            //bsr.RegisterForEvents(callback, options);
 
-            client.Received().OnMessage(callback, options);
+            //client.Received().OnMessage(callback, options);
+
+            Assert.Fail();
         }
     }
 }

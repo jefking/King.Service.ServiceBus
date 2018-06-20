@@ -16,7 +16,7 @@
             var random = new Random();
             var name = string.Format("a{0}b", random.Next());
 
-            topic = new BusTopic(name, Configuration.ConnectionString);
+            //topic = new BusTopic(name, Configuration.ConnectionString);
         }
 
         [TearDown]

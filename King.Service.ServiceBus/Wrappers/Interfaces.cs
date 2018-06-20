@@ -1,9 +1,10 @@
 ﻿namespace King.Service.ServiceBus.Wrappers
 {
+    using Microsoft.Azure.ServiceBus;
     using System;
     using System.Collections.Generic;
+    using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.ServiceBus.Messaging;
 
     #region IBusClient
     /// <summary>
@@ -27,7 +28,7 @@
     /// <summary>
     /// Bus Topic Client Interface
     /// </summary>
-    public interface IBusTopicClient : IBusClient<TopicClient>, IBrokeredMessageSender
+    public interface IBusTopicClient : IBusClient<ITopicClient>, IMessageSender
     {
     }
     #endregion
@@ -36,7 +37,7 @@
     /// <summary>
     /// Bus Queue Client Wrapper
     /// </summary>
-    public interface IBusQueueClient : IBusClient<QueueClient>, IBrokeredMessageSender, IBusReciever
+    public interface IBusQueueClient : IBusClient<IQueueClient>, IMessageSender, IBusReciever
     {
     }
     #endregion
@@ -69,7 +70,7 @@
     /// <summary>
     /// Service Bus Sender
     /// </summary>
-    public interface IBrokeredMessageSender : IBusSender<BrokeredMessage>
+    public interface IMessageSender : IBusSender<Message>
     {
     }
     #endregion
@@ -82,36 +83,12 @@
     {
         #region Methods
         /// <summary>
-        /// Recieve
-        /// </summary>
-        /// <param name="serverWaitTime">Server Wait Time</param>
-        /// <returns>Brokered Message</returns>
-        Task<BrokeredMessage> Recieve(TimeSpan serverWaitTime);
-
-        /// <summary>
-        /// Recieve Batch
-        /// </summary>
-        /// <param name="messageCount">Message Count</param>
-        /// <param name="serverWaitTime">Server Wait Time</param>
-        /// <returns>Brokered Messages</returns>
-        Task<IEnumerable<BrokeredMessage>> RecieveBatch(int messageCount, TimeSpan serverWaitTime);
-
-        /// <summary>
         /// On Message
         /// </summary>
         /// <param name="callback">Call Back</param>
         /// <param name="options">Options</param>
-        void OnMessage(Func<BrokeredMessage, Task> callback, OnMessageOptions options);
+        void OnMessage(Func<IMessageSession, Message, CancellationToken, Task> callback, SessionHandlerOptions options);
         #endregion
-    }
-    #endregion
-
-    #region IHubClient
-    /// <summary>
-    /// Event Hub Client Interface
-    /// </summary>
-    public interface IHubClient : IBusClient<EventHubClient>, IBusSender<EventData>
-    {
     }
     #endregion
 }

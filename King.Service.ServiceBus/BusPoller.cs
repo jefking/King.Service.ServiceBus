@@ -1,10 +1,8 @@
 ﻿namespace King.Service.ServiceBus
 {
     using global::Azure.Data.Wrappers;
-    using King.Service.ServiceBus.Models;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -43,8 +41,9 @@
         /// <returns>Queued Item</returns>
         public virtual async Task<IQueued<T>> Poll()
         {
-            var msg = await this.reciever.Get(this.reciever.ServerWaitTime);
-            return null == msg ? null : new Queued<T>(msg);
+            //var msg = await this.reciever.Get(this.reciever.ServerWaitTime);
+            //return null == msg ? null : new Queued<T>(msg);
+            return null;
         }
 
         /// <summary>
@@ -54,8 +53,9 @@
         /// <returns>Queued Messages</returns>
         public virtual async Task<IEnumerable<IQueued<T>>> PollMany(int messageCount = 5)
         {
-            var msgs = await this.reciever.GetMany(this.reciever.ServerWaitTime, messageCount);
-            return null == msgs || !msgs.Any() ? null : msgs.Select(m => new Queued<T>(m));
+            //var msgs = await this.reciever.GetMany(this.reciever.ServerWaitTime, messageCount);
+            //return null == msgs || !msgs.Any() ? null : msgs.Select(m => new Queued<T>(m));
+            return null;
         }
         #endregion
     }

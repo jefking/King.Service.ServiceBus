@@ -1,13 +1,13 @@
 ﻿namespace King.Service.ServiceBus.Test.Unit
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using King.Service.ServiceBus.Wrappers;
-    using Microsoft.ServiceBus.Messaging;
+    using Microsoft.Azure.ServiceBus;
     using Models;
     using NSubstitute;
     using NUnit.Framework;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class BusMessageSenderTests
@@ -15,14 +15,14 @@
         [Test]
         public void Constructor()
         {
-            var c = Substitute.For<IBrokeredMessageSender>();
+            var c = Substitute.For<IMessageSender>();
             new BusMessageSender(Guid.NewGuid().ToString(), c);
         }
 
         [Test]
         public void ConstructorNameNull()
         {
-            var c = Substitute.For<IBrokeredMessageSender>();
+            var c = Substitute.For<IMessageSender>();
             Assert.That(() => new BusMessageSender(null, c), Throws.TypeOf<ArgumentException>());
         }
 
@@ -35,14 +35,16 @@
         [Test]
         public void IsTransientErrorHandler()
         {
-            var c = Substitute.For<IBrokeredMessageSender>();
-            Assert.IsNotNull(new BusMessageSender(Guid.NewGuid().ToString(), c) as TransientErrorHandler);
+            var c = Substitute.For<IMessageSender>();
+            //Assert.IsNotNull(new BusMessageSender(Guid.NewGuid().ToString(), c) as TransientErrorHandler);
+
+            Assert.Fail();
         }
 
         [Test]
         public void IsIBusMessageSender()
         {
-            var c = Substitute.For<IBrokeredMessageSender>();
+            var c = Substitute.For<IMessageSender>();
             Assert.IsNotNull(new BusMessageSender(Guid.NewGuid().ToString(), c) as IBusMessageSender);
         }
 
@@ -62,17 +64,17 @@
         }
 
         [Test]
-        public void SaveBrokeredMessageNull()
+        public void SaveMessageNull()
         {
             var c = Substitute.For<IBusTopicClient>();
             var queue = new BusMessageSender(Guid.NewGuid().ToString(), c);
-            Assert.That(async () => await queue.Send((BrokeredMessage)null), Throws.TypeOf<ArgumentNullException>());
+            Assert.That(async () => await queue.Send((Message)null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
         public async Task Send()
         {
-            var msg = new BrokeredMessage();
+            var msg = new Message();
 
             var client = Substitute.For<IBusTopicClient>();
             await client.Send(msg);
@@ -86,7 +88,7 @@
         [Test]
         public async Task SendBinary()
         {
-            var msg = new BrokeredMessage();
+            var msg = new Message();
 
             var client = Substitute.For<IBusTopicClient>();
             client.Send(msg);
@@ -103,12 +105,12 @@
             var msg = new object();
 
             var client = Substitute.For<IBusTopicClient>();
-            client.Send(Arg.Any<BrokeredMessage>());
+            client.Send(Arg.Any<Message>());
 
             var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
             await q.Send(msg);
 
-            client.Received().Send(Arg.Any<BrokeredMessage>());
+            client.Received().Send(Arg.Any<Message>());
         }
 
         [Test]
@@ -117,18 +119,18 @@
             var msg = new object();
 
             var client = Substitute.For<IBusTopicClient>();
-            client.Send(Arg.Any<BrokeredMessage>());
+            client.Send(Arg.Any<Message>());
 
             var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
             await q.Send(msg, Encoding.Binary);
 
-            client.Received().Send(Arg.Any<BrokeredMessage>());
+            client.Received().Send(Arg.Any<Message>());
         }
 
         [Test]
-        public async Task SendBrokeredMessageAsObject()
+        public async Task SendMessageAsObject()
         {
-            var msg = new BrokeredMessage();
+            var msg = new Message();
 
             var client = Substitute.For<IBusTopicClient>();
             client.Send(msg);
@@ -140,9 +142,9 @@
         }
 
         [Test]
-        public async Task SendBrokeredMessageAsObjectAsBinary()
+        public async Task SendMessageAsObjectAsBinary()
         {
-            var msg = new BrokeredMessage();
+            var msg = new Message();
 
             var client = Substitute.For<IBusTopicClient>();
             client.Send(msg);
@@ -157,43 +159,47 @@
         public void HandleTransientError()
         {
             this.exception = null;
-            var ex = new MessagingException("hahaha");
+            //var ex = new MessagingException("hahaha");
 
-            var c = Substitute.For<IBusTopicClient>();
+            //var c = Substitute.For<IBusTopicClient>();
 
-            var bq = new BusMessageSender(Guid.NewGuid().ToString(), c);
-            bq.TransientErrorOccured += this.Error;
-            bq.HandleTransientError(ex);
+            //var bq = new BusMessageSender(Guid.NewGuid().ToString(), c);
+            //bq.TransientErrorOccured += this.Error;
+            //bq.HandleTransientError(ex);
 
-            Assert.AreEqual(ex, this.exception);
+            //Assert.AreEqual(ex, this.exception);
+
+            Assert.Fail();
         }
 
         [Test]
         public void HandleTransientErrorNull()
         {
             this.exception = null;
-            var ex = new MessagingException("hahaha");
+            //var ex = new MessagingException("hahaha");
 
-            var c = Substitute.For<IBusTopicClient>();
+            //var c = Substitute.For<IBusTopicClient>();
 
-            var bq = new BusMessageSender(Guid.NewGuid().ToString(), c);
-            bq.TransientErrorOccured += this.Error;
-            bq.HandleTransientError(null);
+            //var bq = new BusMessageSender(Guid.NewGuid().ToString(), c);
+            //bq.TransientErrorOccured += this.Error;
+            //bq.HandleTransientError(null);
 
             Assert.IsNull(this.exception);
+
+            Assert.Fail();
         }
 
         Exception exception = null;
 
-        private void Error(object obj, TransientErrorArgs args)
-        {
-            this.exception = args.Exception;
-        }
+        //private void Error(object obj, TransientErrorArgs args)
+        //{
+        //    this.exception = args.Exception;
+        //}
 
         [Test]
         public void SendThrows()
         {
-            var msg = new BrokeredMessage();
+            var msg = new Message();
 
             var client = Substitute.For<IBusTopicClient>();
             client.When(c => c.Send(msg)).Do(x => { throw new Exception(); });
@@ -205,19 +211,21 @@
         [Test]
         public void SendThrowsMessagingException()
         {
-            var msg = new BrokeredMessage();
+            var msg = new Message();
 
-            var first = true;
-            var client = Substitute.For<IBusTopicClient>();
-            client.When(c => c.Send(msg)).Do(x =>
-            {
-                var tmp = first;
-                first = false;
-                throw new MessagingException(Guid.NewGuid().ToString(), tmp, new Exception());
-            });
+            //var first = true;
+            //var client = Substitute.For<IBusTopicClient>();
+            //client.When(c => c.Send(msg)).Do(x =>
+            //{
+            //    var tmp = first;
+            //    first = false;
+            //    throw new MessagingException(Guid.NewGuid().ToString(), tmp, new Exception());
+            //});
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
-            Assert.That(async () => await q.Send(msg), Throws.TypeOf<MessagingException>());
+            //var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            //Assert.That(async () => await q.Send(msg), Throws.TypeOf<MessagingException>());
+
+            Assert.Fail();
         }
 
         [Test]
@@ -234,67 +242,67 @@
             var client = Substitute.For<IBusQueueClient>();
 
             var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
-            Assert.That(async () => await q.Send((IEnumerable<BrokeredMessage>)null), Throws.TypeOf<ArgumentNullException>());
+            Assert.That(async () => await q.Send((IEnumerable<Message>)null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
-        public async Task SendBatchObjAsBrokeredMessage()
+        public async Task SendBatchObjAsMessage()
         {
             var msg = new List<object>();
             msg.Add(new object());
 
             var client = Substitute.For<IBusQueueClient>();
-            client.Send(Arg.Any<IEnumerable<BrokeredMessage>>());
+            client.Send(Arg.Any<IEnumerable<Message>>());
 
             var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
             await q.Send(msg);
 
-            client.Received().Send(Arg.Any<IEnumerable<BrokeredMessage>>());
+            client.Received().Send(Arg.Any<IEnumerable<Message>>());
         }
 
         [Test]
-        public async Task SendBatchObjAsBrokeredMessageBinary()
+        public async Task SendBatchObjAsMessageBinary()
         {
             var msg = new List<object>();
             msg.Add(new object());
 
             var client = Substitute.For<IBusQueueClient>();
-            client.Send(Arg.Any<IEnumerable<BrokeredMessage>>());
+            client.Send(Arg.Any<IEnumerable<Message>>());
 
             var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
             await q.Send(msg, Encoding.Binary);
 
-            client.Received().Send(Arg.Any<IEnumerable<BrokeredMessage>>());
+            client.Received().Send(Arg.Any<IEnumerable<Message>>());
         }
 
         [Test]
         public async Task SendObjBatch()
         {
-            var msg = new List<BrokeredMessage>();
-            msg.Add(new BrokeredMessage());
+            var msg = new List<Message>();
+            msg.Add(new Message());
 
             var client = Substitute.For<IBusQueueClient>();
-            client.Send(Arg.Any<IEnumerable<BrokeredMessage>>());
+            client.Send(Arg.Any<IEnumerable<Message>>());
 
             var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
             await q.Send((IEnumerable<object>)msg);
 
-            client.Received().Send(Arg.Any<IEnumerable<BrokeredMessage>>());
+            client.Received().Send(Arg.Any<IEnumerable<Message>>());
         }
 
         [Test]
         public async Task SendObjBatchBinary()
         {
-            var msg = new List<BrokeredMessage>();
-            msg.Add(new BrokeredMessage());
+            var msg = new List<Message>();
+            msg.Add(new Message());
 
             var client = Substitute.For<IBusQueueClient>();
-            client.Send(Arg.Any<IEnumerable<BrokeredMessage>>());
+            client.Send(Arg.Any<IEnumerable<Message>>());
 
             var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
             await q.Send((IEnumerable<object>)msg, Encoding.Binary);
 
-            client.Received().Send(Arg.Any<IEnumerable<BrokeredMessage>>());
+            client.Received().Send(Arg.Any<IEnumerable<Message>>());
         }
 
         [Test]
@@ -310,31 +318,31 @@
         public async Task SendForBuffer()
         {
             var client = Substitute.For<IBusQueueClient>();
-            client.Send(Arg.Any<BrokeredMessage>());
+            client.Send(Arg.Any<Message>());
 
             var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
             await q.Send(new BufferedMessage() { ReleaseAt = DateTime.UtcNow });
 
-            client.Received().Send(Arg.Any<BrokeredMessage>());
+            client.Received().Send(Arg.Any<Message>());
         }
 
         [Test]
         public async Task SendForBufferBinary()
         {
             var client = Substitute.For<IBusQueueClient>();
-            client.Send(Arg.Any<BrokeredMessage>());
+            client.Send(Arg.Any<Message>());
 
             var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
             await q.Send(new BufferedMessage() { ReleaseAt = DateTime.UtcNow }, Encoding.Binary);
 
-            client.Received().Send(Arg.Any<BrokeredMessage>());
+            client.Received().Send(Arg.Any<Message>());
         }
 
         [Test]
         public void SendBatchThrows()
         {
-            var msg = new List<BrokeredMessage>();
-            msg.Add(new BrokeredMessage());
+            var msg = new List<Message>();
+            msg.Add(new Message());
 
             var client = Substitute.For<IBusQueueClient>();
             client.When(c => c.Send(msg)).Do(x => { throw new Exception(); });
@@ -350,7 +358,7 @@
             msg.Add(new object());
 
             var client = Substitute.For<IBusQueueClient>();
-            client.When(c => c.Send(Arg.Any<IEnumerable<BrokeredMessage>>())).Do(x => { throw new Exception(); });
+            client.When(c => c.Send(Arg.Any<IEnumerable<Message>>())).Do(x => { throw new Exception(); });
 
             var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
             Assert.That(async () => await q.Send(msg), Throws.TypeOf<Exception>());
@@ -359,20 +367,22 @@
         [Test]
         public void SendBatchThrowsMessagingException()
         {
-            var msgs = new List<BrokeredMessage>();
-            msgs.Add(new BrokeredMessage());
+            var msgs = new List<Message>();
+            msgs.Add(new Message());
 
             var first = true;
             var client = Substitute.For<IBusQueueClient>();
-            client.When(c => c.Send(msgs)).Do(x =>
-            {
-                var tmp = first;
-                first = false;
-                throw new MessagingException(Guid.NewGuid().ToString(), tmp, new Exception());
-            });
+            //client.When(c => c.Send(msgs)).Do(x =>
+            //{
+            //    var tmp = first;
+            //    first = false;
+            //    throw new MessagingException(Guid.NewGuid().ToString(), tmp, new Exception());
+            //});
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
-            Assert.That(async () => await q.Send(msgs), Throws.TypeOf<MessagingException>());
+            //var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            //Assert.That(async () => await q.Send(msgs), Throws.TypeOf<MessagingException>());
+
+            Assert.Fail();
         }
 
         [Test]
@@ -395,12 +405,12 @@
         public async Task SendBuffered()
         {
             var client = Substitute.For<IBusQueueClient>();
-            client.Send(Arg.Any<BrokeredMessage>());
+            client.Send(Arg.Any<Message>());
 
             var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
             await q.SendBuffered(new object(), DateTime.UtcNow);
 
-            client.Received().Send(Arg.Any<BrokeredMessage>());
+            client.Received().Send(Arg.Any<Message>());
         }
 
         [Test]

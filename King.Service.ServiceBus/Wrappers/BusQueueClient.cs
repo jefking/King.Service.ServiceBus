@@ -1,8 +1,10 @@
 ﻿namespace King.Service.ServiceBus.Wrappers
 {
-    using Microsoft.ServiceBus.Messaging;
+    using Microsoft.Azure.ServiceBus;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -14,7 +16,7 @@
         /// <summary>
         /// Queue Client
         /// </summary>
-        protected readonly QueueClient client = null;
+        protected readonly IQueueClient client = null;
 
         /// <summary>
         /// Encoding Property Key
@@ -29,7 +31,7 @@
         /// <param name="name">Name</param>
         /// <param name="connection">Connetion</param>
         public BusQueueClient(string name, string connection)
-            : this(QueueClient.CreateFromConnectionString(connection, name))
+            : this(new QueueClient(connection, name))
         {
         }
 
@@ -37,7 +39,7 @@
         /// Constructor
         /// </summary>
         /// <param name="client">Queue Client</param>
-        public BusQueueClient(QueueClient client)
+        public BusQueueClient(IQueueClient client)
         {
             if (null == client)
             {
@@ -52,7 +54,7 @@
         /// <summary>
         /// Queue Client
         /// </summary>
-        public virtual QueueClient Client
+        public virtual IQueueClient Client
         {
             get
             {
@@ -67,7 +69,7 @@
         /// </summary>
         /// <param name="message">Message</param>
         /// <returns>Task</returns>
-        public virtual async Task Send(BrokeredMessage message)
+        public virtual async Task Send(Message message)
         {
             await this.client.SendAsync(message);
         }
@@ -77,30 +79,10 @@
         /// </summary>
         /// <param name="message">Messages</param>
         /// <returns>Task</returns>
-        public virtual async Task Send(IEnumerable<BrokeredMessage> messages)
+        public virtual async Task Send(IEnumerable<Message> messages)
         {
-            await this.client.SendBatchAsync(messages);
-        }
-
-        /// <summary>
-        /// Recieve
-        /// </summary>
-        /// <param name="serverWaitTime">Server Wait Time</param>
-        /// <returns>Brokered Message</returns>
-        public virtual async Task<BrokeredMessage> Recieve(TimeSpan serverWaitTime)
-        {
-            return await this.client.ReceiveAsync(serverWaitTime);
-        }
-
-        /// <summary>
-        /// Recieve Batch
-        /// </summary>
-        /// <param name="messageCount">Message Count</param>
-        /// <param name="serverWaitTime">Server Wait Time</param>
-        /// <returns>Brokered Messages</returns>
-        public virtual async Task<IEnumerable<BrokeredMessage>> RecieveBatch(int messageCount, TimeSpan serverWaitTime)
-        {
-            return await this.client.ReceiveBatchAsync(messageCount, serverWaitTime);
+            //safety on messages
+            await this.client.SendAsync(messages.ToList());
         }
 
         /// <summary>
@@ -108,9 +90,9 @@
         /// </summary>
         /// <param name="callback">Call Back</param>
         /// <param name="options">Options</param>
-        public virtual void OnMessage(Func<BrokeredMessage, Task> callback, OnMessageOptions options)
+        public virtual void OnMessage(Func<IMessageSession, Message, CancellationToken, Task> callback, SessionHandlerOptions options)
         {
-            this.client.OnMessageAsync(callback, options);
+            this.client.RegisterSessionHandler(callback, options);
         }
         #endregion
     }
