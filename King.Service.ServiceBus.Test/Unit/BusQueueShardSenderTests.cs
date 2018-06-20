@@ -105,23 +105,25 @@
             var random = new Random();
             var i = random.Next(1, byte.MaxValue);
             var qs = new List<ISenderClient>();
-            for (var j = 0; j < i; j++)
-            {
-                var q = Substitute.For<ISenderClient>();
-                var r = Substitute.For<IAzureStorage>();
-                r.CreateIfNotExists().Returns(Task.FromResult(true));
-                q.Resource.Returns(r);
-                qs.Add(q);
-            }
-            var sqs = new BusQueueShardSender(qs.ToArray());
+            //for (var j = 0; j < i; j++)
+            //{
+            //    var q = Substitute.For<ISenderClient>();
+            //    var r = Substitute.For<IAzureStorage>();
+            //    r.CreateIfNotExists().Returns(Task.FromResult(true));
+            //    q.Resource.Returns(r);
+            //    qs.Add(q);
+            //}
+            //var sqs = new BusQueueShardSender(qs.ToArray());
 
-            var success = await sqs.CreateIfNotExists();
-            Assert.IsTrue(success);
+            //var success = await sqs.CreateIfNotExists();
+            //Assert.IsTrue(success);
 
-            foreach (var q in qs)
-            {
-                await q.Resource.Received().CreateIfNotExists();
-            }
+            //foreach (var q in qs)
+            //{
+            //    await q.Resource.Received().CreateIfNotExists();
+            //}
+            
+            Assert.Fail();
         }
 
         [Test]
@@ -130,22 +132,24 @@
             var random = new Random();
             var i = random.Next(1, byte.MaxValue);
             var qs = new List<ISenderClient>();
-            for (var j = 0; j < i; j++)
-            {
-                var q = Substitute.For<ISenderClient>();
-                var r = Substitute.For<IAzureStorage>();
-                r.Delete().Returns(Task.FromResult(true));
-                q.Resource.Returns(r);
-                qs.Add(q);
-            }
-            var sqs = new BusQueueShardSender(qs.ToArray());
+            //for (var j = 0; j < i; j++)
+            //{
+            //    var q = Substitute.For<ISenderClient>();
+            //    var r = Substitute.For<IAzureStorage>();
+            //    r.Delete().Returns(Task.FromResult(true));
+            //    q.Resource.Returns(r);
+            //    qs.Add(q);
+            //}
+            //var sqs = new BusQueueShardSender(qs.ToArray());
 
-            await sqs.Delete();
+            //await sqs.Delete();
 
-            foreach (var q in qs)
-            {
-                await q.Resource.Received().Delete();
-            }
+            //foreach (var q in qs)
+            //{
+            //    await q.Resource.Received().Delete();
+            //}
+
+            Assert.Fail();
         }
 
         [Test]
@@ -157,30 +161,32 @@
 
             var msg = new object();
             var qs = new List<ISenderClient>();
-            for (var j = 0; j < i; j++)
-            {
-                var q = Substitute.For<ISenderClient>();
-                var s = Substitute.For<IBusMessageSender>();
-                s.Send(msg).Returns(Task.CompletedTask);
-                q.Sender.Returns(s);
-                qs.Add(q);
-            }
+            //for (var j = 0; j < i; j++)
+            //{
+            //    var q = Substitute.For<ISenderClient>();
+            //    var s = Substitute.For<IBusMessageSender>();
+            //    s.Send(msg).Returns(Task.CompletedTask);
+            //    q.Sender.Returns(s);
+            //    qs.Add(q);
+            //}
 
-            var sqs = new BusQueueShardSender(qs);
+            //var sqs = new BusQueueShardSender(qs);
 
-            await sqs.Save(msg, (byte)index);
+            //await sqs.Save(msg, (byte)index);
 
-            for (var j = 0; j < i; j++)
-            {
-                if (j == index)
-                {
-                    await qs[j].Sender.Received().Send(msg);
-                }
-                else
-                {
-                    await qs[j].Sender.DidNotReceive().Send(msg);
-                }
-            }
+            //for (var j = 0; j < i; j++)
+            //{
+            //    if (j == index)
+            //    {
+            //        await qs[j].Sender.Received().Send(msg);
+            //    }
+            //    else
+            //    {
+            //        await qs[j].Sender.DidNotReceive().Send(msg);
+            //    }
+            //}
+
+            Assert.Fail();
         }
 
         [Test]
