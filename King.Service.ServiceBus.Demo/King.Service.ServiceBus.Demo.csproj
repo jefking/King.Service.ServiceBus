@@ -3,9 +3,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <StartupObject>King.Service.ServiceBus.Test.Program</StartupObject>
-    <AssemblyVersion>3.0.0.0</AssemblyVersion>
-    <FileVersion>3.0.0.0</FileVersion>
+    <StartupObject>King.Service.ServiceBus.Demo.Program</StartupObject>
+    <ApplicationIcon />
     <PackageLicenseUrl>https://github.com/jefking/King.Service.ServiceBus/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/jefking/King.Service.ServiceBus</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/jefking/King.Service.ServiceBus/master/icon.png</PackageIconUrl>
@@ -15,11 +14,6 @@
     <Company />
     <Product />
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="NSubstitute" Version="3.1.0" />
-    <PackageReference Include="NUnitLite" Version="3.10.1" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\King.Service.ServiceBus\King.Service.ServiceBus.csproj" />
