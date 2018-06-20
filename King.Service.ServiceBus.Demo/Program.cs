@@ -1,12 +1,27 @@
-﻿using System;
-
-namespace King.Service.ServiceBus.Demo
+﻿namespace King.Service.ServiceBus.Demo
 {
-    class Program
+    using System.Threading;
+
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var config = new AppConfig()
+            {
+                ConnectionString = "",
+            };
+
+            using (var manager = new RoleTaskManager<AppConfig>(new TaskFactory()))
+            {
+                manager.OnStart(config);
+
+                manager.Run();
+
+                while (true)
+                {
+                    Thread.Sleep(1500);
+                }
+            }
         }
     }
 }
