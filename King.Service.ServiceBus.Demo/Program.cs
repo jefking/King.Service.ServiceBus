@@ -10,6 +10,7 @@
             var config = new AppConfig()
             {
                 ConnectionString = "",
+                QueueName = "Company"
             };
 
             // Start tasks
