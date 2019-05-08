@@ -14,7 +14,7 @@
     <PackageReleaseNotes>.NET Standard</PackageReleaseNotes>
     <PackageIconUrl>https://raw.githubusercontent.com/jefking/King.Service.ServiceBus/master/icon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/jefking/King.Service.ServiceBus</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/jefking/King.Service.ServiceBus/blob/master/LICENSE</PackageLicenseUrl>
+    <license>https://github.com/jefking/King.Service.ServiceBus/blob/master/LICENSE</license>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
