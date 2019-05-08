@@ -5,6 +5,8 @@ namespace King.Service.ServiceBus.Test.Unit
     using NSubstitute;
     using NUnit.Framework;
     using System;
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
@@ -60,19 +62,23 @@ namespace King.Service.ServiceBus.Test.Unit
         [Test]
         public async Task OnMessageArrived()
         {
-            var raw = "{}";
-            var data = System.Text.Encoding.UTF8.GetBytes(raw);
-            var msg = new Message(data);
-            var queue = Substitute.For<IBusMessageReciever>();
-            var handler = Substitute.For<IBusEventHandler<string>>();
-            handler.Process(raw).Returns(Task.FromResult(true));
-            var session = Substitute.For<IMessageSession>();
-            var ct = new CancellationToken();
+            var formatter = new BinaryFormatter();
+            using (var stream = new MemoryStream())
+            {
+                var data = Guid.NewGuid();
+                formatter.Serialize(stream, data);
+                var msg = new Message(stream.ToArray());
+                var queue = Substitute.For<IBusMessageReciever>();
+                var handler = Substitute.For<IBusEventHandler<Guid>>();
+                handler.Process(data).Returns(Task.FromResult(true));
+                var session = Substitute.For<IMessageSession>();
+                var ct = new CancellationToken();
 
-            var events = new BusEvents<string>(queue, handler);
-            await events.OnMessageArrived(session, msg, ct);
+                var events = new BusEvents<Guid>(queue, handler);
+                await events.OnMessageArrived(session, msg, ct);
 
-            await handler.Received().Process(raw);
+                await handler.Received().Process(data);
+            }
         }
 
         [Test]

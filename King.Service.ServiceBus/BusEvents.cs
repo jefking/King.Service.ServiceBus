@@ -1,6 +1,7 @@
 namespace King.Service.ServiceBus
 {
     using Microsoft.Azure.ServiceBus;
+    using King.Service.ServiceBus.Models;
     using Newtonsoft.Json;
     using System;
     using System.Diagnostics;
@@ -94,10 +95,9 @@ namespace King.Service.ServiceBus
         /// <returns>Task</returns>
         public virtual async Task OnMessageArrived(IMessageSession session, Message message, CancellationToken cancel)
         {
-            var d = message.Body;
-            var j = System.Text.Encoding.Default.GetString(d);
-            var o = JsonConvert.DeserializeObject<T>(j);
-            await this.Process(o);
+            var queued = new Queued<T>(message);
+            var data = await queued.Data();
+            await this.Process(data);
         }
 
         /// <summary>
