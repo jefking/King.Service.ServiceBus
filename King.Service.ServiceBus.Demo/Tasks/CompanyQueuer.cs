@@ -11,12 +11,12 @@ namespace King.Service.ServiceBus.Demo.Tasks
     public class CompanyQueuer : RecurringTask
     {
         private int id = 0;
-        private readonly IStorageQueue queue = null;
+        private readonly IBusMessageSender queue = null;
 
         public CompanyQueuer(string name, string connection)
             :base(5)
         {
-            this.queue = new StorageQueue(name, connection);
+            this.queue = new BusMessageSender(name, new Wrappers.BusQueueClient(name, connection));
         }
 
         public override void Run()
