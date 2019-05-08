@@ -9,7 +9,7 @@
         {
             yield return new CompanyQueuer(config.QueueName, config.ConnectionString);
 
-            yield return new RecurringRunner(new CompanyDequeuer(config.QueueName, config.ConnectionString));
+            //yield return new RecurringRunner(new CompanyDequeuer(config.QueueName, config.ConnectionString));
         }
     }
 }
