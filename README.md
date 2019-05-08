@@ -13,7 +13,7 @@
 PM> Install-Package King.Service.ServiceBus
 ```
 
-## [(Demo Container)](https://hub.docker.com/r/jefking/king.service.servicebus.demo)
+## [Demo Container](https://hub.docker.com/r/jefking/king.service.servicebus.demo)
 Create Azure Service Bus
 
 ### Pull
