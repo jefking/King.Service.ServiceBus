@@ -23,7 +23,7 @@ docker pull jefking/king.service.servicebus.demo
 
 ### Run
 ```
-docker run -it jefking/king.service.servicebus.demo <YOUR STORAGE ACCOUNT CONNECTION>
+docker run -it jefking/king.service.servicebus.demo <YOUR CONNECTION STRING>
 ```
 
 ## CI
