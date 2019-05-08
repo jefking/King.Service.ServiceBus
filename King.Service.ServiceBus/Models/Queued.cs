@@ -28,7 +28,7 @@
         /// <summary>
         /// Cached
         /// </summary>
-        protected bool cached = false;
+        protected volatile bool cached = false;
         #endregion
 
         #region Constructors

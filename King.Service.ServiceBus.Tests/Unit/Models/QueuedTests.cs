@@ -62,14 +62,14 @@
         [Test]
         public async Task OnMessageArrivedBinary()
         {
-            var data = Guid.NewGuid();
-            var msg = new Message(data.ToByteArray())
+            var data = Guid.NewGuid().ToByteArray();
+            var msg = new Message(data)
             {
                 ContentType = data.GetType().ToString(),
             };
             msg.UserProperties.Add(BusQueueClient.EncodingKey, Encoding.Binary);
 
-            var queue = new Queued<Guid>(msg);
+            var queue = new Queued<byte[]>(msg);
             var result = await queue.Data();
 
             Assert.AreEqual(result, data);
