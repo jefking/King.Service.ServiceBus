@@ -33,15 +33,6 @@
         }
 
         [Test]
-        public void IsTransientErrorHandler()
-        {
-            var c = Substitute.For<IMessageSender>();
-            //Assert.IsNotNull(new BusMessageSender(Guid.NewGuid().ToString(), c) as TransientErrorHandler);
-
-            Assert.Fail();
-        }
-
-        [Test]
         public void IsIBusMessageSender()
         {
             var c = Substitute.For<IMessageSender>();
@@ -154,48 +145,7 @@
 
             client.Received().Send(msg);
         }
-
-        [Test]
-        public void HandleTransientError()
-        {
-            this.exception = null;
-            //var ex = new MessagingException("hahaha");
-
-            //var c = Substitute.For<IBusTopicClient>();
-
-            //var bq = new BusMessageSender(Guid.NewGuid().ToString(), c);
-            //bq.TransientErrorOccured += this.Error;
-            //bq.HandleTransientError(ex);
-
-            //Assert.AreEqual(ex, this.exception);
-
-            Assert.Fail();
-        }
-
-        [Test]
-        public void HandleTransientErrorNull()
-        {
-            this.exception = null;
-            //var ex = new MessagingException("hahaha");
-
-            //var c = Substitute.For<IBusTopicClient>();
-
-            //var bq = new BusMessageSender(Guid.NewGuid().ToString(), c);
-            //bq.TransientErrorOccured += this.Error;
-            //bq.HandleTransientError(null);
-
-            Assert.IsNull(this.exception);
-
-            Assert.Fail();
-        }
-
-        Exception exception = null;
-
-        //private void Error(object obj, TransientErrorArgs args)
-        //{
-        //    this.exception = args.Exception;
-        //}
-
+        
         [Test]
         public void SendThrows()
         {
@@ -213,19 +163,17 @@
         {
             var msg = new Message();
 
-            //var first = true;
-            //var client = Substitute.For<IBusTopicClient>();
-            //client.When(c => c.Send(msg)).Do(x =>
-            //{
-            //    var tmp = first;
-            //    first = false;
-            //    throw new MessagingException(Guid.NewGuid().ToString(), tmp, new Exception());
-            //});
+            var first = true;
+            var client = Substitute.For<IBusTopicClient>();
+            client.When(c => c.Send(msg)).Do(x =>
+            {
+                var tmp = first;
+                first = false;
+                throw new Exception();
+            });
 
-            //var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
-            //Assert.That(async () => await q.Send(msg), Throws.TypeOf<MessagingException>());
-
-            Assert.Fail();
+            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            Assert.That(async () => await q.Send(msg), Throws.TypeOf<Exception>());
         }
 
         [Test]
@@ -372,15 +320,15 @@
 
             var first = true;
             var client = Substitute.For<IBusQueueClient>();
-            //client.When(c => c.Send(msgs)).Do(x =>
-            //{
-            //    var tmp = first;
-            //    first = false;
-            //    throw new MessagingException(Guid.NewGuid().ToString(), tmp, new Exception());
-            //});
+            client.When(c => c.Send(msgs)).Do(x =>
+            {
+                var tmp = first;
+                first = false;
+                throw new Exception();
+            });
 
-            //var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
-            //Assert.That(async () => await q.Send(msgs), Throws.TypeOf<MessagingException>());
+            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            Assert.That(async () => await q.Send(msgs), Throws.TypeOf<Exception>());
 
             Assert.Fail();
         }

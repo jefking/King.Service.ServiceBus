@@ -6,6 +6,7 @@
     using NUnit.Framework;
     using System;
     using System.Collections.Generic;
+    using System.Threading;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -39,7 +40,7 @@
         public void RegisterForEvents()
         {
             var c = new BusSubscriptionClient(new SubscriptionClient(connection, this.topic.Name, "testing"));
-            //c.OnMessage((Message msg) => { return Task.Run(() => { }); }, new OnMessageOptions());
+            c.OnMessage((IMessageSession ms, Message m, CancellationToken ct) => { return Task.Run(() => { }); }, new SessionHandlerOptions(null));
 
             Assert.Fail();
         }
@@ -63,10 +64,10 @@
         [Test]
         public async Task Receive()
         {
-            var expected = Guid.NewGuid();
-            //var msg = new Message(expected);
-            //var bq = new BusTopicClient(name, connection);
-            //await bq.Send(msg);
+            var expected = Guid.NewGuid().ToByteArray();
+            var msg = new Message(expected);
+            var bq = new BusTopicClient(name, connection);
+            await bq.Send(msg);
 
             //var r = new BusSubscriptionClient(name, connection, "testing");
             //var resultMsg = await r.Recieve(TimeSpan.FromSeconds(10));
@@ -81,15 +82,15 @@
         {
             var random = new Random();
             var count = random.Next(1, 11);
-            var sent = new List<Guid>();
+            var sent = new List<byte[]>();
             var bq = new BusTopicClient(name, connection);
-            //for (var i = 0; i < count; i++)
-            //{
-            //    var expected = Guid.NewGuid();
-            //    var msg = new Message(expected);
-            //    await bq.Send(msg);
-            //    sent.Add(expected);
-            //}
+            for (var i = 0; i < count; i++)
+            {
+               var expected = Guid.NewGuid().ToByteArray();
+               var msg = new Message(expected);
+               await bq.Send(msg);
+               sent.Add(expected);
+            }
 
             //var r = new BusSubscriptionClient(name, connection, "testing");
 

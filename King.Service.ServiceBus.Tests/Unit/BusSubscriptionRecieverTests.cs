@@ -5,6 +5,7 @@
     using NSubstitute;
     using NUnit.Framework;
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -33,18 +34,16 @@
         [Test]
         public void RegisterForEvents()
         {
-            Func<Message, Task> callback = (Message msg) => { return Task.Run(() => { }); };
-            //var options = new OnMessageOptions();
+            Func<IMessageSession, Message, CancellationToken, Task> callback = (IMessageSession ms, Message m, CancellationToken ct) => { return Task.Run(() => { }); };
+            var options = new SessionHandlerOptions(null);
 
-            //var client = Substitute.For<IBusReciever>();
-            //client.OnMessage(callback, options);
+            var client = Substitute.For<IBusReciever>();
+            client.OnMessage(callback, options);
 
-            //var bsr = new BusSubscriptionReciever(client);
-            //bsr.RegisterForEvents(callback, options);
+            var bsr = new BusSubscriptionReciever(client);
+            bsr.RegisterForEvents(callback, options);
 
-            //client.Received().OnMessage(callback, options);
-
-            Assert.Fail();
+            client.Received().OnMessage(callback, options);
         }
     }
 }

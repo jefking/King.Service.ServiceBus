@@ -87,7 +87,7 @@
         /// <param name="enqueueAt">Schedule for Enqueue</param>
         /// <param name="offset">Offset</param>
         /// <returns>Task</returns>
-        Task SendBuffered(object data, DateTime releaseAt, sbyte offset = BusQueueSender.BufferedOffset);
+        Task SendBuffered(object data, DateTime releaseAt, sbyte offset = -6);
         #endregion
     }
     #endregion
