@@ -5,6 +5,7 @@ namespace King.Service.ServiceBus.Test.Unit
     using NSubstitute;
     using NUnit.Framework;
     using System;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -59,21 +60,19 @@ namespace King.Service.ServiceBus.Test.Unit
         [Test]
         public async Task OnMessageArrived()
         {
-            var data = Guid.NewGuid().ToByteArray();
-            var msg = new Message(data)
-            {
-               ContentType = data.GetType().ToString(),
-            };
+            var raw = "{}";
+            var data = System.Text.Encoding.UTF8.GetBytes(raw);
+            var msg = new Message(data);
             var queue = Substitute.For<IBusMessageReciever>();
-            var handler = Substitute.For<IBusEventHandler<byte[]>>();
-            handler.Process(data).Returns(Task.FromResult(true));
+            var handler = Substitute.For<IBusEventHandler<string>>();
+            handler.Process(raw).Returns(Task.FromResult(true));
             var session = Substitute.For<IMessageSession>();
             var ct = new CancellationToken();
 
-            var events = new BusEvents<byte[]>(queue, handler);
+            var events = new BusEvents<string>(queue, handler);
             await events.OnMessageArrived(session, msg, ct);
 
-            await handler.Received().Process(data);
+            await handler.Received().Process(raw);
         }
 
         [Test]
