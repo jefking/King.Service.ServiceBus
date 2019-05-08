@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFrameworks>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <PackageLicenseUrl>https://github.com/jefking/King.Service.ServiceBus/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/jefking/King.Service.ServiceBus</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/jefking/King.Service.ServiceBus/master/icon.png</PackageIconUrl>
