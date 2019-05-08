@@ -5,6 +5,7 @@ namespace King.Service.ServiceBus.Models
     /// <summary>
     /// Buffered Message
     /// </summary>
+    [Serializable]
     public class BufferedMessage : IBufferedMessage
     {
         #region Properties
