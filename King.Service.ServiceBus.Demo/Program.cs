@@ -18,7 +18,7 @@
             var config = new AppConfig
             {
                 ConnectionString = args[0],
-                QueueName = "Company"
+                QueueName = "company"
             };
 
             Trace.TraceInformation("Connection String: {0}", config.ConnectionString);
