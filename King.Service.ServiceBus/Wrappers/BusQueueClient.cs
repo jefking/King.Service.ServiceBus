@@ -81,7 +81,6 @@ namespace King.Service.ServiceBus.Wrappers
         /// <returns>Task</returns>
         public virtual async Task Send(IEnumerable<Message> messages)
         {
-            //safety on messages
             await this.client.SendAsync(messages.ToList());
         }
 
