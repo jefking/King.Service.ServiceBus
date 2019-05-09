@@ -8,11 +8,8 @@
     {
         public static void Main(string[] args)
         {
+            // Write out standard out
             Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
-            foreach (var arg in args)
-            {
-                Trace.TraceInformation("arg: {0}", arg);
-            }
 
             // Load Config
             var config = new AppConfig
@@ -20,8 +17,6 @@
                 ConnectionString = args[0],
                 QueueName = "company"
             };
-
-            Trace.TraceInformation("Connection String: {0}", config.ConnectionString);
 
             // Start tasks
             using (var manager = new RoleTaskManager<AppConfig>(new TaskFactory()))

@@ -13,7 +13,7 @@ namespace King.Service.ServiceBus.Demo.Processors
     {
         public Task<bool> Process(CompanyModel data)
         {
-            Trace.TraceInformation("Take action on company data: '{0}/{1}'", data.Name, data.Id);
+            Trace.TraceInformation("Took action on company data: '{0}/{1}'", data.Name, data.Id);
 
             return Task.FromResult<bool>(true);
         }
