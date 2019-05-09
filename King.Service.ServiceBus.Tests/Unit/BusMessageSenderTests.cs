@@ -16,41 +16,27 @@ namespace King.Service.ServiceBus.Test.Unit
         public void Constructor()
         {
             var c = Substitute.For<IMessageSender>();
-            new BusMessageSender(Guid.NewGuid().ToString(), c);
-        }
-
-        [Test]
-        public void ConstructorNameNull()
-        {
-            var c = Substitute.For<IMessageSender>();
-            Assert.That(() => new BusMessageSender(null, c), Throws.TypeOf<ArgumentException>());
+            new BusMessageSender(c);
         }
 
         [Test]
         public void ConstructorClientNull()
         {
-            Assert.That(() => new BusMessageSender(Guid.NewGuid().ToString(), null), Throws.TypeOf<ArgumentNullException>());
+            Assert.That(() => new BusMessageSender(null), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
         public void IsIBusMessageSender()
         {
             var c = Substitute.For<IMessageSender>();
-            Assert.IsNotNull(new BusMessageSender(Guid.NewGuid().ToString(), c) as IBusMessageSender);
-        }
-
-        [Test]
-        public void ConstructorMockableNameNull()
-        {
-            var client = Substitute.For<IBusTopicClient>();
-            Assert.That(() => new BusMessageSender(null, client), Throws.TypeOf<ArgumentException>());
+            Assert.IsNotNull(new BusMessageSender(c) as IBusMessageSender);
         }
 
         [Test]
         public void SaveObjectNull()
         {
             var c = Substitute.For<IBusTopicClient>();
-            var queue = new BusMessageSender(Guid.NewGuid().ToString(), c);
+            var queue = new BusMessageSender(c);
             Assert.That(async () => await queue.Send((object)null), Throws.TypeOf<ArgumentNullException>());
         }
 
@@ -58,7 +44,7 @@ namespace King.Service.ServiceBus.Test.Unit
         public void SaveMessageNull()
         {
             var c = Substitute.For<IBusTopicClient>();
-            var queue = new BusMessageSender(Guid.NewGuid().ToString(), c);
+            var queue = new BusMessageSender(c);
             Assert.That(async () => await queue.Send((Message)null), Throws.TypeOf<ArgumentNullException>());
         }
 
@@ -70,7 +56,7 @@ namespace King.Service.ServiceBus.Test.Unit
             var client = Substitute.For<IBusTopicClient>();
             await client.Send(msg);
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             await q.Send(msg);
 
             await client.Received().Send(msg);
@@ -84,7 +70,7 @@ namespace King.Service.ServiceBus.Test.Unit
             var client = Substitute.For<IBusTopicClient>();
             client.Send(msg);
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             await q.Send(msg, Encoding.Binary);
 
             client.Received().Send(msg);
@@ -98,7 +84,7 @@ namespace King.Service.ServiceBus.Test.Unit
             var client = Substitute.For<IBusTopicClient>();
             client.Send(Arg.Any<Message>());
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             await q.Send(msg);
 
             client.Received().Send(Arg.Any<Message>());
@@ -112,7 +98,7 @@ namespace King.Service.ServiceBus.Test.Unit
             var client = Substitute.For<IBusTopicClient>();
             client.Send(Arg.Any<Message>());
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             await q.Send(msg, Encoding.Binary);
 
             client.Received().Send(Arg.Any<Message>());
@@ -126,7 +112,7 @@ namespace King.Service.ServiceBus.Test.Unit
             var client = Substitute.For<IBusTopicClient>();
             client.Send(msg);
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             await q.Send((object)msg);
 
             client.Received().Send(msg);
@@ -140,7 +126,7 @@ namespace King.Service.ServiceBus.Test.Unit
             var client = Substitute.For<IBusTopicClient>();
             client.Send(msg);
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             await q.Send((object)msg, Encoding.Binary);
 
             client.Received().Send(msg);
@@ -154,7 +140,7 @@ namespace King.Service.ServiceBus.Test.Unit
             var client = Substitute.For<IBusTopicClient>();
             client.When(c => c.Send(msg)).Do(x => { throw new Exception(); });
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             Assert.That(async () => await q.Send(msg), Throws.TypeOf<Exception>());
         }
 
@@ -172,7 +158,7 @@ namespace King.Service.ServiceBus.Test.Unit
                throw new Exception();
             });
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             Assert.That(async () => await q.Send(msg), Throws.TypeOf<Exception>());
         }
 
@@ -180,7 +166,7 @@ namespace King.Service.ServiceBus.Test.Unit
         public void SendForBufferAt()
         {
             var client = Substitute.For<IBusTopicClient>();
-            var queue = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var queue = new BusMessageSender(client);
             Assert.That(async () => await queue.Send((BufferedMessage)null), Throws.TypeOf<ArgumentNullException>());
         }
 
@@ -189,7 +175,7 @@ namespace King.Service.ServiceBus.Test.Unit
         {
             var client = Substitute.For<IBusQueueClient>();
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             Assert.That(async () => await q.Send((IEnumerable<Message>)null), Throws.TypeOf<ArgumentNullException>());
         }
 
@@ -202,7 +188,7 @@ namespace King.Service.ServiceBus.Test.Unit
             var client = Substitute.For<IBusQueueClient>();
             client.Send(Arg.Any<IEnumerable<Message>>());
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             await q.Send(msg);
 
             client.Received().Send(Arg.Any<IEnumerable<Message>>());
@@ -217,7 +203,7 @@ namespace King.Service.ServiceBus.Test.Unit
             var client = Substitute.For<IBusQueueClient>();
             client.Send(Arg.Any<IEnumerable<Message>>());
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             await q.Send(msg, Encoding.Binary);
 
             client.Received().Send(Arg.Any<IEnumerable<Message>>());
@@ -232,7 +218,7 @@ namespace King.Service.ServiceBus.Test.Unit
             var client = Substitute.For<IBusQueueClient>();
             client.Send(Arg.Any<IEnumerable<Message>>());
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             await q.Send((IEnumerable<object>)msg);
 
             client.Received().Send(Arg.Any<IEnumerable<Message>>());
@@ -247,7 +233,7 @@ namespace King.Service.ServiceBus.Test.Unit
             var client = Substitute.For<IBusQueueClient>();
             client.Send(Arg.Any<IEnumerable<Message>>());
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             await q.Send((IEnumerable<object>)msg, Encoding.Binary);
 
             client.Received().Send(Arg.Any<IEnumerable<Message>>());
@@ -258,7 +244,7 @@ namespace King.Service.ServiceBus.Test.Unit
         {
             var client = Substitute.For<IBusQueueClient>();
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             Assert.That(async () => await q.Send((IEnumerable<object>)null), Throws.TypeOf<ArgumentNullException>());
         }
 
@@ -268,7 +254,7 @@ namespace King.Service.ServiceBus.Test.Unit
             var client = Substitute.For<IBusQueueClient>();
             client.Send(Arg.Any<Message>());
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             await q.Send(new BufferedMessage() { ReleaseAt = DateTime.UtcNow });
 
             client.Received().Send(Arg.Any<Message>());
@@ -280,7 +266,7 @@ namespace King.Service.ServiceBus.Test.Unit
             var client = Substitute.For<IBusQueueClient>();
             client.Send(Arg.Any<Message>());
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             await q.Send(new BufferedMessage() { ReleaseAt = DateTime.UtcNow }, Encoding.Binary);
 
             client.Received().Send(Arg.Any<Message>());
@@ -295,7 +281,7 @@ namespace King.Service.ServiceBus.Test.Unit
             var client = Substitute.For<IBusQueueClient>();
             client.When(c => c.Send(msg)).Do(x => { throw new Exception(); });
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             Assert.That(async () => await q.Send(msg), Throws.TypeOf<Exception>());
         }
 
@@ -308,7 +294,7 @@ namespace King.Service.ServiceBus.Test.Unit
             var client = Substitute.For<IBusQueueClient>();
             client.When(c => c.Send(Arg.Any<IEnumerable<Message>>())).Do(x => { throw new Exception(); });
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             Assert.That(async () => await q.Send(msg), Throws.TypeOf<Exception>());
         }
 
@@ -327,7 +313,7 @@ namespace King.Service.ServiceBus.Test.Unit
                throw new Exception();
             });
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             Assert.That(async () => await q.Send(msgs), Throws.TypeOf<Exception>());
         }
 
@@ -336,7 +322,7 @@ namespace King.Service.ServiceBus.Test.Unit
         {
             var client = Substitute.For<IBusTopicClient>();
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             Assert.That(async () => await q.Send(null, DateTime.UtcNow), Throws.TypeOf<ArgumentNullException>());
 
         }
@@ -353,7 +339,7 @@ namespace King.Service.ServiceBus.Test.Unit
             var client = Substitute.For<IBusQueueClient>();
             client.Send(Arg.Any<Message>());
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             await q.SendBuffered(new object(), DateTime.UtcNow);
 
             client.Received().Send(Arg.Any<Message>());
@@ -364,7 +350,7 @@ namespace King.Service.ServiceBus.Test.Unit
         {
             var client = Substitute.For<IBusQueueClient>();
 
-            var q = new BusMessageSender(Guid.NewGuid().ToString(), client);
+            var q = new BusMessageSender(client);
             await q.SendBuffered(null, DateTime.UtcNow);
         }
     }

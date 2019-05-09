@@ -2,6 +2,7 @@ namespace King.Service.ServiceBus.Demo.Tasks
 {
     using global::Azure.Data.Wrappers;
     using King.Service;
+    using King.Service.ServiceBus;
     using King.Service.ServiceBus.Demo.Models;
     using System;
 
@@ -13,10 +14,10 @@ namespace King.Service.ServiceBus.Demo.Tasks
         private int id = 0;
         private readonly IBusMessageSender queue = null;
 
-        public CompanyQueuer(string name, string connection)
+        public CompanyQueuer(IBusQueueClient client)
             :base(5)
         {
-            this.queue = new BusMessageSender(name, new Wrappers.BusQueueClient(name, connection));
+            this.queue = new BusMessageSender(client);
         }
 
         public override void Run()

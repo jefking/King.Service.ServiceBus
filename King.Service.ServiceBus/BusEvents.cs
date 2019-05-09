@@ -18,7 +18,7 @@ namespace King.Service.ServiceBus
         /// <summary>
         /// Event Source
         /// </summary>
-        protected readonly IBusMessageReciever reciever = null;
+        protected readonly IBusReciever reciever = null;
 
         /// <summary>
         /// Bus Event Handler
@@ -43,7 +43,7 @@ namespace King.Service.ServiceBus
         /// <param name="reciever">Source</param>
         /// <param name="eventHandler">Event Handler</param>
         /// <param name="concurrentCalls">Concurrent Calls</param>
-        public BusEvents(IBusMessageReciever reciever, IBusEventHandler<T> eventHandler, byte concurrentCalls = DefaultConcurrentCalls)
+        public BusEvents(IBusReciever reciever, IBusEventHandler<T> eventHandler, byte concurrentCalls = DefaultConcurrentCalls)
         {
             if (null == reciever)
             {
@@ -85,7 +85,7 @@ namespace King.Service.ServiceBus
                 MaxConcurrentSessions = concurrentCalls
             };
 
-            this.reciever.RegisterForEvents(OnMessageArrived, eventDrivenMessagingOptions);
+            this.reciever.OnMessage(OnMessageArrived, eventDrivenMessagingOptions);
         }
 
         /// <summary>

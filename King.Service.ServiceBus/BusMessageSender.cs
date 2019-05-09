@@ -27,31 +27,20 @@ namespace King.Service.ServiceBus
         /// Service Bus Message Client
         /// </summary>
         protected readonly IMessageSender client = null;
-
-        /// <summary>
-        /// Name
-        /// </summary>
-        protected readonly string name = null;
         #endregion
 
         #region Constructors
         /// <summary>
         /// Mockable Constructor
         /// </summary>
-        /// <param name="name">Message Bus Name</param>
         /// <param name="client"Client>Service Bus Message Client</param>
-        public BusMessageSender(string name, IMessageSender client)
+        public BusMessageSender(IMessageSender client)
         {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentException("name");
-            }
             if (null == client)
             {
                 throw new ArgumentNullException("client");
             }
 
-            this.name = name;
             this.client = client;
         }
 
