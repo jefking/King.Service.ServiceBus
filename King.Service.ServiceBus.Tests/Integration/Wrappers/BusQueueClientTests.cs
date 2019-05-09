@@ -34,17 +34,17 @@ namespace King.Service.ServiceBus.Integration.Test.Wrappers
         [Test]
         public async Task Receive()
         {
-            var expected = Guid.NewGuid();
-            var msg = new Message(expected.ToByteArray());
+            var expected = Guid.NewGuid().ToByteArray();
+            var msg = new Message(expected);
 
             var queue = new BusQueueClient("testsendrecieve", connection);
-            queue.OnMessage(this.Get, new MessageHandlerOptions(null));
+            queue.OnMessage(this.Get, new MessageHandlerOptions( async (ExceptionReceivedEventArgs args) => { await Task.Run(() => {});}));
 
             await queue.Send(msg);
 
             for (var i = 0; i < 100 && null == message; i++)
             {
-
+                Thread.Sleep(20);
             }
 
             if (null == message)
@@ -53,9 +53,7 @@ namespace King.Service.ServiceBus.Integration.Test.Wrappers
             }
             else
             {
-                var result = new Queued<Guid>(message);
-
-                Assert.AreEqual(expected, result);
+                Assert.AreEqual(expected, message.Body);
             }
         }
 
