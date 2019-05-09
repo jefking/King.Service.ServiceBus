@@ -5,6 +5,7 @@ namespace King.Service.ServiceBus.Demo.Tasks
     using King.Service.ServiceBus;
     using King.Service.ServiceBus.Demo.Models;
     using System;
+    using System.Diagnostics;
 
     /// <summary>
     /// Example of Task class which adds a company to a queue
@@ -22,15 +23,16 @@ namespace King.Service.ServiceBus.Demo.Tasks
 
         public override void Run()
         {
-            var company = new CompanyModel()
+            var data = new CompanyModel()
             {
                 Id = Guid.NewGuid(),
                 Name = string.Format("company{0}", id),
+                Count = id,
             };
-
-            var task = this.queue.Send(company);
-            task.Wait();
-
+            
+            Trace.TraceInformation("Queuing company data: '{0}' ({1}:{2})", data.Name, data.Count, data.Id);
+            this.queue.Send(data).Wait();
+            
             id++;
         }
     }

@@ -13,14 +13,14 @@ namespace King.Service.ServiceBus.Demo.Processors
     {
         public Task<bool> Process(CompanyModel data)
         {
-            Trace.TraceInformation("Took action on company data: '{0}/{1}'", data.Name, data.Id);
+            Trace.TraceInformation("Processed company data: '{0}' ({1}:{2})", data.Name, data.Count, data.Id);
 
             return Task.FromResult<bool>(true);
         }
 
         public Task OnError(string action, Exception ex)
         {
-            Trace.TraceError("{0}: {1}", action, ex.Message);
+            Trace.TraceError("Errored on {0}: {1}", action, ex.Message);
 
             return Task.FromResult<bool>(true);
         }

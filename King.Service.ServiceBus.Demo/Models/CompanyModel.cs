@@ -14,6 +14,12 @@ namespace King.Service.ServiceBus.Demo.Models
             set;
         }
 
+        public int Count
+        {
+            get;
+            set;
+        }
+
         public string Name
         {
             get;
