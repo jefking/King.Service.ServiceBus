@@ -90,9 +90,9 @@ namespace King.Service.ServiceBus.Wrappers
         /// </summary>
         /// <param name="callback">Call Back</param>
         /// <param name="options">Options</param>
-        public virtual void OnMessage(Func<IMessageSession, Message, CancellationToken, Task> callback, SessionHandlerOptions options)
+        public virtual void OnMessage(Func<Message, CancellationToken, Task> callback, MessageHandlerOptions options)
         {
-            this.client.RegisterSessionHandler(callback, options);
+            this.client.RegisterMessageHandler(callback, options);
         }
         #endregion
     }

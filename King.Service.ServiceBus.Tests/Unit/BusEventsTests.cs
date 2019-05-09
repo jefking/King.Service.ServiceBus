@@ -50,13 +50,13 @@ namespace King.Service.ServiceBus.Test.Unit
         {
             var args = new ExceptionReceivedEventArgs(new Exception(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
             var queue = Substitute.For<IBusReciever>();
-            queue.OnMessage(Arg.Any<Func<IMessageSession, Message, CancellationToken, Task>>(), Arg.Any<SessionHandlerOptions>());
+            queue.OnMessage(Arg.Any<Func<Message, CancellationToken, Task>>(), Arg.Any<MessageHandlerOptions>());
             var handler = Substitute.For<IBusEventHandler<object>>();
 
             var events = new BusEvents<object>(queue, handler);
             events.Run();
 
-            queue.Received().OnMessage(Arg.Any<Func<IMessageSession, Message, CancellationToken, Task>>(), Arg.Any<SessionHandlerOptions>());
+            queue.Received().OnMessage(Arg.Any<Func<Message, CancellationToken, Task>>(), Arg.Any<MessageHandlerOptions>());
         }
 
         [Test]
@@ -71,11 +71,10 @@ namespace King.Service.ServiceBus.Test.Unit
                 var queue = Substitute.For<IBusReciever>();
                 var handler = Substitute.For<IBusEventHandler<Guid>>();
                 handler.Process(data).Returns(Task.FromResult(true));
-                var session = Substitute.For<IMessageSession>();
                 var ct = new CancellationToken();
 
                 var events = new BusEvents<Guid>(queue, handler);
-                await events.OnMessageArrived(session, msg, ct);
+                await events.OnMessageArrived(msg, ct);
 
                 await handler.Received().Process(data);
             }

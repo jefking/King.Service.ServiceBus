@@ -79,21 +79,22 @@ namespace King.Service.ServiceBus
         /// </summary>
         public override void Run()
         {
-            var eventDrivenMessagingOptions = new SessionHandlerOptions(this.OnExceptionReceived)
+            var options = new MessageHandlerOptions(this.OnExceptionReceived)
             {
                 AutoComplete = true,
-                MaxConcurrentSessions = concurrentCalls
+                MaxConcurrentCalls = concurrentCalls,
             };
 
-            this.reciever.OnMessage(OnMessageArrived, eventDrivenMessagingOptions);
+            this.reciever.OnMessage(OnMessageArrived, options);
         }
 
         /// <summary>
         /// This event will be called each time a message arrives.
         /// </summary>
         /// <param name="message">Brokered Message</param>
+        /// <param name="cancel">Cancellation Token</param>
         /// <returns>Task</returns>
-        public virtual async Task OnMessageArrived(IMessageSession session, Message message, CancellationToken cancel)
+        public virtual async Task OnMessageArrived(Message message, CancellationToken cancel)
         {
             var queued = new Queued<T>(message);
             var data = await queued.Data();

@@ -204,7 +204,7 @@ namespace King.Service.ServiceBus
         /// </summary>
         /// <param name="callback">Call Back</param>
         /// <param name="options">Options</param>
-        void OnMessage(Func<IMessageSession, Message, CancellationToken, Task> callback, SessionHandlerOptions options);
+        void OnMessage(Func<Message, CancellationToken, Task> callback, MessageHandlerOptions options);
         #endregion
     }
     #endregion
