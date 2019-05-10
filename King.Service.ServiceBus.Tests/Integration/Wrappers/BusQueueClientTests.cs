@@ -1,4 +1,4 @@
-namespace King.Service.ServiceBus.Integration.Test.Wrappers
+namespace King.Service.ServiceBus.Test.Integration.Wrappers
 {
     using global::Azure.Data.Wrappers;
     using King.Service.ServiceBus.Models;
@@ -15,10 +15,43 @@ namespace King.Service.ServiceBus.Integration.Test.Wrappers
     {
         private static readonly string connection = King.Service.ServiceBus.Test.Integration.Configuration.ConnectionString;
 
+        private string sendName, recieveName, sendBatchName;
+
+        [SetUp]
+        public void Setup()
+        {
+            var random = new Random();
+            sendName = string.Format("a{0}b", random.Next());
+            recieveName = string.Format("a{0}b", random.Next());
+            sendBatchName = string.Format("a{0}b", random.Next());
+
+            var client = new BusManagementClient(connection);
+            Task.WaitAll(
+                new Task[] {
+                    client.QueueCreate(sendName)
+                    , client.QueueCreate(recieveName)
+                    , client.QueueCreate(sendBatchName)
+                }
+            );
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            var client = new BusManagementClient(connection).Client;
+            Task.WaitAll(
+                new Task[] {
+                    client.DeleteQueueAsync(sendName)
+                    , client.DeleteQueueAsync(recieveName)
+                    , client.DeleteQueueAsync(sendBatchName)
+                }
+            );
+        }
+
         [Test]
         public async Task Send()
         {
-            var queue = new BusQueueClient("testsend", connection);
+            var queue = new BusQueueClient(sendName, connection);
             await queue.Send(new Message());
         }
 
@@ -27,7 +60,7 @@ namespace King.Service.ServiceBus.Integration.Test.Wrappers
         {
             var msgs = new Message[] { new Message(), new Message(), new Message(), new Message() };
 
-            var queue = new BusQueueClient("testsendbatch", connection);
+            var queue = new BusQueueClient(sendBatchName, connection);
             await queue.Send(msgs);
         }
 
@@ -37,7 +70,7 @@ namespace King.Service.ServiceBus.Integration.Test.Wrappers
             var expected = Guid.NewGuid().ToByteArray();
             var msg = new Message(expected);
 
-            var queue = new BusQueueClient("testsendrecieve", connection);
+            var queue = new BusQueueClient(recieveName, connection);
             queue.OnMessage(this.Get, new MessageHandlerOptions( async (ExceptionReceivedEventArgs args) => { await Task.Run(() => {});}));
 
             await queue.Send(msg);

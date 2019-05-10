@@ -7,6 +7,23 @@ namespace King.Service.ServiceBus
     using System.Threading;
     using System.Threading.Tasks;
 
+    #region IBusManagementClient
+    /// <summary>
+    /// Service Bus Management Client Interface
+    /// </summary>
+    public interface IBusManagementClient
+    {
+        #region Methods
+        Task QueueCreate(string queue);
+        Task<bool> QueueExists(string queue);
+        Task TopicCreate(string topicPath);
+        Task<bool> TopicExists(string topicPath);
+        Task SubscriptionCreate(string topicPath, string subscriptionName);
+        Task<bool> SubscriptionExists(string topicPath, string subscriptionName);
+        #endregion
+    }
+    #endregion
+
     #region IBusMessageSender
     /// <summary>
     /// Service Bus Message Sender Interface
