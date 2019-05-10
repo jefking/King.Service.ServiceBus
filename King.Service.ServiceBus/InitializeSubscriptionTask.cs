@@ -31,6 +31,8 @@ namespace King.Service.ServiceBus
             }
 
             this.client = client;
+            this.topicPath = topicPath;
+            this.subscriptionName = subscriptionName;
         }
 
         public override void Run()

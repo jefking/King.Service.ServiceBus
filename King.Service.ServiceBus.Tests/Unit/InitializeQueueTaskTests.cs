@@ -22,7 +22,7 @@ namespace King.Service.ServiceBus.Test.Unit
         [Test]
         public void ConstructorNameNull()
         {
-            Assert.That(() => new InitializeQueueTask((string)null, conn), Throws.TypeOf<ArgumentNullException>());
+            Assert.That(() => new InitializeQueueTask((string)null, conn), Throws.TypeOf<ArgumentException>());
         }
         
         [Test]
