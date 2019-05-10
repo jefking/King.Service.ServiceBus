@@ -15,7 +15,9 @@
             var config = new AppConfig
             {
                 ConnectionString = args[0],
-                QueueName = "company"
+                QueueName = "companies",
+                TopicName = "notyetused",
+                Subscription = "sub"
             };
 
             // Start tasks

@@ -13,12 +13,14 @@
             //Setup general queue client (send/recieve)
             var client = new BusQueueClient(config.QueueName, config.ConnectionString);
 
+            // Initialize Tasks
             yield return new InitializeQueueTask(config.QueueName, config.ConnectionString);
-            yield return new CompanyQueuer(client);
-            yield return new CompanyDequeuer(client);
-
             yield return new InitializeTopicTask(config.TopicName, config.ConnectionString);
             yield return new InitializeSubscriptionTask(config.TopicName, config.Subscription, config.ConnectionString);
+
+            // Compute Tasks
+            yield return new CompanyQueuer(client);
+            yield return new CompanyDequeuer(client);
         }
     }
 }
