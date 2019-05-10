@@ -26,11 +26,11 @@ namespace King.Service.ServiceBus.Demo.Tasks
             var data = new CompanyModel()
             {
                 Id = Guid.NewGuid(),
-                Name = string.Format("company{0}", id),
+                Name = string.Format("company-{0}", id),
                 Count = id,
             };
             
-            Trace.TraceInformation("Queuing: '{0}' ({1}:{2})", data.Name, data.Count, data.Id);
+            Trace.TraceInformation("Queuing: '{0}' (ID: {1}:{2})", data.Name, data.Count, data.Id);
             this.queue.Send(data).Wait();
             
             id++;
