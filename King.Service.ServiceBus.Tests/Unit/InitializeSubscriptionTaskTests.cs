@@ -39,7 +39,7 @@ namespace King.Service.ServiceBus.Test.Unit
         }
 
         [Test]
-        public void Create()
+        public async Task Create()
         {
             var random = new Random();
             var topic = string.Format("a{0}b", random.Next());
@@ -48,14 +48,14 @@ namespace King.Service.ServiceBus.Test.Unit
             client.SubscriptionExists(topic, sub).Returns(false);
 
             var init = new InitializeSubscriptionTask(client, topic, sub);
-            init.Run();
+            await init.RunAsync();
 
-            client.Received().SubscriptionExists(topic, sub);
-            client.Received().SubscriptionCreate(topic, sub);
+            await client.Received().SubscriptionExists(topic, sub);
+            await client.Received().SubscriptionCreate(topic, sub);
         }
 
         [Test]
-        public void CreateExists()
+        public async Task CreateExists()
         {
             var random = new Random();
             var topic = string.Format("a{0}b", random.Next());
@@ -64,10 +64,10 @@ namespace King.Service.ServiceBus.Test.Unit
             client.SubscriptionExists(topic, sub).Returns(true);
 
             var init = new InitializeSubscriptionTask(client, topic, sub);
-            init.Run();
+            await init.RunAsync();
 
-            client.Received().SubscriptionExists(topic, sub);
-            client.DidNotReceive().SubscriptionCreate(topic, sub);
+            await client.Received().SubscriptionExists(topic, sub);
+            await client.DidNotReceive().SubscriptionCreate(topic, sub);
         }
     }
 }

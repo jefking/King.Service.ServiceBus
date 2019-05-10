@@ -3,6 +3,7 @@ namespace King.Service.ServiceBus
     using King.Service.ServiceBus.Wrappers;
     using King.Service;
     using System;
+    using System.Threading.Tasks;
 
     public class InitializeQueueTask : InitializeTask
     {
@@ -29,12 +30,12 @@ namespace King.Service.ServiceBus
             this.name = name;
         }
 
-        public override void Run()
+        public override async Task RunAsync()
         {
-            var exists = client.QueueExists(name).Result;
+            var exists = await client.QueueExists(name);
             if (!exists)
             {
-                client.QueueCreate(name).Wait();
+                await client.QueueCreate(name);
             }
         }
     }

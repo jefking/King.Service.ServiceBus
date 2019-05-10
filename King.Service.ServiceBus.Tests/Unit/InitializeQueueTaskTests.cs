@@ -32,7 +32,7 @@ namespace King.Service.ServiceBus.Test.Unit
         }
 
         [Test]
-        public void Create()
+        public async Task Create()
         {
             var random = new Random();
             var name = string.Format("a{0}b", random.Next());
@@ -40,14 +40,14 @@ namespace King.Service.ServiceBus.Test.Unit
             client.QueueExists(name).Returns(false);
 
             var init = new InitializeQueueTask(client, name);
-            init.Run();
+            await init.RunAsync();
 
-            client.Received().QueueExists(name);
-            client.Received().QueueCreate(name);
+            await client.Received().QueueExists(name);
+            await client.Received().QueueCreate(name);
         }
 
         [Test]
-        public void CreateExists()
+        public async Task CreateExists()
         {
             var random = new Random();
             var name = string.Format("a{0}b", random.Next());
@@ -55,10 +55,10 @@ namespace King.Service.ServiceBus.Test.Unit
             client.QueueExists(name).Returns(true);
 
             var init = new InitializeQueueTask(client, name);
-            init.Run();
+            await init.RunAsync();
 
-            client.Received().QueueExists(name);
-            client.DidNotReceive().QueueCreate(name);
+            await client.Received().QueueExists(name);
+            await client.DidNotReceive().QueueCreate(name);
         }
     }
 }

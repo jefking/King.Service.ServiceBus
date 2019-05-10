@@ -3,6 +3,7 @@ namespace King.Service.ServiceBus
     using King.Service.ServiceBus.Wrappers;
     using King.Service;
     using System;
+    using System.Threading.Tasks;
 
     public class InitializeSubscriptionTask : InitializeTask
     {
@@ -35,12 +36,12 @@ namespace King.Service.ServiceBus
             this.subscriptionName = subscriptionName;
         }
 
-        public override void Run()
+        public override async Task RunAsync()
         {
-            var exists = client.SubscriptionExists(topicPath, subscriptionName).Result;
+            var exists = await client.SubscriptionExists(topicPath, subscriptionName);
             if (!exists)
             {
-                client.SubscriptionCreate(topicPath, subscriptionName).Wait();
+                await client.SubscriptionCreate(topicPath, subscriptionName);
             }
         }
     }
