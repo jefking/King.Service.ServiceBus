@@ -19,5 +19,16 @@ namespace King.Service.ServiceBus.Test.Unit
         {
             new InitializeQueueTask("fake", conn);
         }
+        [Test]
+        public void ConstructorNameNull()
+        {
+            Assert.That(() => new InitializeQueueTask((string)null, conn), Throws.TypeOf<ArgumentNullException>());
+        }
+        
+        [Test]
+        public void ConstructorClientNull()
+        {
+            Assert.That(() => new InitializeQueueTask((IBusManagementClient)null, conn), Throws.TypeOf<ArgumentNullException>());
+        }
     }
 }

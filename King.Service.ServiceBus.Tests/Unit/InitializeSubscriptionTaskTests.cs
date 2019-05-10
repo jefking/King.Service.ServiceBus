@@ -19,5 +19,23 @@ namespace King.Service.ServiceBus.Test.Unit
         {
             new InitializeSubscriptionTask("fake", "none", conn);
         }
+
+        [Test]
+        public void ConstructorTopicNull()
+        {
+            Assert.That(() => new InitializeSubscriptionTask((string)null, "sub", conn), Throws.TypeOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public void ConstructorSubNull()
+        {
+            Assert.That(() => new InitializeSubscriptionTask("topic", (string)null, conn), Throws.TypeOf<ArgumentNullException>());
+        }
+        
+        [Test]
+        public void ConstructorClientNull()
+        {
+            Assert.That(() => new InitializeQueueTask((IBusManagementClient)null, conn), Throws.TypeOf<ArgumentNullException>());
+        }
     }
 }
