@@ -30,7 +30,7 @@ namespace King.Service.ServiceBus.Demo.Tasks
                 Count = id,
             };
             
-            Trace.TraceInformation("Queuing company data: '{0}' ({1}:{2})", data.Name, data.Count, data.Id);
+            Trace.TraceInformation("Queuing: '{0}' ({1}:{2})", data.Name, data.Count, data.Id);
             this.queue.Send(data).Wait();
             
             id++;
