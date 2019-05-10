@@ -24,11 +24,41 @@ namespace King.Service.ServiceBus.Test.Unit
         {
             Assert.That(() => new InitializeTopicTask((string)null, conn), Throws.TypeOf<ArgumentNullException>());
         }
-        
+
         [Test]
         public void ConstructorClientNull()
         {
             Assert.That(() => new InitializeTopicTask((IBusManagementClient)null, conn), Throws.TypeOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public void Create()
+        {
+            var random = new Random();
+            var name = string.Format("a{0}b", random.Next());
+            var client = Substitute.For<IBusManagementClient>();
+            client.TopicExists(name).Returns(false);
+
+            var init = new InitializeTopicTask(client, name);
+            init.Run();
+
+            client.Received().TopicExists(name);
+            client.Received().TopicCreate(name);
+        }
+
+        [Test]
+        public void CreateExists()
+        {
+            var random = new Random();
+            var name = string.Format("a{0}b", random.Next());
+            var client = Substitute.For<IBusManagementClient>();
+            client.TopicExists(name).Returns(true);
+
+            var init = new InitializeTopicTask(client, name);
+            init.Run();
+
+            client.Received().TopicExists(name);
+            client.DidNotReceive().TopicCreate(name);
         }
     }
 }
