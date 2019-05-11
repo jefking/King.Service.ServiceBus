@@ -24,11 +24,11 @@
             yield return new InitializeSubscriptionTask(config.ConnectionString, config.TopicName, config.Subscription);
 
             // Compute Tasks
-            yield return new CompanyQueuer(companyClient);
-            yield return new BusEvents<CompanyModel>(companyClient, new CompanyProcessor());
+            // yield return new CompanyQueuer(companyClient);
+            // yield return new BusEvents<CompanyModel>(companyClient, new CompanyProcessor());
 
-            yield return new EmployeeQueuer(topic);
-            yield return new BusEvents<EmployeeModel>(subscription, new EmployeeProcessor());
+            // yield return new EmployeeQueuer(topic);
+            // yield return new BusEvents<EmployeeModel>(subscription, new EmployeeProcessor());
 
             yield return new AtQueuer(atClient);
             yield return new BufferedReciever<AtModel>(atClient, new AtProcessor());

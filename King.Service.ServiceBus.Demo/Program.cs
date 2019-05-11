@@ -16,7 +16,7 @@
             {
                 ConnectionString = args[0],
                 CompanyQueueName = "companies",
-                AtQueueName = "ontime",
+                AtQueueName = "always",
                 TopicName = "employees",
                 Subscription = "sub"
             };

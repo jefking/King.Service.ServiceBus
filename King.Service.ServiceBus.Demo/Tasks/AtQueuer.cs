@@ -26,11 +26,11 @@ namespace King.Service.ServiceBus.Demo.Tasks
             var data = new AtModel()
             {
                 Id = Guid.NewGuid(),
-                At = DateTime.UtcNow.AddSeconds(5),
+                At = DateTime.UtcNow.AddSeconds(10),
             };
             
-            Trace.TraceInformation("Queuing: '{0}' (ID: {1}:{2})", data.Id);
-            this.queue.Send(data, data.At).Wait();
+            Trace.TraceInformation("Dequeue At: '{0}' (ID: {1})", data.At, data.Id);
+            this.queue.SendBuffered(data, data.At).Wait();
             
             id++;
         }
