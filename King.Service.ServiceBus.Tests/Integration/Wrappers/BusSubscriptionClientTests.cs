@@ -22,7 +22,7 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
         {
             var random = new Random();
             recieveName = string.Format("a{0}b", random.Next());
-            subName = string.Format("sub{0}", random.Next());
+            subName = "sub34";
 
             var client = new BusManagementClient(connection);
             Task.WaitAll(
@@ -58,7 +58,7 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
 
             for (var i = 0; i < 100 && null == message; i++)
             {
-                Thread.Sleep(20);
+                Thread.Sleep(25);
             }
 
             if (null == message)
