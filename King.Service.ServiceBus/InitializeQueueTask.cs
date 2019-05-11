@@ -10,7 +10,7 @@ namespace King.Service.ServiceBus
         protected readonly IBusManagementClient client = null;
         protected readonly string name = null;
 
-        public InitializeQueueTask(string name, string connection)
+        public InitializeQueueTask(string connection, string name)
             : this(new BusManagementClient(connection), name)
         {
         }

@@ -11,19 +11,21 @@
         public IEnumerable<IRunnable> Tasks(AppConfig config)
         {
             //Setup general queue client (send/recieve)
-            var queue = new BusQueueClient(config.QueueName, config.ConnectionString);
-            var topic = new BusTopicClient(config.TopicName, config.ConnectionString);
+            var queue = new BusQueueClient(config.ConnectionString, config.QueueName);
+            var topic = new BusTopicClient(config.ConnectionString, config.TopicName);
+            var subscription = new BusSubscriptionClient(config.ConnectionString, config.TopicName, config.Subscription);
 
             // Initialize Tasks
-            yield return new InitializeQueueTask(config.QueueName, config.ConnectionString);
-            yield return new InitializeTopicTask(config.TopicName, config.ConnectionString);
-            yield return new InitializeSubscriptionTask(config.TopicName, config.Subscription, config.ConnectionString);
+            yield return new InitializeQueueTask(config.ConnectionString, config.QueueName);
+            yield return new InitializeTopicTask(config.ConnectionString, config.TopicName);
+            yield return new InitializeSubscriptionTask(config.ConnectionString, config.TopicName, config.Subscription);
 
             // Compute Tasks
             yield return new CompanyQueuer(queue);
             yield return new CompanyDequeuer(queue);
 
             yield return new EmployeeQueuer(topic);
+            yield return new EmployeeDequeuer(subscription);
         }
     }
 }
