@@ -8,14 +8,15 @@ namespace King.Service.ServiceBus.Demo.Tasks
     using System.Diagnostics;
 
     /// <summary>
-    /// Example of Task class which adds a company to a queue
+    /// Example of Task class which adds an employee to a topic
     /// </summary>
-    public class CompanyQueuer : RecurringTask
+    public class EmployeeQueuer : RecurringTask
     {
-        private int id = 0;
+        private volatile int id = 0;
+        private volatile bool isRad;
         private readonly IBusMessageSender queue = null;
 
-        public CompanyQueuer(IBusQueueClient client)
+        public EmployeeQueuer(IBusTopicClient client)
             : base(5)
         {
             this.queue = new BusMessageSender(client);
@@ -23,17 +24,18 @@ namespace King.Service.ServiceBus.Demo.Tasks
 
         public override void Run()
         {
-            var data = new CompanyModel()
+            var data = new EmployeeModel()
             {
                 Id = Guid.NewGuid(),
-                Name = string.Format("company-{0}", id),
+                IsRad = isRad,
                 Count = id,
             };
             
-            Trace.TraceInformation("Queuing: '{0}' (ID: {1}:{2})", data.Name, data.Count, data.Id);
+            Trace.TraceInformation("Queuing: '{0}' (ID: {1}:{2})", data.IsRad, data.Count, data.Id);
             this.queue.Send(data).Wait();
             
             id++;
+            isRad = !isRad;
         }
     }
 }

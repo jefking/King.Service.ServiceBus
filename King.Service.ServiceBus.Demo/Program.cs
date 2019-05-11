@@ -16,7 +16,7 @@
             {
                 ConnectionString = args[0],
                 QueueName = "companies",
-                TopicName = "notyetused",
+                TopicName = "employees",
                 Subscription = "sub"
             };
 
