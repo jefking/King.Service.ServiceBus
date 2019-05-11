@@ -22,14 +22,12 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
         {
             var random = new Random();
             sendName = string.Format("a{0}b", random.Next());
-            recieveName = string.Format("a{0}b", random.Next());
             sendBatchName = string.Format("a{0}b", random.Next());
 
             var client = new BusManagementClient(connection);
             Task.WaitAll(
                 new Task[] {
                     client.TopicCreate(sendName)
-                    , client.TopicCreate(recieveName)
                     , client.TopicCreate(sendBatchName)
                 }
             );
@@ -42,7 +40,6 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
             Task.WaitAll(
                 new Task[] {
                     client.DeleteTopicAsync(sendName)
-                    , client.DeleteTopicAsync(recieveName)
                     , client.DeleteTopicAsync(sendBatchName)
                 }
             );
