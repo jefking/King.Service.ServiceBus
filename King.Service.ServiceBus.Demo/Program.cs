@@ -15,7 +15,8 @@
             var config = new AppConfig
             {
                 ConnectionString = args[0],
-                QueueName = "companies",
+                CompanyQueueName = "companies",
+                AtQueueName = "ontime",
                 TopicName = "employees",
                 Subscription = "sub"
             };

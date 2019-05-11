@@ -9,7 +9,13 @@
             set;
         }
         
-        public string QueueName
+        public string AtQueueName
+        {
+            get;
+            set;
+        }
+        
+        public string CompanyQueueName
         {
             get;
             set;

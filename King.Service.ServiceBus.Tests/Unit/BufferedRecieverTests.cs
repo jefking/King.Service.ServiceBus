@@ -22,11 +22,5 @@ namespace King.Service.ServiceBus.Test.Unit
             var handler = Substitute.For<IBusEventHandler<object>>();
             Assert.IsNotNull(new BufferedReciever<object>(queue, handler) as BusEvents<BufferedMessage>);
         }
-
-        [Test]
-        public void DefaultConcurrentCalls()
-        {
-            Assert.AreEqual(50, BufferedReciever<object>.DefaultConcurrentCalls);
-        }
     }
 }

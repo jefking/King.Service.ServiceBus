@@ -7,12 +7,12 @@ namespace King.Service.ServiceBus.Demo.Tasks
     using King.Service.ServiceBus.Demo.Processors;
 
     /// <summary>
-    /// Dequeue Task, for company model
+    /// Dequeue Task, for at model
     /// </summary>
-    public class CompanyDequeuer : BusEvents<CompanyModel>
+    public class AtDequeuer : BufferedReciever<AtModel>
     {
-        public CompanyDequeuer(IBusQueueClient client)
-            : base(client, new CompanyProcessor())
+        public AtDequeuer(IBusQueueClient client)
+            : base(client, new AtProcessor())
         {
         }
     }
