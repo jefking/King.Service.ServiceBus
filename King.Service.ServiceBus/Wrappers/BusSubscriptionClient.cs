@@ -8,38 +8,34 @@ namespace King.Service.ServiceBus.Wrappers
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Bus Queue Client Wrapper
+    /// Bus Subscription Client Wrapper
     /// </summary>
-    public class BusQueueClient : IBusQueueClient
+    public class BusSubscriptionClient : IBusReciever
     {
         #region Members
         /// <summary>
-        /// Queue Client
+        /// Subscription Client
         /// </summary>
-        protected readonly IQueueClient client = null;
-
-        /// <summary>
-        /// Encoding Property Key
-        /// </summary>
-        public const string EncodingKey = "encoding";
+        protected readonly ISubscriptionClient client = null;
         #endregion
 
         #region Constructors
         /// <summary>
         /// Default Constructor
         /// </summary>
-        /// <param name="name">Name</param>
-        /// <param name="connection">Conenction</param>
-        public BusQueueClient(string connection, string name)
-            : this(new QueueClient(connection, name))
+        /// <param name="connection">Connection</param>
+        /// <param name="topic">Topic</param>
+        /// <param name="subscription">Subscription</param>
+        public BusSubscriptionClient(string connection, string topic, string subscription)
+            : this(new SubscriptionClient(connection, topic, subscription))
         {
         }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="client">Queue Client</param>
-        public BusQueueClient(IQueueClient client)
+        /// <param name="client">Subscription Client</param>
+        public BusSubscriptionClient(ISubscriptionClient client)
         {
             if (null == client)
             {
@@ -52,9 +48,9 @@ namespace King.Service.ServiceBus.Wrappers
 
         #region Properties
         /// <summary>
-        /// Queue Client
+        /// Subscription Client
         /// </summary>
-        public virtual IQueueClient Client
+        public virtual ISubscriptionClient Client
         {
             get
             {
@@ -64,26 +60,6 @@ namespace King.Service.ServiceBus.Wrappers
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Send
-        /// </summary>
-        /// <param name="message">Message</param>
-        /// <returns>Task</returns>
-        public virtual async Task Send(Message message)
-        {
-            await this.client.SendAsync(message);
-        }
-
-        /// <summary>
-        /// Send Batch
-        /// </summary>
-        /// <param name="message">Messages</param>
-        /// <returns>Task</returns>
-        public virtual async Task Send(IEnumerable<Message> messages)
-        {
-            await this.client.SendAsync(messages.ToList());
-        }
-
         /// <summary>
         /// On Message
         /// </summary>

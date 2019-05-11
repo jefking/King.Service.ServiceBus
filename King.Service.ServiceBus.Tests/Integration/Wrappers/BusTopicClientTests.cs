@@ -48,7 +48,7 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
         [Test]
         public async Task Send()
         {
-            var queue = new BusTopicClient(sendName, connection);
+            var queue = new BusTopicClient(connection, sendName);
             await queue.Send(new Message());
         }
 
@@ -57,7 +57,7 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
         {
             var msgs = new Message[] { new Message(), new Message(), new Message(), new Message() };
 
-            var queue = new BusTopicClient(sendBatchName, connection);
+            var queue = new BusTopicClient(connection, sendBatchName);
             await queue.Send(msgs);
         }
     }

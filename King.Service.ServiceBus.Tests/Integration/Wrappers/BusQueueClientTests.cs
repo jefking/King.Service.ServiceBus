@@ -51,7 +51,7 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
         [Test]
         public async Task Send()
         {
-            var queue = new BusQueueClient(sendName, connection);
+            var queue = new BusQueueClient(connection, sendName);
             await queue.Send(new Message());
         }
 
@@ -60,7 +60,7 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
         {
             var msgs = new Message[] { new Message(), new Message(), new Message(), new Message() };
 
-            var queue = new BusQueueClient(sendBatchName, connection);
+            var queue = new BusQueueClient(connection, sendBatchName);
             await queue.Send(msgs);
         }
 
@@ -70,7 +70,7 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
             var expected = Guid.NewGuid().ToByteArray();
             var msg = new Message(expected);
 
-            var queue = new BusQueueClient(recieveName, connection);
+            var queue = new BusQueueClient(connection, recieveName);
             queue.OnMessage(this.Get, new MessageHandlerOptions( async (ExceptionReceivedEventArgs args) => { await Task.Run(() => {});}));
 
             await queue.Send(msg);

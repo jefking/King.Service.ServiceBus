@@ -29,8 +29,8 @@ namespace King.Service.ServiceBus.Wrappers
         /// Default Constructor
         /// </summary>
         /// <param name="name">Name</param>
-        /// <param name="connection">Connetion</param>
-        public BusTopicClient(string name, string connection)
+        /// <param name="conection">Conection</param>
+        public BusTopicClient(string connection, string name)
             : this(new TopicClient(connection, name))
         {
         }
