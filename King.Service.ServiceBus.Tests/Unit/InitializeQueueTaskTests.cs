@@ -28,7 +28,7 @@ namespace King.Service.ServiceBus.Test.Unit
         [Test]
         public void ConstructorClientNull()
         {
-            Assert.That(() => new InitializeQueueTask((IBusManagementClient)null, conn), Throws.TypeOf<ArgumentNullException>());
+            Assert.That(() => new InitializeQueueTask((IBusManagementClient)null, "fake"), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]

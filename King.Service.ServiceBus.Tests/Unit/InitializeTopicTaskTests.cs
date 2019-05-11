@@ -17,12 +17,12 @@ namespace King.Service.ServiceBus.Test.Unit
         [Test]
         public void Constructor()
         {
-            new InitializeTopicTask("fake", conn);
+            new InitializeTopicTask(conn, "fake");
         }
         [Test]
         public void ConstructorNameNull()
         {
-            Assert.That(() => new InitializeTopicTask((string)null, conn), Throws.TypeOf<ArgumentException>());
+            Assert.That(() => new InitializeTopicTask(conn, (string)null), Throws.TypeOf<ArgumentException>());
         }
 
         [Test]
