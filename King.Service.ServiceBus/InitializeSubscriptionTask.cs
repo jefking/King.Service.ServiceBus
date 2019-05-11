@@ -11,7 +11,7 @@ namespace King.Service.ServiceBus
         protected readonly string topicPath = null
                                 , subscriptionName = null;
 
-        public InitializeSubscriptionTask(string topicPath, string subscriptionName, string connection)
+        public InitializeSubscriptionTask(string connection, string topicPath, string subscriptionName)
             : this(new BusManagementClient(connection), topicPath, subscriptionName)
         {
         }
