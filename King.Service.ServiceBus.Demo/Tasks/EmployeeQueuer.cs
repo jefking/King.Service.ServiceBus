@@ -31,7 +31,7 @@ namespace King.Service.ServiceBus.Demo.Tasks
                 Count = id,
             };
             
-            Trace.TraceInformation("Queuing: '{0}' (ID: {1}:{2})", data.IsRad, data.Count, data.Id);
+            Trace.TraceInformation("Queuing Employee: '{0}' (ID: {1}:{2})", data.IsRad, data.Count, data.Id);
             this.queue.Send(data).Wait();
             
             id++;
