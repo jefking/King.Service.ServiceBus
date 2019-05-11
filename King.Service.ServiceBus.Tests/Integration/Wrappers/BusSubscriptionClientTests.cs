@@ -25,12 +25,8 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
             subName = "sub34";
 
             var client = new BusManagementClient(connection);
-            Task.WaitAll(
-                new Task[] {
-                    client.TopicCreate(recieveName)
-                    , client.SubscriptionCreate(recieveName, subName)
-                }
-            );
+            client.TopicCreate(recieveName).Wait();
+            client.SubscriptionCreate(recieveName, subName).Wait();
         }
 
         [TearDown]
@@ -58,7 +54,7 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
 
             for (var i = 0; i < 100 && null == message; i++)
             {
-                Thread.Sleep(25);
+                Thread.Sleep(20);
             }
 
             if (null == message)
