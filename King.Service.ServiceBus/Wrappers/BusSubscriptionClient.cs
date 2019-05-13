@@ -10,7 +10,7 @@ namespace King.Service.ServiceBus.Wrappers
     /// <summary>
     /// Bus Subscription Client Wrapper
     /// </summary>
-    public class BusSubscriptionClient : IBusReciever
+    public class BusSubscriptionClient : ISubscription
     {
         #region Members
         /// <summary>
@@ -68,6 +68,16 @@ namespace King.Service.ServiceBus.Wrappers
         public virtual void OnMessage(Func<Message, CancellationToken, Task> callback, MessageHandlerOptions options)
         {
             this.client.RegisterMessageHandler(callback, options);
+        }
+
+        /// <summary>
+        /// Add Rule
+        /// </summary>
+        /// <param name="name">Name</param>
+        /// <param name="filter">Filter</param>
+        public async Task AddRule(string name, Filter filter)
+        {
+            await this.client.AddRuleAsync(name, filter);
         }
         #endregion
     }

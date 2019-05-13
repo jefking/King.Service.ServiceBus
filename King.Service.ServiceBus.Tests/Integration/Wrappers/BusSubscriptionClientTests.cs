@@ -41,6 +41,25 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
         }
 
         [Test]
+        public async Task AddRule()
+        {
+            var random = new Random();
+            var ruleName = string.Format("a{0}b", random.Next());
+
+            var rClient = new BusSubscriptionClient(connection, recieveName, subName);
+            await rClient.AddRule(ruleName, new FalseFilter());
+
+            var rules = await rClient.Client.GetRulesAsync();
+            var success = false;
+            foreach (var r in rules)
+            {
+                success = r.Name == ruleName;
+                if (success) break;
+            }
+            Assert.IsTrue(success);
+        }
+
+        [Test]
         public async Task Receive()
         {
             var expected = Guid.NewGuid().ToByteArray();

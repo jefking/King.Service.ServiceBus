@@ -225,4 +225,22 @@ namespace King.Service.ServiceBus
         #endregion
     }
     #endregion
+
+    #region ISubscription
+    /// <summary>
+    /// Service Bus Topic Subscription
+    /// </summary>
+    public interface ISubscription : IBusReciever
+    {
+        #region Methods
+        /// <summary>
+        /// Add Rule
+        /// </summary>
+        /// <param name="name">Name</param>
+        /// <param name="filter">Filter</param>
+        Task AddRule(string name, Filter filter);
+        #endregion
+    }
+    #endregion
+
 }

@@ -23,6 +23,14 @@ namespace King.Service.ServiceBus.Test.Unit.Wrappers
         {
             Assert.That(() => new BusSubscriptionClient(null), Throws.TypeOf<ArgumentNullException>());
         }
+        
+        [Test]
+        public void IsISubscription()
+        {
+            var topic = Guid.NewGuid().ToString();
+            var subscription = Guid.NewGuid().ToString();
+            Assert.IsNotNull(new BusSubscriptionClient(new SubscriptionClient(connection, topic, subscription)) as ISubscription);
+        }
 
         [Test]
         public void Client()
