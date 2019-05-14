@@ -42,7 +42,7 @@ namespace King.Service.ServiceBus
             }
             if (null == filter)
             {
-                throw new ArgumentException("filter");
+                throw new ArgumentNullException("filter");
             }
 
             this.client = client;
