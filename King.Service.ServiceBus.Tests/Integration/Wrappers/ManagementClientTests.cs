@@ -102,6 +102,7 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
 
             var client = new BusManagementClient(connection);
             await client.TopicCreate(topicName);
+            await client.SubscriptionCreate(topicName, subName);
 
             await client.CreateRuleAsync(topicName, subName, ruleName, filter);
 
