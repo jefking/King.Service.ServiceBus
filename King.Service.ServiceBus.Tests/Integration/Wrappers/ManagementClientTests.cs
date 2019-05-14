@@ -90,5 +90,25 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
             var exists = await client.SubscriptionExists(topicName, subName);
             Assert.IsFalse(exists);
         }
+        [Test]
+        public async Task CreateRule()
+        {
+            var random = new Random();
+            var topicName = string.Format("a{0}b", random.Next());
+            var subName = "sub";
+            var ruleName = "rule";
+                
+            var filter = new SqlFilter("0=0");
+
+            var client = new BusManagementClient(connection);
+            await client.TopicCreate(topicName);
+
+            await client.CreateRuleAsync(topicName, subName, ruleName, filter);
+
+            var exists = await client.SubscriptionExists(topicName, subName);
+            Assert.IsTrue(exists);
+
+            await client.Client.DeleteRuleAsync(topicName, subName, ruleName);
+        }
     }
 }

@@ -20,6 +20,7 @@ namespace King.Service.ServiceBus
         Task<bool> TopicExists(string topicPath);
         Task SubscriptionCreate(string topicPath, string subscriptionName);
         Task<bool> SubscriptionExists(string topicPath, string subscriptionName);
+        Task CreateRuleAsync(string topicPath, string subscriptionName, string name, Filter filter);
         #endregion
     }
     #endregion

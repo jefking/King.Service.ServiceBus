@@ -29,13 +29,13 @@ namespace King.Service.ServiceBus.Test.Unit
         [Test]
         public void ConstructorSubNull()
         {
-            Assert.That(() => new InitializeSubscriptionTask("topic", (string)null, conn), Throws.TypeOf<ArgumentException>());
+            Assert.That(() => new InitializeSubscriptionTask(conn, "topic", (string)null), Throws.TypeOf<ArgumentException>());
         }
         
         [Test]
         public void ConstructorClientNull()
         {
-            Assert.That(() => new InitializeQueueTask((IBusManagementClient)null, conn), Throws.TypeOf<ArgumentNullException>());
+            Assert.That(() => new InitializeSubscriptionTask((IBusManagementClient)null, conn, "topic"), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]

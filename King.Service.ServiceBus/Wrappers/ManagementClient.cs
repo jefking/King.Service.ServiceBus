@@ -48,6 +48,7 @@ namespace King.Service.ServiceBus.Wrappers
         {
             var desc = new QueueDescription(queue)
             {
+
             };
 
             await this.client.CreateQueueAsync(desc);
@@ -75,6 +76,12 @@ namespace King.Service.ServiceBus.Wrappers
         public async Task<bool> SubscriptionExists(string topicPath, string subscriptionName)
         {
             return await this.client.SubscriptionExistsAsync(topicPath, subscriptionName);
+        }
+        public async Task CreateRuleAsync(string topicPath, string subscriptionName, string name, Filter filter)
+        {
+            var rule = new RuleDescription(name, filter);
+
+            await this.client.CreateRuleAsync(topicPath, subscriptionName, rule);
         }
         #endregion
     }
