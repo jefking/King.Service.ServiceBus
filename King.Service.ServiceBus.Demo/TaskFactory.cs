@@ -1,5 +1,6 @@
 ﻿namespace King.Service.ServiceBus.Demo
 {
+    using Microsoft.Azure.ServiceBus;
     using King.Service.ServiceBus;
     using King.Service.ServiceBus.Wrappers;
     using King.Service.ServiceBus.Demo.Models;
@@ -12,26 +13,30 @@
         public IEnumerable<IRunnable> Tasks(AppConfig config)
         {
             //Setup general queue client (send/recieve)
-            var companyClient = new BusQueueClient(config.ConnectionString, config.CompanyQueueName);
-            var atClient = new BusQueueClient(config.ConnectionString, config.AtQueueName);
+            // var companyClient = new BusQueueClient(config.ConnectionString, config.CompanyQueueName);
+            // var atClient = new BusQueueClient(config.ConnectionString, config.AtQueueName);
             var topic = new BusTopicClient(config.ConnectionString, config.TopicName);
-            var subscription = new BusSubscriptionClient(config.ConnectionString, config.TopicName, config.Subscription);
+            var employees = new BusSubscriptionClient(config.ConnectionString, config.TopicName, "all");
+            var rademployees = new BusSubscriptionClient(config.ConnectionString, config.TopicName, "rad-employees");
 
             // Initialize Tasks
             yield return new InitializeQueueTask(config.ConnectionString, config.CompanyQueueName);
             yield return new InitializeQueueTask(config.ConnectionString, config.AtQueueName);
             yield return new InitializeTopicTask(config.ConnectionString, config.TopicName);
-            yield return new InitializeSubscriptionTask(config.ConnectionString, config.TopicName, config.Subscription);
+            yield return new InitializeSubscriptionTask(config.ConnectionString, config.TopicName, employees.Client.SubscriptionName);
+            yield return new InitializeSubscriptionTask(config.ConnectionString, config.TopicName, rademployees.Client.SubscriptionName);
+            yield return new InitializeRuleTask(config.ConnectionString, config.TopicName, rademployees.Client.SubscriptionName, "rad-employees", new SqlFilter("IsRad=1"));
 
             // Compute Tasks
-             yield return new CompanyQueuer(companyClient);
-             yield return new BusEvents<CompanyModel>(companyClient, new CompanyProcessor());
+            //  yield return new CompanyQueuer(companyClient);
+            //  yield return new BusEvents<CompanyModel>(companyClient, new CompanyProcessor());
 
              yield return new EmployeeQueuer(topic);
-             yield return new BusEvents<EmployeeModel>(subscription, new EmployeeProcessor());
+             yield return new BusEvents<EmployeeModel>(employees, new EmployeeProcessor());
+             yield return new BusEvents<EmployeeModel>(rademployees, new EmployeeProcessor());
 
-            yield return new AtQueuer(atClient);
-            yield return new BufferedReciever<AtModel>(atClient, new AtProcessor());
+            // yield return new AtQueuer(atClient);
+            // yield return new BufferedReciever<AtModel>(atClient, new AtProcessor());
         }
     }
 }

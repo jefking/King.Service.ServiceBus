@@ -26,11 +26,5 @@
             get;
             set;
         }
-        
-        public string Subscription
-        {
-            get;
-            set;
-        }
     }
 }

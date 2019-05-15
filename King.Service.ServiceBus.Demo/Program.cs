@@ -17,8 +17,7 @@
                 ConnectionString = args[0],
                 CompanyQueueName = "companies",
                 AtQueueName = "always",
-                TopicName = "employees",
-                Subscription = "sub"
+                TopicName = "employees"
             };
 
             // Start tasks
