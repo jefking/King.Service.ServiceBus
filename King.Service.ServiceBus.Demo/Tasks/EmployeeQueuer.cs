@@ -2,6 +2,7 @@ namespace King.Service.ServiceBus.Demo.Tasks
 {
     using Newtonsoft.Json;
     using Microsoft.Azure.ServiceBus;
+    using Microsoft.Azure.ServiceBus.Core;
     using King.Service;
     using King.Service.ServiceBus;
     using King.Service.ServiceBus.Demo.Models;
@@ -37,10 +38,13 @@ namespace King.Service.ServiceBus.Demo.Tasks
 
             var msg = new Message(data)
             {
-                ContentType = obj.GetType().ToString()
+                ContentType = obj.GetType().ToString(),
+                UserProperties =
+                {
+                    {"encoding", (byte)Encoding.Json},
+                    {"salary", obj.Salary}
+                }
             };
-            msg.UserProperties.Add("encoding", (byte)Encoding.Json);
-            msg.UserProperties.Add("salary", obj.Salary);
             
             Trace.TraceInformation("Queuing Employee ID: {0}:{1}", obj.Count, obj.Id);
             this.queue.Send(msg).Wait();

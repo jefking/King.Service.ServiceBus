@@ -73,20 +73,15 @@ namespace King.Service.ServiceBus
                 throw new ArgumentNullException("message");
             }
 
-            while (true)
+            try
             {
-                try
-                {
-                    await this.client.Send(message);
+                await this.client.Send(message);
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError("Error: '{0}'", ex.ToString());
 
-                    break;
-                }
-                catch (Exception ex)
-                {
-                    Trace.TraceError("Error: '{0}'", ex.ToString());
-
-                    throw;
-                }
+                throw;
             }
         }
 
@@ -138,10 +133,12 @@ namespace King.Service.ServiceBus
                 
                 var msg = new Message(data)
                 {
-                    ContentType = obj.GetType().ToString()
+                    ContentType = obj.GetType().ToString(),
+                    UserProperties =
+                    {
+                        {"encoding", (byte)encoding}
+                    }
                 };
-
-                msg.UserProperties.Add("encoding", (byte)encoding);
 
                 await this.Send(msg);
             }
@@ -159,20 +156,15 @@ namespace King.Service.ServiceBus
                 throw new ArgumentNullException("message");
             }
 
-            while (true)
+            try
             {
-                try
-                {
-                    await this.client.Send(messages);
+                await this.client.Send(messages);
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError("Error: '{0}'", ex.ToString());
 
-                    break;
-                }
-                catch (Exception ex)
-                {
-                    Trace.TraceError("Error: '{0}'", ex.ToString());
-
-                    throw;
-                }
+                throw;
             }
         }
 
@@ -217,10 +209,12 @@ namespace King.Service.ServiceBus
 
                     var msg = new Message(data)
                     {
-                        ContentType = m.GetType().ToString()
+                        ContentType = m.GetType().ToString(),
+                        UserProperties =
+                        {
+                            {"encoding", (byte)encoding}
+                        }
                     };
-
-                    msg.UserProperties.Add("encoding", (byte)encoding);
                 }
 
                 await this.Send(Messages);
@@ -261,9 +255,11 @@ namespace King.Service.ServiceBus
             {
                 ScheduledEnqueueTimeUtc = enqueueAt,
                 ContentType = message.GetType().ToString(),
+                UserProperties =
+                {
+                    {"encoding", (byte)encoding}
+                }
             };
-
-            msg.UserProperties.Add("encoding", (byte)encoding);
 
             await this.Send(msg);
         }

@@ -79,9 +79,7 @@ namespace King.Service.ServiceBus.Wrappers
         }
         public async Task CreateRuleAsync(string topicPath, string subscriptionName, string name, Filter filter)
         {
-            var rule = new RuleDescription(name, filter);
-
-            await this.client.CreateRuleAsync(topicPath, subscriptionName, rule);
+            await this.client.CreateRuleAsync(topicPath, subscriptionName, new RuleDescription(name, filter));
         }
         #endregion
     }
