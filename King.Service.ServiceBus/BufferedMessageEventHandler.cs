@@ -71,7 +71,7 @@ namespace King.Service.ServiceBus
 
             this.sleep.Until(buffered.ReleaseAt);
 
-            Trace.TraceInformation("{1}: Message timing: {0} afer scheduled release.", DateTime.UtcNow.Subtract(buffered.ReleaseAt), this.eventHandler.GetType());
+            Trace.TraceInformation("{1}: Message timing: {0} after scheduled release.", DateTime.UtcNow.Subtract(buffered.ReleaseAt), this.eventHandler.GetType());
 
             return await this.eventHandler.Process(obj);
         }
