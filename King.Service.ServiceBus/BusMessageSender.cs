@@ -285,6 +285,10 @@ namespace King.Service.ServiceBus
             {
                 Data = null == data ? null : JsonConvert.SerializeObject(data),
                 ReleaseAt = releaseAt,
+                UserProperties =
+                {
+                    //MAP OBJECT DATA TO USER PROPERTIES, For filtering!!
+                }
             };
 
             await this.Send(message, releaseAt.AddSeconds(offset));
