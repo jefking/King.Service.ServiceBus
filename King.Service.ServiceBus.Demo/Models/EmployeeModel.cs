@@ -20,7 +20,7 @@ namespace King.Service.ServiceBus.Demo.Models
             set;
         }
 
-        public bool IsRad
+        public int Salary
         {
             get;
             set;

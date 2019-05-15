@@ -11,15 +11,15 @@ namespace King.Service.ServiceBus.Demo.Processors
     /// </summary>
     public class EmployeeProcessor : IBusEventHandler<EmployeeModel>
     {
-        private readonly bool onlyRad;
-        public EmployeeProcessor(bool onlyRad)
+        private readonly bool topEarners;
+        public EmployeeProcessor(bool topEarners)
         {
-            this.onlyRad = onlyRad;
+            this.topEarners = topEarners;
         }
 
         public Task<bool> Process(EmployeeModel data)
         {
-            Trace.TraceInformation("Employee action {3}: '{0}' (ID: {1}:{2})", data.IsRad, data.Count, data.Id, onlyRad ? "special" : "normal");
+            Trace.TraceInformation("Employee action {3}: '{0}' (ID: {1}:{2})", data.Salary, data.Count, data.Id, topEarners ? "top" : "base");
 
             return Task.FromResult<bool>(true);
         }

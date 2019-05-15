@@ -1,6 +1,7 @@
 namespace King.Service.ServiceBus.Demo.Tasks
 {
-    using global::Azure.Data.Wrappers;
+    using Newtonsoft.Json;
+    using Microsoft.Azure.ServiceBus;
     using King.Service;
     using King.Service.ServiceBus;
     using King.Service.ServiceBus.Demo.Models;
@@ -13,7 +14,6 @@ namespace King.Service.ServiceBus.Demo.Tasks
     public class EmployeeQueuer : RecurringTask
     {
         private volatile int id = 0;
-        private volatile bool isRad;
         private readonly IBusMessageSender queue = null;
 
         public EmployeeQueuer(IBusTopicClient client)
@@ -24,18 +24,28 @@ namespace King.Service.ServiceBus.Demo.Tasks
 
         public override void Run()
         {
-            var data = new EmployeeModel()
+            var rand = new Random();
+            var obj = new EmployeeModel()
             {
                 Id = Guid.NewGuid(),
-                IsRad = isRad,
+                Salary = rand.Next(1000),
                 Count = id,
             };
             
-            Trace.TraceInformation("Queuing Employee: '{0}' (ID: {1}:{2})", data.IsRad, data.Count, data.Id);
-            this.queue.Send(data).Wait();
+            var j = JsonConvert.SerializeObject(obj);
+            var data = System.Text.Encoding.Default.GetBytes(j);
+
+            var msg = new Message(data)
+            {
+                ContentType = obj.GetType().ToString()
+            };
+            msg.UserProperties.Add("encoding", (byte)Encoding.Json);
+            msg.UserProperties.Add("salary", obj.Salary);
+            
+            Trace.TraceInformation("Queuing Employee ID: {0}:{1}", obj.Count, obj.Id);
+            this.queue.Send(msg).Wait();
             
             id++;
-            isRad = !isRad;
         }
     }
 }
