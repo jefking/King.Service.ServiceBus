@@ -138,7 +138,7 @@ namespace King.Service.ServiceBus
                 
                 var msg = new Message(data)
                 {
-                    ContentType = obj.GetType().ToString(),
+                    ContentType = obj.GetType().ToString()
                 };
 
                 msg.UserProperties.Add("encoding", (byte)encoding);
@@ -217,7 +217,7 @@ namespace King.Service.ServiceBus
 
                     var msg = new Message(data)
                     {
-                        ContentType = m.GetType().ToString(),
+                        ContentType = m.GetType().ToString()
                     };
 
                     msg.UserProperties.Add("encoding", (byte)encoding);
@@ -262,6 +262,7 @@ namespace King.Service.ServiceBus
                 ScheduledEnqueueTimeUtc = enqueueAt,
                 ContentType = message.GetType().ToString(),
             };
+
             msg.UserProperties.Add("encoding", (byte)encoding);
 
             await this.Send(msg);
@@ -284,11 +285,7 @@ namespace King.Service.ServiceBus
             var message = new BufferedMessage
             {
                 Data = null == data ? null : JsonConvert.SerializeObject(data),
-                ReleaseAt = releaseAt,
-                UserProperties =
-                {
-                    //MAP OBJECT DATA TO USER PROPERTIES, For filtering!!
-                }
+                ReleaseAt = releaseAt
             };
 
             await this.Send(message, releaseAt.AddSeconds(offset));
