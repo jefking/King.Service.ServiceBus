@@ -95,9 +95,6 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
 
             var exists = await client.TopicExists(name);
             Assert.IsFalse(exists);
-
-            //cleanup
-            await client.TopicDelete(name);
         }
 
         [Test]
@@ -148,9 +145,6 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
 
             var exists = await client.SubscriptionExists(topicName, subName);
             Assert.IsFalse(exists);
-
-            //cleanup
-            await client.TopicDelete(topicName);
         }
 
         [Test]
