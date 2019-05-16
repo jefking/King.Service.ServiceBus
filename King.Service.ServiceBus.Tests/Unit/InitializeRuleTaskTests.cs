@@ -63,6 +63,62 @@ namespace King.Service.ServiceBus.Test.Unit
             var init = new InitializeRuleTask(client, topic, sub, name, filter);
             await init.RunAsync();
 
+            await client.Received().GetRuleAsync(topic, sub, name);
+            await client.Received().DeleteRuleAsync(topic, sub, name);
+            await client.Received().CreateRuleAsync(topic, sub, name, filter);
+        }
+
+        [Test]
+        public async Task CreateDontDelete()
+        {
+            var random = new Random();
+            var topic = string.Format("a{0}b", random.Next());
+            var sub = string.Format("a{0}b", random.Next());
+            var name = "rule";
+            var filter = new SqlFilter("0=0");
+            var client = Substitute.For<IBusManagementClient>();
+
+            var init = new InitializeRuleTask(client, topic, sub, name, filter, false);
+            await init.RunAsync();
+
+            await client.DidNotReceive().GetRuleAsync(topic, sub, name);
+            await client.DidNotReceive().DeleteRuleAsync(topic, sub, name);
+            await client.Received().CreateRuleAsync(topic, sub, name, filter);
+        }
+
+        [Test]
+        public async Task CreateGetThrows()
+        {
+            var random = new Random();
+            var topic = string.Format("a{0}b", random.Next());
+            var sub = string.Format("a{0}b", random.Next());
+            var name = "rule";
+            var filter = new SqlFilter("0=0");
+            var client = Substitute.For<IBusManagementClient>();
+            client.When(c => c.GetRuleAsync(topic, sub, name)).Do(x => { throw new Exception(); });
+
+            var init = new InitializeRuleTask(client, topic, sub, name, filter, false);
+            await init.RunAsync();
+
+            await client.DidNotReceive().DeleteRuleAsync(topic, sub, name);
+            await client.Received().CreateRuleAsync(topic, sub, name, filter);
+        }
+
+        [Test]
+        public async Task CreateDeleteThrows()
+        {
+            var random = new Random();
+            var topic = string.Format("a{0}b", random.Next());
+            var sub = string.Format("a{0}b", random.Next());
+            var name = "rule";
+            var filter = new SqlFilter("0=0");
+            var client = Substitute.For<IBusManagementClient>();
+            client.When(c => c.DeleteRuleAsync(topic, sub, name)).Do(x => { throw new Exception(); });
+
+            var init = new InitializeRuleTask(client, topic, sub, name, filter, false);
+            await init.RunAsync();
+
+            await client.Received().GetRuleAsync(topic, sub, name);
             await client.Received().CreateRuleAsync(topic, sub, name, filter);
         }
     }
