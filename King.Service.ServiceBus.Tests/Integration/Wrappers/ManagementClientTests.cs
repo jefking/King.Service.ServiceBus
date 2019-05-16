@@ -97,7 +97,7 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
             var topicName = string.Format("a{0}b", random.Next());
             var subName = "sub";
             var ruleName = "rule";
-                
+
             var filter = new SqlFilter("0=0");
 
             var client = new BusManagementClient(connection);
@@ -120,7 +120,7 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
             var topicName = string.Format("a{0}b", random.Next());
             var subName = "sub";
             var ruleName = "rule";
-                
+
             var filter = new SqlFilter("0=0");
 
             var client = new BusManagementClient(connection);
@@ -134,8 +134,14 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
 
             await client.DeleteRuleAsync(topicName, subName, ruleName);
 
-            var rule = await client.GetRuleAsync(topicName, subName, ruleName);
-            Assert.IsNull(rule);
+            try
+            {
+                await client.GetRuleAsync(topicName, subName, ruleName);
+                Assert.Fail();
+            }
+            catch
+            {
+            }
         }
     }
 }

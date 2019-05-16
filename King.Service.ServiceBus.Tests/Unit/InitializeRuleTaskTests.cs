@@ -63,8 +63,8 @@ namespace King.Service.ServiceBus.Test.Unit
             var init = new InitializeRuleTask(client, topic, sub, name, filter);
             await init.RunAsync();
 
-            await client.Received().GetRuleAsync(topic, sub, name);
-            await client.Received().DeleteRuleAsync(topic, sub, name);
+            await client.Received().GetRuleAsync(topic, sub, Arg.Any<string>());
+            await client.Received().DeleteRuleAsync(topic, sub, Arg.Any<string>());
             await client.Received().CreateRuleAsync(topic, sub, name, filter);
         }
 
@@ -81,8 +81,8 @@ namespace King.Service.ServiceBus.Test.Unit
             var init = new InitializeRuleTask(client, topic, sub, name, filter, false);
             await init.RunAsync();
 
-            await client.DidNotReceive().GetRuleAsync(topic, sub, name);
-            await client.DidNotReceive().DeleteRuleAsync(topic, sub, name);
+            await client.DidNotReceive().GetRuleAsync(topic, sub, Arg.Any<string>());
+            await client.DidNotReceive().DeleteRuleAsync(topic, sub, Arg.Any<string>());
             await client.Received().CreateRuleAsync(topic, sub, name, filter);
         }
 
@@ -95,12 +95,12 @@ namespace King.Service.ServiceBus.Test.Unit
             var name = "rule";
             var filter = new SqlFilter("0=0");
             var client = Substitute.For<IBusManagementClient>();
-            client.When(c => c.GetRuleAsync(topic, sub, name)).Do(x => { throw new Exception(); });
+            client.When(c => c.GetRuleAsync(topic, sub, Arg.Any<string>())).Do(x => { throw new Exception(); });
 
-            var init = new InitializeRuleTask(client, topic, sub, name, filter, false);
+            var init = new InitializeRuleTask(client, topic, sub, name, filter);
             await init.RunAsync();
 
-            await client.DidNotReceive().DeleteRuleAsync(topic, sub, name);
+            await client.DidNotReceive().DeleteRuleAsync(topic, sub, Arg.Any<string>());
             await client.Received().CreateRuleAsync(topic, sub, name, filter);
         }
 
@@ -113,12 +113,12 @@ namespace King.Service.ServiceBus.Test.Unit
             var name = "rule";
             var filter = new SqlFilter("0=0");
             var client = Substitute.For<IBusManagementClient>();
-            client.When(c => c.DeleteRuleAsync(topic, sub, name)).Do(x => { throw new Exception(); });
+            client.When(c => c.DeleteRuleAsync(topic, sub, Arg.Any<string>())).Do(x => { throw new Exception(); });
 
-            var init = new InitializeRuleTask(client, topic, sub, name, filter, false);
+            var init = new InitializeRuleTask(client, topic, sub, name, filter);
             await init.RunAsync();
 
-            await client.Received().GetRuleAsync(topic, sub, name);
+            await client.Received().GetRuleAsync(topic, sub, Arg.Any<string>());
             await client.Received().CreateRuleAsync(topic, sub, name, filter);
         }
     }
