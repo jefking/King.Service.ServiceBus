@@ -21,6 +21,7 @@ namespace King.Service.ServiceBus
         Task SubscriptionCreate(string topicPath, string subscriptionName);
         Task<bool> SubscriptionExists(string topicPath, string subscriptionName);
         Task CreateRuleAsync(string topicPath, string subscriptionName, string name, Filter filter);
+        Task DeleteRuleAsync(string topicPath, string subscriptionName, string name);
         #endregion
     }
     #endregion

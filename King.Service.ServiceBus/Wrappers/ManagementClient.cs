@@ -81,6 +81,10 @@ namespace King.Service.ServiceBus.Wrappers
         {
             await this.client.CreateRuleAsync(topicPath, subscriptionName, new RuleDescription(name, filter));
         }
+        public async Task DeleteRuleAsync(string topicPath, string subscriptionName, string name)
+        {
+            await this.client.DeleteRuleAsync(topicPath, subscriptionName, name);
+        }
         #endregion
     }
 }

@@ -19,6 +19,8 @@ namespace King.Service.ServiceBus.Demo.Processors
 
         public Task<bool> Process(EmployeeModel data)
         {
+            if (topEarners && 500 > data.Salary) throw new InvalidOperationException("huh, why you do that?");
+            
             Trace.TraceInformation("Employee action {3}: '{0}' (ID: {1}:{2})", data.Salary, data.Count, data.Id, topEarners ? "top" : "base");
 
             return Task.FromResult<bool>(true);

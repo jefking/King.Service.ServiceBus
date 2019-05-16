@@ -109,7 +109,7 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
             var exists = await client.SubscriptionExists(topicName, subName);
             Assert.IsTrue(exists);
 
-            await client.Client.DeleteRuleAsync(topicName, subName, ruleName);
+            await client.DeleteRuleAsync(topicName, subName, ruleName);
         }
     }
 }
