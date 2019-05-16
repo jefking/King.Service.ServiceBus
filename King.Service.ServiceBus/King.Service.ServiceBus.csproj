@@ -3,15 +3,15 @@
   <PropertyGroup>
     <Description>Task scheduling for .NET: Azure Service Bus</Description>
     <AssemblyTitle>King.Service.ServiceBus</AssemblyTitle>
-    <AssemblyVersion>2.2.3</AssemblyVersion>
-    <FileVersion>2.2.3</FileVersion>
-    <Version>2.2.3</Version>
+    <AssemblyVersion>2.2.4</AssemblyVersion>
+    <FileVersion>2.2.4</FileVersion>
+    <Version>2.2.4</Version>
     <Authors>Jef King</Authors>
     <Copyright>© Jef King 2019</Copyright>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>King.Service.ServiceBus</AssemblyName>
     <PackageId>King.Service.ServiceBus</PackageId>
-    <PackageTags>King.Service.ServiceBus;Azure;Queue;Service;Bus;EventHub;Event;Hub;service-bus;scale;Topic;Topics;PubSub;Publisher;Subscriber;Event;Time;Sensitive;time-sensitive;auto-scale;dynamic-scale;dynamic;Queuing;Background;Worker;Work;Data;Processing;Table;Environment;Initialize;Task;Tasks;volume;Dequeue;Dequeuing;run;task;service;services;tasks;scheduling;King.Service;King.Azure</PackageTags>
+    <PackageTags>King.Service.ServiceBus;Azure;Queue;Service;Bus;Event;service-bus;scale;Topic;Topics;PubSub;Publisher;Subscriber;Event;Time;Sensitive;time-sensitive;auto-scale;dynamic-scale;dynamic;Queuing;Background;Worker;Work;Data;Processing;Environment;Initialize;Task;Tasks;volume;Dequeue;Dequeuing;run;task;service;services;tasks;scheduling;King.Service</PackageTags>
     <PackageReleaseNotes>.NET Standard</PackageReleaseNotes>
     <PackageIconUrl>https://raw.githubusercontent.com/jefking/King.Service.ServiceBus/master/icon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/jefking/King.Service.ServiceBus</PackageProjectUrl>
