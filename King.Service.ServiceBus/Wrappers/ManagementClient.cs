@@ -47,8 +47,7 @@ namespace King.Service.ServiceBus.Wrappers
         public async Task QueueCreate(string queue)
         {
             var desc = new QueueDescription(queue)
-            {
-
+            {   
             };
 
             await this.client.CreateQueueAsync(desc);
@@ -57,6 +56,10 @@ namespace King.Service.ServiceBus.Wrappers
         {
             return await this.client.QueueExistsAsync(queue);
         }
+        public async Task QueueDelete(string queue)
+        {
+            await this.client.DeleteQueueAsync(queue);
+        }
         public async Task TopicCreate(string topicPath)
         {
             await this.client.CreateTopicAsync(topicPath);
@@ -64,6 +67,10 @@ namespace King.Service.ServiceBus.Wrappers
         public async Task<bool> TopicExists(string topicPath)
         {
             return await this.client.TopicExistsAsync(topicPath);
+        }
+        public async Task TopicDelete(string topicPath)
+        {
+            await this.client.DeleteTopicAsync(topicPath);
         }
         public async Task SubscriptionCreate(string topicPath, string subscriptionName)
         {
@@ -77,15 +84,19 @@ namespace King.Service.ServiceBus.Wrappers
         {
             return await this.client.SubscriptionExistsAsync(topicPath, subscriptionName);
         }
-        public async Task CreateRuleAsync(string topicPath, string subscriptionName, string name, Filter filter)
+        public async Task SubscriptionDelete(string topicPath, string subscriptionName)
+        {
+            await this.client.DeleteSubscriptionAsync(topicPath, subscriptionName);
+        }
+        public async Task RuleCreate(string topicPath, string subscriptionName, string name, Filter filter)
         {
             await this.client.CreateRuleAsync(topicPath, subscriptionName, new RuleDescription(name, filter));
         }
-        public async Task DeleteRuleAsync(string topicPath, string subscriptionName, string name)
+        public async Task RuleDelete(string topicPath, string subscriptionName, string name)
         {
             await this.client.DeleteRuleAsync(topicPath, subscriptionName, name);
         }
-        public async Task<RuleDescription> GetRuleAsync(string topicPath, string subscriptionName, string name)
+        public async Task<RuleDescription> RuleGet(string topicPath, string subscriptionName, string name)
         {
             return await this.client.GetRuleAsync(topicPath, subscriptionName, name);
         }

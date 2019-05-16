@@ -62,8 +62,8 @@ namespace King.Service.ServiceBus
             {
                 try
                 {
-                    await client.GetRuleAsync(topicPath, subscriptionName, RuleDescription.DefaultRuleName);
-                    await client.DeleteRuleAsync(topicPath, subscriptionName, RuleDescription.DefaultRuleName);
+                    await client.RuleGet(topicPath, subscriptionName, RuleDescription.DefaultRuleName);
+                    await client.RuleDelete(topicPath, subscriptionName, RuleDescription.DefaultRuleName);
                 }
                 catch (Exception ex)
                 {
@@ -71,7 +71,7 @@ namespace King.Service.ServiceBus
                 }
             }
 
-            await client.CreateRuleAsync(topicPath, subscriptionName, name, filter);
+            await client.RuleCreate(topicPath, subscriptionName, name, filter);
         }
     }
 }

@@ -15,14 +15,17 @@ namespace King.Service.ServiceBus
     {
         #region Methods
         Task QueueCreate(string queue);
+        Task QueueDelete(string queue);
         Task<bool> QueueExists(string queue);
         Task TopicCreate(string topicPath);
+        Task TopicDelete(string topicPath);
         Task<bool> TopicExists(string topicPath);
         Task SubscriptionCreate(string topicPath, string subscriptionName);
+        Task SubscriptionDelete(string topicPath, string subscriptionName);
         Task<bool> SubscriptionExists(string topicPath, string subscriptionName);
-        Task CreateRuleAsync(string topicPath, string subscriptionName, string name, Filter filter);
-        Task DeleteRuleAsync(string topicPath, string subscriptionName, string name);
-        Task<RuleDescription> GetRuleAsync(string topicPath, string subscriptionName, string name);
+        Task RuleCreate(string topicPath, string subscriptionName, string name, Filter filter);
+        Task RuleDelete(string topicPath, string subscriptionName, string name);
+        Task<RuleDescription> RuleGet(string topicPath, string subscriptionName, string name);
         #endregion
     }
     #endregion

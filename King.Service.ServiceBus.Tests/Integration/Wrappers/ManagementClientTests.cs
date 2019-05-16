@@ -27,8 +27,23 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
             var exists = await client.QueueExists(name);
             Assert.IsTrue(exists);
 
-            await client.Client.DeleteQueueAsync(name);
+            await client.QueueDelete(name);
         }
+
+        [Test]
+        public async Task DeleteQueue()
+        {
+            var random = new Random();
+            var name = string.Format("a{0}b", random.Next());
+
+            var client = new BusManagementClient(connection);
+            await client.QueueCreate(name);
+            await client.QueueDelete(name);
+
+            var exists = await client.QueueExists(name);
+            Assert.IsFalse(exists);
+        }
+        
         [Test]
         public async Task QueueDoesntExist()
         {
@@ -39,6 +54,7 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
             var exists = await client.QueueExists(name);
             Assert.IsFalse(exists);
         }
+
         [Test]
         public async Task CreateTopic()
         {
@@ -51,8 +67,25 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
             var exists = await client.TopicExists(name);
             Assert.IsTrue(exists);
 
-            await client.Client.DeleteTopicAsync(name);
+            //cleanup
+            await client.TopicDelete(name);
         }
+
+        [Test]
+        public async Task DeleteTopic()
+        {
+            var random = new Random();
+            var name = string.Format("a{0}b", random.Next());
+
+            var client = new BusManagementClient(connection);
+            await client.TopicCreate(name);
+
+            await client.TopicDelete(name);
+
+            var exists = await client.TopicExists(name);
+            Assert.IsFalse(exists);
+        }
+
         [Test]
         public async Task TopicDoesntExist()
         {
@@ -62,7 +95,11 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
 
             var exists = await client.TopicExists(name);
             Assert.IsFalse(exists);
+
+            //cleanup
+            await client.TopicDelete(name);
         }
+
         [Test]
         public async Task CreateSubscription()
         {
@@ -77,8 +114,30 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
             var exists = await client.SubscriptionExists(topicName, subName);
             Assert.IsTrue(exists);
 
-            await client.Client.DeleteTopicAsync(topicName);
+            //cleanup
+            await client.TopicDelete(topicName);
         }
+
+        [Test]
+        public async Task DeleteSubscription()
+        {
+            var random = new Random();
+            var topicName = string.Format("a{0}b", random.Next());
+            var subName = "sub";
+
+            var client = new BusManagementClient(connection);
+            await client.TopicCreate(topicName);
+            await client.SubscriptionCreate(topicName, subName);
+
+            await client.SubscriptionDelete(topicName, subName);
+
+            var exists = await client.SubscriptionExists(topicName, subName);
+            Assert.IsFalse(exists);
+
+            //cleanup
+            await client.TopicDelete(topicName);
+        }
+        
         [Test]
         public async Task SubscriptionDoesntExist()
         {
@@ -89,7 +148,11 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
 
             var exists = await client.SubscriptionExists(topicName, subName);
             Assert.IsFalse(exists);
+
+            //cleanup
+            await client.TopicDelete(topicName);
         }
+
         [Test]
         public async Task CreateRule()
         {
@@ -104,15 +167,16 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
             await client.TopicCreate(topicName);
             await client.SubscriptionCreate(topicName, subName);
 
-            await client.CreateRuleAsync(topicName, subName, ruleName, filter);
+            await client.RuleCreate(topicName, subName, ruleName, filter);
 
-            var exists = await client.SubscriptionExists(topicName, subName);
-            Assert.IsTrue(exists);
-
-            var rule = await client.GetRuleAsync(topicName, subName, ruleName);
+            var rule = await client.RuleGet(topicName, subName, ruleName);
             Assert.IsNotNull(rule);
             Assert.AreEqual(ruleName, rule.Name);
+
+            //cleanup
+            await client.TopicDelete(topicName);
         }
+
         [Test]
         public async Task DeleteRule()
         {
@@ -127,21 +191,21 @@ namespace King.Service.ServiceBus.Test.Integration.Wrappers
             await client.TopicCreate(topicName);
             await client.SubscriptionCreate(topicName, subName);
 
-            await client.CreateRuleAsync(topicName, subName, ruleName, filter);
+            await client.RuleCreate(topicName, subName, ruleName, filter);
 
-            var exists = await client.SubscriptionExists(topicName, subName);
-            Assert.IsTrue(exists);
-
-            await client.DeleteRuleAsync(topicName, subName, ruleName);
+            await client.RuleDelete(topicName, subName, ruleName);
 
             try
             {
-                await client.GetRuleAsync(topicName, subName, ruleName);
+                await client.RuleGet(topicName, subName, ruleName);
                 Assert.Fail();
             }
             catch
             {
             }
+
+            //cleanup
+            await client.TopicDelete(topicName);
         }
     }
 }
