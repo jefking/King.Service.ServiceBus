@@ -1,11 +1,11 @@
 namespace King.Service.ServiceBus
 {
+    using Azure.Data.Wrappers;
     using King.Service.ServiceBus.Wrappers;
-    using King.Service;
     using System;
     using System.Threading.Tasks;
 
-    public class InitializeTopicTask : InitializeTask
+    public class InitializeTopicTask : IAzureStorage
     {
         protected readonly IBusManagementClient client = null;
         protected readonly string name = null;
@@ -30,13 +30,16 @@ namespace King.Service.ServiceBus
             this.name = name;
         }
 
-        public override async Task RunAsync()
+        public async Task<bool> CreateIfNotExists()
         {
             var exists = await client.TopicExists(name);
             if (!exists)
             {
                 await client.TopicCreate(name);
+                return true;
             }
+
+            return false;
         }
     }
 }
