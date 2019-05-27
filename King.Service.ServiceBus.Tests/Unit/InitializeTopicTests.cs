@@ -56,8 +56,9 @@ namespace King.Service.ServiceBus.Test.Unit
             client.TopicExists(name).Returns(false);
 
             var init = new InitializeTopic(client, name);
-            await init.CreateIfNotExists();
+            var e = await init.CreateIfNotExists();
 
+            Assert.IsTrue(e);
             await client.Received().TopicExists(name);
             await client.Received().TopicCreate(name);
         }
@@ -71,10 +72,24 @@ namespace King.Service.ServiceBus.Test.Unit
             client.TopicExists(name).Returns(true);
 
             var init = new InitializeTopic(client, name);
-            await init.CreateIfNotExists();
-
+            var e = await init.CreateIfNotExists();
+            
+            Assert.IsTrue(e);
             await client.Received().TopicExists(name);
             await client.DidNotReceive().TopicCreate(name);
+        }
+
+        [Test]
+        public async Task Delete()
+        {
+            var random = new Random();
+            var name = string.Format("a{0}b", random.Next());
+            var client = Substitute.For<IBusManagementClient>();
+
+            var init = new InitializeTopic(client, name);
+            await init.Delete();
+
+            await client.Received().TopicDelete(name);
         }
     }
 }

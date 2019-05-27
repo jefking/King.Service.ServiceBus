@@ -56,8 +56,9 @@ namespace King.Service.ServiceBus.Test.Unit
             client.QueueExists(name).Returns(false);
 
             var init = new InitializeQueue(client, name);
-            await init.CreateIfNotExists();
+            var e = await init.CreateIfNotExists();
 
+            Assert.IsTrue(e);
             await client.Received().QueueExists(name);
             await client.Received().QueueCreate(name);
         }
@@ -71,10 +72,24 @@ namespace King.Service.ServiceBus.Test.Unit
             client.QueueExists(name).Returns(true);
 
             var init = new InitializeQueue(client, name);
-            await init.CreateIfNotExists();
+            var e = await init.CreateIfNotExists();
 
+            Assert.IsTrue(e);
             await client.Received().QueueExists(name);
             await client.DidNotReceive().QueueCreate(name);
+        }
+
+        [Test]
+        public async Task Delete()
+        {
+            var random = new Random();
+            var name = string.Format("a{0}b", random.Next());
+            var client = Substitute.For<IBusManagementClient>();
+
+            var init = new InitializeQueue(client, name);
+            await init.Delete();
+
+            await client.Received().QueueDelete(name);
         }
     }
 }

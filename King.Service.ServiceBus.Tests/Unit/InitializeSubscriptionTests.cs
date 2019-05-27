@@ -63,8 +63,9 @@ namespace King.Service.ServiceBus.Test.Unit
             client.SubscriptionExists(topic, sub).Returns(false);
 
             var init = new InitializeSubscription(client, topic, sub);
-            await init.CreateIfNotExists();
+            var e = await init.CreateIfNotExists();
 
+            Assert.IsTrue(e);
             await client.Received().SubscriptionExists(topic, sub);
             await client.Received().SubscriptionCreate(topic, sub);
         }
@@ -79,10 +80,25 @@ namespace King.Service.ServiceBus.Test.Unit
             client.SubscriptionExists(topic, sub).Returns(true);
 
             var init = new InitializeSubscription(client, topic, sub);
-            await init.CreateIfNotExists();
+            var e = await init.CreateIfNotExists();
 
+            Assert.IsTrue(e);
             await client.Received().SubscriptionExists(topic, sub);
             await client.DidNotReceive().SubscriptionCreate(topic, sub);
+        }
+
+        [Test]
+        public async Task Delete()
+        {
+            var random = new Random();
+            var topic = string.Format("a{0}b", random.Next());
+            var sub = string.Format("a{0}b", random.Next());
+            var client = Substitute.For<IBusManagementClient>();
+
+            var init = new InitializeSubscription(client, topic, sub);
+            await init.Delete();
+
+            await client.Received().SubscriptionDelete(topic, sub);
         }
     }
 }
