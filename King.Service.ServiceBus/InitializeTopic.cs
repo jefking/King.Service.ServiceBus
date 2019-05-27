@@ -36,10 +36,10 @@ namespace King.Service.ServiceBus
             if (!exists)
             {
                 await client.TopicCreate(name);
-                return true;
+                exists = true;
             }
 
-            return false;
+            return exists;
         }
 
         public virtual string Name { get {return name;} }

@@ -49,7 +49,7 @@ namespace King.Service.ServiceBus.Test.Unit
         public void Name()
         {
             var name = Guid.NewGuid().ToString();
-            var i = new InitializeSubscription(conn, name, "none");
+            var i = new InitializeSubscription(conn, "fake", name);
             Assert.AreEqual(name, i.Name);
         }
 
