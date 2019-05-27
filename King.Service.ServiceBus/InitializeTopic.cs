@@ -1,21 +1,21 @@
 namespace King.Service.ServiceBus
 {
+    using global::Azure.Data.Wrappers;
     using King.Service.ServiceBus.Wrappers;
-    using King.Service;
     using System;
     using System.Threading.Tasks;
 
-    public class InitializeQueueTask : InitializeTask
+    public class InitializeTopic : IAzureStorage
     {
         protected readonly IBusManagementClient client = null;
         protected readonly string name = null;
 
-        public InitializeQueueTask(string connection, string name)
+        public InitializeTopic(string connection, string name)
             : this(new BusManagementClient(connection), name)
         {
         }
 
-        public InitializeQueueTask(IBusManagementClient client, string name)
+        public InitializeTopic(IBusManagementClient client, string name)
         {
             if (null == client)
             {
@@ -30,13 +30,23 @@ namespace King.Service.ServiceBus
             this.name = name;
         }
 
-        public override async Task RunAsync()
+        public virtual async Task<bool> CreateIfNotExists()
         {
-            var exists = await client.QueueExists(name);
+            var exists = await client.TopicExists(name);
             if (!exists)
             {
-                await client.QueueCreate(name);
+                await client.TopicCreate(name);
+                return true;
             }
+
+            return false;
+        }
+
+        public virtual string Name { get {return name;} }
+
+        public virtual async Task Delete()
+        {
+            await this.client.TopicDelete(name);
         }
     }
 }
