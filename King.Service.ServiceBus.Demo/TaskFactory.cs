@@ -26,7 +26,7 @@
             yield return new InitializeStorageTask(new InitializeTopic(config.ConnectionString, config.TopicName));
             yield return new InitializeStorageTask(new InitializeSubscription(config.ConnectionString, config.TopicName, employees.Client.SubscriptionName));
             yield return new InitializeStorageTask(new InitializeSubscription(config.ConnectionString, config.TopicName, rademployees.Client.SubscriptionName));
-            yield return new InitializeRuleTask(config.ConnectionString, config.TopicName, rademployees.Client.SubscriptionName, "top-earners", new SqlFilter("salary >= 500"));
+            yield return new InitializeStorageTask(new InitializeRule(config.ConnectionString, config.TopicName, rademployees.Client.SubscriptionName, "top-earners", new SqlFilter("salary >= 500")));
 
             // Compute Tasks
             yield return new CompanyQueuer(companyClient);

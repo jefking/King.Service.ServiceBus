@@ -48,6 +48,7 @@ namespace King.Service.ServiceBus
 
             return exists;
         }
+        
         public virtual string Name { get {return subscriptionName;} }
 
         public virtual async Task Delete()
