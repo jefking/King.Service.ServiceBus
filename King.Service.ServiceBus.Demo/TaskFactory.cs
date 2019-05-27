@@ -1,6 +1,7 @@
 ﻿namespace King.Service.ServiceBus.Demo
 {
     using Microsoft.Azure.ServiceBus;
+    using King.Service.Data;
     using King.Service.ServiceBus;
     using King.Service.ServiceBus.Wrappers;
     using King.Service.ServiceBus.Demo.Models;
@@ -22,7 +23,7 @@
             // Initialize Tasks
             yield return new InitializeQueueTask(config.ConnectionString, config.CompanyQueueName);
             yield return new InitializeQueueTask(config.ConnectionString, config.AtQueueName);
-            yield return new InitializeTopicTask(config.ConnectionString, config.TopicName);
+            yield return new InitializeStorageTask(new InitializeTopic(config.ConnectionString, config.TopicName));
             yield return new InitializeSubscriptionTask(config.ConnectionString, config.TopicName, employees.Client.SubscriptionName);
             yield return new InitializeSubscriptionTask(config.ConnectionString, config.TopicName, rademployees.Client.SubscriptionName);
             yield return new InitializeRuleTask(config.ConnectionString, config.TopicName, rademployees.Client.SubscriptionName, "top-earners", new SqlFilter("salary >= 500"));
