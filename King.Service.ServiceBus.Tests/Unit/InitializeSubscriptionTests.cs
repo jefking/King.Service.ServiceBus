@@ -1,5 +1,6 @@
 namespace King.Service.ServiceBus.Test.Unit
 {
+    using global::Azure.Data.Wrappers;
     using King.Service.ServiceBus.Models;
     using King.Service.ServiceBus.Wrappers;
     using Microsoft.Azure.ServiceBus;
@@ -36,6 +37,20 @@ namespace King.Service.ServiceBus.Test.Unit
         public void ConstructorClientNull()
         {
             Assert.That(() => new InitializeSubscription((IBusManagementClient)null, conn, "topic"), Throws.TypeOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public void IsIAzureStorage()
+        {
+            Assert.IsNotNull(new InitializeSubscription(conn, "fake", "none") as IAzureStorage);
+        }
+
+        [Test]
+        public void Name()
+        {
+            var name = Guid.NewGuid().ToString();
+            var i = new InitializeSubscription(conn, name, "none");
+            Assert.AreEqual(name, i.Name);
         }
 
         [Test]
