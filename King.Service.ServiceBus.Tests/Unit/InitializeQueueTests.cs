@@ -10,25 +10,25 @@ namespace King.Service.ServiceBus.Test.Unit
     using System.Threading.Tasks;
 
     [TestFixture]
-    public class InitializeQueueTaskTests
+    public class InitializeQueueTests
     {
         private string conn = Configuration.ConnectionString;
 
         [Test]
         public void Constructor()
         {
-            new InitializeQueueTask(conn, "fake");
+            new InitializeQueue(conn, "fake");
         }
         [Test]
         public void ConstructorNameNull()
         {
-            Assert.That(() => new InitializeQueueTask(conn, (string)null), Throws.TypeOf<ArgumentException>());
+            Assert.That(() => new InitializeQueue(conn, (string)null), Throws.TypeOf<ArgumentException>());
         }
         
         [Test]
         public void ConstructorClientNull()
         {
-            Assert.That(() => new InitializeQueueTask((IBusManagementClient)null, "fake"), Throws.TypeOf<ArgumentNullException>());
+            Assert.That(() => new InitializeQueue((IBusManagementClient)null, "fake"), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
@@ -39,8 +39,8 @@ namespace King.Service.ServiceBus.Test.Unit
             var client = Substitute.For<IBusManagementClient>();
             client.QueueExists(name).Returns(false);
 
-            var init = new InitializeQueueTask(client, name);
-            await init.RunAsync();
+            var init = new InitializeQueue(client, name);
+            await init.CreateIfNotExists();
 
             await client.Received().QueueExists(name);
             await client.Received().QueueCreate(name);
@@ -54,8 +54,8 @@ namespace King.Service.ServiceBus.Test.Unit
             var client = Substitute.For<IBusManagementClient>();
             client.QueueExists(name).Returns(true);
 
-            var init = new InitializeQueueTask(client, name);
-            await init.RunAsync();
+            var init = new InitializeQueue(client, name);
+            await init.CreateIfNotExists();
 
             await client.Received().QueueExists(name);
             await client.DidNotReceive().QueueCreate(name);

@@ -21,8 +21,8 @@
             var rademployees = new BusSubscriptionClient(config.ConnectionString, config.TopicName, "top-earners");
 
             // Initialize Tasks
-            yield return new InitializeQueueTask(config.ConnectionString, config.CompanyQueueName);
-            yield return new InitializeQueueTask(config.ConnectionString, config.AtQueueName);
+            yield return new InitializeStorageTask(new InitializeQueue(config.ConnectionString, config.CompanyQueueName));
+            yield return new InitializeStorageTask(new InitializeQueue(config.ConnectionString, config.AtQueueName));
             yield return new InitializeStorageTask(new InitializeTopic(config.ConnectionString, config.TopicName));
             yield return new InitializeStorageTask(new InitializeSubscription(config.ConnectionString, config.TopicName, employees.Client.SubscriptionName));
             yield return new InitializeStorageTask(new InitializeSubscription(config.ConnectionString, config.TopicName, rademployees.Client.SubscriptionName));
