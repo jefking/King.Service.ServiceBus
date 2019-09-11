@@ -3,9 +3,9 @@
   <PropertyGroup>
     <Description>Task scheduling for .NET: Azure Service Bus</Description>
     <AssemblyTitle>King.Service.ServiceBus</AssemblyTitle>
-    <AssemblyVersion>2.2.7</AssemblyVersion>
-    <FileVersion>2.2.7</FileVersion>
-    <Version>2.2.7</Version>
+    <AssemblyVersion>2.2.8</AssemblyVersion>
+    <FileVersion>2.2.8</FileVersion>
+    <Version>2.2.8</Version>
     <Authors>Jef King</Authors>
     <Copyright>© Jef King 2019</Copyright>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
